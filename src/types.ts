@@ -1,4 +1,4 @@
-export interface ICarData {
+interface ICarData {
   info: {
     brand: string;
     model: string;
@@ -46,12 +46,26 @@ interface IService {
   date: string;
   mileage: number;
   type: string;
-  name: number;
+  name: string;
   worksDetals: IWorksDetals[];
   amount: number;
   place: string;
   notes: string;
   id: string;
+}
+interface IWorksDetals {
+  works: {
+    name: string;
+    cost: number;
+  };
+  detals: {
+    name: string;
+    partNumber: string;
+    manufacturer: string;
+    price: number;
+    quantity: number;
+    amount: number;
+  };
 }
 
 interface IOther {
@@ -68,17 +82,4 @@ interface IPlans {
   category: IService | IOther;
 }
 
-interface IWorksDetals {
-  works: {
-    name: string;
-    cost: number;
-  };
-  detals: {
-    name: string;
-    partNumber: string;
-    manufacturer: string;
-    price: number;
-    quantity: number;
-    amount: number;
-  };
-}
+export { ICarData, IFill, IOther, IPlans, IService, IWorksDetals };
