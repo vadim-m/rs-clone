@@ -65,6 +65,6 @@ module.exports = {
     ],
   },
   experiments: {
-    topLevelAwait: true
+    topLevelAwait: true,
   },
 };

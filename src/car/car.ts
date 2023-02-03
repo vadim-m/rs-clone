@@ -1,4 +1,4 @@
-import { carInfo } from './car_info';
+import { carData } from './car_data';
 
 export class Car {
   constructor() {
@@ -6,20 +6,22 @@ export class Car {
   }
 
   costOneKm() {
-    return (carInfo.curSpendMoney - carInfo.previousRefuel.spendMoney) / carInfo.curMileage;
+    return (
+      (carData.indicators.curSpendMoney - carData.indicators.previousRefuel.spendMoney) / carData.indicators.curMileage
+    );
   }
 
   consumptionAll() {
     return (
-      (carInfo.curSpendFuel - carInfo.previousRefuel.spendFuel - carInfo.startIndicators.fuelTank) /
-      ((carInfo.curMileage - carInfo.startIndicators.mileaga) * 100)
+      (carData.indicators.curSpendFuel - carData.indicators.previousRefuel.spendFuel - carData.info.fuelInTank) /
+      ((carData.indicators.curMileage - carData.info.mileage) * 100)
     );
   }
 
   consumptionCurrent() {
     return (
-      (carInfo.curSpendFuel - carInfo.lastFullTank.spendFuel) /
-      ((carInfo.curMileage - carInfo.lastFullTank.spendFuel) * 100)
+      (carData.indicators.curSpendFuel - carData.indicators.lastFullTank.spendFuel) /
+      ((carData.indicators.curMileage - carData.indicators.lastFullTank.spendFuel) * 100)
     );
   }
 }
