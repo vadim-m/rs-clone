@@ -3,8 +3,10 @@ import { carData } from '../car/car_data';
 
 export class Service {
   serviceEvent: IService | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() {}
+
+  constructor() {
+    this.createServiceEvent();
+  }
 
   amountServiceAll(): number {
     return carData.event.service.reduce((acc: number, el): number => {
@@ -58,7 +60,8 @@ export class Service {
       amount: curServiceAmount,
       place: placeDOM.value,
       notes: notesDOM.value,
-      id: new Date().toString(),
+      id: Date.now().toString(),
     });
+    console.log(carData);
   }
 }
