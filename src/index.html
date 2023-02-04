@@ -8,6 +8,36 @@
   </head>
 
   <body>
+    <h1>RS Clone</h1>
+    <form id="main-form--service" action="/" method="put">
+      <p>
+        <label for="type--service__input">Вид сервиса</label>
+        <input id="type--service__input" type="text" placeholder="" />
+      </p>
+      <p>
+        <label for="name--service__input">Название</label>
+        <input id="name--service__input" type="text" placeholder="" />
+      </p>
+      <p>
+        <label for="milage--service__input">Пробег</label>
+        <input id="milage--service__input" type="text" placeholder="" value="9900" />
+      </p>
+      <section id="works-detals__container">
+        <h2 id="works-detals--add__title">Детали и работа</h2>
+        <button id="works-detals--add__btn" style="display: none">Добавить</button>
+      </section>
+      <p>
+        <label for="type--service__input">Место</label>
+        <input id="type--service__input" type="text" placeholder="" />
+      </p>
+      <p>
+        <label for="place--service__input">Комментарий</label>
+        <textarea id="place--service__input" rows="5" cols="45" name="text"></textarea>
+      </p>
+      <p class="date">Дата и время</p>
+      <time id="notes--service__input" datetime="2023-01-15 19:00"> 15 января 19:00</time>
+      <button id="add--event-service__btn" type="submit">Добавить событие</button>
+    </form>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>
