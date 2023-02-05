@@ -1,4 +1,4 @@
 import './index.html';
-import './main.scss';
+import './main.css';
 
 console.log('TS работает. CSS тоже.');

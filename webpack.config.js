@@ -49,7 +49,7 @@ module.exports = {
       },
       {
         test: /\.(c|sa|sc)ss$/i,
-        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.woff2?$/i,
@@ -65,6 +65,6 @@ module.exports = {
     ],
   },
   experiments: {
-    topLevelAwait: true
+    topLevelAwait: true,
   },
 };
