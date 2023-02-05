@@ -47,17 +47,13 @@ interface IService {
   mileage: number;
   type: string;
   name: string;
-  worksDetals: IWorksDetals[];
+  detals: IDetals[];
   amount: number;
   place: string;
   notes: string;
   id: string;
 }
-interface IWorksDetals {
-  works: {
-    name: string;
-    cost: number;
-  };
+interface IDetals {
   detals: {
     name: string;
     partNumber: string;
@@ -82,4 +78,4 @@ interface IPlans {
   category: IService | IOther;
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IWorksDetals };
+export { ICarData, IFill, IOther, IPlans, IService, IDetals };
