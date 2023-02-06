@@ -3,15 +3,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.events:after {
-  content: "";
-  display: block;
-  width: 2rem;
-  height: 0.1rem;
-  background: #394f89;
-  left: 50%;
-  transform:translate(-50%, -50%);
-  top: 1rem;
-  position: absolute;
-}

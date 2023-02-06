@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack --node-env=production",
-    "lint": "eslint . --ext .ts --fix"
+    "lint": "eslint . --ext .ts --fix",
+    "buildTail": "tailwindcss build -i src/main.css -o dist/index.css"
   },
   "keywords": [],
   "author": "",

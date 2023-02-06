@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/index.html'],
+  content: ['./dist/index.js'],
   theme: {
     colors: {
       transparent: 'transparent',
@@ -33,10 +33,13 @@ module.exports = {
         events: "url('/img/footer-texture.png')",
       },
       gridTemplateAreas: {
-        layout: ['name name', 'mileage year', 'mileage img', 'circle circle'],
+        layout: ['name name', 'mileage year', 'mileage img', 'stats stats'],
       },
       boxShadow: {
         top: '0 -8px 8px -6px #adaaaa',
+      },
+      gridTemplateColumns: {
+        layout: '1fr 20%',
       },
     },
   },
