@@ -78,4 +78,38 @@ interface IPlans {
   category: IService | IOther;
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IDetals };
+interface Iicon {
+  gear: string;
+  pen: string;
+  gasPump: string;
+  wallet: string;
+  cost: string;
+  date: string;
+  mileage: string;
+  place: string;
+  comments: string;
+  plus: string;
+  wrench: string;
+}
+
+enum unitsEnum {
+  money = 'money',
+  distance = 'distance',
+  speed = 'speed',
+}
+
+interface Imoney {
+  RU: string;
+  BY: string;
+  EN: string;
+  EU: string;
+}
+
+enum moneyEnum {
+  RU = 'RU',
+  BY = 'BY',
+  EN = 'EN',
+  EU = 'EU',
+}
+
+export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };

@@ -1,9 +1,9 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-body, h1 {
-    margin: 0 0 1rem;
-
+body,
+h1 {
+  margin: 0 0 1rem;
 }
 
 .page {
@@ -13,87 +13,97 @@ body, h1 {
   padding: 1rem;
   background-color: antiquewhite;
 }
-.main-form--service {
+.main-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
-.line--service {
+.service__item {
   display: flex;
   flex-direction: column;
   position: relative;
+}
+.service__icon {
+    top: 0;
+  position: absolute;
 }
 .service__input {
   display: flex;
   margin: 0;
   width: 100%;
-  border: none;
+  border: 1px solid grey;
+  border-radius: 5px;
+  height: 1.5rem;
+  padding-left: 1.5rem;
 }
 .service__title {
   top: 0;
   position: absolute;
   pointer-events: none;
+  left: 2rem;
 }
-.line--service__total,
-.line--service__time {
+.service__total_container,
+.service__time_container {
   display: flex;
   justify-content: space-between;
 }
-.line--service__time .line--service,
-.line--service__total .line--service {
-  width: 45%;
+.service__time_container .service__item,
+.service__total_container .service__item {
+  width: 48%;
 }
 
 .bg-grey--activ {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color:#1b1919;
+  background-color: #1b1919;
   opacity: 0.5;
   z-index: 100;
 }
-.bg--grey {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    opacity: 0; // Скрываем фон и сам попап
-    pointer-events: none; // Запрещаем ему быть целью событий
-    transition: 0.5s all;
+.bg__popup--grey {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0; // Скрываем фон и сам попап
+  pointer-events: none; // Запрещаем ему быть целью событий
+  transition: 0.5s all;
 }
 
-.bg--grey.active { // При добавлении класса 'active'
-    opacity: 1; // Показываем фон и попап
-    pointer-events: all; // Возвращаем события
-    // transition: 0.5s all;
-    z-index: 10;
+.bg__popup--grey.active {
+  // При добавлении класса 'active'
+  opacity: 1; // Показываем фон и попап
+  pointer-events: all; // Возвращаем события
+  // transition: 0.5s all;
+  z-index: 10;
 }
 
-.popup__content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0); // Центрируем и масштабируем в 0 само окно
-    background: #fff;
-    width: 400px;
-    height: 500px;
-    transition: 0.5s all;
+.popup__container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0); // Центрируем и масштабируем в 0 само окно
+  background: #fff;
+  width: 400px;
+  height: 500px;
+  transition: 0.5s all;
 }
 
-.popup__content.active { // При добавлении класса 'active'
-    transform: translate(-50%, -50%) scale(1); // Так же центрируем и плавно увеличиваем
-    transition: 0.5s all;
-    z-index: 11;
+.popup__container.active {
+  // При добавлении класса 'active'
+  transform: translate(-50%, -50%) scale(1); // Так же центрируем и плавно увеличиваем
+  transition: 0.5s all;
+  z-index: 11;
 }
 .detals__content {
   display: flex;
   justify-content: space-between;
 }
-.detals-name--service__input,
-.detals-part--service__input,
-.detals-manuf--service__input {
+.detals-name-service__input,
+.detals-part-service__input,
+.detals-manuf-service__input {
   margin: 0.2rem;
 }
 .detals__container {
@@ -108,4 +118,9 @@ body, h1 {
 }
 .popup__content {
   padding: 1rem;
+}
+.detals__item_basic,
+.detals__item_sub {
+  display: flex;
+  justify-content: space-between;
 }

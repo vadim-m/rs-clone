@@ -1,5 +1,5 @@
 import { Car } from '../car/car';
-import { Service } from '../event/service';
+import { Service } from '../event/service/service';
 
 export class App {
   car: Car;
