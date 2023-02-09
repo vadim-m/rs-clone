@@ -1,13 +1,22 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./dist/index.js'],
+  content: ['./src/**/*.{html,js,ts}'],
   theme: {
+    screens: {
+      sm: '440px',
+      md: '569px',
+      lg: '8024px',
+      xl: '1080px',
+      '2xl': '1336px',
+    },
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
       white: '#ffffff',
       slate: '#f0f2f6',
+      slateBorders: 'rgb(203 213 225)',
       blue: '#394f89',
+      dark: 'rgba(0, 0, 0, 0.5)',
     },
     container: {
       padding: {
@@ -40,6 +49,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         layout: '1fr 20%',
+      },
+      borderColor: {
+        slate: 'rgb(203 213 225)',
       },
     },
   },

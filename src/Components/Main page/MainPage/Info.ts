@@ -6,8 +6,15 @@ const gasStation = require('../../../assets/icons/gas-station.png');
 const gear = require('../../../assets/icons/gear.png');
 
 export class Info {
-  render() {
-    return `       
+  public element: DocumentFragment;
+
+  constructor() {
+    this.element = this.createElement();
+  }
+
+  createElement() {
+    const fragment = document.createElement('template');
+    fragment.innerHTML = `       
         <div class="info__header pt-3 pb-3 flex justify-between">
           <h1 class="info__title font-bold text-lg">Мой автомобиль</h1>
           <img src="${gear}" class="info__gear w-7 h-7 mr-4" alt="gear-icon">
@@ -82,5 +89,7 @@ export class Info {
               </div>
         </div>
     `;
+
+    return fragment.content;
   }
 }

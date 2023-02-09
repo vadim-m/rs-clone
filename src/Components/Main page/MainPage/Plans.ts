@@ -3,8 +3,15 @@ const carRepair = require('../../../assets/icons/car-repair.png');
 const gear = require('../../../assets/icons/gear.png');
 
 export class Plans {
-  render() {
-    return `       
+  public element: DocumentFragment;
+
+  constructor() {
+    this.element = this.createElement();
+  }
+
+  createElement() {
+    const fragment = document.createElement('template');
+    fragment.innerHTML = `       
     <h2 class="plans__title font-medium text-sm mb-2">Ближайшие планы</h2>
     <ul class="plans__list grid gap-y-3 mb-4">
       <li class="plans__item relative bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 shadow-md">
@@ -35,5 +42,7 @@ export class Plans {
       </li>
     </ul>
     `;
+
+    return fragment.content;
   }
 }

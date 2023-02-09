@@ -13,6 +13,7 @@ module.exports = {
   devServer: {
     port: 8080,
     open: true,
+    historyApiFallback: true,
   },
   entry: path.resolve(__dirname, 'src', 'index'),
   resolve: {
@@ -21,8 +22,9 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     clean: true,
-    filename: 'index.js',
+    filename: 'index.[contenthash].js',
     assetModuleFilename: 'assets/[name][ext]',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
