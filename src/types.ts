@@ -1,27 +1,6 @@
 interface ICarData {
-  info: {
-    brand: string;
-    model: string;
-    year: number;
-    mileage: number;
-    sizeTank: number;
-    fuelInTank: number;
-    cost: number;
-  };
-  indicators: {
-    curMileage: number;
-    curSpendMoney: number;
-    curSpendFuel: number;
-    previousRefuel: {
-      mileage: number;
-      spendMoney: number;
-      spendFuel: number;
-    };
-    lastFullTank: {
-      mileage: number;
-      spendFuel: number;
-    };
-  };
+  info: IInfo;
+  indicators: IIndicators;
   event: {
     fill: IFill[];
     service: IService[];
@@ -29,7 +8,29 @@ interface ICarData {
     plans: IPlans[];
   };
 }
-
+interface IInfo {
+  brand: string;
+  model: string;
+  year: number;
+  mileage: number;
+  sizeTank: number;
+  fuelInTank: number;
+  cost: number;
+}
+interface IIndicators {
+  curMileage: number;
+  curSpendMoney: number;
+  curSpendFuel: number;
+  previousRefuel: {
+    mileage: number;
+    spendMoney: number;
+    spendFuel: number;
+  };
+  lastFullTank: {
+    mileage: number;
+    spendFuel: number;
+  };
+}
 interface IFill {
   date: string;
   mileage: number;

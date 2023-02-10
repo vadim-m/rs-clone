@@ -7,8 +7,4 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import { App } from './app/app';
-
 export const router = new Router();
-
-new App();

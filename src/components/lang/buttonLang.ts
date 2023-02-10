@@ -2,7 +2,7 @@ export function buttonLang() {
   if (localStorage.getItem('langMyCar') === 'EN') {
     return {
       ok: 'OK',
-      cencel: 'CENCEL',
+      cancel: 'CANCEL',
       add: 'ADD',
       delete: 'DELETE',
       edit: 'EDIT',
@@ -11,10 +11,10 @@ export function buttonLang() {
   } else {
     return {
       ok: 'OK',
-      cencel: 'ОТМЕНА',
+      cancel: 'ОТМЕНА',
       add: 'ДОБАВИТЬ',
       delete: 'УДАЛИТЬ',
-      edit: 'РЕДАКТИРОВАТЬ',
+      edit: 'ИЗМЕНИТЬ',
       option: '...',
     };
   }

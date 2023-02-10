@@ -1,13 +1,13 @@
 import { IService, IDetals } from '../../types';
 import { carData } from '../../car/car_data';
-import { lineOfEvent } from '../../components/lineEvent';
-import { icon } from '../../components/iconObj';
-import { serviceLang } from '../../components/lang/serviceLang';
-import { getMoney } from '../../components/units';
-import { buttonLang } from '../../components/lang/buttonLang';
-import { Popup } from '../../components/popup';
-import { searchLi } from '../../components/searchElement';
-import { currentLiArr } from '../../components/searchElement';
+import { lineOfEvent } from '../../Components/lineEvent';
+import { icon } from '../../Components/iconObj';
+import { serviceLang } from '../../Components/lang/serviceLang';
+import { getMoney } from '../../Components/units';
+import { buttonLang } from '../../Components/lang/buttonLang';
+import { Popup } from '../../Components/popup';
+import { searchLi } from '../../Components/searchElement';
+import { currentLiArr } from '../../Components/searchElement';
 
 export class Service {
   serviceEvent: IService | undefined;
@@ -184,7 +184,7 @@ export class Service {
       event.preventDefault();
       new Popup(
         this.createHTMLDetalsPopup(),
-        buttonLang().cencel,
+        buttonLang().cancel,
         'confirm__btn--cencel',
         'confirm__btn--cencel',
         buttonLang().ok,
@@ -197,16 +197,16 @@ export class Service {
   }
 
   saveDetalsFromPopup() {
-    let additionID = 0;
+    // let additionID = 0;
     this.pageBody.addEventListener('click', (event) => {
       if ((event.target as HTMLElement).matches('.confirm__btn--ok')) {
         const quant = +(document.querySelector(`.popup__input_quant`) as HTMLInputElement).value;
         const price = +(document.querySelector(`.popup__input_price`) as HTMLInputElement).value;
         const popupDOM = document.querySelector('.popup__container') as HTMLElement;
         const allInputPopupArr = Array.from(popupDOM.querySelectorAll('input'));
-        additionID += 1;
+        // additionID += 1;
         if (allInputPopupArr.some((e) => e.value !== '')) {
-          this.detalsListDOM.insertAdjacentHTML('beforeend', this.createHTMLDetalsDOM(additionID, quant, price));
+          this.detalsListDOM.insertAdjacentHTML('beforeend', this.createHTMLDetalsDOM(/* additionID, */ quant, price));
         }
         this.amountDetalsAll();
 
@@ -337,12 +337,12 @@ export class Service {
       </div>`;
   }
 
-  createHTMLDetalsDOM(additionID: number, quant: number, price: number) {
+  createHTMLDetalsDOM(/* additionID: number,  */ quant: number, price: number) {
     const popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
     const popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
     const popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
     return `
-      <li id="detals__item_${additionID}" class="detals__item active">
+      <li id="detals__item" class="detals__item active">
           <div class="detals__item_basic">
             <span class="detals__item_name">${popupDetalName.value ? popupDetalName.value : ''}</span>
             <div>
