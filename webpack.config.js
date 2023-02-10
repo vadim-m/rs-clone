@@ -13,6 +13,7 @@ module.exports = {
   devServer: {
     port: 8080,
     open: true,
+    historyApiFallback: true,
   },
   entry: path.resolve(__dirname, 'src', 'index'),
   resolve: {
@@ -23,6 +24,7 @@ module.exports = {
     clean: true,
     filename: 'index.[contenthash].js',
     assetModuleFilename: 'assets/[name][ext]',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -49,7 +51,7 @@ module.exports = {
       },
       {
         test: /\.(c|sa|sc)ss$/i,
-        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.woff2?$/i,
