@@ -1,4 +1,5 @@
 import './index.html';
-import './main.scss';
+import './main.css';
+import { Router } from './router/Router';
 
-console.log('TS работает. CSS тоже.');
+export const router = new Router();
