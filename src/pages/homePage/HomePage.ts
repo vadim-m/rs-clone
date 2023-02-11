@@ -6,15 +6,11 @@ export class HomePage {
   private info = new Info().element;
   private plans = new Plans().element;
   private events = new Events().element;
-  public element: HTMLElement;
   parent: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
-    this.element = this.createElement();
-    this.element.addEventListener('click', (e) => {
-      console.log(e.target);
-    });
+    this.createElement();
   }
 
   createElement() {
@@ -31,6 +27,5 @@ export class HomePage {
     events.append(this.events);
 
     this.parent.append(info, plans, events);
-    return this.parent;
   }
 }

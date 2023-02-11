@@ -268,7 +268,7 @@ export class Service {
     addServiceBtn.addEventListener('click', (event) => {
       this.initDOM();
       const worksDetalsArr: IDetals[] = [];
-
+      console.log('1');
       for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
         worksDetalsArr.push({
           detals: {

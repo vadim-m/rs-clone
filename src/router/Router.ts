@@ -32,7 +32,6 @@ export class Router {
       // result = new PlansPage().element;
     } else if (routes.Service.match(path)) {
       this.servicePage = new Service();
-
       // result = new HTMLElement();
     } else if (routes.Schedule.match(path)) {
       // result = new PlansPage().element;
@@ -41,24 +40,12 @@ export class Router {
     }
   }
 
-  destroy(path: string) {
-    if (routes.Home.match(path)) {
-      this.homePage = null;
-    } else if (routes.Events.match(path)) {
-      this.eventsPage = null;
-    } else if (routes.Plans.match(path)) {
-      this.plansPage = null;
-    } else if (routes.Refuel.match(path)) {
-      // result = new PlansPage().element;
-    } else if (routes.Service.match(path)) {
-      this.servicePage = null;
-    } else if (routes.Schedule.match(path)) {
-      // result = new PlansPage().element;
-    } else if (routes.Other.match(path)) {
-      // result = new PlansPage().element;
-    }
+  destroy() {
+    this.homePage = null;
+    this.eventsPage = null;
+    this.plansPage = null;
+    this.servicePage = null;
     this.parent.innerHTML = '';
-    this.url.pathname = path;
   }
 
   goTo(path: string) {
@@ -68,7 +55,8 @@ export class Router {
 
   initRouter() {
     window.addEventListener('popstate', () => {
-      this.render(this.url.pathname);
+      this.destroy();
+      this.render(new URL(window.location.href).pathname);
     });
     document.querySelectorAll('[href^="/"]').forEach((el) => {
       el.addEventListener('click', (e) => {
@@ -77,7 +65,8 @@ export class Router {
         const { pathname: path } = new URL(link.href);
 
         if (this.url.pathname !== path) {
-          this.destroy(path);
+          this.destroy();
+          this.url.pathname = path;
         } else {
           return;
         }
