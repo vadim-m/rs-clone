@@ -308,24 +308,24 @@ export class Service {
     <div id="popup__content" class="popup__content active">
           <div>
             <span id="popup__title_name" class="popup__title_name">${serviceLang().name}</span>
-            <input id="popup__inpit_name" class="popup__input_name" type="text" placeholder="" />
+            <input id="popup__inpit_name" class="popup__input_name popup__input" type="text" placeholder="" />
           </div>
           <div>
             <span id=="popup__title_part" class="popup__title_part">${serviceLang().part}</span>
-            <input id="popup__input_part" class="popup__input_part" type="text" placeholder="" />
+            <input id="popup__input_part" class="popup__input_part popup__input" type="text" placeholder="" />
           </div>
           <div>
             <span id=="popup__title_manuf" class="popup__title_manuf">${serviceLang().manufacture}</span>
-            <input id=="popup__input_manuf" class="popup__input_manuf" type="text" placeholder="" />
+            <input id=="popup__input_manuf" class="popup__input_manuf popup__input" type="text" placeholder="" />
           </div>
           <div class="popup-total-service">
             <span id=="popup__title_price" class="popup__title_price">${serviceLang().price}</span>
-            <input id=="popup__input_price" class="popup__input_price" type="number" min="0" placeholder="" />
+            <input id=="popup__input_price" class="popup__input_price popup__input" type="number" min="0" placeholder="" />
             <span id=="popup__title_quant" class="popup__title_quant">${serviceLang().quant}</span>
-            <input id=="popup__input_quant" class="popup__input_quant" type="number" min="0" placeholder="" />
+            <input id=="popup__input_quant" class="popup__input_quant popup__input" type="number" min="0" placeholder="" />
             <span id=="popup__title_amount" class="popup__title_amount">${serviceLang().amount}</span>
             <input
-              id=="popup__input_amount" class="popup__input_amount"
+              id=="popup__input_amount" class="popup__input_amount popup__input"
               type="number" min="0"
               placeholder=""
             />
