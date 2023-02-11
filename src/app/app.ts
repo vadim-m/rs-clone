@@ -1,12 +1,20 @@
-import { Car } from '../car/car';
-import { Service } from '../event/service/service';
+import { PanelNav } from '../components/footer/PanelNav';
+import { Router } from '../router/Router';
+import { Header } from '../components/header/Header';
 
 export class App {
-  car: Car;
-  service: Service;
-
+  footer: PanelNav | undefined;
+  router: Router | undefined;
+  header: Header | undefined;
   constructor() {
-    this.car = new Car();
-    this.service = new Service();
+    this.footer;
+    this.router;
+    this.header;
+  }
+
+  render() {
+    this.header = new Header();
+    this.footer = new PanelNav();
+    this.router = new Router();
   }
 }

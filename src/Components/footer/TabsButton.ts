@@ -31,7 +31,7 @@ export class TabsButton {
       <a href="#" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-blue z-10">
         <img class="p-2" src="${reminder}" alt="event-icon">
       </a>
-      <a href="#" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-blue z-10">
+      <a href="/service" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-blue z-10">
         <img class="p-2" src="${tool}" alt="event-icon">
       </a>
       <a href="#" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-blue z-10">

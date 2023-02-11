@@ -1,4 +1,4 @@
-import { getCurrentLanguage } from './lang/currentLang';
+import { getCurrentLanguage } from '../lang/currentLang';
 
 const unitsRU = {
   distance: ', км',

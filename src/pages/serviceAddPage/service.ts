@@ -1,13 +1,13 @@
 import { IService, IDetals } from '../../types';
 import { carData } from '../../car/car_data';
-import { lineOfEvent } from '../../Components/lineEvent';
-import { icon } from '../../Components/iconObj';
-import { serviceLang } from '../../Components/lang/serviceLang';
-import { getMoney } from '../../Components/units';
-import { buttonLang } from '../../Components/lang/buttonLang';
-import { Popup } from '../../Components/popup';
-import { searchLi } from '../../Components/searchElement';
-import { currentLiArr } from '../../Components/searchElement';
+import { lineOfEvent } from '../../components/lineEvent';
+import { icon } from '../../components/iconObj';
+import { serviceLang } from '../../lang/serviceLang';
+import { getMoney } from '../../components/units';
+import { buttonLang } from '../../lang/buttonLang';
+import { Popup } from '../../components/popup';
+import { searchLi } from '../../components/searchElement';
+import { currentLiArr } from '../../components/searchElement';
 
 export class Service {
   serviceEvent: IService | undefined;
@@ -71,10 +71,6 @@ export class Service {
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
     this.totalPriceTitle = document.querySelector('.service__title_total') as HTMLElement;
   }
-
-  // initDOMPopup () {
-
-  // }
 
   renderPage() {
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
@@ -398,8 +394,8 @@ export class Service {
         </div>
           ${lineOfEvent('service', 'place', serviceLang().place, icon.place, 'text')}
           ${lineOfEvent('service', 'notes', serviceLang().comments, icon.comments, 'text')}
-        <button id="add--event-service__btn" type="submit">
-          Добавить событие
+        <button id="add--event-service__btn" class="add--event-service__btn" type="submit">
+          ${serviceLang().addEvent}
         </button>
       </form>`;
   }

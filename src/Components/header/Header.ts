@@ -1,4 +1,4 @@
-const gear = require('../assets/icons/gear.png');
+const gear = require('../../assets/icons/gear.png');
 
 export class Header {
   public element: DocumentFragment;

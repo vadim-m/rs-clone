@@ -13,6 +13,7 @@ export function serviceLang() {
       mileage: 'Mileage',
       place: 'Autoshop name and address',
       comments: 'Comment',
+      addEvent: 'Add event',
     };
   } else {
     return {
@@ -28,6 +29,7 @@ export function serviceLang() {
       mileage: 'Пробег',
       place: 'Место',
       comments: 'Комментрий',
+      addEvent: 'Добавить событие',
     };
   }
 }

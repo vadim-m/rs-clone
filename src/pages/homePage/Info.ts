@@ -1,9 +1,9 @@
-const car = require('../../../assets/images/chevrolet.png');
-const expenses = require('../../../assets/icons/expenses.png');
-const finance = require('../../../assets/icons/finance.png');
-const coins = require('../../../assets/icons/coins.png');
-const gasStation = require('../../../assets/icons/gas-station.png');
-const gear = require('../../../assets/icons/gear.png');
+const car = require('../../assets/images/chevrolet.png');
+const expenses = require('../../assets/icons/expenses.png');
+const finance = require('../../assets/icons/finance.png');
+const coins = require('../../assets/icons/coins.png');
+const gasStation = require('../../assets/icons/gas-station.png');
+const gear = require('../../assets/icons/gear.png');
 
 export class Info {
   public element: DocumentFragment;
