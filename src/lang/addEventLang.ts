@@ -1,4 +1,4 @@
-export function serviceLang() {
+export function eventLang() {
   if (localStorage.getItem('langMyCar') === 'EN') {
     return {
       type: 'Type of service',
@@ -14,6 +14,9 @@ export function serviceLang() {
       place: 'Autoshop name and address',
       comments: 'Comment',
       addEvent: 'Add event',
+      category: 'Category',
+      service: 'Service',
+      other: 'Other',
     };
   } else {
     return {
@@ -30,6 +33,9 @@ export function serviceLang() {
       place: 'Место',
       comments: 'Комментрий',
       addEvent: 'Добавить событие',
+      category: 'Категория',
+      service: 'Сервис',
+      other: 'Другое',
     };
   }
 }

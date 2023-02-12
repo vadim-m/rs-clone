@@ -8,8 +8,9 @@ import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
 import { searchLi } from '../../components/searchElement';
 import { currentLiArr } from '../../components/searchElement';
+import { lineSelect } from './lineSelectCategory';
 
-export class Service {
+export class Reminder {
   serviceEvent: IService | undefined;
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
@@ -363,7 +364,9 @@ export class Service {
   }
 
   createHTMLServiceDOM() {
-    return `<form id="main-form service" class="main-form service" action="/" method="put">
+    return `<form id="main-form service" class="main-form service" action="/" method="put">    
+      ${lineSelect('reminder', 'category', eventLang().category, icon.category, eventLang().service, eventLang().other)}
+      
       ${lineOfEvent('service', 'type', eventLang().type, icon.gear, 'text')}
       ${lineOfEvent('service', 'name', eventLang().name, icon.pen, 'text')}
         <div id="service__detals-add_container" class="service__detals-add_container">

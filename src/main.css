@@ -34,7 +34,7 @@ h1 {
   position: absolute;
 }
 .service__input,
-.popup__input  {
+.popup__input {
   display: flex;
   margin: 0;
   width: 100%;

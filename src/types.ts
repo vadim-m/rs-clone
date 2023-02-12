@@ -91,6 +91,7 @@ interface Iicon {
   comments: string;
   plus: string;
   wrench: string;
+  category: string;
 }
 
 enum unitsEnum {
