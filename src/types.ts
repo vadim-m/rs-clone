@@ -5,7 +5,7 @@ interface ICarData {
     fill: IFill[];
     service: IService[];
     others: IOther[];
-    plans: IPlans[];
+    reminders: IReminders[];
   };
 }
 interface IInfo {
@@ -75,8 +75,15 @@ interface IOther {
   id: string;
 }
 
-interface IPlans {
-  category: IService | IOther;
+interface IReminders {
+  type: string;
+  name: number;
+  previosDate: Date;
+  previosMileage: number;
+  repeatTime: string;
+  repeatMileage: number;
+  notes: string;
+  id: string;
 }
 
 interface Iicon {
@@ -91,6 +98,7 @@ interface Iicon {
   comments: string;
   plus: string;
   wrench: string;
+  category: string;
 }
 
 enum unitsEnum {
@@ -113,4 +121,4 @@ enum moneyEnum {
   EU = 'EU',
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };
+export { ICarData, IFill, IOther, IReminders, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };

@@ -4,10 +4,11 @@ export function lineOfEvent(
   textTitle: string,
   icon: string,
   typeInput: string,
+  size: string,
   units?: string,
   value?: string | Date
 ) {
-  return `  <div class="${pageEvent}__item flex flex-col relative w-48 z-1">
+  return `  <div class="${pageEvent}__item flex flex-col relative w-${size} z-1">
                 <span class="${pageEvent}__icon absolute top-0">${icon}</span>
                 <span id="${pageEvent}__title_${idAndClass}" class="${pageEvent}__title ${pageEvent}__title_${idAndClass} absolute top-0 left-8 pointer-events-none">${textTitle}${
     units ? units : ''

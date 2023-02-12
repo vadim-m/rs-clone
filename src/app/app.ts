@@ -1,6 +1,6 @@
-import { PanelNav } from '../Components/footer/PanelNav';
 import { Router } from '../router/Router';
-import { Header } from '../Components/header/Header';
+import { Header } from '../components/header/Header';
+import { PanelNav } from '../components/footer/PanelNav';
 
 export class App {
   footer: PanelNav | undefined;

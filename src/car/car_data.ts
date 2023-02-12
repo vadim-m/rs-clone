@@ -28,6 +28,6 @@ export const carData: ICarData = {
     fill: [],
     service: [],
     others: [],
-    plans: [],
+    reminders: [],
   },
 };

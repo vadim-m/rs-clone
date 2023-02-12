@@ -1,4 +1,4 @@
-import { renderButton } from '../Components/button';
+import { renderButtonWhite } from '../components/button';
 
 export class Popup {
   content: string;
@@ -58,8 +58,8 @@ export class Popup {
                 <div id="popup__container" class="popup__container active relative top-20 mx-auto bg-white p-5 border border-slate w-96 shadow-lg rounded-md transition-all">
                     ${this.content}
                     <div class="popup__content_confirm flex justify-around">
-                        ${renderButton(this.buttonLeftName, this.buttonLeftClassName, this.buttonLeftID)}
-                        ${renderButton(this.buttonRightName, this.buttonRightClassName, this.buttonRightID)}
+                        ${renderButtonWhite(this.buttonLeftName, this.buttonLeftClassName, this.buttonLeftID, 32)}
+                        ${renderButtonWhite(this.buttonRightName, this.buttonRightClassName, this.buttonRightID, 32)}
                     </div>
                 </div>
                     </div>`;

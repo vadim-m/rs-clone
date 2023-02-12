@@ -7,7 +7,7 @@ export const appConstants = {
     plans: '/plans',
     refuel: '/refuel',
     service: '/service',
-    schedule: '/schedule',
+    reminder: '/reminder',
     other: '/other',
   },
   search: {
@@ -24,6 +24,6 @@ export const routes = {
   Plans: new Route(appConstants.routes.plans),
   Refuel: new Route(appConstants.routes.refuel),
   Service: new Route(appConstants.routes.service),
-  Schedule: new Route(appConstants.routes.schedule),
+  Reminder: new Route(appConstants.routes.reminder),
   Other: new Route(appConstants.routes.other),
 };
