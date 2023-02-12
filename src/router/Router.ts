@@ -3,12 +3,14 @@ import { HomePage } from '../pages/homePage/HomePage';
 import { EventsPage } from '../pages/eventsPage/EventsPage';
 import { PlansPage } from '../pages/plansPage/PlansPage';
 import { Service } from '../pages/serviceAddPage/service';
+import { StatisticPage } from '../pages/statisticPage/StatisticPage';
 
 export class Router {
   url: URL;
   parent: HTMLElement;
   homePage: HomePage | null = null;
   servicePage: Service | null = null;
+  statisticPage: StatisticPage | null = null;
   eventsPage: EventsPage | null = null;
   plansPage: PlansPage | null = null;
   constructor() {
@@ -28,6 +30,8 @@ export class Router {
       this.eventsPage = new EventsPage();
     } else if (routes.Plans.match(path)) {
       this.plansPage = new PlansPage();
+    } else if (routes.Statistic.match(path)) {
+      this.statisticPage = new StatisticPage();
     } else if (routes.Refuel.match(path)) {
       // result = new PlansPage().element;
     } else if (routes.Service.match(path)) {

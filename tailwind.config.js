@@ -29,6 +29,7 @@ module.exports = {
     },
     minWidth: {
       min: '320px',
+      minXs: '250px',
     },
     extend: {
       fontFamily: {

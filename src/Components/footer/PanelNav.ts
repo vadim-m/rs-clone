@@ -49,7 +49,7 @@ export class PanelNav {
             </a>
           </li>
           <li class="nav__item">
-            <a href="#" class="nav__link flex flex-col items-center">
+            <a href="/statistic" class="nav__link flex flex-col items-center">
               <img class="nav__icon w-6 h-6" src="${pieChart}" alt="pie-icon">
               <span class="nav__name">Статистика</span>
             </a>
