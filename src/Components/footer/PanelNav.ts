@@ -2,7 +2,7 @@ const home = require('../../assets/icons/home.png');
 const event = require('../../assets/icons/event.png');
 const calendar = require('../../assets/icons/calendar.png');
 const pieChart = require('../../assets/icons/pie-chart.png');
-import { TabsButton } from './TabsButton';
+import { TabsButton } from '../footer/TabsButton';
 
 export class PanelNav {
   private tabsButton = new TabsButton().element;

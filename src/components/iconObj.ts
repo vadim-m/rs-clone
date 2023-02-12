@@ -11,5 +11,5 @@ export const icon: Iicon = {
   place: '<i class="fa-solid fa-location-dot"></i>',
   comments: '<i class="fa-solid fa-message"></i>',
   plus: '<i class="fa-solid fa-plus"></i>',
-  wrench: '<i class="fa-solid fa-screwdriver-wrench"></i>',
+  wrench: '<i class="fa-solid fa-screwdriver-wrench mr-3"></i>',
 };
