@@ -1,5 +1,5 @@
-const funnel = require('../../../assets/icons/funnel.png');
-const tires = require('../../../assets/icons/tires.png');
+const funnel = require('../../assets/icons/funnel.png');
+const tires = require('../../assets/icons/tires.png');
 
 export class Events {
   public element: DocumentFragment;

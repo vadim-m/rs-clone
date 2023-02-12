@@ -2,23 +2,18 @@ import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
 
-export class Main {
+export class HomePage {
   private info = new Info().element;
   private plans = new Plans().element;
   private events = new Events().element;
-  public element: HTMLElement;
+  parent: HTMLElement;
 
   constructor() {
-    this.element = this.createElement();
-    this.element.addEventListener('click', (e) => {
-      console.log(e.target);
-    });
+    this.parent = document.querySelector('.main') as HTMLElement;
+    this.createElement();
   }
 
   createElement() {
-    const main = document.createElement('main');
-    main.classList.add('main');
-
     const info = document.createElement('section');
     info.classList.add('info');
     info.append(this.info);
@@ -31,7 +26,6 @@ export class Main {
     events.classList.add('events');
     events.append(this.events);
 
-    main.append(info, plans, events);
-    return main;
+    this.parent.append(info, plans, events);
   }
 }

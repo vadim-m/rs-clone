@@ -1,6 +1,6 @@
-const carOil = require('../../../assets/icons/car-oil.png');
-const carRepair = require('../../../assets/icons/car-repair.png');
-const gear = require('../../../assets/icons/gear.png');
+const carOil = require('../../assets/icons/car-oil.png');
+const carRepair = require('../../assets/icons/car-repair.png');
+const gear = require('../../assets/icons/gear.png');
 
 export class Plans {
   public element: DocumentFragment;

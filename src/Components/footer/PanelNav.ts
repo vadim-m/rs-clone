@@ -4,17 +4,22 @@ const calendar = require('../../assets/icons/calendar.png');
 const pieChart = require('../../assets/icons/pie-chart.png');
 import { TabsButton } from './TabsButton';
 
-export class Nav {
+export class PanelNav {
   private tabsButton = new TabsButton().element;
-  public element: HTMLDivElement;
+  // public element: HTMLDivElement;
 
   constructor() {
-    this.element = this.createElement();
+    this.render();
+  }
+
+  render() {
+    const mainContainer = document.querySelector('.main') as HTMLElement;
+    mainContainer.after(this.createElement());
   }
 
   createElement() {
-    const element = document.createElement('div');
-    element.classList.add('header');
+    const element = document.createElement('footer');
+    element.classList.add('footer');
     element.classList.add('fixed');
     element.classList.add('bottom-0');
     element.classList.add('left-0');

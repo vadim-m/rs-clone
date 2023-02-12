@@ -22,7 +22,7 @@ export class PlansList {
             </span>
           </div>
         </div>
-        <div class="plans__date text-xs font-bold text-center text-end">25 дек. 2022г.</div>
+        <div class="plans__date text-xs font-bold text-end">25 дек. 2022г.</div>
       </li>
       <li class="plans__item bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
         <div class="plans__item-and-icon flex items-center mr-2">
@@ -33,7 +33,7 @@ export class PlansList {
             </span>
           </div>
         </div>
-        <div class="plans__date text-xs font-bold text-center text-end">25 дек. 2022г.</div>
+        <div class="plans__date text-xs font-bold text-end">25 дек. 2022г.</div>
       </li>
       <li class="plans__item bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
         <div class="plans__item-and-icon flex items-center mr-2">
@@ -44,7 +44,7 @@ export class PlansList {
             </span>
           </div>
         </div>
-        <div class="plans__date text-xs font-bold text-center text-end">25 дек. 2022г.</div>
+        <div class="plans__date text-xs font-bold text-end">25 дек. 2022г.</div>
       </li>
     </ul>
   </section>
