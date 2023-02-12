@@ -1,13 +1,13 @@
 import { IService, IDetals } from '../../types';
 import { carData } from '../../car/car_data';
-import { lineOfEvent } from '../../components/lineEvent';
-import { icon } from '../../components/iconObj';
+import { lineOfEvent } from '../../Components/lineEvent';
+import { icon } from '../../Components/iconObj';
 import { serviceLang } from '../../lang/serviceLang';
-import { getMoney } from '../../components/units';
+import { getMoney } from '../../Components/units';
 import { buttonLang } from '../../lang/buttonLang';
-import { Popup } from '../../components/popup';
-import { searchLi } from '../../components/searchElement';
-import { currentLiArr } from '../../components/searchElement';
+import { Popup } from '../../Components/popup';
+import { searchLi } from '../../Components/searchElement';
+import { currentLiArr } from '../../Components/searchElement';
 
 export class Service {
   serviceEvent: IService | undefined;
@@ -84,7 +84,7 @@ export class Service {
       if (eI.value.length > 0) {
         allTitleArr.forEach((eT) => {
           if (eI.id.slice(15) === eT.id.slice(15)) {
-            eT.style.top = '-1rem';
+            eT.style.top = '-1.5rem';
           }
         });
       }
@@ -105,7 +105,7 @@ export class Service {
         const curInput = event.target as HTMLInputElement;
         const lineParent = curInput.closest('.service__item') as HTMLElement;
         const titleLine = lineParent.querySelector('.service__title') as HTMLElement;
-        titleLine.style.top = '-1rem';
+        titleLine.style.top = '-1.5rem';
       }
     });
   }
@@ -148,7 +148,7 @@ export class Service {
   amountServiceAll(): number {
     this.costWorksDOM.addEventListener('change', () => {
       this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
-      this.totalPriceTitle.style.top = '-1rem';
+      this.totalPriceTitle.style.top = '-1.5rem';
       return this.totalPriceDetals.value;
     });
     const curServiceAmount = +(document.querySelector('.service__input_total') as HTMLInputElement).value;
@@ -164,7 +164,7 @@ export class Service {
           return acc + Number((e as HTMLElement).textContent);
         }, 0)
       );
-      this.totalPriceTitle.style.top = '-1rem';
+      this.totalPriceTitle.style.top = '-1.5rem';
       return +this.totalPriceDetals.value;
     } else return 0;
   }
@@ -268,7 +268,7 @@ export class Service {
     addServiceBtn.addEventListener('click', (event) => {
       this.initDOM();
       const worksDetalsArr: IDetals[] = [];
-      console.log('1');
+
       for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
         worksDetalsArr.push({
           detals: {
@@ -305,31 +305,39 @@ export class Service {
 
   createHTMLDetalsPopup() {
     return `
-    <div id="popup__content" class="popup__content active">
-          <div>
+    <div id="popup__content" class="popup__content active ">
+          <div class="flex flex-col mb-2">
             <span id="popup__title_name" class="popup__title_name">${serviceLang().name}</span>
-            <input id="popup__inpit_name" class="popup__input_name popup__input" type="text" placeholder="" />
+            <input id="popup__inpit_name" class="popup__input_name border-b border-slate" type="text" placeholder="" />
           </div>
-          <div>
+          <div class="flex flex-col mb-2">
             <span id=="popup__title_part" class="popup__title_part">${serviceLang().part}</span>
-            <input id="popup__input_part" class="popup__input_part popup__input" type="text" placeholder="" />
+            <input id="popup__input_part" class="popup__input_part border-b border-slate" type="text" placeholder="" />
           </div>
-          <div>
+          <div class="flex flex-col mb-2">
             <span id=="popup__title_manuf" class="popup__title_manuf">${serviceLang().manufacture}</span>
-            <input id=="popup__input_manuf" class="popup__input_manuf popup__input" type="text" placeholder="" />
+            <input id=="popup__input_manuf" class="popup__input_manuf  border-b border-slate" type="text" placeholder="" />
           </div>
-          <div class="popup-total-service">
-            <span id=="popup__title_price" class="popup__title_price">${serviceLang().price}</span>
-            <input id=="popup__input_price" class="popup__input_price popup__input" type="number" min="0" placeholder="" />
-            <span id=="popup__title_quant" class="popup__title_quant">${serviceLang().quant}</span>
-            <input id=="popup__input_quant" class="popup__input_quant popup__input" type="number" min="0" placeholder="" />
-            <span id=="popup__title_amount" class="popup__title_amount">${serviceLang().amount}</span>
-            <input
-              id=="popup__input_amount" class="popup__input_amount popup__input"
-              type="number" min="0"
-              placeholder=""
-            />
-          </div>
+          <div class="popup-total-service flex flex-col mb-4">
+            <div class="grid grid-cols-2 mb-2 gap-4">
+              <div class="flex flex-col">
+                <span id=="popup__title_price" class="popup__title_price">${serviceLang().price}</span>
+                <input id=="popup__input_price" class="popup__input_price border-b border-slate" type="number" min="0" placeholder="" />
+              </div>
+              <div class="flex flex-col">
+                <span id=="popup__title_quant" class="popup__title_quant">${serviceLang().quant}</span>
+                <input id=="popup__input_quant" class="popup__input_quant border-b border-slate" type="number" min="0" placeholder="" />
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <span id=="popup__title_amount" class="popup__title_amount">${serviceLang().amount}</span>
+              <input
+                id=="popup__input_amount" class="popup__input_amount border-b border-slate"
+                type="number" min="0"
+                placeholder=""
+              />
+            </div>
+          </div> 
       </div>`;
   }
 
@@ -363,24 +371,24 @@ export class Service {
   }
 
   createHTMLServiceDOM() {
-    return `<form id="main-form service" class="main-form service" action="/" method="put">
+    return `<form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-80" action="/" method="put">
       ${lineOfEvent('service', 'type', serviceLang().type, icon.gear, 'text')}
       ${lineOfEvent('service', 'name', serviceLang().name, icon.pen, 'text')}
-        <div id="service__detals-add_container" class="service__detals-add_container">
+        <div id="service__detals-add_container" class="service__detals-add_container flex items-center">
             ${icon.wrench}
-          <span id="detals-add__title" class="detals-add__title">
+          <span id="detals-add__title" class="detals-add__title mb-0">
             Детали
           </span>
           <ul id="detals__list" class="detals__list"></ul>
-          <button id="detals-add__btn" class="detals-add__btn">
+          <button id="detals-add__btn" class="detals-add__btn ml-4">
             ${icon.plus}
           </button>
         </div>
-        <div id="service__total_container" class="service__total_container">
+        <div id="service__total_container" class="service__total_container flex justify-between">
               ${lineOfEvent('service', 'cost-works', serviceLang().costWorks, icon.cost, 'number', getMoney('BY'))}
                 ${lineOfEvent('service', 'total', serviceLang().amount, icon.wallet, 'number', getMoney('BY'))}
         </div>
-        <div id="service__time_container" class="service__time_container">
+        <div id="service__time_container" class="service__time_container flex justify-between">
                 ${lineOfEvent(
                   'service',
                   'date',
@@ -394,7 +402,7 @@ export class Service {
         </div>
           ${lineOfEvent('service', 'place', serviceLang().place, icon.place, 'text')}
           ${lineOfEvent('service', 'notes', serviceLang().comments, icon.comments, 'text')}
-        <button id="add--event-service__btn" class="add--event-service__btn" type="submit">
+        <button id="add--event-service__btn" class="add--event-service__btn text-md bg-blue text-white px-7 py-1 rounded-md" type="submit">
           ${serviceLang().addEvent}
         </button>
       </form>`;

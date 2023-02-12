@@ -53,6 +53,12 @@ module.exports = {
       borderColor: {
         slate: 'rgb(203 213 225)',
       },
+      height: {
+        80: '80vh',
+      },
+      width: {
+        48: '48%',
+      },
     },
   },
   plugins: [require('@savvywombat/tailwindcss-grid-areas')],

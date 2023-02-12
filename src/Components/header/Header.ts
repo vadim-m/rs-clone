@@ -13,7 +13,7 @@ export class Header {
   createElement() {
     const fragment = document.createElement('header');
     fragment.innerHTML = `
-      <div class="header__headerle pt-3 pb-3 flex justify-between container mx-auto">
+      <div class="header__headerle pt-3 pb-5 flex justify-between container mx-auto">
         <h1 class="header__title font-bold text-lg">Chevrolet Aveo, 2007 г.в.</h1>
         <img src="${gear}" class="header__gear w-7 h-7" alt="gear-icon">
       </div>
