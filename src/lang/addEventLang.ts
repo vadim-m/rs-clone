@@ -1,7 +1,8 @@
 export function eventLang() {
   if (localStorage.getItem('langMyCar') === 'EN') {
     return {
-      type: 'Type of service',
+      typeService: 'Type of service',
+      type: 'Type',
       part: 'Part',
       name: 'Name',
       manufacture: 'Manufacture',
@@ -15,15 +16,25 @@ export function eventLang() {
       comments: 'Comment',
       add: 'Add',
       addEvent: 'Add event',
+      addReminder: 'Add reminder',
       category: 'Category',
       service: 'Service',
       other: 'Other',
+      previosDate: 'Date of previous execution',
+      previosMileage: 'Mileage at the time of execution',
+      onMileage: 'Remind on run',
+      afterMileage: 'and/or after',
+      onDate: 'Remind on the day and time',
+      afterDate: 'and/or after',
+      repeatTime: 'To repeat by time',
+      repeatMileage: 'by mileage',
     };
   } else {
     return {
-      type: 'Вид сервиса',
+      typeService: 'Вид сервиса',
+      type: 'Тип',
       part: 'Номер',
-      name: 'Имя',
+      name: 'Название',
       manufacture: 'Производитель',
       price: 'Цена',
       quant: 'Количество',
@@ -35,9 +46,18 @@ export function eventLang() {
       comments: 'Комментрий',
       add: 'Добавить',
       addEvent: 'Добавить событие',
+      addReminder: 'Добавить напоминание',
       category: 'Категория',
       service: 'Сервис',
       other: 'Другое',
+      previosDate: 'Дата предыдущего выполнения',
+      previosMileage: 'Пробег на момент выполнения',
+      onMileage: 'Напомнить на пробеге',
+      afterMileage: 'и/или через',
+      onDate: 'Напомнить в день и время',
+      afterDate: 'и/или через',
+      repeatTime: 'Повторять по времени',
+      repeatMileage: 'по пробегу',
     };
   }
 }

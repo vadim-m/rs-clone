@@ -9,6 +9,7 @@ import { Popup } from '../../components/popup';
 import { searchLi } from '../../components/searchElement';
 import { currentLiArr } from '../../components/searchElement';
 import { renderButtonBlue } from '../../components/button';
+import { onFocus } from '../../components/onFocusFunc';
 
 export class Service {
   serviceEvent: IService | undefined;
@@ -35,14 +36,16 @@ export class Service {
   pageBody!: HTMLElement;
   allInput!: NodeList;
   detalsListDOM!: HTMLElement;
+  addEventCircule: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.style.display = 'none';
     this.renderPage();
     this.initDOM();
     this.addDetals();
     this.createServiceEvent();
-    this.onFocus();
     this.amountServiceAll();
     this.changeDetals();
   }
@@ -74,48 +77,10 @@ export class Service {
   }
 
   renderPage() {
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
-  }
-
-  onFocus() {
-    const allInputArr: HTMLInputElement[] = [...this.formService.querySelectorAll('input')];
-    const allTitleArr: HTMLElement[] = Array.from(this.formService.querySelectorAll('.service__title'));
-
-    allInputArr.forEach((eI) => {
-      if (eI.value.length > 0) {
-        allTitleArr.forEach((eT) => {
-          eT.style.color = 'grey';
-          if (eI.id.slice(15) === eT.id.slice(15)) {
-            eT.style.top = '-1.5rem';
-            eT.style.color = 'grey';
-            eT.style.fontSize = '0.8rem';
-          }
-        });
-      }
-    });
-
-    this.formService.addEventListener('focusout', function (event) {
-      if ((event.target as HTMLInputElement).matches('.service__input')) {
-        const curInput = event.target as HTMLInputElement;
-        const lineParent = curInput.closest('.service__item') as HTMLElement;
-        const titleLine = lineParent.querySelector('.service__title') as HTMLElement;
-        if (curInput.value === '') {
-          titleLine.style.top = '0';
-          titleLine.style.color = 'grey';
-          titleLine.style.fontSize = '1rem';
-        }
-      }
-    });
-    this.formService.addEventListener('focusin', function (event) {
-      if ((event.target as HTMLInputElement).matches('.service__input')) {
-        const curInput = event.target as HTMLInputElement;
-        const lineParent = curInput.closest('.service__item') as HTMLElement;
-        const titleLine = lineParent.querySelector('.service__title') as HTMLElement;
-        titleLine.style.top = '-1.5rem';
-        titleLine.style.color = 'grey';
-        titleLine.style.fontSize = '0.8rem';
-      }
-    });
+    onFocus('service');
   }
 
   changeTotalPriceDetals() {

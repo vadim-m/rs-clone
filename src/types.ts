@@ -80,6 +80,10 @@ interface IReminders {
   name: number;
   previosDate: Date;
   previosMileage: number;
+  rememberOnMilege: number;
+  rememberAfterMilege: number;
+  rememberOnDate: Date;
+  rememberAfteDate: string;
   repeatTime: string;
   repeatMileage: number;
   notes: string;
@@ -99,6 +103,7 @@ interface Iicon {
   plus: string;
   wrench: string;
   category: string;
+  repeat: string;
 }
 
 enum unitsEnum {

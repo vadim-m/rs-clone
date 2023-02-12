@@ -9,6 +9,7 @@ export class EventsPage {
   private search = new EventsSearch().element;
   private menu = new EventsMenu().element;
   private list = new EventsList().element;
+  addEventCircule!: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -16,6 +17,8 @@ export class EventsPage {
   }
 
   createElement() {
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.style.display = 'block';
     const fragment = document.createElement('section');
     fragment.classList.add('events');
     fragment.innerHTML = `

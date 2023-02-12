@@ -13,4 +13,5 @@ export const icon: Iicon = {
   plus: '<i class="fa-solid fa-plus"></i>',
   wrench: '<i class="fa-solid fa-screwdriver-wrench mr-3"></i>',
   category: '<i class="fa-solid fa-layer-group"></i>',
+  repeat: '<i class="fa-solid fa-rotate-right"></i>',
 };
