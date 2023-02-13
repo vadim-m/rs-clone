@@ -9,6 +9,7 @@ export const appConstants = {
     service: '/service',
     schedule: '/schedule',
     other: '/other',
+    login: '/login',
   },
   search: {
     types: {
@@ -26,4 +27,5 @@ export const routes = {
   Service: new Route(appConstants.routes.service),
   Schedule: new Route(appConstants.routes.schedule),
   Other: new Route(appConstants.routes.other),
+  Login: new Route(appConstants.routes.login),
 };
