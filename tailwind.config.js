@@ -3,11 +3,11 @@ module.exports = {
   content: ['./src/**/*.{html,js,ts}'],
   theme: {
     screens: {
-      sm: '440px',
-      md: '569px',
-      lg: '8024px',
-      xl: '1080px',
-      '2xl': '1336px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
     },
     colors: {
       transparent: 'transparent',
@@ -56,6 +56,7 @@ module.exports = {
       },
       height: {
         80: '80vh',
+        120: '112vh',
       },
       width: {
         48: '48%',

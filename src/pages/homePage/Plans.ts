@@ -31,14 +31,14 @@ export class Plans {
           <img src="${carRepair}" class="plans__image w-7 h-7 mr-4" alt="repair-icon">
           <h3 class="plans__title text-sm font-bold mb-1 leading-3">Диагностика подвески</h3>
         </div>
-        <button class="plans__button button text-xs bg-blue text-white px-3 py-1 rounded-md">Добавить</button>
+        <button class="plans__button button text-sm bg-blue text-white px-3 py-1 rounded-md">Добавить</button>
       </li>
       <li class="plans__item bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
         <div class="plans__item-and-icon flex">
           <img src="${gear}" class="plans__image w-7 h-7 mr-4" alt="gear-icon">
           <h3 class="plans__title text-sm font-bold mb-1 leading-3">Замена фильтров</h3>
         </div>
-        <button class="plans__button button text-xs bg-blue text-white px-3 py-1 rounded-md">Добавить</button>
+        <button class="plans__button button text-sm bg-blue text-white px-3 py-1 rounded-md">Добавить</button>
       </li>
     </ul>
     `;
