@@ -7,6 +7,8 @@ import { onFocus } from '../../components/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { getUnits, getMoney } from '../../components/units';
 import { carData } from '../../car/car_data';
+import { getDateTime } from '../../components/getDateTimeFunc';
+import { createHTMLDatalistFuel } from './datalist';
 
 export class Refuel {
   refuelEvent: IRefuel | undefined;
@@ -58,7 +60,6 @@ export class Refuel {
   }
 
   changeTotalPriceDetals() {
-    console.log(this.tankFullDOM.checked);
     this.priceFuelDOM = document.querySelector('#refuel__input_price') as HTMLInputElement;
     this.amountFuelDOM = document.querySelector('#refuel__input_amount-fuel') as HTMLInputElement;
     this.amountPriceDOM = document.querySelector('#refuel__input_amount-price') as HTMLInputElement;
@@ -120,12 +121,22 @@ export class Refuel {
         'search',
         '48',
         'yes',
-        this.createHTMLDatalistPetrol()
+        createHTMLDatalistFuel()
       )}
-      ${lineOfEvent('refuel', 'price', eventLang().price, icon.coins, 'text', '48', '', '', getMoney('BY', 'litr'))}
+      ${lineOfEvent(
+        'refuel',
+        'price',
+        eventLang().price,
+        icon.coins,
+        'text',
+        '48',
+        'requared',
+        '',
+        getMoney('BY', 'litr')
+      )}
     </div>
         <div id="refuel__previos_container" class="refuel__previos_container flex justify-between">
-                ${lineOfEvent('refuel', 'amount-fuel', eventLang().quant, icon.quantFuel, 'text', '48', '', ``)}
+                ${lineOfEvent('refuel', 'amount-fuel', eventLang().quant, icon.quantFuel, 'text', '48', 'requared')}
                 ${lineOfEvent(
                   'refuel',
                   'amount-price',
@@ -133,6 +144,7 @@ export class Refuel {
                   icon.wallet,
                   'number',
                   '48',
+                  'requared',
                   '',
                   '',
                   getMoney('BY')
@@ -150,7 +162,7 @@ export class Refuel {
             '',
             getUnits().distance
           )}          
-          ${lineOfEvent('refuel', 'tank-full', eventLang().tankFull, '', 'checkbox', '48', getUnits().distance)}
+          ${lineOfEvent('refuel', 'tank-full', eventLang().tankFull, '', 'checkbox', '48', '', getUnits().distance)}
         </div>  
                 ${lineOfEvent(
                   'refuel',
@@ -162,22 +174,11 @@ export class Refuel {
                   '',
                   '',
                   '',
-                  `${new Date().toISOString().slice(0, 16)}`
+                  getDateTime()
                 )}
           ${lineOfEvent('refuel', 'place', eventLang().place, icon.place, 'text', 'full')}
           ${lineOfEvent('refuel', 'notes', eventLang().comments, icon.comments, 'text', 'full')}
           ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn', 'add--event-refuel__btn', 100)}
       </form>`;
-  }
-
-  createHTMLDatalistPetrol() {
-    return `    <option value="Petrol - AI-100">
-    <option value="Petrol - AI-98">
-    <option value="Petrol - AI-95">
-    <option value="Petrol - AI-92">
-    <option value="Disel">
-    <option value="Gas - propane">
-    <option value="Gas - methane">
-    <option value="Gas - LNP">`;
   }
 }

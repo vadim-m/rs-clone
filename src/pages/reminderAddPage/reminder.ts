@@ -6,6 +6,7 @@ import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../components/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { getUnits } from '../../components/units';
+import { getDateTime } from '../../components/getDateTimeFunc';
 
 export class Reminder {
   reminderEvent: IReminders | undefined;
@@ -106,7 +107,7 @@ export class Reminder {
                   '',
                   '',
                   '',
-                  `${new Date().toISOString().slice(0, 16)}`
+                  getDateTime()
                 )}
                 ${lineOfEvent('reminder', 'previos-mileage', eventLang().previosMileage, icon.mileage, 'number', '1/2')}
         </div>

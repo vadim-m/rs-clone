@@ -10,6 +10,8 @@ import { searchLi } from '../../components/searchElement';
 import { currentLiArr } from '../../components/searchElement';
 import { renderButtonBlue } from '../../components/button';
 import { onFocus } from '../../components/onFocusFunc';
+import { getDateTime } from '../../components/getDateTimeFunc';
+import { createHTMLDatalistTypeService } from './datalist';
 
 export class Service {
   serviceEvent: IService | undefined;
@@ -350,7 +352,16 @@ export class Service {
 
   createHTMLServiceDOM() {
     return `<form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-80" action="/" method="put">
-      ${lineOfEvent('service', 'type', eventLang().type, icon.gear, 'text', 'full', 'yes')}
+      ${lineOfEvent(
+        'service',
+        'type',
+        eventLang().type,
+        icon.gear,
+        'text',
+        'full',
+        'yes',
+        createHTMLDatalistTypeService()
+      )}
       ${lineOfEvent('service', 'name', eventLang().name, icon.pen, 'text', 'full')}
 
           <div class="flex flex-col">
@@ -378,7 +389,7 @@ export class Service {
                   '',
                   '',
                   '',
-                  `${new Date().toISOString().slice(0, 16)}`
+                  getDateTime()
                 )}
                 ${lineOfEvent('service', 'mileage', eventLang().mileage, icon.mileage, 'number', '48')}
         </div>
