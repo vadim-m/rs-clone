@@ -111,7 +111,9 @@ export class Refuel {
   }
 
   createHTMLrefuelDOM() {
-    return `<form id="main-form refuel" class="main-form refuel flex flex-col gap-8 justify-between h-80 w-full" action="/" method="put">
+    return `
+        <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
+    <form id="main-form refuel" class="main-form refuel flex flex-col gap-8 justify-between h-[32rem] w-full" action="/" method="put">
     <div class="fuel_container flex justify-between">
       ${lineOfEvent(
         'refuel',

@@ -68,8 +68,8 @@ interface IDetals {
 interface IOther {
   date: string;
   mileage: number;
-  name: number;
-  amount: number;
+  name: string;
+  totalPrice: number;
   place: string;
   notes: string;
   id: string;

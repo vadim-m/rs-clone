@@ -93,7 +93,9 @@ export class Reminder {
   }
 
   createHTMLreminderDOM() {
-    return `<form id="main-form reminder" class="main-form reminder flex flex-col gap-8 justify-between h-80" action="/" method="put">
+    return `
+            <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
+    <form id="main-form reminder" class="main-form reminder flex flex-col gap-8 justify-between h-80" action="/" method="put">
       ${lineOfEvent('reminder', 'type', eventLang().type, icon.gear, 'text', 'full', 'yes')}
       ${lineOfEvent('reminder', 'name', eventLang().name, icon.pen, 'text', 'full')}
         <div id="reminder__previos_container" class="reminder__previos_container flex justify-between">

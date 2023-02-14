@@ -90,33 +90,23 @@ export class Service {
     const popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
     const popupDetalAmount = document.querySelector(`.popup__input_amount`) as HTMLInputElement;
     popupDetalPrice.addEventListener('input', () => {
-      if (popupDetalQuant.value === '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * 1);
-        popupDetalQuant.value = '1';
-      } else {
-        popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
+      if (popupDetalAmount.value !== '') {
+        popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
+        if (popupDetalPrice.value === '') {
+          popupDetalQuant.value = '';
+        }
       }
+      onFocus('service');
     });
     popupDetalQuant.addEventListener('input', () => {
-      if (popupDetalQuant.value !== '' && popupDetalPrice.value === '') {
-        popupDetalPrice.value = String(+popupDetalAmount.value / +popupDetalQuant.value);
-      }
-      if (popupDetalQuant.value === '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * 1);
-      } else {
+      if (popupDetalPrice.value !== '') {
         popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
       }
+      onFocus('service');
     });
-    popupDetalAmount.addEventListener('change', () => {
-      if (popupDetalQuant.value === '' && popupDetalPrice.value !== '') {
-        popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
-      }
-      if (popupDetalAmount.value === '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
-      } else {
-        popupDetalQuant.value = String(+popupDetalQuant.value ? +popupDetalQuant.value : 1);
-        popupDetalPrice.value = String(+popupDetalAmount.value / (+popupDetalQuant.value ? +popupDetalQuant.value : 1));
-      }
+    popupDetalAmount.addEventListener('input', () => {
+      popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
+      onFocus('service');
     });
   }
 
@@ -351,13 +341,15 @@ export class Service {
   }
 
   createHTMLServiceDOM() {
-    return `<form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-80" action="/" method="put">
+    return `
+                <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
+    <form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-[34rem]" action="/" method="put">
       ${lineOfEvent(
         'service',
         'type',
         eventLang().type,
         icon.gear,
-        'text',
+        'search',
         'full',
         'yes',
         createHTMLDatalistTypeService()
@@ -375,8 +367,28 @@ export class Service {
           <ul id="detals__list" class="detals__list"></ul>
         </div>
         <div id="service__total_container" class="service__total_container flex justify-between">
-              ${lineOfEvent('service', 'cost-works', eventLang().costWorks, icon.cost, 'number', '48', getMoney('BY'))}
-                ${lineOfEvent('service', 'total', eventLang().amount, icon.wallet, 'number', '48', getMoney('BY'))}
+              ${lineOfEvent(
+                'service',
+                'cost-works',
+                eventLang().costWorks,
+                icon.cost,
+                'number',
+                '48',
+                '',
+                '',
+                getMoney('BY')
+              )}
+                ${lineOfEvent(
+                  'service',
+                  'total',
+                  eventLang().amount,
+                  icon.wallet,
+                  'number',
+                  '48',
+                  '',
+                  '',
+                  getMoney('BY')
+                )}
         </div>
         <div id="service__time_container" class="service__time_container flex justify-between">
                 ${lineOfEvent(
