@@ -34,9 +34,9 @@ interface IIndicators {
 interface IRefuel {
   date: string;
   mileage: number;
-  priceFuel: string;
-  amountFuel: string;
-  amountPrice: string;
+  priceFuel: number;
+  amountFuel: number;
+  amountPrice: number;
   isFull: boolean;
   place: string;
   notes: string;
@@ -78,11 +78,11 @@ interface IOther {
 interface IReminders {
   type: string;
   name: number;
-  previosDate: Date;
+  previosDate: string;
   previosMileage: number;
   rememberOnMilege: number;
   rememberAfterMilege: number;
-  rememberOnDate: Date;
+  rememberOnDate: string;
   rememberAfteDate: string;
   repeatTime: string;
   repeatMileage: number;

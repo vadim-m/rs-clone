@@ -71,20 +71,21 @@ export class Reminder {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
       console.log(newCarData);
-      newCarData.event.reminders.push({
+      this.reminderEvent = {
         type: this.typeDOM.value,
-        name: this.nameDOM.value,
-        previosDate: this.nameDOM.value,
-        previosMileage: this.nameDOM.value,
-        rememberOnMilege: this.nameDOM.value,
-        rememberAfterMilege: this.nameDOM.value,
-        rememberOnDate: this.nameDOM.value,
-        rememberAfteDate: this.nameDOM.value,
-        repeatTime: this.nameDOM.value,
-        repeatMileage: this.nameDOM.value,
+        name: +this.nameDOM.value,
+        previosDate: this.previosDateDOM.value,
+        previosMileage: +this.previosMileageDOM.value,
+        rememberOnMilege: +this.previosOnMileageDOM.value,
+        rememberAfterMilege: +this.previosAfterMileageDOM.value,
+        rememberOnDate: this.previosOnDateDOM.value,
+        rememberAfteDate: this.previosAfterDateDOM.value,
+        repeatTime: this.previosRepeatTimeDOM.value,
+        repeatMileage: +this.previosRepeatMileageDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
-      });
+      };
+      newCarData.event.reminders.push(this.reminderEvent);
       event.preventDefault();
       localStorage.setItem('car', JSON.stringify(newCarData));
       // formDervice.submit();

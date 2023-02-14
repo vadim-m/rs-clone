@@ -252,18 +252,18 @@ export class Service {
       }
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
-
-      newCarData.event.service.push({
+      this.serviceEvent = {
         date: new Date().toLocaleString(),
         mileage: Number(this.mileageDOM.value),
         type: this.typeDOM.value,
         name: this.nameDOM.value,
-        worksDetals: worksDetalsArr,
+        detals: worksDetalsArr,
         amount: this.amountServiceAll(),
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
-      });
+      };
+      newCarData.event.service.push(this.serviceEvent);
       localStorage.setItem('car', JSON.stringify(newCarData));
       // formDervice.submit();
       // console.log(carData);

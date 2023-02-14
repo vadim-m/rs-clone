@@ -91,18 +91,18 @@ export class Refuel {
       this.initDOM();
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
-      console.log(newCarData);
-      newCarData.event.refuels.push({
+      this.refuelEvent = {
         date: Date.now().toLocaleString(),
-        mileage: this.mileageDOM.value,
-        priceFuel: this.priceFuelDOM.value,
-        amountFuel: this.amountFuelDOM.value,
-        amountPrice: this.amountPriceDOM.value,
+        mileage: +this.mileageDOM.value,
+        priceFuel: +this.priceFuelDOM.value,
+        amountFuel: +this.amountFuelDOM.value,
+        amountPrice: +this.amountPriceDOM.value,
         isFull: this.tankFullDOM.checked,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
-      });
+      };
+      newCarData.event.refuels.push(this.refuelEvent);
       event.preventDefault();
       localStorage.setItem('car', JSON.stringify(newCarData));
       // formDervice.submit();
