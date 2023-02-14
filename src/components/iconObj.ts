@@ -14,4 +14,6 @@ export const icon: Iicon = {
   wrench: '<i class="fa-solid fa-screwdriver-wrench mr-3"></i>',
   category: '<i class="fa-solid fa-layer-group"></i>',
   repeat: '<i class="fa-solid fa-rotate-right"></i>',
+  coins: '<i class="fa-solid fa-coins"></i>',
+  quantFuel: '<i class="fa-solid fa-glass-water-droplet"></i>',
 };

@@ -350,7 +350,7 @@ export class Service {
 
   createHTMLServiceDOM() {
     return `<form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-80" action="/" method="put">
-      ${lineOfEvent('service', 'type', eventLang().type, icon.gear, 'text', 'full')}
+      ${lineOfEvent('service', 'type', eventLang().type, icon.gear, 'text', 'full', 'yes')}
       ${lineOfEvent('service', 'name', eventLang().name, icon.pen, 'text', 'full')}
 
           <div class="flex flex-col">
@@ -375,6 +375,8 @@ export class Service {
                   icon.date,
                   'datetime-local',
                   '48',
+                  '',
+                  '',
                   '',
                   `${new Date().toISOString().slice(0, 16)}`
                 )}

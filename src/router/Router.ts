@@ -4,6 +4,7 @@ import { EventsPage } from '../pages/eventsPage/EventsPage';
 import { PlansPage } from '../pages/plansPage/PlansPage';
 import { Service } from '../pages/serviceAddPage/service';
 import { Reminder } from '../pages/reminderAddPage/reminder';
+import { Refuel } from '../pages/refuelAddPage/refuel';
 
 export class Router {
   url: URL;
@@ -13,6 +14,7 @@ export class Router {
   eventsPage: EventsPage | null = null;
   plansPage: PlansPage | null = null;
   reminderPage: Reminder | null = null;
+  refuelPage: Refuel | null = null;
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.url = new URL(window.location.href);
@@ -21,6 +23,7 @@ export class Router {
     this.plansPage;
     this.servicePage;
     this.reminderPage;
+    this.refuelPage;
     this.initRouter();
   }
 
@@ -32,10 +35,9 @@ export class Router {
     } else if (routes.Plans.match(path)) {
       this.plansPage = new PlansPage();
     } else if (routes.Refuel.match(path)) {
-      // result = new PlansPage().element;
+      this.refuelPage = new Refuel();
     } else if (routes.Service.match(path)) {
       this.servicePage = new Service();
-      // result = new HTMLElement();
     } else if (routes.Reminder.match(path)) {
       this.reminderPage = new Reminder();
     } else if (routes.Other.match(path)) {
@@ -49,6 +51,7 @@ export class Router {
     this.plansPage = null;
     this.servicePage = null;
     this.reminderPage = null;
+    this.refuelPage = null;
     this.parent.innerHTML = '';
   }
 

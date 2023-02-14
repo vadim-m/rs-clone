@@ -2,6 +2,7 @@ export function eventLang() {
   if (localStorage.getItem('langMyCar') === 'EN') {
     return {
       typeService: 'Type of service',
+      typeFuel: 'Type of fuel',
       type: 'Type',
       part: 'Part',
       name: 'Name',
@@ -28,10 +29,12 @@ export function eventLang() {
       afterDate: 'and/or after',
       repeatTime: 'To repeat by time',
       repeatMileage: 'by mileage',
+      tankFull: 'Full tank',
     };
   } else {
     return {
       typeService: 'Вид сервиса',
+      typeFuel: 'Вид топлива',
       type: 'Тип',
       part: 'Номер',
       name: 'Название',
@@ -58,6 +61,7 @@ export function eventLang() {
       afterDate: 'и/или через',
       repeatTime: 'Повторять по времени',
       repeatMileage: 'по пробегу',
+      tankFull: 'Полный бак',
     };
   }
 }

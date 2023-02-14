@@ -2,7 +2,7 @@ interface ICarData {
   info: IInfo;
   indicators: IIndicators;
   event: {
-    fill: IFill[];
+    refuel: IRefuel[];
     service: IService[];
     others: IOther[];
     reminders: IReminders[];
@@ -31,14 +31,14 @@ interface IIndicators {
     spendFuel: number;
   };
 }
-interface IFill {
+interface IRefuel {
   date: string;
   mileage: number;
-  costFuel: number;
-  amountFuel: number;
+  priceFuel: string;
+  amountFuel: string;
+  amountPrice: string;
   isFull: boolean;
-  isLostRefuel: boolean;
-  fuelInTank?: number;
+  place: string;
   notes: string;
   id: string;
 }
@@ -104,6 +104,8 @@ interface Iicon {
   wrench: string;
   category: string;
   repeat: string;
+  coins: string;
+  quantFuel: string;
 }
 
 enum unitsEnum {
@@ -126,4 +128,4 @@ enum moneyEnum {
   EU = 'EU',
 }
 
-export { ICarData, IFill, IOther, IReminders, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };
+export { ICarData, IRefuel, IOther, IReminders, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };

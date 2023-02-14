@@ -25,7 +25,7 @@ export const carData: ICarData = {
     },
   },
   event: {
-    fill: [],
+    refuel: [],
     service: [],
     others: [],
     reminders: [],

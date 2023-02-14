@@ -6,7 +6,7 @@ export function onFocus(page: string) {
     eT.style.top = `${eT.clientHeight > 30 ? '-1.5rem' : '0'}`;
   });
   allInputArr.forEach((eI) => {
-    if (eI.value.length > 0 || eI.type === 'date') {
+    if ((eI.value.length > 0 || eI.type === 'date') && eI.type !== 'chekbox') {
       allTitleArr.forEach((eT) => {
         eT.style.color = 'grey';
         if (eI.id.slice(15) === eT.id.slice(15)) {
@@ -19,7 +19,10 @@ export function onFocus(page: string) {
   });
 
   document.addEventListener('focusin', function (event) {
-    if ((event.target as HTMLInputElement).matches(`.${page}__input`)) {
+    if (
+      (event.target as HTMLInputElement).matches(`.${page}__input`) &&
+      (event.target as HTMLInputElement).type !== 'checkbox'
+    ) {
       const curInput = event.target as HTMLInputElement;
       const lineParent = curInput.closest(`.${page}__item`) as HTMLElement;
       const titleLine = lineParent.querySelector(`.${page}__title`) as HTMLElement;
