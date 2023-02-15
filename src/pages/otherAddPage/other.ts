@@ -1,15 +1,17 @@
 import { IOther } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
-import { icon } from '../../components/iconObj';
+// import { icon } from '../../components/iconObj';
 import { eventLang } from '../../lang/addEventLang';
-import { onFocus } from '../../components/onFocusFunc';
+import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
-import { getMoney, getUnits } from '../../components/units';
-import { getDateTime } from '../../components/getDateTimeFunc';
-import { createHTMLDatalistOthersName } from './datalist';
+// import { getMoney, getUnits } from '../../components/units';
+// import { getDateTime } from '../../components/getDateTimeFunc';
+import { paramsCollectionOther } from './paramsForLineEvent';
 
 export class Other {
+  eventPage = 'other';
+
   otherEvent: IOther | undefined;
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
@@ -17,12 +19,7 @@ export class Other {
   dateDOM!: HTMLInputElement;
   placeDOM!: HTMLInputElement;
   notesDOM!: HTMLInputElement;
-  formother!: HTMLFormElement;
-  page!: HTMLElement;
-
-  totalPriceTitle!: HTMLElement;
   parent!: HTMLElement;
-  pageBody!: HTMLElement;
   allInput!: NodeList;
   addEventCircule!: HTMLElement;
   totalPriceDOM!: HTMLInputElement;
@@ -35,7 +32,6 @@ export class Other {
   }
 
   initDOM() {
-    this.pageBody = document.querySelector('body') as HTMLElement;
     this.nameDOM = document.querySelector('#other__input_name') as HTMLInputElement;
     this.dateDOM = document.querySelector('#other__input_date') as HTMLInputElement;
     this.totalPriceDOM = document.querySelector('#other__input_total') as HTMLInputElement;
@@ -49,13 +45,13 @@ export class Other {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLOtherDOM());
-    onFocus('other');
+    onFocus(this.eventPage);
   }
 
   createotherEvent() {
     const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
     console.log(addOtherBtn);
-    addOtherBtn.addEventListener('click', (event) => {
+    addOtherBtn.addEventListener('click', (/* event */) => {
       this.initDOM();
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
@@ -70,7 +66,7 @@ export class Other {
         id: Date.now().toString(),
       };
       newCarData.event.others.push(this.otherEvent);
-      event.preventDefault();
+      // event.preventDefault();
       localStorage.setItem('car', JSON.stringify(newCarData));
     });
   }
@@ -79,33 +75,11 @@ export class Other {
     return `
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
     <form id="main-form other" class="main-form other flex flex-col gap-8 justify-between h-[35rem] w-full" action="/" method="put">
-      ${lineOfEvent(
-        'other',
-        'name',
-        eventLang().name,
-        icon.pen,
-        'search',
-        'full',
-        'require',
-        createHTMLDatalistOthersName()
-      )}
-        ${lineOfEvent('other', 'total', eventLang().cost, icon.wallet, 'number', 'full', '', '', getMoney('BY'))}
-        ${lineOfEvent('other', 'mileage', eventLang().mileage, icon.mileage, 'text', 'full', getUnits().distance)} 
-        ${lineOfEvent(
-          'other',
-          'date',
-          eventLang().date,
-          icon.date,
-          'datetime-local',
-          'full',
-          '',
-          '',
-          '',
-          getDateTime()
-        )}
-
-          ${lineOfEvent('refuel', 'place', eventLang().place, icon.place, 'text', 'full')}
-          ${lineOfEvent('other', 'notes', eventLang().comments, icon.comments, 'text', '1/2')}
+          ${paramsCollectionOther
+            .map((obj) => {
+              return lineOfEvent(this.eventPage, obj);
+            })
+            .join('')}
           ${renderButtonBlue(eventLang().addEvent, 'add--event-other__btn', 'add--event-other__btn', 100)}
       </form>`;
   }

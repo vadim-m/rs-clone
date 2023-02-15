@@ -6,14 +6,17 @@ import { eventLang } from '../../lang/addEventLang';
 import { getMoney } from '../../components/units';
 import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
-import { searchLi } from '../../components/searchElement';
-import { currentLiArr } from '../../components/searchElement';
+import { searchLi } from '../../utilits/searchElement';
+import { currentLiArr } from '../../utilits/searchElement';
 import { renderButtonBlue } from '../../components/button';
-import { onFocus } from '../../components/onFocusFunc';
-import { getDateTime } from '../../components/getDateTimeFunc';
-import { createHTMLDatalistTypeService } from './datalist';
+import { onFocus } from '../../utilits/onFocusFunc';
+import { paramsCollectionService } from './datalist';
+// import { getDateTime } from '../../components/getDateTimeFunc';
+// import { createHTMLDatalistTypeService } from './datalist';
 
 export class Service {
+  eventPage = 'service';
+
   serviceEvent: IService | undefined;
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
@@ -39,12 +42,15 @@ export class Service {
   allInput!: NodeList;
   detalsListDOM!: HTMLElement;
   addEventCircule: HTMLElement;
+  nameItem!: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.renderPage();
+    this.nameItem = document.querySelector('.service__item_name') as HTMLElement;
+    this.renderDetalContainer();
     this.initDOM();
     this.addDetals();
     this.createServiceEvent();
@@ -82,7 +88,11 @@ export class Service {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
-    onFocus('service');
+    onFocus(this.eventPage);
+  }
+
+  renderDetalContainer() {
+    this.nameItem.insertAdjacentHTML('afterend', this.createHTMLContainerDetalDOM());
   }
 
   changeTotalPriceDetals() {
@@ -96,17 +106,17 @@ export class Service {
           popupDetalQuant.value = '';
         }
       }
-      onFocus('service');
+      onFocus(this.eventPage);
     });
     popupDetalQuant.addEventListener('input', () => {
       if (popupDetalPrice.value !== '') {
         popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
       }
-      onFocus('service');
+      onFocus(this.eventPage);
     });
     popupDetalAmount.addEventListener('input', () => {
       popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
-      onFocus('service');
+      onFocus(this.eventPage);
     });
   }
 
@@ -339,74 +349,31 @@ export class Service {
           </div>
       </li>`;
   }
+  createHTMLContainerDetalDOM() {
+    return `
+          <div class="flex flex-col">
+            <div
+              id="service__detals-add_container"
+              class="service__detals-add_container flex items-center justify-between mb-4 ">
+              ${icon.wrench}
+              <span id="detals-add__title" class="detals-add__title mb-0">
+                Детали
+              </span>
+              ${renderButtonBlue(eventLang().add, 'detals-add__btn', 'detals-add__btn', 100)}
+            </div>
+            <ul id="detals__list" class="detals__list"></ul>
+          </div>`;
+  }
 
   createHTMLServiceDOM() {
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
     <form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-[34rem]" action="/" method="put">
-      ${lineOfEvent(
-        'service',
-        'type',
-        eventLang().type,
-        icon.gear,
-        'search',
-        'full',
-        'yes',
-        createHTMLDatalistTypeService()
-      )}
-      ${lineOfEvent('service', 'name', eventLang().name, icon.pen, 'text', 'full')}
-
-          <div class="flex flex-col">
-            <div id="service__detals-add_container" class="service__detals-add_container flex items-center justify-between mb-4 ">
-            ${icon.wrench}
-            <span id="detals-add__title" class="detals-add__title mb-0">
-              Детали
-            </span>
-            ${renderButtonBlue(eventLang().add, 'detals-add__btn', 'detals-add__btn', 100)}
-          </div>
-          <ul id="detals__list" class="detals__list"></ul>
-        </div>
-        <div id="service__total_container" class="service__total_container flex justify-between">
-              ${lineOfEvent(
-                'service',
-                'cost-works',
-                eventLang().costWorks,
-                icon.cost,
-                'number',
-                '48',
-                '',
-                '',
-                getMoney('BY')
-              )}
-                ${lineOfEvent(
-                  'service',
-                  'total',
-                  eventLang().amount,
-                  icon.wallet,
-                  'number',
-                  '48',
-                  '',
-                  '',
-                  getMoney('BY')
-                )}
-        </div>
-        <div id="service__time_container" class="service__time_container flex justify-between">
-                ${lineOfEvent(
-                  'service',
-                  'date',
-                  eventLang().date,
-                  icon.date,
-                  'datetime-local',
-                  '48',
-                  '',
-                  '',
-                  '',
-                  getDateTime()
-                )}
-                ${lineOfEvent('service', 'mileage', eventLang().mileage, icon.mileage, 'number', '48')}
-        </div>
-          ${lineOfEvent('service', 'place', eventLang().place, icon.place, 'text', 'full')}
-          ${lineOfEvent('service', 'notes', eventLang().comments, icon.comments, 'text', 'full')}
+            ${paramsCollectionService
+              .map((obj) => {
+                return lineOfEvent(this.eventPage, obj);
+              })
+              .join('')}
           ${renderButtonBlue(eventLang().addEvent, 'add--event-service__btn', 'add--event-service__btn', 100)}
       </form>`;
   }

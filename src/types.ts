@@ -107,6 +107,17 @@ interface Iicon {
   coins: string;
   quantFuel: string;
 }
+interface IParamsLineOfEvent {
+  idAndClass: string;
+  textTitle: string;
+  icon: string;
+  typeInput: string;
+  size: string;
+  required: boolean;
+  option?: string;
+  units?: string;
+  value?: string;
+}
 
 enum unitsEnum {
   money = 'money',
@@ -128,4 +139,16 @@ enum moneyEnum {
   EU = 'EU',
 }
 
-export { ICarData, IRefuel, IOther, IReminders, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };
+export {
+  ICarData,
+  IRefuel,
+  IOther,
+  IReminders,
+  IService,
+  IDetals,
+  Iicon,
+  unitsEnum,
+  Imoney,
+  moneyEnum,
+  IParamsLineOfEvent,
+};

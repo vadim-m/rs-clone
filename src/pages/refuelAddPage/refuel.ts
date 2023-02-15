@@ -1,16 +1,18 @@
 import { IRefuel } from '../../types';
 // import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
-import { icon } from '../../components/iconObj';
+// import { icon } from '../../components/iconObj';
 import { eventLang } from '../../lang/addEventLang';
-import { onFocus } from '../../components/onFocusFunc';
+import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
-import { getUnits, getMoney } from '../../components/units';
+// import { getUnits, getMoney } from '../../components/units';
 import { carData } from '../../car/car_data';
-import { getDateTime } from '../../components/getDateTimeFunc';
-import { createHTMLDatalistFuel } from './datalist';
+import { paramsCollectionRefuel } from './paramsForLineEvent';
+// import { getDateTime } from '../../components/getDateTimeFunc';
+// import { createHTMLDatalistFuel } from './datalist';
 
 export class Refuel {
+  eventPage = 'refuel';
   refuelEvent: IRefuel | undefined;
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
@@ -56,7 +58,7 @@ export class Refuel {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLrefuelDOM());
-    onFocus('refuel');
+    onFocus(this.eventPage);
   }
 
   changeTotalPriceDetals() {
@@ -70,17 +72,17 @@ export class Refuel {
           this.amountFuelDOM.value = '';
         }
       }
-      onFocus('refuel');
+      onFocus(this.eventPage);
     });
     this.amountFuelDOM.addEventListener('input', () => {
       if (this.priceFuelDOM.value !== '') {
         this.amountPriceDOM.value = String(+this.priceFuelDOM.value * +this.amountFuelDOM.value);
       }
-      onFocus('refuel');
+      onFocus(this.eventPage);
     });
     this.amountPriceDOM.addEventListener('input', () => {
       this.amountFuelDOM.value = String(+this.amountPriceDOM.value / +this.priceFuelDOM.value);
-      onFocus('refuel');
+      onFocus(this.eventPage);
     });
   }
 
@@ -113,8 +115,18 @@ export class Refuel {
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-    <form id="main-form refuel" class="main-form refuel flex flex-col gap-8 justify-between h-[32rem] w-full" action="/" method="put">
-    <div class="fuel_container flex justify-between">
+    <form id="main-form refuel" class="main-form refuel flex flex-wrap gap-8 justify-between h-[32rem] w-full" action="/" method="put">
+          ${paramsCollectionRefuel
+            .map((obj) => {
+              return lineOfEvent(this.eventPage, obj);
+            })
+            .join('')}
+          ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn', 'add--event-refuel__btn', 100)}
+      </form>`;
+  }
+}
+
+/*   <div class="fuel_container flex justify-between">
       ${lineOfEvent(
         'refuel',
         'type-fuel',
@@ -180,7 +192,4 @@ export class Refuel {
                 )}
           ${lineOfEvent('refuel', 'place', eventLang().place, icon.place, 'text', 'full')}
           ${lineOfEvent('refuel', 'notes', eventLang().comments, icon.comments, 'text', 'full')}
-          ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn', 'add--event-refuel__btn', 100)}
-      </form>`;
-  }
-}
+*/

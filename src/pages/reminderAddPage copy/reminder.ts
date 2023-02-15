@@ -1,16 +1,14 @@
 import { IReminders } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
-// import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconObj';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
-import { paramsCollectionReminder } from './paramsForLineEvent';
-// import { getUnits } from '../../components/units';
-// import { getDateTime } from '../../components/getDateTimeFunc';
+import { getUnits } from '../../components/units';
+import { getDateTime } from '../../utilits/getDateTimeFunc';
 
 export class Reminder {
-  eventPage = 'reminder';
   reminderEvent: IReminders | undefined;
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
@@ -62,7 +60,7 @@ export class Reminder {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLreminderDOM());
-    onFocus(this.eventPage);
+    onFocus('reminder');
   }
 
   createReminderEvent() {
@@ -73,21 +71,20 @@ export class Reminder {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
       console.log(newCarData);
-      this.reminderEvent = {
+      newCarData.event.reminders.push({
         type: this.typeDOM.value,
-        name: +this.nameDOM.value,
-        previosDate: this.previosDateDOM.value,
-        previosMileage: +this.previosMileageDOM.value,
-        rememberOnMilege: +this.previosOnMileageDOM.value,
-        rememberAfterMilege: +this.previosAfterMileageDOM.value,
-        rememberOnDate: this.previosOnDateDOM.value,
-        rememberAfteDate: this.previosAfterDateDOM.value,
-        repeatTime: this.previosRepeatTimeDOM.value,
-        repeatMileage: +this.previosRepeatMileageDOM.value,
+        name: this.nameDOM.value,
+        previosDate: this.nameDOM.value,
+        previosMileage: this.nameDOM.value,
+        rememberOnMilege: this.nameDOM.value,
+        rememberAfterMilege: this.nameDOM.value,
+        rememberOnDate: this.nameDOM.value,
+        rememberAfteDate: this.nameDOM.value,
+        repeatTime: this.nameDOM.value,
+        repeatMileage: this.nameDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
-      };
-      newCarData.event.reminders.push(this.reminderEvent);
+      });
       event.preventDefault();
       localStorage.setItem('car', JSON.stringify(newCarData));
       // formDervice.submit();
@@ -96,15 +93,53 @@ export class Reminder {
   }
 
   createHTMLreminderDOM() {
-    return `
-            <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
-    <form id="main-form reminder" class="main-form reminder flex flex-col gap-8 justify-between h-80" action="/" method="put">
-
-                ${paramsCollectionReminder
-                  .map((obj) => {
-                    return lineOfEvent(this.eventPage, obj);
-                  })
-                  .join('')}
+    return `<form id="main-form reminder" class="main-form reminder flex flex-col gap-8 justify-between h-80" action="/" method="put">
+      ${lineOfEvent('reminder', 'type', eventLang().type, icon.gear, 'text', 'full', 'yes')}
+      ${lineOfEvent('reminder', 'name', eventLang().name, icon.pen, 'text', 'full')}
+        <div id="reminder__previos_container" class="reminder__previos_container flex justify-between">
+                ${lineOfEvent(
+                  'reminder',
+                  'previos-date',
+                  eventLang().previosDate,
+                  icon.date,
+                  'datetime-local',
+                  '48',
+                  '',
+                  '',
+                  '',
+                  getDateTime()
+                )}
+                ${lineOfEvent('reminder', 'previos-mileage', eventLang().previosMileage, icon.mileage, 'number', '1/2')}
+        </div>
+        <div id="reminder__mileage_container" class="reminder__mileage_container flex justify-between">
+          ${lineOfEvent(
+            'reminder',
+            'on-mileage',
+            eventLang().onMileage,
+            icon.mileage,
+            'text',
+            '48',
+            getUnits().distance
+          )}          
+          ${lineOfEvent('reminder', 'after-mileage', eventLang().afterMileage, '', 'text', '48', getUnits().distance)}
+        </div>  
+                <div id="reminder__date_container" class="reminder__date_container flex justify-between">
+          ${lineOfEvent('reminder', 'on-date', eventLang().onDate, icon.date, 'date', '1/2')}          
+          ${lineOfEvent('reminder', 'after-date', eventLang().afterDate, '', 'text', '1/2')}
+        </div> 
+        <div id="reminder__repeat_container" class="reminder__retry_container flex justify-between">
+          ${lineOfEvent('reminder', 'repeat-time', eventLang().repeatTime, icon.repeat, 'date', '1/2')}          
+          ${lineOfEvent(
+            'reminder',
+            'repeat-mileage',
+            eventLang().repeatMileage,
+            '',
+            'text',
+            '1/2',
+            getUnits().distance
+          )}
+        </div> 
+          ${lineOfEvent('reminder', 'notes', eventLang().comments, icon.comments, 'text', '1/2')}
           ${renderButtonBlue(eventLang().addReminder, 'add--event-reminder__btn', 'add--event-reminder__btn', 100)}
       </form>`;
   }

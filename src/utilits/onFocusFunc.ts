@@ -2,17 +2,17 @@ export function onFocus(page: string) {
   const allInputArr: HTMLInputElement[] = [...document.querySelectorAll('input')];
   const allTitleArr: HTMLElement[] = Array.from(document.querySelectorAll(`.${page}__title`));
 
-  allTitleArr.forEach((eT) => {
-    eT.style.top = `${eT.clientHeight > 30 ? '-1.5rem' : '0'}`;
+  allTitleArr.forEach((eTitle) => {
+    eTitle.style.top = `${eTitle.clientHeight > 30 ? '-1.5rem' : '0'}`;
   });
-  allInputArr.forEach((eI) => {
-    if ((eI.value.length > 0 || eI.type === 'date') && eI.type !== 'chekbox') {
-      allTitleArr.forEach((eT) => {
-        eT.style.color = 'grey';
-        if (eI.id.slice(15) === eT.id.slice(15)) {
-          eT.style.top = `${eT.clientHeight > 30 ? '-2.5rem' : '-1.5rem'}`;
-          eT.style.color = 'grey';
-          eT.style.fontSize = '0.8rem';
+  allInputArr.forEach((eInput) => {
+    if ((eInput.value.length > 0 || eInput.type === 'date') && eInput.type !== 'checkbox') {
+      allTitleArr.forEach((eTitle) => {
+        eTitle.style.color = 'grey';
+        if (eInput.id.slice(15) === eTitle.id.slice(15)) {
+          eTitle.style.top = `${eTitle.clientHeight > 30 ? '-2.5rem' : '-1.5rem'}`;
+          eTitle.style.color = 'grey';
+          eTitle.style.fontSize = '0.8rem';
         }
       });
     }
@@ -26,7 +26,6 @@ export function onFocus(page: string) {
       const curInput = event.target as HTMLInputElement;
       const lineParent = curInput.closest(`.${page}__item`) as HTMLElement;
       const titleLine = lineParent.querySelector(`.${page}__title`) as HTMLElement;
-
       const focusout = function focusout(event: Event) {
         if ((event.target as HTMLInputElement).value === '' && (event.target as HTMLInputElement).type !== 'date') {
           titleLine.style.top = `${titleLine.clientHeight > 30 ? '-1.5rem' : '0'}`;
