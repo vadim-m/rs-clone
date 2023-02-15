@@ -51,6 +51,7 @@ module.exports = {
       },
       width: {
         48: '48%',
+        350: '350px',
       },
       colors: {
         myslate: '#f0f2f6',
