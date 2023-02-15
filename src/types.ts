@@ -113,4 +113,9 @@ enum moneyEnum {
   EU = 'EU',
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum };
+interface IUser {
+  email: string;
+  password: string;
+}
+
+export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser };
