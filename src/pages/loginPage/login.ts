@@ -1,5 +1,7 @@
 const loginImage = require('../../assets/images/login-image.jpg');
 import { Form } from '../../components/form/Form';
+import { login } from '../../helpers/api';
+import { IUser } from '../../types';
 
 export class LoginPage {
   parent: HTMLElement;
@@ -38,11 +40,25 @@ export class LoginPage {
 
   addListeners() {
     const form = document.querySelector('#login-form') as HTMLFormElement;
-    form?.addEventListener('submit', (e) => {
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = form.email as HTMLInputElement;
       const pass = form.pass as HTMLInputElement;
       console.log(email.value, pass.value);
+      const userData: IUser = {
+        email: email.value,
+        password: pass.value,
+      };
+      const res = await login(userData);
+      const status = await res.status;
+      const token = await res.json();
+      console.log(status, token);
+
+      if (status === 200) {
+        alert(`Status: ${status}.Верный логин и пароль. Токен получен.`);
+      } else {
+        alert(`Status: ${status}.\nError: ${token.message}`);
+      }
     });
   }
 }
