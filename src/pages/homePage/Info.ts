@@ -19,7 +19,7 @@ export class Info {
           <h1 class="info__title font-bold text-lg">Мой автомобиль</h1>
           <img src="${gear}" class="info__gear w-7 h-7 mr-4" alt="gear-icon">
         </div>
-        <div class="info__car car bg-slate rounded-lg shadow-md mb-2 p-4 grid grid-areas-layout gap-x-2">
+        <div class="info__car car bg-myslate rounded-lg shadow-md mb-2 p-4 grid grid-areas-layout gap-x-2">
           <h3 class="car__name font-bold text-sm text-right grid-in-name">Chevrolet Aveo</h3>
           <p class="car__year text-xs text-right grid-in-year">2007 г.в.</з>
             <div class="car__mileage grid-in-mileage">

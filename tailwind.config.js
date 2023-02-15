@@ -9,15 +9,6 @@ module.exports = {
       xl: '1280px',
       '2xl': '1536px',
     },
-    colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      white: '#ffffff',
-      slate: '#f0f2f6',
-      slateBorders: 'rgb(203 213 225)',
-      blue: '#394f89',
-      dark: 'rgba(0, 0, 0, 0.5)',
-    },
     container: {
       padding: {
         DEFAULT: '1rem',
@@ -60,6 +51,12 @@ module.exports = {
       },
       width: {
         48: '48%',
+      },
+      colors: {
+        myslate: '#f0f2f6',
+        slateBorders: 'rgb(203 213 225)',
+        myblue: '#394f89',
+        mydark: 'rgba(0, 0, 0, 0.5)',
       },
     },
   },

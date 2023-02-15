@@ -12,8 +12,8 @@ export class PlansList {
     fragment.innerHTML = `
     <section class="plans__section-list">
     <ul class="plans__list grid gap-y-3 mb-4">
-      <li class="plans__item relative bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
-        <div class="plans__bar absolute bottom-12 right-0 bg-blue text-white text-xs px-3 py-1 rounded-md">Через 10 дней</div>
+      <li class="plans__item relative bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
+        <div class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">Через 10 дней</div>
         <div class="plans__item-and-icon flex items-center mr-2">
           <img src="${carOil}" class="plans__image w-7 h-7 mr-4" alt="oil-icon">
           <div class="plans__text">
@@ -24,7 +24,7 @@ export class PlansList {
         </div>
         <div class="plans__date text-xs font-bold text-end">25 дек. 2022г.</div>
       </li>
-      <li class="plans__item bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
+      <li class="plans__item bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
         <div class="plans__item-and-icon flex items-center mr-2">
           <img src="${carOil}" class="plans__image w-7 h-7 mr-4" alt="oil-icon">
           <div class="plans__text">
@@ -35,7 +35,7 @@ export class PlansList {
         </div>
         <div class="plans__date text-xs font-bold text-end">25 дек. 2022г.</div>
       </li>
-      <li class="plans__item bg-slate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
+      <li class="plans__item bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
         <div class="plans__item-and-icon flex items-center mr-2">
           <img src="${carOil}" class="plans__image w-7 h-7 mr-4" alt="oil-icon">
           <div class="plans__text">

@@ -14,7 +14,7 @@ export class StatisticHeader {
           февраль
         </span>
       </div>
-      <button class="statistic__button button text-sm bg-blue text-white px-7 py-1 rounded-md h-8">Выбрать период</button>
+      <button class="statistic__button button text-sm bg-myblue text-white px-7 py-1 rounded-md h-8">Выбрать период</button>
     </div>
     `;
   }

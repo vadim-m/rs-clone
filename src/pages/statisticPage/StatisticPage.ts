@@ -2,6 +2,7 @@ import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ChartItem } from 'chart.js/dist/types/index';
 import { StatisticHeader } from './StatisticHeader';
+const close = require('../../assets/icons/close.png');
 
 export class StatisticPage {
   parent: HTMLElement;
@@ -12,6 +13,8 @@ export class StatisticPage {
     this.createElement();
     this.createDoughnutChart([3000, 5000, 1000]);
     this.createBarChart();
+    this.countForecast();
+    this.clearInput();
   }
 
   createElement() {
@@ -22,19 +25,19 @@ export class StatisticPage {
       <div class="item-content item-link flex justify-between p-4 border-b border-t border-slate">
         <div class="item-title item-info flex flex-col items-center text-lg">
           <div class="item-header">Общий пробег:</div>
-          <span class="item-title"><span class="chart_probeg">91 158</span>  км.</span>
+          <span class="item-title"><span class="chart_distance">91 158</span>  км.</span>
         </div>
         <div class="item-title item-info  flex flex-col items-center text-lg">
           <div class="item-header">Пробег за период:</div>
-          <span class="item-title"><span id="chart_probeg_period">27 858</span> км.</span>
+          <span class="item-title"><span id="chart__distance_period">27 858</span> км.</span>
         </div>
       </div>
       <div class="carousel relative">
         <div class="carousel-inner relative w-full">
           <!--Slide 1-->
           <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
-          <div class="carousel-item absolute opacity-0">
-            <div class="block w-full bg-slate h-10 shadow-md"></div>
+          <div class="carousel-item absolute opacity-0 hidden">
+            <div class="block w-full bg-myslate h-10 shadow-md"></div>
             <div class="mb-6 flex justify-center"><canvas id="acquisitions" style="max-width: 250px; max-height: 250px"></canvas></div>
             <div class="statistic__legend mb-8">
             <div class="statistic__fuels item flex pr-10 border-b border-t border-r border-slate">
@@ -76,7 +79,7 @@ export class StatisticPage {
             </div>
             <div class="flex flex-col items-center">
               <div>Стоимость км.:</div>
-              <div><span class="text-xl" id="probeg__wallet">0.25</span><span class="probeg__currency"> ₽/км.</span></div>
+              <div><span class="text-xl" id="distance__wallet">0.25</span><span class="distance__currency"> ₽/км.</span></div>
             </div>
           </div>
         </div>
@@ -84,12 +87,12 @@ export class StatisticPage {
   </div>
           
           <label for="carousel-3" class="prev control-1 absolute hidden text-xl leading-tight text-center z-10 top-2 left-0 ml-12">Всего</label>
-          <label for="carousel-2" class="next control-1 absolute cursor-pointer hidden text-xl text-blue hover:text-white leading-tight text-center z-10 top-2 right-0 mr-12">Расход</label>
+          <label for="carousel-2" class="next control-1 absolute cursor-pointer hidden text-xl text-myblue hover:text-white leading-tight text-center z-10 top-2 right-0 mr-12">Расход</label>
           
           <!--Slide 2-->
           <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
           <div class="carousel-item absolute opacity-0 hidden pb-20">
-            <div class="block w-full bg-slate h-10 shadow-md"></div>
+            <div class="block w-full bg-myslate h-10 shadow-md"></div>
             <div class="mb-6 flex justify-center border-b pb-2 border-slate"><canvas id="bar-chart" style="min-width: 250px; min-height: 250px"></canvas></div>
             <div class="statistic__average-expense text-right border-b pb-2 border-slate">
               Средний расход: <span>8.1</span> л/100км.<br>
@@ -97,58 +100,49 @@ export class StatisticPage {
               Последний расход: <span>9.2</span> л/100км.<br>
             </div>
 
-            <div class="block-title no-margin-top calc">Калькулятор расхода топлива</div>
-            <div class="list no-hairlines-md calc">
+            <div class="statistic__calc calc text-2xl text-slate-400 mt-6 mb-2 ml-1">Калькулятор расхода топлива</div>
+              <ul class="calc__container">
+                <li class="calc__content mb-2">
+                    <div class="calc__title text-base">Средний расход, л/100км.</div>
+                    <div class="calc__wrap relative">
+                      <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black" placeholder="Средний расход" validate="" id="calc__input_average-expense">
+                      <span class="calc__clear-button absolute right-0 top-1 cursor-pointer">
+                        <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
+                      </span>
+                    </div>
+                </li>
+                <li class="calc__content mb-2">
+                    <div class="calc__title text-base">Расстояние, км.</div>
+                    <div class="calc__wrap relative">
+                      <input type="number" inputmode="decimal" step="0.001" class="calc__input text-lg text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black" placeholder="Средний расход" validate="" id="calc__input_distance">
+                      <span class="calc__clear-button absolute right-0 top-1 cursor-pointer">
+                        <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
+                      </span> </div>
+                </li>
+                <li class="calc__content">
+                    <div class="calc__title text-base">Цена, ₽/л</div>
+                    <div class="calc__wrap relative">
+                      <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black" placeholder="Цена" validate="" id="calc__input_fuel-price"> 
+                      <span class="calc__clear-button absolute right-0 top-1 cursor-pointer">
+                        <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
+                      </span> </div>
+                </li>
+              </ul>
+
+        <div class="block-title calc text-2xl text-slate-400 mt-4 ml-1 mb-2">Расчет</div>
           <ul>
-            <li class="item-content item-input item-input-with-value">
-              <div class="item-inner">
-                <div class="item-title item-label">Средний расход, л/100км.</div>
-                <div class="item-input-wrap">
-                  <input type="number" inputmode="decimal" step="0.01" class="calc_average_expense input-with-value" placeholder="Средний расход" validate="">
-                  <span class="input-clear-button"></span>
-                </div>
-              </div>
+            <li class="calc__content mb-2 border-b w-full">
+              <div class="item-header text-base">Прогноз расхода топлива</div> 
+              <span class="calc__result-value text-lg text-slate-900 font-bold" id="result-value">0.00</span><span> л</span>
             </li>
-            <li class="item-content item-input">
-              <div class="item-inner">
-                <div class="item-title item-label">Расстояние, км.</div>
-                <div class="item-input-wrap">
-                  <input type="number" inputmode="decimal" step="0.001" class="calc_probeg" placeholder="Расстояние" validate=""> <span class="input-clear-button"></span> </div>
-              </div>
-            </li>
-            <li class="item-content item-input item-input-with-value">
-              <div class="item-inner">
-                <div class="item-title item-label">Цена, ₽/л</div>
-                <div class="item-input-wrap">
-                  <input type="number" inputmode="decimal" step="0.01" class="calc_fuel_price input-with-value" placeholder="Цена" validate=""> <span class="input-clear-button"></span> </div>
-              </div>
+            <li class="border-b w-full">
+              <div class="item-header  text-base">Стоимость топлива</div>
+              <span class="calc__result-sum text-lg text-slate-900 font-bold" id="result-sum">0.00</span><span> ₽</span> 
             </li>
           </ul>
-        </div>
-
-        <div class="block-title calc">Расчет</div>
-        <div class="list calc">
-          <ul>
-            <li>
-              <div class="item-content">
-                <div class="item-inner">
-                  <div class="item-title"><div class="item-header">Прогноз расхода топлива</div> <span class="calc-result-value">0.00</span> <span>л</span></div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="item-content">
-                <div class="item-inner">
-                  <div class="item-title"><div class="item-header">Стоимость топлива</div> <span class="calc-result-sum">0.00</span> ₽ </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-
-        </div>
 
           </div>
-          <label for="carousel-1" class="prev control-2 absolute cursor-pointer hidden text-xl text-blue hover:text-white leading-tight text-center z-10 top-2 left-0 ml-12">Всего</label>
+          <label for="carousel-1" class="prev control-2 absolute cursor-pointer hidden text-xl text-myblue hover:text-white leading-tight text-center z-10 top-2 left-0 ml-12">Всего</label>
           <label for="carousel-3" class="next control-2 absolute hidden text-xl leading-tight text-center z-10 top-2 right-0 mr-12">Расход</label>           
 
 
@@ -246,6 +240,58 @@ export class StatisticPage {
           },
         ],
       },
+      plugins: [ChartDataLabels],
+    });
+  }
+
+  countForecast() {
+    const inputDistance = document.getElementById('calc__input_distance') as HTMLInputElement;
+    const inputAverage = document.getElementById('calc__input_average-expense') as HTMLInputElement;
+    const inputPrice = document.getElementById('calc__input_fuel-price') as HTMLInputElement;
+
+    let distance = 0;
+    let average = 0;
+    let price = 0;
+
+    inputDistance?.addEventListener('input', () => {
+      distance = +inputDistance.value;
+      this.changeFields(distance, average, price);
+    });
+
+    inputAverage?.addEventListener('input', () => {
+      average = +inputAverage.value;
+      this.changeFields(distance, average, price);
+    });
+
+    inputPrice?.addEventListener('input', () => {
+      price = +inputPrice.value;
+      this.changeFields(distance, average, price);
+    });
+  }
+
+  changeFields(distance: number, average: number, price: number) {
+    const forecastValue = document.getElementById('result-value') as HTMLInputElement;
+    const forecastSum = document.getElementById('result-sum') as HTMLInputElement;
+
+    if (distance > 0 && average > 0 && price > 0) {
+      forecastValue.innerText = String((distance / average).toFixed(2));
+      forecastSum.innerText = String(((distance / average) * price).toFixed(2));
+    } else {
+      forecastValue.innerText = '0.00';
+      forecastSum.innerText = '0.00';
+    }
+  }
+
+  clearInput() {
+    const clearbuttons = document.querySelector('.calc__container');
+
+    clearbuttons?.addEventListener('click', (e) => {
+      const currentButton = e.target as HTMLElement;
+      const parent = currentButton.closest('.calc__wrap');
+      const input = parent?.querySelector('.calc__input') as HTMLInputElement;
+      if (input) {
+        input.value = '';
+      }
     });
   }
 }

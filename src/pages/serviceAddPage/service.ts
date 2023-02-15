@@ -402,7 +402,7 @@ export class Service {
         </div>
           ${lineOfEvent('service', 'place', serviceLang().place, icon.place, 'text')}
           ${lineOfEvent('service', 'notes', serviceLang().comments, icon.comments, 'text')}
-        <button id="add--event-service__btn" class="add--event-service__btn text-md bg-blue text-white px-7 py-1 rounded-md" type="submit">
+        <button id="add--event-service__btn" class="add--event-service__btn text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
           ${serviceLang().addEvent}
         </button>
       </form>`;
