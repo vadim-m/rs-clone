@@ -1,4 +1,4 @@
-import { renderButton } from '../Components/button';
+import { renderButton } from './button';
 
 export class Popup {
   content: string;
