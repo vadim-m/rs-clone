@@ -54,8 +54,8 @@ export class Popup {
   }
 
   createHTMLContainerPopup() {
-    return `<div class="bg__popup--grey active z-10 fixed top-0 left-0 w-full h-screen bg-dark transition-all">
-                <div id="popup__container" class="popup__container active relative top-20 mx-auto bg-white p-5 border border-slate w-96 shadow-lg rounded-md transition-all">
+    return `<div class="bg__popup--grey active z-10 fixed top-0 left-0 w-full h-screen bg-mydark transition-all">
+                <div id="popup__container" class="popup__container active relative top-20 mx-auto bg-white p-5 border border-myslate w-96 shadow-lg rounded-md transition-all">
                     ${this.content}
                     <div class="popup__content_confirm flex justify-around">
                         ${renderButtonWhite(this.buttonLeftName, this.buttonLeftClassName, this.buttonLeftID, '32')}

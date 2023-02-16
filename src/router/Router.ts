@@ -6,6 +6,7 @@ import { Service } from '../pages/serviceAddPage/service';
 import { Reminder } from '../pages/reminderAddPage/reminder';
 import { Refuel } from '../pages/refuelAddPage/refuel';
 import { Other } from '../pages/otherAddPage/other';
+import { StatisticPage } from '../pages/statisticPage/StatisticPage';
 import { LoginPage } from '../pages/loginPage/login';
 import { RegistrationPage } from '../pages/registrationPage/registration';
 
@@ -14,6 +15,7 @@ export class Router {
   parent: HTMLElement;
   homePage: HomePage | null = null;
   servicePage: Service | null = null;
+  statisticPage: StatisticPage | null = null;
   eventsPage: EventsPage | null = null;
   plansPage: PlansPage | null = null;
   reminderPage: Reminder | null = null;
@@ -43,6 +45,8 @@ export class Router {
       this.eventsPage = new EventsPage();
     } else if (routes.Plans.match(path)) {
       this.plansPage = new PlansPage();
+    } else if (routes.Statistic.match(path)) {
+      this.statisticPage = new StatisticPage();
     } else if (routes.Refuel.match(path)) {
       this.refuelPage = new Refuel();
     } else if (routes.Service.match(path)) {

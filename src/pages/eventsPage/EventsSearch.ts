@@ -15,7 +15,7 @@ export class EventsSearch {
         </path>
       </svg>
     </span>
-    <input class="events__input placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate rounded-md py-2 px-4 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-xs" placeholder="Найти событие" type="text" name="search"/>
+    <input class="events__input placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-myslate rounded-md py-2 px-4 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 text-xs" placeholder="Найти событие" type="text" name="search"/>
   </label>
     `;
   }

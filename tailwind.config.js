@@ -3,11 +3,11 @@ module.exports = {
   content: ['./src/**/*.{html,js,ts}'],
   theme: {
     screens: {
-      sm: '440px',
-      md: '569px',
-      lg: '824px',
-      xl: '1080px',
-      '2xl': '1336px',
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
     },
     container: {
       padding: {
@@ -20,6 +20,7 @@ module.exports = {
     },
     minWidth: {
       min: '320px',
+      minXs: '250px',
     },
     extend: {
       fontFamily: {
@@ -46,9 +47,17 @@ module.exports = {
       },
       height: {
         80: '80vh',
+        120: '112vh',
       },
       width: {
         48: '48%',
+        350: '350px',
+      },
+      colors: {
+        myslate: '#f0f2f6',
+        slateBorders: 'rgb(203 213 225)',
+        myblue: '#394f89',
+        mydark: 'rgba(0, 0, 0, 0.5)',
       },
       colors: {
         transparent: 'transparent',
