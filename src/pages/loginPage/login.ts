@@ -1,11 +1,11 @@
 const loginImage = require('../../assets/images/login-image.jpg');
-import { Form } from '../../components/form/Form';
+import { SigninForm } from '../../components/form/SigninForm';
 import { login } from '../../helpers/api';
 import { IUser } from '../../types';
 
 export class LoginPage {
   parent: HTMLElement;
-  private form = new Form('login').element;
+  private form = new SigninForm('login').element;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -25,11 +25,11 @@ export class LoginPage {
       flex items-center justify-center">
 
         <div class="w-full h-100">
-          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
+          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Log in</h1>
 
           ${this.form}
 
-          <p class="mt-8">Need an account? <a href="#" class="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a></p>
+          <p class="mt-8">Need an account? <a href="/signup" class="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a></p>
 
         </div>
       </div>

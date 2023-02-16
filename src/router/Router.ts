@@ -4,6 +4,7 @@ import { EventsPage } from '../pages/eventsPage/EventsPage';
 import { PlansPage } from '../pages/plansPage/PlansPage';
 import { Service } from '../pages/serviceAddPage/service';
 import { LoginPage } from '../pages/loginPage/login';
+import { RegistrationPage } from '../pages/registrationPage/registration';
 
 export class Router {
   url: URL;
@@ -13,6 +14,7 @@ export class Router {
   eventsPage: EventsPage | null = null;
   plansPage: PlansPage | null = null;
   loginPage: LoginPage | null = null;
+  registrationPage: RegistrationPage | null = null;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -22,6 +24,7 @@ export class Router {
     this.plansPage;
     this.servicePage;
     this.loginPage;
+    this.registrationPage;
     this.initRouter();
   }
 
@@ -43,6 +46,8 @@ export class Router {
       // result = new PlansPage().element;
     } else if (routes.Login.match(path)) {
       this.loginPage = new LoginPage();
+    } else if (routes.Registration.match(path)) {
+      this.registrationPage = new RegistrationPage();
     }
   }
 
@@ -51,6 +56,8 @@ export class Router {
     this.eventsPage = null;
     this.plansPage = null;
     this.servicePage = null;
+    this.loginPage = null;
+    this.registrationPage = null;
     this.parent.innerHTML = '';
   }
 
