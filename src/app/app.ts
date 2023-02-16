@@ -6,6 +6,7 @@ export class App {
   footer: PanelNav | undefined;
   router: Router | undefined;
   header: Header | undefined;
+
   constructor() {
     this.footer;
     this.router;
