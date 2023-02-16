@@ -9,7 +9,8 @@ export const appConstants = {
     service: '/service',
     schedule: '/schedule',
     other: '/other',
-    login: '/login',
+    login: '/signin',
+    registration: '/signup',
   },
   search: {
     types: {
@@ -28,4 +29,5 @@ export const routes = {
   Schedule: new Route(appConstants.routes.schedule),
   Other: new Route(appConstants.routes.other),
   Login: new Route(appConstants.routes.login),
+  Registration: new Route(appConstants.routes.registration),
 };

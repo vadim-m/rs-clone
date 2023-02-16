@@ -1,11 +1,11 @@
-const loginImage = require('../../assets/images/login-image.jpg');
-import { SigninForm } from '../../components/form/SigninForm';
-import { login } from '../../helpers/api';
+const loginImage = require('../../assets/images/registration.webp');
+import { SignupForm } from '../../components/form/SignupForm';
+import { registration } from '../../helpers/api';
 import { IUser } from '../../types';
 
-export class LoginPage {
+export class RegistrationPage {
   parent: HTMLElement;
-  private form = new SigninForm('login').element;
+  private form = new SignupForm('signup').element;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -14,9 +14,10 @@ export class LoginPage {
   }
 
   createElement() {
-    const loginSection = document.createElement('section');
-    loginSection.className = 'flex flex-col md:flex-row h-screen items-center fixed top-0 left-0 right-0 bottom-0 z-50';
-    loginSection.innerHTML = `
+    const registrationSection = document.createElement('section');
+    registrationSection.className =
+      'flex flex-col md:flex-row h-screen items-center fixed top-0 left-0 right-0 bottom-0 z-50';
+    registrationSection.innerHTML = `
       <div class="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img src="${loginImage}" alt="login page background" class="w-full h-full object-cover">
       </div>
@@ -25,52 +26,53 @@ export class LoginPage {
       flex items-center justify-center">
 
         <div class="w-full h-100">
-          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Log in</h1>
+          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Sign in</h1>
 
           ${this.form}
 
-          <p class="mt-8">Need an account?
-            <a href="/signup" class="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a>
+          <p class="mt-8">Already have an account? 
+            <a href="/signin" class="text-blue-500 hover:text-blue-700 font-semibold">Log in</a>
           </p>
 
         </div>
       </div>
     `;
 
-    this.parent.append(loginSection);
+    this.parent.append(registrationSection);
   }
 
   addListeners() {
-    const form = document.querySelector('#login-form') as HTMLFormElement;
+    const form = document.querySelector('#signup-form') as HTMLFormElement;
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const submitBtn = document.querySelector('#login-btn') as HTMLFormElement;
-      const alertEl = document.querySelector('#login-alert') as HTMLDivElement;
+      const submitBtn = document.querySelector('#signup-btn') as HTMLFormElement;
+      const alertEl = document.querySelector('#signup-alert') as HTMLDivElement;
       submitBtn.disabled = true;
 
+      const name = form.user as HTMLInputElement;
       const email = form.email as HTMLInputElement;
       const pass = form.pass as HTMLInputElement;
 
       const userData: IUser = {
         email: email.value,
         password: pass.value,
+        fullName: name.value,
       };
-      const res = await login(userData);
+
+      const res = await registration(userData);
       const status = res.status;
       const data = await res.json();
       // log
       console.log(status, data);
 
-      if (status === 200) {
+      if (status === 201) {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-red-100');
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
-        alertEl.textContent = `Status: ${status}. Token received.`;
+        alertEl.textContent = `Status: ${status}. User created!`;
         submitBtn.disabled = false;
-        // ЭТО КОСТЫЛЬ с перезагрузкой страницы
-        // location.href = '/';
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
