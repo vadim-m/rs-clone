@@ -13,12 +13,12 @@ export class SigninForm {
 
         <div>
           <label class="block text-gray-700">Email Address</label>
-          <input type="text" name="email" placeholder="Enter Email Address" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autofocus autocomplete required>
+          <input type="email" name="email" placeholder="Enter Email Address" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autofocus autocomplete="on" required>
         </div>
 
         <div class="mt-4">
           <label class="block text-gray-700">Password</label>
-          <input type="password" name="pass" placeholder="Enter Password" minlength="6" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autocomplete required>
+          <input type="password" name="pass" placeholder="Enter Password" minlength="6" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autocomplete="on" required>
         </div>
 
         <div class="invisible mt-8 bg-red-100 rounded-lg py-5 px-6 mb-3 text-base text-red-700 w-full" id="${this.id}-alert">

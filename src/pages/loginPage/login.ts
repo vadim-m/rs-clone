@@ -64,16 +64,18 @@ export class LoginPage {
 
       if (status === 200) {
         alertEl.classList.remove('invisible');
-        alertEl.classList.remove('text-red-700');
+        alertEl.classList.remove('bg-red-100');
         alertEl.classList.add('bg-green-100');
+        alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Token received.`;
         submitBtn.disabled = false;
         // ЭТО КОСТЫЛЬ с перезагрузкой страницы
         // location.href = '/';
       } else {
         alertEl.classList.remove('invisible');
-        alertEl.classList.add('text-red-700');
         alertEl.classList.remove('bg-green-100');
+        alertEl.classList.add('bg-red-100');
+        alertEl.classList.add('text-red-700');
         alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
         submitBtn.disabled = false;
       }

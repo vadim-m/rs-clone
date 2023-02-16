@@ -1,7 +1,7 @@
 const loginImage = require('../../assets/images/registration.webp');
 import { SignupForm } from '../../components/form/SignupForm';
-// import { login } from '../../helpers/api';
-// import { IUser } from '../../types';
+import { registration } from '../../helpers/api';
+import { IUser } from '../../types';
 
 export class RegistrationPage {
   parent: HTMLElement;
@@ -45,35 +45,42 @@ export class RegistrationPage {
     const form = document.querySelector('#signup-form') as HTMLFormElement;
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const submitBtn = document.querySelector('#signup-btn') as HTMLFormElement;
+      const alertEl = document.querySelector('#signup-alert') as HTMLDivElement;
+      submitBtn.disabled = true;
+
       const name = form.user as HTMLInputElement;
       const email = form.email as HTMLInputElement;
       const pass = form.pass as HTMLInputElement;
-      console.log(email.value, pass.value, name.value);
-      const submitBtn = document.querySelector('#signup-btn') as HTMLFormElement;
-      const alertEl = document.querySelector('#signup-alert') as HTMLDivElement;
-      console.log(alertEl);
-      alertEl.textContent = 'Alert';
-      alertEl.classList.remove('invisible');
-      submitBtn.disabled = true;
-      // СЮДА МОЖНО прикрутить переход на main
 
-      // НЕ ТРОГАТЬ. НЕВАЖНО
-      // const userData: IUser = {
-      //   email: email.value,
-      //   password: pass.value,
-      // };
-      // const res = await login(userData);
-      // const status = await res.status;
-      // const data = await res.json();
-      // console.log(status, data);
+      const userData: IUser = {
+        email: email.value,
+        password: pass.value,
+        fullName: name.value,
+      };
 
-      // if (status === 200) {
-      //   alert(`Status: ${status}.Верный логин и пароль. Токен получен.`);
-      //   // ЭТО КОСТЫЛЬ с перезагрузкой страницы
-      //   location.href = '/';
-      // } else {
-      //   alert(`Status: ${status}.\nError: ${data.message}`);
-      // }
+      const res = await registration(userData);
+      const status = res.status;
+      const data = await res.json();
+      // log
+      console.log(status, data);
+
+      if (status === 201) {
+        alertEl.classList.remove('invisible');
+        alertEl.classList.remove('bg-red-100');
+        alertEl.classList.add('bg-green-100');
+        alertEl.classList.remove('text-red-700');
+        alertEl.textContent = `Status: ${status}. User created!`;
+        submitBtn.disabled = false;
+      } else {
+        alertEl.classList.remove('invisible');
+        alertEl.classList.remove('bg-green-100');
+        alertEl.classList.add('bg-red-100');
+        alertEl.classList.add('text-red-700');
+        alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
+        submitBtn.disabled = false;
+      }
     });
   }
 }
