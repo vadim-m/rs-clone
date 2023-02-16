@@ -51,13 +51,15 @@ export class LoginPage {
       };
       const res = await login(userData);
       const status = await res.status;
-      const token = await res.json();
-      console.log(status, token);
+      const data = await res.json();
+      console.log(status, data);
 
       if (status === 200) {
         alert(`Status: ${status}.Верный логин и пароль. Токен получен.`);
+        // ЭТО КОСТЫЛЬ с перезагрузкой страницы
+        location.href = '/';
       } else {
-        alert(`Status: ${status}.\nError: ${token.message}`);
+        alert(`Status: ${status}.\nError: ${data.message}`);
       }
     });
   }
