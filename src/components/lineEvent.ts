@@ -14,6 +14,7 @@ export function lineOfEvent(event: string, paramsObj: IParamsLineOfEvent) {
                        class="${event}__input ${event}__input_${paramsObj.idAndClass}
                       w-full m-0 border-b-2 border-slateBorders focus:border-green-400 text-gray-600 placeholder-gray-400 outline-none h-6 pl-2 ml-6 align-baseline"
                        type="${paramsObj.typeInput}" 
+                       ${paramsObj.typeInput === 'number' ? 'step="0.01"' : ''} 
                        value="${paramsObj.value ? paramsObj.value : ''}"
                        ${paramsObj.required === true ? 'required' : ''}/>
                 ${

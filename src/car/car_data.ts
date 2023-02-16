@@ -8,22 +8,20 @@ export const carData: ICarData = {
     mileage: 60000,
     sizeTank: 50,
     fuelInTank: 20,
+    startDate: '2022-03-04T18:00',
     cost: 45000,
   },
   indicators: {
-    curMileage: 10000,
-    curSpendMoney: 4500,
-    curSpendFuel: 420,
-    previousRefuel: {
-      mileage: 9650,
-      spendMoney: 100,
-      spendFuel: 40,
-    },
-    lastFullTank: {
-      mileage: 9000,
-      spendFuel: 300,
-    },
+    curMileage: 98000,
+    spendMoneyTotal: 4500,
+    spendFuelTotal: 420,
+    curConsumptionFuel: 8,
+    totalConsumptionFuel: 8.5,
+    myMileageTotal: 29000,
+    averageMileageDay: 56,
+    costOneKM: 0.25,
   },
+  eventTime: undefined,
   event: {
     refuel: [],
     service: [],
@@ -31,3 +29,26 @@ export const carData: ICarData = {
     reminders: [],
   },
 };
+
+// новый интерфейс
+// interface IEventTime {
+//   lastEvent: {
+//     date: string;
+//     mileage: number;
+//     spendMoney: number;
+//   };
+//   lastRefuel: {
+//     date: string;
+//     mileage: number;
+//     spendMoney: number;
+//     spendFuel: number;
+//   };
+//   firstEvent: {
+//     date: string;
+//     mileage: number;
+//   };
+//   firstRefuel: {
+//     date: string;
+//     mileage: number;
+//   };
+// }

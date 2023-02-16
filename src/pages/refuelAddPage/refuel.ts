@@ -1,4 +1,5 @@
-import { IRefuel } from '../../types';
+import { ICarData, IRefuel } from '../../types';
+import { lastEvent } from '../../utilits/mathSpend';
 // import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 // import { icon } from '../../components/iconObj';
@@ -37,7 +38,7 @@ export class Refuel {
     this.renderPage();
     this.initDOM();
     this.changeTotalPriceDetals();
-    // this.createrefuelEvent();
+    this.createrefuelEvent();
   }
 
   initDOM() {
@@ -86,29 +87,74 @@ export class Refuel {
     });
   }
 
+  spendFuelTotal(): number {
+    if (carData.eventTime) {
+      return (carData.indicators.spendFuelTotal =
+        carData.eventTime.lastRefuel.spendFuel +
+        +(document.querySelector(`.${this.eventPage}__input_amount-fuel`) as HTMLInputElement).value);
+    }
+    return 0;
+  }
+
+  culcConsumption(carData: ICarData) {
+    // const carData = JSON.parse(localStorage.getItem('car')!); // нужно еще проверку на наличии и что делать если нету(
+    if (carData.event.refuel.length > 0) {
+      const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
+      // const firstFullTankEvent = fullTankCheckArr.slice[0] ? fullTankCheckArr.slice(-2)[0] : null;
+      const lastFullTankEvent = fullTankCheckArr.slice(-2)[0] ? fullTankCheckArr.slice(-2)[0] : null;
+      const currentFullTankEvent = fullTankCheckArr.slice(-2)[1] ? fullTankCheckArr.slice(-2)[1] : null;
+      if (fullTankCheckArr.length > 1) {
+        carData.indicators.curConsumptionFuel =
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          (currentFullTankEvent!.totalSpendFuel - lastFullTankEvent!.totalSpendFuel) /
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          ((currentFullTankEvent!.mileage - lastFullTankEvent!.mileage) * 100);
+      } else {
+        carData.indicators.curConsumptionFuel =
+          carData.indicators.spendFuelTotal / ((carData.indicators.curMileage - carData.info.mileage) * 100);
+      }
+      carData.indicators.totalConsumptionFuel =
+        carData.indicators.curConsumptionFuel / ((carData.indicators.curMileage - carData.info.mileage) * 100);
+    } else {
+      carData.indicators.curConsumptionFuel = '--.--';
+      carData.indicators.totalConsumptionFuel = '--.--';
+    }
+    console.log(carData.indicators.curConsumptionFuel);
+    console.log(carData.indicators.totalConsumptionFuel);
+  }
+
   createrefuelEvent() {
     const addrefuelBtn = document.querySelector('#add--event-refuel__btn') as HTMLButtonElement;
-    console.log(addrefuelBtn);
+
     addrefuelBtn.addEventListener('click', (event) => {
       this.initDOM();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
+
+      const newCarData: ICarData =
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        localStorage.getItem('car') !== null ? JSON.parse(localStorage.getItem('car')!) : carData;
+      console.log(newCarData);
+      this.culcConsumption(newCarData);
+      alert('1');
       this.refuelEvent = {
         date: Date.now().toLocaleString(),
         mileage: +this.mileageDOM.value,
         priceFuel: +this.priceFuelDOM.value,
         amountFuel: +this.amountFuelDOM.value,
         amountPrice: +this.amountPriceDOM.value,
+        totalSpendFuel: this.spendFuelTotal(),
         isFull: this.tankFullDOM.checked,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
-      newCarData.event.refuels.push(this.refuelEvent);
-      event.preventDefault();
+      console.log(newCarData);
+      alert('2');
+
+      newCarData.event.refuel.push(this.refuelEvent);
+      lastEvent(this.eventPage);
       localStorage.setItem('car', JSON.stringify(newCarData));
-      // formDervice.submit();
-      console.log(carData.event.refuel);
+      event.preventDefault();
+      alert('3');
     });
   }
 

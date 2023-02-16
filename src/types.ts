@@ -1,6 +1,7 @@
 interface ICarData {
   info: IInfo;
   indicators: IIndicators;
+  eventTime: IEventTime | undefined; // новое поле
   event: {
     refuel: IRefuel[];
     service: IService[];
@@ -15,32 +16,54 @@ interface IInfo {
   mileage: number;
   sizeTank: number;
   fuelInTank: number;
+  startDate: string; // новое поле
   cost: number;
 }
-interface IIndicators {
-  curMileage: number;
-  curSpendMoney: number;
-  curSpendFuel: number;
-  previousRefuel: {
-    mileage: number;
-    spendMoney: number;
-    spendFuel: number;
-  };
-  lastFullTank: {
-    mileage: number;
-    spendFuel: number;
-  };
-}
+
 interface IRefuel {
   date: string;
   mileage: number;
   priceFuel: number;
   amountFuel: number;
   amountPrice: number;
+  totalSpendFuel: number; // новое поле
   isFull: boolean;
   place: string;
   notes: string;
   id: string;
+}
+
+interface IIndicators {
+  curMileage: number;
+  spendMoneyTotal: number; // изменил название
+  spendFuelTotal: number; // изменил название
+  curConsumptionFuel: number | string;
+  totalConsumptionFuel: number | string; // новое поле
+  myMileageTotal: number; // новое поле
+  averageMileageDay: number; // новое поле
+  costOneKM: number; // новое поле
+}
+// новый интерфейс
+interface IEventTime {
+  lastEvent: {
+    date: string;
+    mileage: number;
+    spendMoney: number;
+  };
+  lastRefuel: {
+    date: string;
+    mileage: number;
+    spendMoney: number;
+    spendFuel: number;
+  };
+  firstEvent: {
+    date: string;
+    mileage: number;
+  };
+  firstRefuel: {
+    date: string;
+    mileage: number;
+  };
 }
 
 interface IService {
