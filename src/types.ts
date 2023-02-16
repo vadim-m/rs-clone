@@ -139,6 +139,12 @@ enum moneyEnum {
   EU = 'EU',
 }
 
+interface IUser {
+  email: string;
+  password: string;
+  fullName?: string;
+}
+
 export {
   ICarData,
   IRefuel,
@@ -151,4 +157,5 @@ export {
   Imoney,
   moneyEnum,
   IParamsLineOfEvent,
+  IUser,
 };
