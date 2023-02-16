@@ -5,7 +5,7 @@ import { IUser } from '../../types';
 
 export class LoginPage {
   parent: HTMLElement;
-  private form = new Form().element;
+  private form = new Form('login').element;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;

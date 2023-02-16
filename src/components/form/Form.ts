@@ -1,13 +1,15 @@
 export class Form {
   public element: string;
+  private id: string;
 
-  constructor() {
+  constructor(id: string) {
+    this.id = id;
     this.element = this.createElement();
   }
 
   private createElement(): string {
     return `
-      <form class="mt-6" id="login-form" method="POST">
+      <form class="mt-6" id="${this.id}-form" method="POST">
         <div>
           <label class="block text-gray-700">Email Address</label>
           <input type="text" name="email" placeholder="Enter Email Address" class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none" autofocus autocomplete>
