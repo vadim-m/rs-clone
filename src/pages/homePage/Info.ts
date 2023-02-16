@@ -3,7 +3,6 @@ const expenses = require('../../assets/icons/expenses.png');
 const finance = require('../../assets/icons/finance.png');
 const coins = require('../../assets/icons/coins.png');
 const gasStation = require('../../assets/icons/gas-station.png');
-const gear = require('../../assets/icons/gear.png');
 
 export class Info {
   public element: DocumentFragment;
@@ -17,7 +16,6 @@ export class Info {
     fragment.innerHTML = `       
         <div class="info__header pt-3 pb-3 flex justify-between">
           <h1 class="info__title font-bold text-lg">Мой автомобиль</h1>
-          <img src="${gear}" class="info__gear w-7 h-7 mr-4" alt="gear-icon">
         </div>
         <div class="info__car car bg-slate rounded-lg shadow-md mb-2 p-4 grid grid-areas-layout gap-x-2">
           <h3 class="car__name font-bold text-sm text-right grid-in-name">Chevrolet Aveo</h3>

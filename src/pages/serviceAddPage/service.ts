@@ -1,13 +1,13 @@
 import { IService, IDetals } from '../../types';
 import { carData } from '../../car/car_data';
-import { lineOfEvent } from '../../components/lineEvent';
-import { icon } from '../../components/iconObj';
+import { lineOfEvent } from '../../Components/lineEvent';
+import { icon } from '../../Components/iconObj';
 import { serviceLang } from '../../lang/serviceLang';
-import { getMoney } from '../../components/units';
+import { getMoney } from '../../Components/units';
 import { buttonLang } from '../../lang/buttonLang';
-import { Popup } from '../../components/popup';
-import { searchLi } from '../../components/searchElement';
-import { currentLiArr } from '../../components/searchElement';
+import { Popup } from '../../Components/popup';
+import { searchLi } from '../../Components/searchElement';
+import { currentLiArr } from '../../Components/searchElement';
 
 export class Service {
   serviceEvent: IService | undefined;
