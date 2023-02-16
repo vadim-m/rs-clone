@@ -48,8 +48,12 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.7",
     "@mui/styled-engine-sc": "^5.11.0",
-    "styled-components": "^5.3.6",
+    "chart.js": "^4.2.1",
+    "chart.js-plugin-labels-dv": "^3.3.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "chartjs-plugin-doughnutlabel": "^2.0.3",
     "postcss-loader": "^7.0.2",
-    "route-parser": "^0.0.5"
+    "route-parser": "^0.0.5",
+    "styled-components": "^5.3.6"
   }
 }
