@@ -10,7 +10,7 @@ export class RegistrationPage {
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.createElement();
-    // this.addListeners();
+    this.addListeners();
   }
 
   createElement() {
@@ -30,7 +30,9 @@ export class RegistrationPage {
 
           ${this.form}
 
-          <p class="mt-8">Already have an account? <a href="/signin" class="text-blue-500 hover:text-blue-700 font-semibold">Log in</a></p>
+          <p class="mt-8">Already have an account? 
+            <a href="/signin" class="text-blue-500 hover:text-blue-700 font-semibold">Log in</a>
+          </p>
 
         </div>
       </div>
@@ -39,29 +41,39 @@ export class RegistrationPage {
     this.parent.append(registrationSection);
   }
 
-  // addListeners() {
-  //   const form = document.querySelector('#registration-form') as HTMLFormElement;
-  //   form?.addEventListener('submit', async (e) => {
-  //     e.preventDefault();
-  //     const email = form.email as HTMLInputElement;
-  //     const pass = form.pass as HTMLInputElement;
-  //     console.log(email.value, pass.value);
-  //     const userData: IUser = {
-  //       email: email.value,
-  //       password: pass.value,
-  //     };
-  //     const res = await login(userData);
-  //     const status = await res.status;
-  //     const data = await res.json();
-  //     console.log(status, data);
+  addListeners() {
+    const form = document.querySelector('#signup-form') as HTMLFormElement;
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = form.user as HTMLInputElement;
+      const email = form.email as HTMLInputElement;
+      const pass = form.pass as HTMLInputElement;
+      console.log(email.value, pass.value, name.value);
+      const submitBtn = document.querySelector('#signup-btn') as HTMLFormElement;
+      const alertEl = document.querySelector('#signup-alert') as HTMLDivElement;
+      console.log(alertEl);
+      alertEl.textContent = 'Alert';
+      alertEl.classList.remove('invisible');
+      submitBtn.disabled = true;
+      // СЮДА МОЖНО прикрутить переход на main
 
-  //     if (status === 200) {
-  //       alert(`Status: ${status}.Верный логин и пароль. Токен получен.`);
-  //       // ЭТО КОСТЫЛЬ с перезагрузкой страницы
-  //       location.href = '/';
-  //     } else {
-  //       alert(`Status: ${status}.\nError: ${data.message}`);
-  //     }
-  //   });
-  // }
+      // НЕ ТРОГАТЬ. НЕВАЖНО
+      // const userData: IUser = {
+      //   email: email.value,
+      //   password: pass.value,
+      // };
+      // const res = await login(userData);
+      // const status = await res.status;
+      // const data = await res.json();
+      // console.log(status, data);
+
+      // if (status === 200) {
+      //   alert(`Status: ${status}.Верный логин и пароль. Токен получен.`);
+      //   // ЭТО КОСТЫЛЬ с перезагрузкой страницы
+      //   location.href = '/';
+      // } else {
+      //   alert(`Status: ${status}.\nError: ${data.message}`);
+      // }
+    });
+  }
 }

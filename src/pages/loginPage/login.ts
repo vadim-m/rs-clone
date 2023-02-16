@@ -29,7 +29,9 @@ export class LoginPage {
 
           ${this.form}
 
-          <p class="mt-8">Need an account? <a href="/signup" class="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a></p>
+          <p class="mt-8">Need an account?
+            <a href="/signup" class="text-blue-500 hover:text-blue-700 font-semibold">Create an account</a>
+          </p>
 
         </div>
       </div>
@@ -42,24 +44,38 @@ export class LoginPage {
     const form = document.querySelector('#login-form') as HTMLFormElement;
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const submitBtn = document.querySelector('#login-btn') as HTMLFormElement;
+      const alertEl = document.querySelector('#login-alert') as HTMLDivElement;
+      submitBtn.disabled = true;
+
       const email = form.email as HTMLInputElement;
       const pass = form.pass as HTMLInputElement;
-      console.log(email.value, pass.value);
+
       const userData: IUser = {
         email: email.value,
         password: pass.value,
       };
       const res = await login(userData);
-      const status = await res.status;
+      const status = res.status;
       const data = await res.json();
+      // log
       console.log(status, data);
 
       if (status === 200) {
-        alert(`Status: ${status}.Верный логин и пароль. Токен получен.`);
+        alertEl.classList.remove('invisible');
+        alertEl.classList.remove('text-red-700');
+        alertEl.classList.add('bg-green-100');
+        alertEl.textContent = `Status: ${status}. Token received.`;
+        submitBtn.disabled = false;
         // ЭТО КОСТЫЛЬ с перезагрузкой страницы
-        location.href = '/';
+        // location.href = '/';
       } else {
-        alert(`Status: ${status}.\nError: ${data.message}`);
+        alertEl.classList.remove('invisible');
+        alertEl.classList.add('text-red-700');
+        alertEl.classList.remove('bg-green-100');
+        alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
+        submitBtn.disabled = false;
       }
     });
   }
