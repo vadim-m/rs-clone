@@ -9,7 +9,7 @@ const name: IParamsLineOfEvent = {
   textTitle: eventLang().name,
   icon: icon.pen,
   typeInput: 'search',
-  size: 'full',
+  size: '2',
   required: true,
   option: createHTMLDatalistForName(),
 };
@@ -19,7 +19,7 @@ const total: IParamsLineOfEvent = {
   textTitle: eventLang().cost,
   icon: icon.wallet,
   typeInput: 'number',
-  size: 'full',
+  size: '2',
   required: false,
   units: getMoney('BY'),
 };
@@ -29,7 +29,7 @@ const mileage: IParamsLineOfEvent = {
   textTitle: eventLang().mileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: 'full',
+  size: '2',
   required: true,
   units: getUnits().distance,
 };
@@ -39,7 +39,7 @@ const date: IParamsLineOfEvent = {
   textTitle: eventLang().date,
   icon: icon.date,
   typeInput: 'datetime-local',
-  size: 'full',
+  size: '2',
   required: false,
   value: getDateTime(),
 };
@@ -49,7 +49,7 @@ const place: IParamsLineOfEvent = {
   textTitle: eventLang().place,
   icon: icon.place,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: false,
 };
 const notes: IParamsLineOfEvent = {
@@ -57,7 +57,7 @@ const notes: IParamsLineOfEvent = {
   textTitle: eventLang().comments,
   icon: icon.comments,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: false,
 };
 

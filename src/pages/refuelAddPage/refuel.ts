@@ -115,81 +115,13 @@ export class Refuel {
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-    <form id="main-form refuel" class="main-form refuel flex flex-wrap gap-8 justify-between h-[32rem] w-full" action="/" method="put">
+    <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-8 h-[32rem] w-full" action="/" method="put">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
             })
             .join('')}
-          ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn', 'add--event-refuel__btn', 100)}
+          ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn col-span-2', 'add--event-refuel__btn', 'full')}
       </form>`;
   }
 }
-
-/*   <div class="fuel_container flex justify-between">
-      ${lineOfEvent(
-        'refuel',
-        'type-fuel',
-        eventLang().typeFuel,
-        icon.gasPump,
-        'search',
-        '48',
-        'yes',
-        createHTMLDatalistFuel()
-      )}
-      ${lineOfEvent(
-        'refuel',
-        'price',
-        eventLang().price,
-        icon.coins,
-        'text',
-        '48',
-        'requared',
-        '',
-        getMoney('BY', 'litr')
-      )}
-    </div>
-        <div id="refuel__previos_container" class="refuel__previos_container flex justify-between">
-                ${lineOfEvent('refuel', 'amount-fuel', eventLang().quant, icon.quantFuel, 'text', '48', 'requared')}
-                ${lineOfEvent(
-                  'refuel',
-                  'amount-price',
-                  eventLang().amount,
-                  icon.wallet,
-                  'number',
-                  '48',
-                  'requared',
-                  '',
-                  '',
-                  getMoney('BY')
-                )}
-        </div>
-        <div id="refuel__mileage_container" class="refuel__mileage_container flex justify-between">
-          ${lineOfEvent(
-            'refuel',
-            'mileage',
-            eventLang().mileage,
-            icon.mileage,
-            'number',
-            '48',
-            '',
-            '',
-            getUnits().distance
-          )}          
-          ${lineOfEvent('refuel', 'tank-full', eventLang().tankFull, '', 'checkbox', '48', '', getUnits().distance)}
-        </div>  
-                ${lineOfEvent(
-                  'refuel',
-                  'date',
-                  eventLang().date,
-                  icon.date,
-                  'datetime-local',
-                  'full',
-                  '',
-                  '',
-                  '',
-                  getDateTime()
-                )}
-          ${lineOfEvent('refuel', 'place', eventLang().place, icon.place, 'text', 'full')}
-          ${lineOfEvent('refuel', 'notes', eventLang().comments, icon.comments, 'text', 'full')}
-*/

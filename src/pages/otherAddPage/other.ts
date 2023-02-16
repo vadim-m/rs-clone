@@ -74,13 +74,14 @@ export class Other {
   createHTMLOtherDOM() {
     return `
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
-    <form id="main-form other" class="main-form other flex flex-col gap-8 justify-between h-[35rem] w-full" action="/" method="put">
-          ${paramsCollectionOther
-            .map((obj) => {
-              return lineOfEvent(this.eventPage, obj);
-            })
-            .join('')}
-          ${renderButtonBlue(eventLang().addEvent, 'add--event-other__btn', 'add--event-other__btn', 100)}
+    <form id="main-form other" class="main-form other grid grid-cols-2 gap-8 h-[35rem]" action="/" method="put">
+    ${paramsCollectionOther
+      .map((obj) => {
+        return lineOfEvent(this.eventPage, obj);
+      })
+      .join('')}
+          ${renderButtonBlue(eventLang().addEvent, 'add--event-other__btn col-span-2', 'add--event-other__btn', 'full')}
+
       </form>`;
   }
 }

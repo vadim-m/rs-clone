@@ -98,14 +98,19 @@ export class Reminder {
   createHTMLreminderDOM() {
     return `
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
-    <form id="main-form reminder" class="main-form reminder flex flex-col gap-8 justify-between h-80" action="/" method="put">
+    <form id="main-form reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80" action="/" method="put">
 
                 ${paramsCollectionReminder
                   .map((obj) => {
                     return lineOfEvent(this.eventPage, obj);
                   })
                   .join('')}
-          ${renderButtonBlue(eventLang().addReminder, 'add--event-reminder__btn', 'add--event-reminder__btn', 100)}
+          ${renderButtonBlue(
+            eventLang().addReminder,
+            'add--event-reminder__btn col-span-2',
+            'add--event-reminder__btn',
+            'full'
+          )}
       </form>`;
   }
 }

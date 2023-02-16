@@ -10,7 +10,7 @@ import { searchLi } from '../../utilits/searchElement';
 import { currentLiArr } from '../../utilits/searchElement';
 import { renderButtonBlue } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { paramsCollectionService } from './datalist';
+import { paramsCollectionService } from './paramsForLineEvent';
 // import { getDateTime } from '../../components/getDateTimeFunc';
 // import { createHTMLDatalistTypeService } from './datalist';
 
@@ -351,15 +351,15 @@ export class Service {
   }
   createHTMLContainerDetalDOM() {
     return `
-          <div class="flex flex-col">
+          <div class="col-span-2">
             <div
               id="service__detals-add_container"
-              class="service__detals-add_container flex items-center justify-between mb-4 ">
+              class="service__detals-add_container flex items-center justify-between">
               ${icon.wrench}
               <span id="detals-add__title" class="detals-add__title mb-0">
                 Детали
               </span>
-              ${renderButtonBlue(eventLang().add, 'detals-add__btn', 'detals-add__btn', 100)}
+              ${renderButtonBlue(eventLang().add, 'detals-add__btn', 'detals-add__btn', '1/2')}
             </div>
             <ul id="detals__list" class="detals__list"></ul>
           </div>`;
@@ -368,13 +368,18 @@ export class Service {
   createHTMLServiceDOM() {
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
-    <form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-[34rem]" action="/" method="put">
+    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]" action="/" method="put">
             ${paramsCollectionService
               .map((obj) => {
                 return lineOfEvent(this.eventPage, obj);
               })
               .join('')}
-          ${renderButtonBlue(eventLang().addEvent, 'add--event-service__btn', 'add--event-service__btn', 100)}
+          ${renderButtonBlue(
+            eventLang().addEvent,
+            'add--event-service__btn col-span-2',
+            'add--event-service__btn',
+            'full'
+          )}
       </form>`;
   }
 }

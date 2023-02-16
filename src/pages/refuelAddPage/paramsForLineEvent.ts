@@ -9,7 +9,7 @@ const typeFuel: IParamsLineOfEvent = {
   textTitle: eventLang().typeFuel,
   icon: icon.gasPump,
   typeInput: 'search',
-  size: '1/2',
+  size: '1',
   required: true,
   option: createHTMLDatalistForFuel(),
 };
@@ -19,7 +19,7 @@ const price: IParamsLineOfEvent = {
   textTitle: eventLang().price,
   icon: icon.coins,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: true,
   units: getMoney('BY', 'litr'),
 };
@@ -29,7 +29,7 @@ const amountFuel: IParamsLineOfEvent = {
   textTitle: eventLang().quant,
   icon: icon.quantFuel,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: true,
   units: getUnits().volume,
 };
@@ -38,7 +38,7 @@ const amountPrice: IParamsLineOfEvent = {
   textTitle: eventLang().amount,
   icon: icon.wallet,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: true,
   units: getMoney('BY'),
 };
@@ -48,7 +48,7 @@ const mileage: IParamsLineOfEvent = {
   textTitle: eventLang().mileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '3/4',
+  size: '1',
   required: true,
   units: getUnits().distance,
 };
@@ -57,7 +57,7 @@ const tankFull: IParamsLineOfEvent = {
   textTitle: eventLang().tankFull,
   icon: icon.gasPump,
   typeInput: 'checkbox',
-  size: '1/2',
+  size: '1',
   required: true,
 };
 
@@ -66,7 +66,7 @@ const date: IParamsLineOfEvent = {
   textTitle: eventLang().date,
   icon: icon.date,
   typeInput: 'datetime-local',
-  size: 'full',
+  size: '2',
   required: false,
   value: getDateTime(),
 };
@@ -76,7 +76,7 @@ const place: IParamsLineOfEvent = {
   textTitle: eventLang().place,
   icon: icon.place,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: false,
 };
 const notes: IParamsLineOfEvent = {
@@ -84,7 +84,7 @@ const notes: IParamsLineOfEvent = {
   textTitle: eventLang().comments,
   icon: icon.comments,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: false,
 };
 

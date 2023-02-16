@@ -9,7 +9,7 @@ const type: IParamsLineOfEvent = {
   textTitle: eventLang().type,
   icon: icon.gear,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: true,
 };
 
@@ -18,7 +18,7 @@ const name: IParamsLineOfEvent = {
   textTitle: eventLang().name,
   icon: icon.pen,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: false,
 };
 
@@ -27,7 +27,7 @@ const previosDate: IParamsLineOfEvent = {
   textTitle: eventLang().previosDate,
   icon: icon.date,
   typeInput: 'datetime-local',
-  size: '1/2',
+  size: '1',
   required: false,
   value: getDateTime(),
 };
@@ -36,7 +36,7 @@ const previosMileage: IParamsLineOfEvent = {
   textTitle: eventLang().previosMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: false,
   units: getUnits().distance,
 };
@@ -45,7 +45,7 @@ const onMileage: IParamsLineOfEvent = {
   textTitle: eventLang().onMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: false,
   units: getUnits().distance,
 };
@@ -54,7 +54,7 @@ const afterMileage: IParamsLineOfEvent = {
   textTitle: eventLang().afterMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: false,
   units: getUnits().distance,
 };
@@ -64,7 +64,7 @@ const onDate: IParamsLineOfEvent = {
   textTitle: eventLang().onDate,
   icon: icon.date,
   typeInput: 'date',
-  size: '1/2',
+  size: '1',
   required: false,
 };
 const afterDate: IParamsLineOfEvent = {
@@ -72,7 +72,7 @@ const afterDate: IParamsLineOfEvent = {
   textTitle: eventLang().afterDate,
   icon: icon.date,
   typeInput: 'date',
-  size: '1/2',
+  size: '1',
   required: false,
 };
 
@@ -81,7 +81,7 @@ const repeatTime: IParamsLineOfEvent = {
   textTitle: eventLang().repeatTime,
   icon: icon.repeat,
   typeInput: 'date',
-  size: '1/2',
+  size: '1',
   required: false,
 };
 
@@ -90,7 +90,7 @@ const repeatMileage: IParamsLineOfEvent = {
   textTitle: eventLang().repeatMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1/2',
+  size: '1',
   required: false,
   units: getUnits().distance,
 };
@@ -100,7 +100,7 @@ const notes: IParamsLineOfEvent = {
   textTitle: eventLang().comments,
   icon: icon.comments,
   typeInput: 'text',
-  size: 'full',
+  size: '2',
   required: false,
 };
 
