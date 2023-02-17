@@ -4,6 +4,7 @@ import { Events } from './Events';
 import { INewCar } from '../../types';
 import { AddNewCar } from './AddNewCar';
 import { addCar } from '../../helpers/api';
+import { fixLength } from '../../helpers/api';
 
 export class HomePage {
   private info = new Info().element;
@@ -71,6 +72,8 @@ export class HomePage {
       const engine = form.engine as HTMLInputElement;
       const sizeEngine = form.sizeEngine as HTMLInputElement;
       const powerEngine = form.powerEngine as HTMLInputElement;
+
+      year.addEventListener('input', fixLength);
 
       const newCarData: INewCar = {
         brand: brand.value,
