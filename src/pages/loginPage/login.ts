@@ -59,6 +59,7 @@ export class LoginPage {
       const res = await login(userData);
       const status = res.status;
       const data = await res.json();
+      localStorage.setItem('userID', data.id);
       // log
       console.log(status, data);
 
