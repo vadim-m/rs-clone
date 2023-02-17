@@ -13,14 +13,14 @@ export class CarForm {
       <div class="$flex flex-col justify-center overflow-auto">
 
         <h1 class="text-2xl font-bold text-center mb-2">${this.carAction} машину</h1>
-        <form class="px-8 pt-6 pb-8 flex flex-col" id="add-form">
+        <form class="px-8 pt-6 pb-8 flex flex-col" id="car-form">
 
         <div class="-mx-3 md:flex mb-6">
           <div class="add-car-form__required md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Марка
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" name="brand" type="text" placeholder="Chevrolet" required>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" name="brand" type="text" placeholder="Chevrolet" required autofocus>
             <p class="text-red-500 text-xs italic hidden">Пожалуйста, заполните поле</p>
           </div>
 
@@ -114,7 +114,7 @@ export class CarForm {
           </div>
 
           <div class="flex justify-center">
-            <button id="add-car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
+            <button id="car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
               ${this.carAction} машину
             </button>  
           </div>

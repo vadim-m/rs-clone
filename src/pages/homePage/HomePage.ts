@@ -10,12 +10,13 @@ export class HomePage {
   private plans: DocumentFragment;
   private events: DocumentFragment;
   private carForm: DocumentFragment;
-  private hasCar = true;
+  private hasCar: boolean;
   private hiddenFormSectionClass: string;
   parent: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.hasCar = false;
     this.info = new Info().element;
     this.plans = new Plans().element;
     this.events = new Events().element;
@@ -54,22 +55,12 @@ export class HomePage {
   }
 
   addListeners() {
-    const form = document.querySelector('#add-form') as HTMLFormElement;
-    //form.noValidate = true;
-    //const inputs = form.querySelectorAll('input');
+    const form = document.querySelector('#car-form') as HTMLFormElement;
+
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // for (let i = 0; i < inputs.length; i++) {
-      //   inputs[i];
-      //   if (!inputs[i].checkValidity()) {
-      //     const parent = inputs[i].closest('.add-car-form__required') as HTMLDivElement;
-      //     const alert = parent.querySelector('p');
-      //     alert?.classList.remove('hidden');
-      //   }
-      // }
-
-      const submitBtn = document.querySelector('#add-car-btn') as HTMLFormElement;
+      const submitBtn = document.querySelector('#car-btn') as HTMLFormElement;
       submitBtn.disabled = true;
 
       const brand = form.brand as HTMLInputElement;
@@ -89,9 +80,9 @@ export class HomePage {
         fuel: fuel.value,
         mileage: mileage.value,
         sizeTank: sizeTank.value,
-        engine: engine.value,
-        sizeEngine: sizeEngine.value,
-        powerEngine: powerEngine.value,
+        engineType: engine.value,
+        engineDisplacement: sizeEngine.value,
+        enginePower: powerEngine.value,
       };
 
       await addCar(newCarData);

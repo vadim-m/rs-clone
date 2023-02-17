@@ -126,9 +126,9 @@ interface INewCar {
   fuel: string;
   mileage: string;
   sizeTank: string;
-  engine: string;
-  sizeEngine: string;
-  powerEngine: string;
+  engineType?: string;
+  engineDisplacement?: string;
+  enginePower?: string;
 }
 
 export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser, INewCar };
