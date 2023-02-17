@@ -2,25 +2,33 @@ import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
 import { INewCar } from '../../types';
-import { AddNewCar } from './AddNewCar';
+import { CarForm } from './CarForm';
 import { addCar } from '../../helpers/api';
-import { fixLength } from '../../helpers/api';
 
 export class HomePage {
   private info = new Info().element;
   private plans = new Plans().element;
   private events = new Events().element;
-  private addCar = new AddNewCar().element;
-  private isCar = false;
+  private carForm = new CarForm().element;
+  private hasCar = false;
   parent: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
-    this.isCar ? this.createElement() : this.createAddCarForm();
+    this.createElement();
     this.addListeners();
   }
 
   createElement() {
+    if (!this.hasCar) {
+      const formSection = document.createElement('section');
+      formSection.className = 'car-form';
+      formSection.append(this.carForm);
+
+      this.parent.append(formSection);
+      return;
+    }
+
     const info = document.createElement('section');
     info.classList.add('info');
     info.append(this.info);
@@ -34,14 +42,6 @@ export class HomePage {
     events.append(this.events);
 
     this.parent.append(info, plans, events);
-  }
-
-  createAddCarForm() {
-    const form = document.createElement('section');
-    form.className = 'add-car-form';
-    form.append(this.addCar);
-
-    this.parent.append(form);
   }
 
   addListeners() {
@@ -72,8 +72,6 @@ export class HomePage {
       const engine = form.engine as HTMLInputElement;
       const sizeEngine = form.sizeEngine as HTMLInputElement;
       const powerEngine = form.powerEngine as HTMLInputElement;
-
-      year.addEventListener('input', fixLength);
 
       const newCarData: INewCar = {
         brand: brand.value,

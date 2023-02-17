@@ -43,7 +43,3 @@ export const getCars = async () => {
     count: response.headers.get('X-Total-Count'),
   };
 };
-
-export function fixLength(event: Event) {
-  (<HTMLInputElement>event.target).value = (<HTMLInputElement>event.target).value.slice(0, 3);
-}
