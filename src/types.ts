@@ -116,7 +116,19 @@ enum moneyEnum {
 interface IUser {
   email: string;
   password: string;
-  fullName?: string
+  fullName?: string;
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser };
+interface INewCar {
+  brand: string;
+  model: string;
+  year: string;
+  fuel: string;
+  mileage: string;
+  sizeTank: string;
+  engine: string;
+  sizeEngine: string;
+  powerEngine: string;
+}
+
+export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser, INewCar };
