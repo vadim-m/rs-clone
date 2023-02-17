@@ -6,15 +6,21 @@ import { CarForm } from './CarForm';
 import { addCar } from '../../helpers/api';
 
 export class HomePage {
-  private info = new Info().element;
-  private plans = new Plans().element;
-  private events = new Events().element;
-  private carForm = new CarForm().element;
-  private hasCar = false;
+  private info: DocumentFragment;
+  private plans: DocumentFragment;
+  private events: DocumentFragment;
+  private carForm: DocumentFragment;
+  private hasCar = true;
+  private hiddenFormSectionClass: string;
   parent: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.info = new Info().element;
+    this.plans = new Plans().element;
+    this.events = new Events().element;
+    this.carForm = new CarForm(this.hasCar).element;
+    this.hiddenFormSectionClass = this.hasCar ? 'hidden' : '';
     this.createElement();
     this.addListeners();
   }
@@ -22,26 +28,29 @@ export class HomePage {
   createElement() {
     if (!this.hasCar) {
       const formSection = document.createElement('section');
-      formSection.className = 'car-form';
+      formSection.className = `car-form`;
       formSection.append(this.carForm);
 
       this.parent.append(formSection);
       return;
     }
+    const formSection = document.createElement('section');
+    formSection.className = `car-form ${this.hiddenFormSectionClass}`;
+    formSection.append(this.carForm);
 
-    const info = document.createElement('section');
-    info.classList.add('info');
-    info.append(this.info);
+    const infoSection = document.createElement('section');
+    infoSection.classList.add('info');
+    infoSection.append(this.info);
 
-    const plans = document.createElement('section');
-    plans.classList.add('plans');
-    plans.append(this.plans);
+    const plansSection = document.createElement('section');
+    plansSection.classList.add('plans');
+    plansSection.append(this.plans);
 
-    const events = document.createElement('section');
-    events.classList.add('events');
-    events.append(this.events);
+    const eventsSection = document.createElement('section');
+    eventsSection.classList.add('events');
+    eventsSection.append(this.events);
 
-    this.parent.append(info, plans, events);
+    this.parent.append(formSection, infoSection, plansSection, eventsSection);
   }
 
   addListeners() {

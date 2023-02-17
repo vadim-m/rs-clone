@@ -1,16 +1,18 @@
 export class CarForm {
   public element: DocumentFragment;
+  private carAction: string;
 
-  constructor() {
+  constructor(hasCar: boolean) {
+    this.carAction = hasCar ? 'Изменить' : 'Добавить';
     this.element = this.createElement();
   }
 
   createElement() {
     const fragment = document.createElement('template');
     fragment.innerHTML = `
-      <div class="flex flex-col justify-center overflow-auto">
+      <div class="$flex flex-col justify-center overflow-auto">
 
-        <h1 class="text-2xl font-bold text-center mb-2">Добавить автомобиль</h1>
+        <h1 class="text-2xl font-bold text-center mb-2">${this.carAction} машину</h1>
         <form class="px-8 pt-6 pb-8 flex flex-col" id="add-form">
 
         <div class="-mx-3 md:flex mb-6">
@@ -64,14 +66,14 @@ export class CarForm {
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Пробег (текущий), км.
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="number" name="mileage" placeholder="91158">
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="number" name="mileage" placeholder="5000" required>
           </div>
 
           <div class="md:w-1/2 px-3">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
               Объем бака, л.
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="sizeTank" placeholder="50">
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="sizeTank" placeholder="50" required>
           </div>
         </div>
 
@@ -112,8 +114,8 @@ export class CarForm {
           </div>
 
           <div class="flex justify-center">
-            <button id="add-car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md w-1/2" type="submit">
-              Добавить машину
+            <button id="add-car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
+              ${this.carAction} машину
             </button>  
           </div>
 
