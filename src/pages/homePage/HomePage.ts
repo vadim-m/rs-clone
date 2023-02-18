@@ -4,7 +4,7 @@ import { Events } from './Events';
 import { ICar } from '../../types';
 import { CarForm } from './CarForm';
 import { createCar, getCar } from '../../helpers/api';
-import validation from '../../helpers/validation';
+import prepareDataObj from '../../helpers/utils';
 import data from '../../data/cars.json';
 
 export class HomePage {
@@ -19,7 +19,7 @@ export class HomePage {
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
-    this.hasCar = true;
+    this.hasCar = false;
     this.car = null;
     this.info = null;
     this.plans = null;
@@ -85,7 +85,6 @@ export class HomePage {
 
   addListeners() {
     const form = this.parent.querySelector('#car-form') as HTMLFormElement;
-    form.noValidate = true;
     const carSettingsBtn = this.parent.querySelector('#change-car') as HTMLFormElement;
     const closeCarSettingsBtn = this.parent.querySelector('#stop-change-car') as HTMLFormElement;
 
@@ -140,14 +139,14 @@ export class HomePage {
         enginePower: powerEngine.value,
       };
 
-      if (validation(form)) {
-        const res = await createCar(carData);
-        const status = res.status;
-        const data = await res.json();
+      const checkedCarData = prepareDataObj(carData);
 
-        // log
-        console.log(status, data);
-      }
+      const res = await createCar(checkedCarData);
+      const status = res.status;
+      const data = await res.json();
+
+      // log
+      console.log(status, data);
     });
   }
 
