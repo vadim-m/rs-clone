@@ -127,7 +127,7 @@ export class CarForm {
           <div class="flex justify-center">
             <button id="car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
               ${this.carAction} машину
-            </button>  
+            </button>
           </div>
 
         </form>

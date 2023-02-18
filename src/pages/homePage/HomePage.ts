@@ -26,7 +26,6 @@ export class HomePage {
     this.hiddenFormSectionClass = null;
 
     this.createElement();
-    this.addListeners();
   }
 
   setCarData(car: ICar) {
@@ -46,7 +45,7 @@ export class HomePage {
 
   async createElement() {
     await this.loadCarData();
-    this.info = new Info().element;
+    this.info = new Info(this.car).element;
     this.plans = new Plans().element;
     this.events = new Events().element;
     this.carForm = new CarForm(this.hasCar, this.car).element;
@@ -59,6 +58,7 @@ export class HomePage {
       formSection.append(this.carForm);
 
       this.parent.append(formSection);
+      this.addListeners();
       return;
     }
     const formSection = document.createElement('section');
@@ -78,15 +78,16 @@ export class HomePage {
     eventsSection.append(this.events);
 
     this.parent.append(formSection, infoSection, plansSection, eventsSection);
+    this.addListeners();
   }
 
   addListeners() {
-    const form = document.querySelector('#car-form') as HTMLFormElement;
+    const form = this.parent.querySelector('#car-form') as HTMLFormElement;
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const submitBtn = document.querySelector('#car-btn') as HTMLFormElement;
+      const submitBtn = this.parent.querySelector('#car-btn') as HTMLFormElement;
       submitBtn.disabled = true;
 
       const brand = form.brand as HTMLInputElement;
@@ -117,10 +118,6 @@ export class HomePage {
 
       // log
       console.log(status, data);
-
-      console.log('get');
-
-      // console.log(await (await getCar(data._id)).json());
 
       // if (this.hasCar) {
       //   // await updateCar(newCarData);
