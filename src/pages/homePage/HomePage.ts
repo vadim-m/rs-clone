@@ -1,9 +1,10 @@
 import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
-import { INewCar } from '../../types';
+import { ICar } from '../../types';
 import { CarForm } from './CarForm';
-import { addCar } from '../../helpers/api';
+import { createCar } from '../../helpers/api';
+const id = localStorage.getItem('userID') || 'null';
 
 export class HomePage {
   private info: DocumentFragment;
@@ -71,9 +72,9 @@ export class HomePage {
       const sizeTank = form.sizeTank as HTMLInputElement;
       const engine = form.engine as HTMLInputElement;
       const sizeEngine = form.sizeEngine as HTMLInputElement;
-      const powerEngine = form.powerEngine as HTMLInputElement;
+      // const powerEngine = form.powerEngine as HTMLInputElement;
 
-      const newCarData: INewCar = {
+      const carData: ICar = {
         brand: brand.value,
         model: model.value,
         year: year.value,
@@ -82,10 +83,25 @@ export class HomePage {
         sizeTank: sizeTank.value,
         engineType: engine.value,
         engineDisplacement: sizeEngine.value,
-        enginePower: powerEngine.value,
+        enginePower: id,
       };
 
-      await addCar(newCarData);
+      const res = await createCar(carData);
+      const status = res.status;
+      const data = await res.json();
+
+      // log
+      console.log(status, data);
+
+      console.log('get');
+
+      // console.log(await (await getCar(data._id)).json());
+
+      // if (this.hasCar) {
+      //   // await updateCar(newCarData);
+      // } else {
+      //   await addCar(newCarData);
+      // }
     });
   }
 }

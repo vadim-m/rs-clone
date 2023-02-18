@@ -119,7 +119,7 @@ interface IUser {
   fullName?: string;
 }
 
-interface INewCar {
+interface ICar {
   brand: string;
   model: string;
   year: string;
@@ -131,4 +131,4 @@ interface INewCar {
   enginePower?: string;
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser, INewCar };
+export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser, ICar };

@@ -1,6 +1,8 @@
 import { pathURL } from '../constants/constants';
 import { IUser } from '../types';
-import { INewCar } from '../types';
+import { ICar } from '../types';
+
+// const id = localStorage.getItem('userID')
 
 export const login = async (body: IUser) => {
   const res = await fetch(pathURL.login, {
@@ -10,6 +12,7 @@ export const login = async (body: IUser) => {
       'Content-Type': 'application/json',
     },
   });
+
   return res;
 };
 
@@ -21,25 +24,24 @@ export const registration = async (body: IUser) => {
       'Content-Type': 'application/json',
     },
   });
+
   return res;
 };
 
-export const addCar = async (body: INewCar) =>
-  (
-    await fetch(pathURL.newcar, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-  ).json();
+export const createCar = async (body: ICar) => {
+  const res = await fetch(pathURL.cars, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
-export const getCars = async () => {
-  const response = await fetch(pathURL.newcar);
+  return res;
+};
 
-  return {
-    items: await response.json(),
-    count: response.headers.get('X-Total-Count'),
-  };
+export const getCar = async (id: string) => {
+  const res = await fetch(`${pathURL.cars}/${id}`);
+
+  return res;
 };
