@@ -83,6 +83,24 @@ export class HomePage {
 
   addListeners() {
     const form = this.parent.querySelector('#car-form') as HTMLFormElement;
+    const carSettingsBtn = this.parent.querySelector('#change-car') as HTMLFormElement;
+    const closeCarSettingsBtn = this.parent.querySelector('#stop-change-car') as HTMLFormElement;
+
+    carSettingsBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.parent.querySelector('.car-form')?.classList.toggle('hidden');
+      this.parent.querySelector('.info')?.classList.toggle('hidden');
+      this.parent.querySelector('.plans')?.classList.toggle('hidden');
+      this.parent.querySelector('.events')?.classList.toggle('hidden');
+    });
+
+    closeCarSettingsBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.parent.querySelector('.car-form')?.classList.toggle('hidden');
+      this.parent.querySelector('.info')?.classList.toggle('hidden');
+      this.parent.querySelector('.plans')?.classList.toggle('hidden');
+      this.parent.querySelector('.events')?.classList.toggle('hidden');
+    });
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();

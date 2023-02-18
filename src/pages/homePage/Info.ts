@@ -22,7 +22,9 @@ export class Info {
 
       <div class="info__header pt-3 pb-3 flex justify-between">
         <h1 class="info__title font-bold text-lg">Мой автомобиль</h1>
-        <img src="${gear}" class="info__gear w-7 h-7 mr-4" alt="gear-icon">
+        <button class="info__btn" id="change-car">
+          <img src="${gear}" class="info__gear w-7 h-7" alt="gear-icon">
+        </button>
       </div>
 
       <div class="info__car car bg-myslate rounded-lg shadow-md mb-2 p-4 grid grid-areas-layout gap-x-2">

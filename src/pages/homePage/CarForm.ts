@@ -128,6 +128,9 @@ export class CarForm {
             <button id="car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
               ${this.carAction} машину
             </button>
+            <button id="stop-change-car" class="text-md bg-myblue text-white ml-6 px-7 py-1 rounded-md" type="button">
+              ${this.carAction} Отмена
+            </button>
           </div>
 
         </form>
