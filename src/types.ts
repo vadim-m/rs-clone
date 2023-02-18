@@ -120,6 +120,7 @@ interface IUser {
 }
 
 interface ICar {
+  _id?: string;
   brand: string;
   model: string;
   year: string;

@@ -73,7 +73,6 @@ export class LoginPage {
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Token received.`;
-        submitBtn.disabled = false;
         // ЭТО КОСТЫЛЬ с перезагрузкой страницы через 2 секунды
         setTimeout(() => {
           location.href = '/';

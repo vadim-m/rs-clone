@@ -1,9 +1,13 @@
+import { ICar } from '../../types';
+
 export class CarForm {
   public element: DocumentFragment;
   private carAction: string;
+  private car: ICar | null;
 
-  constructor(hasCar: boolean) {
+  constructor(hasCar: boolean, car: ICar | null) {
     this.carAction = hasCar ? 'Изменить' : 'Добавить';
+    this.car = car;
     this.element = this.createElement();
   }
 
@@ -13,14 +17,15 @@ export class CarForm {
       <div class="$flex flex-col justify-center overflow-auto">
 
         <h1 class="text-2xl font-bold text-center mb-2">${this.carAction} машину</h1>
-        <form class="px-8 pt-6 pb-8 flex flex-col" id="car-form">
+        <form class="px-8 pt-6 pb-8 flex flex-col" id="car-form" data-car-id=${this.car?._id ?? ''}>
 
         <div class="-mx-3 md:flex mb-6">
           <div class="add-car-form__required md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Марка
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" name="brand" type="text" placeholder="Chevrolet" required autofocus>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" name="brand" type="text" placeholder="Chevrolet" required autofocus 
+            value=${this.car?.brand ?? ''}>
             <p class="text-red-500 text-xs italic hidden">Пожалуйста, заполните поле</p>
           </div>
 
@@ -28,7 +33,8 @@ export class CarForm {
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
               Модель
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" name="model" type="text" placeholder="Aveo" required>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" name="model" type="text" placeholder="Aveo" required 
+            value=${this.car?.model ?? ''}>
             <p class="text-red-500 text-xs italic hidden">Пожалуйста, заполните поле</p>
           </div>
         </div>
@@ -38,7 +44,8 @@ export class CarForm {
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Год выпуска
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="text" name="year" minlength="4" maxlength="4" placeholder="2020" required>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="text" name="year" minlength="4" maxlength="4" placeholder="2020" required 
+            value=${this.car?.year ?? ''}>
             <p class="text-red-500 text-xs italic hidden">Пожалуйста, заполните поле</p>
           </div>
 
@@ -66,14 +73,16 @@ export class CarForm {
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Пробег (текущий), км.
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="number" name="mileage" placeholder="5000" required>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" type="number" name="mileage" placeholder="5000" required 
+            value=${this.car?.mileage ?? ''}>
           </div>
 
           <div class="md:w-1/2 px-3">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
               Объем бака, л.
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="sizeTank" placeholder="50" required>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="sizeTank" placeholder="50" required 
+            value=${this.car?.sizeTank ?? ''}>
           </div>
         </div>
 
@@ -102,14 +111,16 @@ export class CarForm {
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
                 Объем, л.
               </label>
-              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="sizeEngine" placeholder="1,4">
+              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="sizeEngine" placeholder="1,4" 
+              value=${this.car?.engineDisplacement ?? ''}>
             </div>
 
             <div class="md:w-1/2 px-3">
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
                 Мощность, л.с.
               </label>
-              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="powerEngine" placeholder="150">
+              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" type="number" name="powerEngine" placeholder="150" 
+              value=${this.car?.enginePower ?? ''}>
             </div>
           </div>
 

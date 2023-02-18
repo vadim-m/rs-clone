@@ -43,8 +43,8 @@ export const createCar = async (body: ICar) => {
   return res;
 };
 
-export const getCar = async (id: string) => {
-  const res = await fetch(`${pathURL.cars}/${id}`, {
+export const getCar = async () => {
+  const res = await fetch(`${pathURL.cars}/id`, {
     // после добавления passport удалить!
     headers: {
       'user-id': userId,

@@ -3,31 +3,56 @@ import { Plans } from './Plans';
 import { Events } from './Events';
 import { ICar } from '../../types';
 import { CarForm } from './CarForm';
-import { createCar } from '../../helpers/api';
-const id = localStorage.getItem('userID') || 'null';
+import { createCar, getCar } from '../../helpers/api';
 
 export class HomePage {
-  private info: DocumentFragment;
-  private plans: DocumentFragment;
-  private events: DocumentFragment;
-  private carForm: DocumentFragment;
+  private info: DocumentFragment | null;
+  private plans: DocumentFragment | null;
+  private events: DocumentFragment | null;
+  private carForm: DocumentFragment | null;
   private hasCar: boolean;
-  private hiddenFormSectionClass: string;
+  private car: ICar | null;
+  private hiddenFormSectionClass: string | null;
   parent: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.hasCar = false;
-    this.info = new Info().element;
-    this.plans = new Plans().element;
-    this.events = new Events().element;
-    this.carForm = new CarForm(this.hasCar).element;
-    this.hiddenFormSectionClass = this.hasCar ? 'hidden' : '';
+    this.car = null;
+    this.info = null;
+    this.plans = null;
+    this.events = null;
+    this.carForm = null;
+    this.hiddenFormSectionClass = null;
+
     this.createElement();
     this.addListeners();
   }
 
-  createElement() {
+  setCarData(car: ICar) {
+    this.hasCar = true;
+    this.car = car;
+    console.log('установить');
+  }
+
+  async loadCarData() {
+    const res = await getCar();
+    const status = res.status;
+    const data: ICar = await res.json();
+    if (status === 200) {
+      this.setCarData(data);
+    }
+  }
+
+  async createElement() {
+    await this.loadCarData();
+    this.info = new Info().element;
+    this.plans = new Plans().element;
+    this.events = new Events().element;
+    this.carForm = new CarForm(this.hasCar, this.car).element;
+    this.hiddenFormSectionClass = this.hasCar ? 'hidden' : '';
+
+    console.log('рендер');
     if (!this.hasCar) {
       const formSection = document.createElement('section');
       formSection.className = `car-form`;
@@ -72,7 +97,7 @@ export class HomePage {
       const sizeTank = form.sizeTank as HTMLInputElement;
       const engine = form.engine as HTMLInputElement;
       const sizeEngine = form.sizeEngine as HTMLInputElement;
-      // const powerEngine = form.powerEngine as HTMLInputElement;
+      const powerEngine = form.powerEngine as HTMLInputElement;
 
       const carData: ICar = {
         brand: brand.value,
@@ -83,7 +108,7 @@ export class HomePage {
         sizeTank: sizeTank.value,
         engineType: engine.value,
         engineDisplacement: sizeEngine.value,
-        enginePower: id,
+        enginePower: powerEngine.value,
       };
 
       const res = await createCar(carData);
