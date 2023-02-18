@@ -1,5 +1,7 @@
 import { ICar } from '../../types';
 
+// const car = require('../../assets/images/test.jpg');
+// const car = require('../../assets/images/logo.jpg');
 const car = require('../../assets/images/chevrolet.png');
 const expenses = require('../../assets/icons/expenses.png');
 const finance = require('../../assets/icons/finance.png');

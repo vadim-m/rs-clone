@@ -17,9 +17,9 @@ export class CarForm {
       <div class="$flex flex-col justify-center overflow-auto">
 
         <h1 class="text-2xl font-bold text-center mb-2">${this.carAction} машину</h1>
-        <form class="px-8 pt-6 pb-8 flex flex-col" id="car-form" data-car-id=${this.car?._id ?? ''}>
+        <form class="flex flex-col pt-6" id="car-form" data-car-id=${this.car?._id ?? ''}>
 
-        <div class="-mx-3 md:flex mb-6">
+        <div class="md:flex mb-6">
           <div class="add-car-form__required md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Марка
@@ -39,7 +39,7 @@ export class CarForm {
           </div>
         </div>
 
-        <div class="-mx-3 md:flex mb-6">
+        <div class="md:flex mb-6">
           <div class="add-car-form__required md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Год выпуска
@@ -68,7 +68,7 @@ export class CarForm {
           </div>
         </div>
 
-        <div class="-mx-3 md:flex mb-6">
+        <div class="md:flex mb-6">
           <div class="md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Пробег (текущий), км.
@@ -87,7 +87,7 @@ export class CarForm {
         </div>
 
         <h3 class="text-xl font-bold text-slate-400 mb-4">Двигатель</h3>
-          <div class="-mx-3 md:flex mb-6">
+          <div class="md:flex">
 
             <div class="md:w-1/2 px-3 mb-6 md:mb-0">
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
@@ -107,7 +107,7 @@ export class CarForm {
               </div>
             </div>
 
-            <div class="md:w-1/2 px-3">
+            <div class="md:w-1/2 px-3 mb-6">
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
                 Объем, л.
               </label>
@@ -115,7 +115,7 @@ export class CarForm {
               value=${this.car?.engineDisplacement ?? ''}>
             </div>
 
-            <div class="md:w-1/2 px-3">
+            <div class="md:w-1/2 px-3 mb-6">
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
                 Мощность, л.с.
               </label>
@@ -124,12 +124,19 @@ export class CarForm {
             </div>
           </div>
 
-          <div class="flex justify-center">
-            <button id="car-btn" class="text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
+          <div id="car-alert" class="invisible py-4 px-6 mb-6 mx-auto rounded-lg text-base w-3/4" >
+            Alert
+          </div>
+
+          <div class="flex flex-wrap justify-center" >
+            <button id="car-btn" class="text-md bg-myblue text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait" type="submit">
               ${this.carAction} машину
             </button>
-            <button id="stop-change-car" class="text-md bg-myblue text-white ml-6 px-7 py-1 rounded-md" type="button">
-              ${this.carAction} Отмена
+            <button id="stop-change-car" class="text-md bg-myblue text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait" type="button">
+              Отмена
+            </button>
+            <button id="delete-car" class="text-md bg-red-700 text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-red-600 enabled:focus:bg-red-600 disabled:opacity-25 disabled:cursor-wait" type="button">
+              Удалить машину
             </button>
           </div>
 
