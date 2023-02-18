@@ -1,13 +1,11 @@
-import { IOther } from '../../types';
+import { ICarData, IOther } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
-// import { icon } from '../../components/iconObj';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
-// import { getMoney, getUnits } from '../../components/units';
-// import { getDateTime } from '../../components/getDateTimeFunc';
 import { paramsCollectionOther } from './paramsForLineEvent';
+import { lastEvent, updateIndicatirs } from '../../utilits/mathSpend';
 
 export class Other {
   eventPage = 'other';
@@ -50,14 +48,17 @@ export class Other {
 
   createotherEvent() {
     const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
-    console.log(addOtherBtn);
-    addOtherBtn.addEventListener('click', (/* event */) => {
+
+    addOtherBtn.addEventListener('click', (event) => {
       this.initDOM();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
+
+      const newCarData: ICarData = localStorage.getItem('car')
+        ? JSON.parse(localStorage.getItem('car') as string)
+        : carData;
+      lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       this.otherEvent = {
-        date: new Date().toLocaleString(),
+        date: this.dateDOM.value,
         mileage: +this.mileageDOM.value,
         name: this.nameDOM.value,
         totalPrice: +this.totalPriceDOM.value,
@@ -66,8 +67,11 @@ export class Other {
         id: Date.now().toString(),
       };
       newCarData.event.others.push(this.otherEvent);
-      // event.preventDefault();
+
+      updateIndicatirs(this.eventPage, newCarData); // обновляем все индикаторы
+
       localStorage.setItem('car', JSON.stringify(newCarData));
+      event.preventDefault();
     });
   }
 

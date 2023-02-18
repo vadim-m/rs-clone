@@ -34,7 +34,7 @@ const amountFuel: IParamsLineOfEvent = {
   units: getUnits().volume,
 };
 const amountPrice: IParamsLineOfEvent = {
-  idAndClass: 'amount-price',
+  idAndClass: 'total',
   textTitle: eventLang().amount,
   icon: icon.wallet,
   typeInput: 'number',
@@ -58,7 +58,7 @@ const tankFull: IParamsLineOfEvent = {
   icon: icon.gasPump,
   typeInput: 'checkbox',
   size: '1',
-  required: true,
+  required: false,
 };
 
 const date: IParamsLineOfEvent = {

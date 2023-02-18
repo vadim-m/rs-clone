@@ -1,4 +1,4 @@
-import { IService, IDetals } from '../../types';
+import { IService, IDetals, ICarData } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconObj';
@@ -11,8 +11,7 @@ import { currentLiArr } from '../../utilits/searchElement';
 import { renderButtonBlue } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
-// import { getDateTime } from '../../components/getDateTimeFunc';
-// import { createHTMLDatalistTypeService } from './datalist';
+import { lastEvent, updateIndicatirs } from '../../utilits/mathSpend';
 
 export class Service {
   eventPage = 'service';
@@ -32,8 +31,6 @@ export class Service {
   detalsTitleDOM!: HTMLElement;
   detalsBtnDOM!: HTMLElement;
   formService!: HTMLFormElement;
-  page!: HTMLElement;
-  bgPopup!: HTMLElement;
   totalPriceDetals!: HTMLInputElement;
   costWorksDOM!: HTMLInputElement;
   totalPriceTitle!: HTMLElement;
@@ -43,6 +40,7 @@ export class Service {
   detalsListDOM!: HTMLElement;
   addEventCircule: HTMLElement;
   nameItem!: HTMLElement;
+  dateDOM!: HTMLInputElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -64,6 +62,7 @@ export class Service {
     this.mileageDOM = document.querySelector('#service__input_mileage') as HTMLInputElement;
     this.typeDOM = document.querySelector('#service__input_type') as HTMLInputElement;
     this.nameDOM = document.querySelector('#service__input_name') as HTMLInputElement;
+    this.dateDOM = document.querySelector('#service__input_date') as HTMLInputElement;
     this.placeDOM = document.querySelector('#service__input_place') as HTMLInputElement;
     this.notesDOM = document.querySelector('#service__input_notes') as HTMLInputElement;
     this.allInput = document.querySelectorAll('.service__input') as NodeList;
@@ -151,7 +150,6 @@ export class Service {
   removePopup() {
     const bgPopup = document.querySelector('.bg__popup--grey') as HTMLElement;
     bgPopup.remove();
-    // (bgPopup as HTMLElement).classList.remove('active');
   }
 
   addDetals() {
@@ -244,8 +242,13 @@ export class Service {
 
   createServiceEvent() {
     const addServiceBtn = document.querySelector('.add--event-service__btn') as HTMLFormElement;
-    addServiceBtn.addEventListener('click', () => {
+    addServiceBtn.addEventListener('click', (event) => {
       this.initDOM();
+      const newCarData: ICarData = localStorage.getItem('car')
+        ? JSON.parse(localStorage.getItem('car') as string)
+        : carData;
+      lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
+
       const worksDetalsArr: IDetals[] = [];
 
       for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
@@ -260,11 +263,10 @@ export class Service {
           },
         });
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
+
       this.serviceEvent = {
-        date: new Date().toLocaleString(),
-        mileage: Number(this.mileageDOM.value),
+        date: this.dateDOM.value,
+        mileage: +this.mileageDOM.value,
         type: this.typeDOM.value,
         name: this.nameDOM.value,
         detals: worksDetalsArr,
@@ -274,10 +276,11 @@ export class Service {
         id: Date.now().toString(),
       };
       newCarData.event.service.push(this.serviceEvent);
+
+      updateIndicatirs(this.eventPage, newCarData); // обновляем все индикаторы
+
       localStorage.setItem('car', JSON.stringify(newCarData));
-      // formDervice.submit();
-      // console.log(carData);
-      // event.preventDefault();
+      event.preventDefault();
     });
   }
 

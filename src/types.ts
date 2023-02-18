@@ -15,7 +15,7 @@ interface IInfo {
   year: number;
   mileage: number;
   sizeTank: number;
-  fuelInTank: number;
+  startFuel: number;
   startDate: string; // новое поле
   cost: number;
 }
@@ -45,25 +45,23 @@ interface IIndicators {
 }
 // новый интерфейс
 interface IEventTime {
-  lastEvent: {
-    date: string;
-    mileage: number;
-    spendMoney: number;
-  };
-  lastRefuel: {
-    date: string;
-    mileage: number;
-    spendMoney: number;
-    spendFuel: number;
-  };
-  firstEvent: {
-    date: string;
-    mileage: number;
-  };
-  firstRefuel: {
-    date: string;
-    mileage: number;
-  };
+  lastEvent: ISinpleEvent;
+  lastRefuel: ISinpleRefuel | undefined;
+  firstEvent: ISinpleEvent;
+  firstRefuel: ISinpleRefuel | undefined;
+}
+
+interface ISinpleEvent {
+  date: string;
+  mileage: number;
+  spendMoney: number;
+}
+
+interface ISinpleRefuel {
+  date: string;
+  mileage: number;
+  spendMoney: number;
+  spendFuel: number;
 }
 
 interface IService {
