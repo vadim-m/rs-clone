@@ -4,6 +4,8 @@ import { Events } from './Events';
 import { ICar } from '../../types';
 import { CarForm } from './CarForm';
 import { createCar, getCar } from '../../helpers/api';
+import validation from '../../helpers/validation';
+import data from '../../data/cars.json';
 
 export class HomePage {
   private info: DocumentFragment | null;
@@ -17,7 +19,7 @@ export class HomePage {
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
-    this.hasCar = false;
+    this.hasCar = true;
     this.car = null;
     this.info = null;
     this.plans = null;
@@ -83,8 +85,19 @@ export class HomePage {
 
   addListeners() {
     const form = this.parent.querySelector('#car-form') as HTMLFormElement;
+    form.noValidate = true;
     const carSettingsBtn = this.parent.querySelector('#change-car') as HTMLFormElement;
     const closeCarSettingsBtn = this.parent.querySelector('#stop-change-car') as HTMLFormElement;
+
+    const model = document.querySelector('#add-model') as HTMLInputElement;
+    model.addEventListener('focus', () => {
+      this.createModels();
+    });
+
+    const brand = document.querySelector('#add-brand') as HTMLInputElement;
+    brand.addEventListener('input', () => {
+      if (+brand.value < 1) this.deleteModels();
+    });
 
     carSettingsBtn?.addEventListener('click', (e) => {
       e.preventDefault();
@@ -104,9 +117,6 @@ export class HomePage {
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const submitBtn = this.parent.querySelector('#car-btn') as HTMLFormElement;
-      submitBtn.disabled = true;
 
       const brand = form.brand as HTMLInputElement;
       const model = form.model as HTMLInputElement;
@@ -130,18 +140,36 @@ export class HomePage {
         enginePower: powerEngine.value,
       };
 
-      const res = await createCar(carData);
-      const status = res.status;
-      const data = await res.json();
+      if (validation(form)) {
+        const res = await createCar(carData);
+        const status = res.status;
+        const data = await res.json();
 
-      // log
-      console.log(status, data);
-
-      // if (this.hasCar) {
-      //   // await updateCar(newCarData);
-      // } else {
-      //   await addCar(newCarData);
-      // }
+        // log
+        console.log(status, data);
+      }
     });
+  }
+
+  createModels() {
+    const datalist = document.querySelector('#models') as HTMLElement;
+    datalist.innerHTML = '';
+    const brandName = document.querySelector('#add-brand') as HTMLInputElement;
+    const brand = brandName.value;
+    const currentBrand = data.filter((el) => el.name === brand);
+    for (let i = 0; i <= data.length; i++) {
+      if (currentBrand[i]) {
+        currentBrand[i].models.forEach((el) => {
+          const li = document.createElement('option');
+          li.value = el['name'];
+          datalist.append(li);
+        });
+      }
+    }
+  }
+
+  deleteModels() {
+    const datalist = document.querySelector('#add-model') as HTMLInputElement;
+    datalist.value = '';
   }
 }

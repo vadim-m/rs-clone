@@ -1,4 +1,5 @@
 import { ICar } from '../../types';
+import data from '../../data/cars.json';
 
 export class CarForm {
   public element: DocumentFragment;
@@ -24,8 +25,11 @@ export class CarForm {
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
               Марка
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" name="brand" type="text" placeholder="Chevrolet" required autofocus 
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" name="brand" type="text" placeholder="Chevrolet" list="brands" id="add-brand" required autofocus 
             value=${this.car?.brand ?? ''}>
+            <datalist id="brands">
+              ${this.createBrands()}
+            </datalist>
             <p class="text-red-500 text-xs italic hidden">Пожалуйста, заполните поле</p>
           </div>
 
@@ -33,8 +37,10 @@ export class CarForm {
             <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
               Модель
             </label>
-            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" name="model" type="text" placeholder="Aveo" required 
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" name="model" type="text" placeholder="Aveo" list="models" id="add-model" required 
             value=${this.car?.model ?? ''}>
+            <datalist id="models">
+            </datalist>
             <p class="text-red-500 text-xs italic hidden">Пожалуйста, заполните поле</p>
           </div>
         </div>
@@ -138,5 +144,15 @@ export class CarForm {
     `;
 
     return fragment.content;
+  }
+
+  createBrands() {
+    const ul = document.createElement('datalist');
+    data.forEach((el) => {
+      const li = document.createElement('option');
+      li.value = el['name'];
+      ul.append(li);
+    });
+    return ul.innerHTML;
   }
 }
