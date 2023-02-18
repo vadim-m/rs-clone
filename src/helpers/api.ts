@@ -1,8 +1,9 @@
 import { pathURL } from '../constants/constants';
 import { IUser } from '../types';
 import { ICar } from '../types';
+import { getUserID } from '../helpers/authentication';
 
-// const id = localStorage.getItem('userID')
+const userId = getUserID();
 
 export const login = async (body: IUser) => {
   const res = await fetch(pathURL.login, {
@@ -34,6 +35,8 @@ export const createCar = async (body: ICar) => {
     body: JSON.stringify(body),
     headers: {
       'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
     },
   });
 
@@ -41,7 +44,12 @@ export const createCar = async (body: ICar) => {
 };
 
 export const getCar = async (id: string) => {
-  const res = await fetch(`${pathURL.cars}/${id}`);
+  const res = await fetch(`${pathURL.cars}/${id}`, {
+    // после добавления passport удалить!
+    headers: {
+      'user-id': userId,
+    },
+  });
 
   return res;
 };
