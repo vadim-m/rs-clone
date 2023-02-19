@@ -1,13 +1,10 @@
 import { ICarData, IReminders } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
-// import { icon } from '../../components/iconObj';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { paramsCollectionReminder } from './paramsForLineEvent';
-// import { getUnits } from '../../components/units';
-// import { getDateTime } from '../../components/getDateTimeFunc';
 
 export class Reminder {
   eventPage = 'reminder';

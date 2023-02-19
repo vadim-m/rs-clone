@@ -1,59 +1,5 @@
 import { ICarData, IOther, IRefuel, IService } from '../types';
 
-// в каждой добавлении события при создании события
-// export function lastEvent(event: string, carData: ICarData) {
-//   const eventDateDOM = (document.querySelector(`.${event}__input_date`) as HTMLInputElement).value;
-//   const eventMileageDOM = +(document.querySelector(`.${event}__input_mileage`) as HTMLInputElement).value;
-//   const eventSpendMoney = +(document.querySelector(`.${event}__input_total`) as HTMLInputElement).value;
-//   if (carData.eventTime?.lastEvent !== undefined && diffDates(eventDateDOM, carData.eventTime.lastEvent.date) < 0) {
-//     console.log('нужно сортировать и тп, поэтому тут не добавляем последнее событие');
-//   } else {
-//     const eventObj = {
-//       date: eventDateDOM,
-//       mileage: eventMileageDOM,
-//       spendMoney: eventSpendMoney,
-//     };
-//     if (event === 'refuel') {
-//       const eventSpendFuel = +(document.querySelector(`.${event}__input_amount-fuel`) as HTMLInputElement).value;
-//       const refuelObj = {
-//         date: eventDateDOM,
-//         mileage: eventMileageDOM,
-//         spendMoney: eventSpendMoney,
-//         spendFuel: eventSpendFuel,
-//       };
-//       if (!carData.eventTime) {
-//         const eventTime = {
-//           firstEvent: eventObj,
-//           lastEvent: eventObj,
-//           firstRefuel: refuelObj,
-//           lastRefuel: refuelObj,
-//         };
-//         carData['eventTime'] = eventTime;
-//       } else {
-//         if (!carData.eventTime.firstRefuel) {
-//           carData.eventTime['firstRefuel'] = refuelObj;
-//           carData.eventTime['lastRefuel'] = refuelObj;
-//           carData.eventTime['lastEvent'] = eventObj;
-//         }
-//         carData.eventTime['lastRefuel'] = refuelObj;
-//         carData.eventTime['lastEvent'] = eventObj;
-//       }
-//     } else {
-//       if (!carData.eventTime) {
-//         const eventTime = {
-//           firstEvent: eventObj,
-//           lastEvent: eventObj,
-//           firstRefuel: undefined,
-//           lastRefuel: undefined,
-//         };
-//         carData['eventTime'] = eventTime;
-//       } else {
-//         carData.eventTime['lastEvent'] = eventObj;
-//       }
-//     }
-//   }
-// }
-
 // для подсчета в других функциях  - разница между периодами в днях
 function diffDates(dateOne: string, dateTwoLess: string) {
   const result = (+new Date(dateOne) - +new Date(dateTwoLess)) / (60 * 60 * 24 * 1000);
@@ -184,7 +130,6 @@ export function updateIndicatirs(curEvent: string, carData: ICarData) {
 export function minMilaeage(curEvent: string, carData: ICarData): string {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
-  // const curMileage = (document.querySelector(`.${curEvent}__input_mileage`) as HTMLInputElement).value;
 
   const beforeDateEvents = allEvents.filter((e) => {
     return new Date(e.date) < new Date(curDate);
@@ -197,7 +142,7 @@ export function minMilaeage(curEvent: string, carData: ICarData): string {
 export function maxMilaeage(curEvent: string, carData: ICarData): string {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
-  // const curMileage = (document.querySelector(`.${curEvent}__input_mileage`) as HTMLInputElement).value;
+
   const afterDateEvents = allEvents.filter((e) => {
     return new Date(e.date) > new Date(curDate);
   });

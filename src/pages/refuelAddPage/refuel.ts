@@ -86,7 +86,7 @@ export class Refuel {
   createRefuelEvent() {
     const addrefuelBtn = document.querySelector('#add--event-refuel__btn') as HTMLButtonElement;
 
-    addrefuelBtn.addEventListener('click', (event) => {
+    addrefuelBtn.addEventListener('click', () => {
       this.initDOM();
       const newCarData: ICarData = localStorage.getItem('car')
         ? JSON.parse(localStorage.getItem('car') as string)
@@ -106,7 +106,6 @@ export class Refuel {
       };
       const eventArr = newCarData.event.refuel;
       updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
-      event.preventDefault();
     });
   }
 

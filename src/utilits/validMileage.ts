@@ -6,19 +6,11 @@ export function changeMileage(eventPage: string, carData: ICarData) {
   const dateDOM = document.querySelector(`.${eventPage}__input_date`) as HTMLInputElement;
 
   mileageDOM.addEventListener('change', () => {
-    console.log('проверка');
-    const newCarData: ICarData = localStorage.getItem('car')
-      ? JSON.parse(localStorage.getItem('car') as string)
-      : carData;
-    mileageDOM.min = minMilaeage(eventPage, newCarData);
-    mileageDOM.max = maxMilaeage(eventPage, newCarData);
+    mileageDOM.min = minMilaeage(eventPage, carData);
+    mileageDOM.max = maxMilaeage(eventPage, carData);
   });
   dateDOM.addEventListener('change', () => {
-    console.log('проверка2');
-    const newCarData: ICarData = localStorage.getItem('car')
-      ? JSON.parse(localStorage.getItem('car') as string)
-      : carData;
-    mileageDOM.min = minMilaeage(eventPage, newCarData);
-    mileageDOM.max = maxMilaeage(eventPage, newCarData);
+    mileageDOM.min = minMilaeage(eventPage, carData);
+    mileageDOM.max = maxMilaeage(eventPage, carData);
   });
 }
