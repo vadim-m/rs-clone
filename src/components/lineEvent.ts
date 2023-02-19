@@ -16,7 +16,9 @@ export function lineOfEvent(event: string, paramsObj: IParamsLineOfEvent) {
                        type="${paramsObj.typeInput}" 
                        ${paramsObj.typeInput === 'number' ? 'step="0.01"' : ''} 
                        value="${paramsObj.value ? paramsObj.value : ''}"
-                       ${paramsObj.required === true ? 'required' : ''}/>
+                       ${paramsObj.required === true ? 'required' : ''}
+                       min="${paramsObj.min ? paramsObj.min : ''}"
+                       max="${paramsObj.max ? paramsObj.max : ''}"/>
                 ${
                   paramsObj.option
                     ? `<datalist id="${event}__list_${paramsObj.idAndClass}">${paramsObj.option}</datalist>`

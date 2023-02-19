@@ -114,6 +114,8 @@ interface IParamsLineOfEvent {
   typeInput: string;
   size: string;
   required: boolean;
+  min?: number;
+  max?: number;
   option?: string;
   units?: string;
   value?: string;

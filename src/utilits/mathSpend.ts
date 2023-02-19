@@ -60,12 +60,6 @@ function diffDates(dateOne: string, dateTwoLess: string) {
   console.log(result);
   return result;
 }
-// export function allEventsSortDate(carData: ICarData): (IRefuel | IService | IOther)[] {
-//   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others].sort(
-//     (a, b) => +new Date(a.date) - +new Date(b.date)
-//   );
-//   return allEvents;
-// }
 
 function lastEvent(carData: ICarData) {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
@@ -79,7 +73,8 @@ function lastEvent(carData: ICarData) {
 }
 // для подсчета в других функциях - всего дней ведение записей
 export function dayTotal(carData: ICarData) {
-  const startDate = carData.info.startDate;
+  const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
+  const startDate = diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.startDate : firstEvent.date;
   const lastEventDate = (lastEvent(carData) as IRefuel | IService | IOther).date;
   console.log(lastEventDate);
   return diffDates(lastEventDate, startDate);
@@ -96,15 +91,19 @@ export function culcMaybeMileage(event: string, carData: ICarData): string {
 
 // пройдено пути владельцем
 export function calcMyMileageTotal(carData: ICarData): string {
-  const startMileage = carData.info.mileage;
+  const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
+  const startMileage =
+    diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.mileage : firstEvent.mileage;
   const lasteEventMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
-  const myMileageTotal = +lasteEventMileage - startMileage;
+  const myMileageTotal = +lasteEventMileage - +startMileage;
+  console.log(myMileageTotal);
   return String(myMileageTotal);
 }
 
 // средний пробег в день
 function getAverageMileageDay(carData: ICarData): string {
   const averageMileageDay = (+calcMyMileageTotal(carData) / dayTotal(carData)).toFixed(2);
+  console.log(dayTotal(carData));
   return averageMileageDay;
 }
 
@@ -139,6 +138,37 @@ export function culcSpendFuelTotal(carData: ICarData): string {
   console.log(allRefuels);
   return String(spendFuelTotal);
 }
+export function culcConsumption(carData: ICarData) {
+  const allEventRefuel = carData.event.refuel;
+  console.log(allEventRefuel);
+  if (allEventRefuel.length > 1) {
+    const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
+    const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
+    console.log(firstMileageOnFuel);
+    const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
+    const consumptionWithoutData = (
+      (+culcSpendFuelTotal(carData) - +curSpendFuel) /
+      ((+calcMyMileageTotal(carData) - +firstMileageOnFuel) / 100)
+    ).toFixed(2);
+    carData.indicators.totalConsumptionFuel = consumptionWithoutData;
+    carData.indicators.curConsumptionFuel = consumptionWithoutData;
+    if (fullTankCheckArr.length > 1) {
+      const lastFullTankEvent = fullTankCheckArr.slice(-2)[0];
+      const currentFullTankEvent = fullTankCheckArr.slice(-2)[1];
+      const lastLostFuel = +currentFullTankEvent.totalSpendFuel - +lastFullTankEvent.totalSpendFuel;
+      const lastRoute = +currentFullTankEvent.mileage - +lastFullTankEvent.mileage;
+      carData.indicators.curConsumptionFuel = (lastLostFuel / (lastRoute / 100)).toFixed(2);
+    }
+    if (fullTankCheckArr.length === 1) {
+      if (carData.info.sizeTank && carData.info.startFuel) {
+        const allLostFuel = +culcSpendFuelTotal(carData) - (carData.info.sizeTank - carData.info.startFuel);
+        carData.indicators.curConsumptionFuel = (allLostFuel / (+calcMyMileageTotal(carData) / 100)).toFixed(2);
+      } else {
+        carData.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
+      }
+    }
+  }
+}
 
 export function updateIndicatirs(curEvent: string, carData: ICarData) {
   if (curEvent === 'refuel') {
@@ -149,4 +179,28 @@ export function updateIndicatirs(curEvent: string, carData: ICarData) {
   carData.indicators.averageMileageDay = getAverageMileageDay(carData);
   carData.indicators.spendMoneyTotal = culcSpendMoneyTotal(carData);
   carData.indicators.costOneKM = culcCostOneKM(carData);
+}
+
+export function minMilaeage(curEvent: string, carData: ICarData): string {
+  const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
+  const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
+  // const curMileage = (document.querySelector(`.${curEvent}__input_mileage`) as HTMLInputElement).value;
+
+  const beforeDateEvents = allEvents.filter((e) => {
+    return new Date(e.date) < new Date(curDate);
+  });
+  console.log(beforeDateEvents);
+  const lastMileageBefore = beforeDateEvents[beforeDateEvents.length - 1]?.mileage ? beforeDateEvents[0].mileage : '';
+  return lastMileageBefore;
+}
+
+export function maxMilaeage(curEvent: string, carData: ICarData): string {
+  const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
+  const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
+  // const curMileage = (document.querySelector(`.${curEvent}__input_mileage`) as HTMLInputElement).value;
+  const afterDateEvents = allEvents.filter((e) => {
+    return new Date(e.date) > new Date(curDate);
+  });
+  const firstMileageAfter = afterDateEvents[0]?.mileage ? afterDateEvents[0].mileage : '';
+  return firstMileageAfter;
 }

@@ -1,11 +1,13 @@
 import { ICarData, IRefuel } from '../../types';
-import { calcMyMileageTotal, culcSpendFuelTotal, updateIndicatirs } from '../../utilits/mathSpend';
+import { culcSpendFuelTotal } from '../../utilits/mathSpend';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { carData } from '../../car/car_data';
 import { paramsCollectionRefuel } from './paramsForLineEvent';
+import { updateCarData } from '../../utilits/updateCarData';
+import { changeMileage } from '../../utilits/validMileage';
 
 export class Refuel {
   eventPage = 'refuel';
@@ -22,16 +24,21 @@ export class Refuel {
   tankFullDOM!: HTMLInputElement;
   allInput!: NodeList;
   dateDOM!: HTMLInputElement;
+  formDOM!: HTMLFormElement;
+  carData: ICarData;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.renderPage();
     this.initDOM();
     this.changeTotalPriceDetals();
+    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
   }
 
   initDOM() {
+    this.formDOM = document.querySelector('#main-form') as HTMLFormElement;
     this.typeDOM = document.querySelector('#refuel__input_type-fuel') as HTMLInputElement;
     this.priceFuelDOM = document.querySelector('#refuel__input_price') as HTMLInputElement;
     this.amountFuelDOM = document.querySelector('#refuel__input_amount-fuel') as HTMLInputElement;
@@ -75,37 +82,7 @@ export class Refuel {
       onFocus(this.eventPage);
     });
   }
-  // после обновления индикаторов
-  culcConsumption(carData: ICarData) {
-    const allEventRefuel = carData.event.refuel;
-    if (allEventRefuel.length > 1) {
-      const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
-      const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
-      console.log(firstMileageOnFuel);
-      const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
-      const consumptionWithoutData = (
-        (+culcSpendFuelTotal(carData) - +curSpendFuel) /
-        ((+calcMyMileageTotal(carData) - +firstMileageOnFuel) / 100)
-      ).toFixed(2);
-      carData.indicators.totalConsumptionFuel = consumptionWithoutData;
-      carData.indicators.curConsumptionFuel = consumptionWithoutData;
-      if (fullTankCheckArr.length > 1) {
-        const lastFullTankEvent = fullTankCheckArr.slice(-2)[0];
-        const currentFullTankEvent = fullTankCheckArr.slice(-2)[1];
-        const lastLostFuel = +currentFullTankEvent.totalSpendFuel - +lastFullTankEvent.totalSpendFuel;
-        const lastRoute = +currentFullTankEvent.mileage - +lastFullTankEvent.mileage;
-        carData.indicators.curConsumptionFuel = (lastLostFuel / (lastRoute / 100)).toFixed(2);
-      }
-      if (fullTankCheckArr.length === 1) {
-        if (carData.info.sizeTank && carData.info.startFuel) {
-          const allLostFuel = +culcSpendFuelTotal(carData) - (carData.info.sizeTank - carData.info.startFuel);
-          carData.indicators.curConsumptionFuel = (allLostFuel / (+calcMyMileageTotal(carData) / 100)).toFixed(2);
-        } else {
-          carData.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
-        }
-      }
-    }
-  }
+
   createRefuelEvent() {
     const addrefuelBtn = document.querySelector('#add--event-refuel__btn') as HTMLButtonElement;
 
@@ -114,7 +91,6 @@ export class Refuel {
       const newCarData: ICarData = localStorage.getItem('car')
         ? JSON.parse(localStorage.getItem('car') as string)
         : carData;
-      // lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       this.refuelEvent = {
         date: this.dateDOM.value,
@@ -128,11 +104,8 @@ export class Refuel {
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
-      newCarData.event.refuel.push(this.refuelEvent); // добавляем заправку в event
-      updateIndicatirs(this.eventPage, newCarData); // обновляем все индикаторы
-      this.culcConsumption(newCarData); // только для заправки
-
-      localStorage.setItem('car', JSON.stringify(newCarData)); // обновляем полностью carData
+      const eventArr = newCarData.event.refuel;
+      updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
       event.preventDefault();
     });
   }

@@ -1,4 +1,4 @@
-import { IReminders } from '../../types';
+import { ICarData, IReminders } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 // import { icon } from '../../components/iconObj';
@@ -33,11 +33,13 @@ export class Reminder {
   previosAfterDateDOM!: HTMLInputElement;
   previosRepeatTimeDOM!: HTMLInputElement;
   previosRepeatMileageDOM!: HTMLInputElement;
+  carData: ICarData;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.renderPage();
     this.initDOM();
+    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     this.createReminderEvent();
   }
 
@@ -70,9 +72,7 @@ export class Reminder {
     console.log(addReminderBtn);
     addReminderBtn.addEventListener('click', (event) => {
       this.initDOM();
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
-      console.log(newCarData);
+
       this.reminderEvent = {
         type: this.typeDOM.value,
         name: this.nameDOM.value,
@@ -87,11 +87,9 @@ export class Reminder {
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
-      newCarData.event.reminders.push(this.reminderEvent);
+      this.carData.event.reminders.push(this.reminderEvent);
+      localStorage.setItem('car', JSON.stringify(this.carData));
       event.preventDefault();
-      localStorage.setItem('car', JSON.stringify(newCarData));
-      // formDervice.submit();
-      console.log(carData.event.reminders);
     });
   }
 

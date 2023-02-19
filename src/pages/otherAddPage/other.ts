@@ -5,7 +5,8 @@ import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { paramsCollectionOther } from './paramsForLineEvent';
-import { updateIndicatirs } from '../../utilits/mathSpend';
+import { updateCarData } from '../../utilits/updateCarData';
+import { changeMileage } from '../../utilits/validMileage';
 
 export class Other {
   eventPage = 'other';
@@ -21,11 +22,14 @@ export class Other {
   allInput!: NodeList;
   addEventCircule!: HTMLElement;
   totalPriceDOM!: HTMLInputElement;
+  carData: ICarData;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.renderPage();
     this.initDOM();
+    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    changeMileage(this.eventPage, this.carData);
     this.createotherEvent();
   }
 
@@ -49,13 +53,8 @@ export class Other {
   createotherEvent() {
     const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
 
-    addOtherBtn.addEventListener('click', (event) => {
+    addOtherBtn.addEventListener('click', () => {
       this.initDOM();
-
-      const newCarData: ICarData = localStorage.getItem('car')
-        ? JSON.parse(localStorage.getItem('car') as string)
-        : carData;
-      // lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       this.otherEvent = {
         date: this.dateDOM.value,
@@ -66,12 +65,8 @@ export class Other {
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
-      newCarData.event.others.push(this.otherEvent);
-
-      updateIndicatirs(this.eventPage, newCarData); // обновляем все индикаторы
-
-      localStorage.setItem('car', JSON.stringify(newCarData));
-      event.preventDefault();
+      const eventArr = this.carData.event.others;
+      updateCarData(this.carData, this.eventPage, eventArr, this.otherEvent);
     });
   }
 

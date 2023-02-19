@@ -11,7 +11,8 @@ import { currentLiArr } from '../../utilits/searchElement';
 import { renderButtonBlue } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
-import { updateIndicatirs } from '../../utilits/mathSpend';
+import { updateCarData } from '../../utilits/updateCarData';
+import { changeMileage } from '../../utilits/validMileage';
 
 export class Service {
   eventPage = 'service';
@@ -41,6 +42,7 @@ export class Service {
   addEventCircule: HTMLElement;
   nameItem!: HTMLElement;
   dateDOM!: HTMLInputElement;
+  carData: ICarData;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -51,6 +53,8 @@ export class Service {
     this.renderDetalContainer();
     this.initDOM();
     this.addDetals();
+    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    changeMileage(this.eventPage, this.carData);
     this.createServiceEvent();
     this.amountServiceAll();
     this.changeDetals();
@@ -242,15 +246,10 @@ export class Service {
 
   createServiceEvent() {
     const addServiceBtn = document.querySelector('.add--event-service__btn') as HTMLFormElement;
-    addServiceBtn.addEventListener('click', (event) => {
+    addServiceBtn.addEventListener('click', () => {
       this.initDOM();
-      const newCarData: ICarData = localStorage.getItem('car')
-        ? JSON.parse(localStorage.getItem('car') as string)
-        : carData;
-      // lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       const worksDetalsArr: IDetals[] = [];
-
       for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
         worksDetalsArr.push({
           detals: {
@@ -275,12 +274,8 @@ export class Service {
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
-      newCarData.event.service.push(this.serviceEvent);
-
-      updateIndicatirs(this.eventPage, newCarData); // обновляем все индикаторы
-
-      localStorage.setItem('car', JSON.stringify(newCarData));
-      event.preventDefault();
+      const eventArr = this.carData.event.service;
+      updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
     });
   }
 
