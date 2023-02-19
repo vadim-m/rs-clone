@@ -5,7 +5,7 @@ import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { paramsCollectionOther } from './paramsForLineEvent';
-import { lastEvent, updateIndicatirs } from '../../utilits/mathSpend';
+import { updateIndicatirs } from '../../utilits/mathSpend';
 
 export class Other {
   eventPage = 'other';
@@ -55,13 +55,13 @@ export class Other {
       const newCarData: ICarData = localStorage.getItem('car')
         ? JSON.parse(localStorage.getItem('car') as string)
         : carData;
-      lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
+      // lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       this.otherEvent = {
         date: this.dateDOM.value,
-        mileage: +this.mileageDOM.value,
+        mileage: this.mileageDOM.value,
         name: this.nameDOM.value,
-        totalPrice: +this.totalPriceDOM.value,
+        totalPrice: this.totalPriceDOM.value,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),

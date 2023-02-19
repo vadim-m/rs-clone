@@ -11,7 +11,7 @@ import { currentLiArr } from '../../utilits/searchElement';
 import { renderButtonBlue } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
-import { lastEvent, updateIndicatirs } from '../../utilits/mathSpend';
+import { updateIndicatirs } from '../../utilits/mathSpend';
 
 export class Service {
   eventPage = 'service';
@@ -119,7 +119,7 @@ export class Service {
     });
   }
 
-  amountServiceAll(): number {
+  amountServiceAll(): string {
     this.costWorksDOM.addEventListener('change', () => {
       this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
       this.totalPriceTitle.style.top = '-1.5rem';
@@ -127,7 +127,7 @@ export class Service {
       this.totalPriceTitle.style.fontSize = '0.8rem';
       return this.totalPriceDetals.value;
     });
-    const curServiceAmount = +(document.querySelector('.service__input_total') as HTMLInputElement).value;
+    const curServiceAmount = (document.querySelector('.service__input_total') as HTMLInputElement).value;
     return curServiceAmount;
   }
 
@@ -247,7 +247,7 @@ export class Service {
       const newCarData: ICarData = localStorage.getItem('car')
         ? JSON.parse(localStorage.getItem('car') as string)
         : carData;
-      lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
+      // lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       const worksDetalsArr: IDetals[] = [];
 
@@ -257,20 +257,20 @@ export class Service {
             name: (this.detalsNameDOM[i] as HTMLInputElement).value,
             partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
             manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
-            price: Number((this.detalsPriceDOM[i] as HTMLInputElement).value),
-            quantity: Number((this.detalsQuantyDOM[i] as HTMLInputElement).value),
-            amount: Number((this.detalsAmountDOM[i] as HTMLInputElement).value),
+            price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
+            quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
+            amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
           },
         });
       }
 
       this.serviceEvent = {
         date: this.dateDOM.value,
-        mileage: +this.mileageDOM.value,
+        mileage: this.mileageDOM.value,
         type: this.typeDOM.value,
         name: this.nameDOM.value,
         detals: worksDetalsArr,
-        amount: this.amountServiceAll(),
+        totalPrice: this.amountServiceAll(),
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),

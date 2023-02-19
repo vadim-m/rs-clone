@@ -12,16 +12,15 @@ export const carData: ICarData = {
     cost: 45000,
   },
   indicators: {
-    curMileage: 60000,
-    spendMoneyTotal: 0,
-    spendFuelTotal: 0,
+    curMileage: '60000',
+    spendMoneyTotal: '0',
+    spendFuelTotal: '0',
     curConsumptionFuel: '--:--',
     totalConsumptionFuel: '--:--',
-    myMileageTotal: 0,
-    averageMileageDay: 0,
-    costOneKM: 0,
+    myMileageTotal: '0',
+    averageMileageDay: '0',
+    costOneKM: '0',
   },
-  eventTime: undefined,
   event: {
     refuel: [],
     service: [],
@@ -29,26 +28,3 @@ export const carData: ICarData = {
     reminders: [],
   },
 };
-
-// новый интерфейс
-// interface IEventTime {
-//   lastEvent: {
-//     date: string;
-//     mileage: number;
-//     spendMoney: number;
-//   };
-//   lastRefuel: {
-//     date: string;
-//     mileage: number;
-//     spendMoney: number;
-//     spendFuel: number;
-//   };
-//   firstEvent: {
-//     date: string;
-//     mileage: number;
-//   };
-//   firstRefuel: {
-//     date: string;
-//     mileage: number;
-//   };
-// }

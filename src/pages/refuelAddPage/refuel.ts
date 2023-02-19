@@ -1,5 +1,5 @@
 import { ICarData, IRefuel } from '../../types';
-import { lastEvent, updateIndicatirs } from '../../utilits/mathSpend';
+import { calcMyMileageTotal, culcSpendFuelTotal, updateIndicatirs } from '../../utilits/mathSpend';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
@@ -75,52 +75,37 @@ export class Refuel {
       onFocus(this.eventPage);
     });
   }
-
-  spendFuelTotal(carData: ICarData): number {
-    const spendFuelTotal: number = carData.event.refuel.reduce((acc, e) => {
-      return acc + e.amountFuel;
-    }, 0);
-    return spendFuelTotal;
-  }
-
+  // после обновления индикаторов
   culcConsumption(carData: ICarData) {
-    const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
-    const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
-
-    if (fullTankCheckArr.length > 1) {
-      const lastFullTankEvent = fullTankCheckArr.slice(-2)[0];
-      const currentFullTankEvent = fullTankCheckArr.slice(-2)[1];
-      const lastLostFuel = currentFullTankEvent.totalSpendFuel - lastFullTankEvent.totalSpendFuel;
-      const lastRoute = currentFullTankEvent.mileage - lastFullTankEvent.mileage;
-      carData.indicators.curConsumptionFuel = lastLostFuel / (lastRoute / 100);
-      if (carData.info.sizeTank && carData.info.startFuel) {
-        const allLostFuel = carData.indicators.spendFuelTotal - (carData.info.sizeTank - carData.info.startFuel);
-        carData.indicators.totalConsumptionFuel = +(allLostFuel / (carData.indicators.myMileageTotal / 100)).toFixed(2);
+    const allEventRefuel = carData.event.refuel;
+    if (allEventRefuel.length > 1) {
+      const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
+      const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
+      console.log(firstMileageOnFuel);
+      const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
+      const consumptionWithoutData = (
+        (+culcSpendFuelTotal(carData) - +curSpendFuel) /
+        ((+calcMyMileageTotal(carData) - +firstMileageOnFuel) / 100)
+      ).toFixed(2);
+      carData.indicators.totalConsumptionFuel = consumptionWithoutData;
+      carData.indicators.curConsumptionFuel = consumptionWithoutData;
+      if (fullTankCheckArr.length > 1) {
+        const lastFullTankEvent = fullTankCheckArr.slice(-2)[0];
+        const currentFullTankEvent = fullTankCheckArr.slice(-2)[1];
+        const lastLostFuel = +currentFullTankEvent.totalSpendFuel - +lastFullTankEvent.totalSpendFuel;
+        const lastRoute = +currentFullTankEvent.mileage - +lastFullTankEvent.mileage;
+        carData.indicators.curConsumptionFuel = (lastLostFuel / (lastRoute / 100)).toFixed(2);
       }
-    } else {
-      if (carData.info.sizeTank && carData.info.startFuel) {
-        if (fullTankCheckArr.length === 1) {
-          const allLostFuel = carData.indicators.spendFuelTotal - (carData.info.sizeTank - carData.info.startFuel);
-          carData.indicators.totalConsumptionFuel = +(allLostFuel / (carData.indicators.myMileageTotal / 100)).toFixed(
-            2
-          );
-          carData.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
+      if (fullTankCheckArr.length === 1) {
+        if (carData.info.sizeTank && carData.info.startFuel) {
+          const allLostFuel = +culcSpendFuelTotal(carData) - (carData.info.sizeTank - carData.info.startFuel);
+          carData.indicators.curConsumptionFuel = (allLostFuel / (+calcMyMileageTotal(carData) / 100)).toFixed(2);
         } else {
-          carData.indicators.totalConsumptionFuel = +(
-            (carData.indicators.spendFuelTotal - curSpendFuel + carData.info.startFuel) /
-            (carData.indicators.myMileageTotal / 100)
-          ).toFixed(2);
           carData.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
         }
       }
-      carData.indicators.totalConsumptionFuel = +(
-        (carData.indicators.spendFuelTotal - curSpendFuel) /
-        (carData.indicators.myMileageTotal / 100)
-      ).toFixed(2);
-      carData.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
     }
   }
-
   createRefuelEvent() {
     const addrefuelBtn = document.querySelector('#add--event-refuel__btn') as HTMLButtonElement;
 
@@ -129,22 +114,21 @@ export class Refuel {
       const newCarData: ICarData = localStorage.getItem('car')
         ? JSON.parse(localStorage.getItem('car') as string)
         : carData;
-      lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
+      // lastEvent(this.eventPage, newCarData); // обновляем последние события eventTime
 
       this.refuelEvent = {
         date: this.dateDOM.value,
-        mileage: +this.mileageDOM.value,
-        priceFuel: +this.priceFuelDOM.value,
-        amountFuel: +this.amountFuelDOM.value,
-        amountPrice: +this.amountPriceDOM.value,
-        totalSpendFuel: this.spendFuelTotal(newCarData),
+        mileage: this.mileageDOM.value,
+        priceFuel: this.priceFuelDOM.value,
+        amountFuel: this.amountFuelDOM.value,
+        totalPrice: this.amountPriceDOM.value,
+        totalSpendFuel: culcSpendFuelTotal(newCarData),
         isFull: this.tankFullDOM.checked,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
       newCarData.event.refuel.push(this.refuelEvent); // добавляем заправку в event
-
       updateIndicatirs(this.eventPage, newCarData); // обновляем все индикаторы
       this.culcConsumption(newCarData); // только для заправки
 

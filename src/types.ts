@@ -1,7 +1,6 @@
 interface ICarData {
   info: IInfo;
   indicators: IIndicators;
-  eventTime: IEventTime | undefined; // новое поле
   event: {
     refuel: IRefuel[];
     service: IService[];
@@ -20,57 +19,37 @@ interface IInfo {
   cost: number;
 }
 
+interface IIndicators {
+  curMileage: string;
+  spendMoneyTotal: string;
+  spendFuelTotal: string;
+  curConsumptionFuel: string;
+  totalConsumptionFuel: string;
+  myMileageTotal: string;
+  averageMileageDay: string;
+  costOneKM: string;
+}
+
 interface IRefuel {
   date: string;
-  mileage: number;
-  priceFuel: number;
-  amountFuel: number;
-  amountPrice: number;
-  totalSpendFuel: number; // новое поле
+  mileage: string;
+  priceFuel: string;
+  amountFuel: string;
+  totalPrice: string;
+  totalSpendFuel: string;
   isFull: boolean;
   place: string;
   notes: string;
   id: string;
 }
 
-interface IIndicators {
-  curMileage: number;
-  spendMoneyTotal: number; // изменил название
-  spendFuelTotal: number; // изменил название
-  curConsumptionFuel: number | string;
-  totalConsumptionFuel: number | string; // новое поле
-  myMileageTotal: number; // новое поле
-  averageMileageDay: number; // новое поле
-  costOneKM: number; // новое поле
-}
-// новый интерфейс
-interface IEventTime {
-  lastEvent: ISinpleEvent;
-  lastRefuel: ISinpleRefuel | undefined;
-  firstEvent: ISinpleEvent;
-  firstRefuel: ISinpleRefuel | undefined;
-}
-
-interface ISinpleEvent {
-  date: string;
-  mileage: number;
-  spendMoney: number;
-}
-
-interface ISinpleRefuel {
-  date: string;
-  mileage: number;
-  spendMoney: number;
-  spendFuel: number;
-}
-
 interface IService {
   date: string;
-  mileage: number;
+  mileage: string;
   type: string;
   name: string;
   detals: IDetals[];
-  amount: number;
+  totalPrice: string;
   place: string;
   notes: string;
   id: string;
@@ -80,17 +59,17 @@ interface IDetals {
     name: string;
     partNumber: string;
     manufacturer: string;
-    price: number;
-    quantity: number;
-    amount: number;
+    price: string;
+    quantity: string;
+    amount: string;
   };
 }
 
 interface IOther {
   date: string;
-  mileage: number;
+  mileage: string;
   name: string;
-  totalPrice: number;
+  totalPrice: string;
   place: string;
   notes: string;
   id: string;
@@ -98,15 +77,15 @@ interface IOther {
 
 interface IReminders {
   type: string;
-  name: number;
+  name: string;
   previosDate: string;
-  previosMileage: number;
-  rememberOnMilege: number;
-  rememberAfterMilege: number;
+  previosMileage: string;
+  rememberOnMilege: string;
+  rememberAfterMilege: string;
   rememberOnDate: string;
   rememberAfteDate: string;
   repeatTime: string;
-  repeatMileage: number;
+  repeatMileage: string;
   notes: string;
   id: string;
 }

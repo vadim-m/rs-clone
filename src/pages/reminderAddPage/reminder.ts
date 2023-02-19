@@ -75,15 +75,15 @@ export class Reminder {
       console.log(newCarData);
       this.reminderEvent = {
         type: this.typeDOM.value,
-        name: +this.nameDOM.value,
+        name: this.nameDOM.value,
         previosDate: this.previosDateDOM.value,
-        previosMileage: +this.previosMileageDOM.value,
-        rememberOnMilege: +this.previosOnMileageDOM.value,
-        rememberAfterMilege: +this.previosAfterMileageDOM.value,
+        previosMileage: this.previosMileageDOM.value,
+        rememberOnMilege: this.previosOnMileageDOM.value,
+        rememberAfterMilege: this.previosAfterMileageDOM.value,
         rememberOnDate: this.previosOnDateDOM.value,
         rememberAfteDate: this.previosAfterDateDOM.value,
         repeatTime: this.previosRepeatTimeDOM.value,
-        repeatMileage: +this.previosRepeatMileageDOM.value,
+        repeatMileage: this.previosRepeatMileageDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
