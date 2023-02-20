@@ -7,6 +7,7 @@ export class HomePage {
   private plans = new Plans().element;
   private events = new Events().element;
   parent: HTMLElement;
+  addEventCircule!: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -14,6 +15,9 @@ export class HomePage {
   }
 
   createElement() {
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.style.display = 'block';
+
     const info = document.createElement('section');
     info.classList.add('info');
     info.append(this.info);
