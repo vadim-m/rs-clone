@@ -1,5 +1,6 @@
+import { getCurrentLanguage } from '../utilits/getCurrentSettings';
 export function eventLang() {
-  if (localStorage.getItem('langMyCar') === 'EN') {
+  if (getCurrentLanguage() === 'EN') {
     return {
       typeService: 'Type of service',
       typeFuel: 'Type of fuel',
@@ -41,7 +42,7 @@ export function eventLang() {
       maintenance: 'Maintenance',
       repair: 'Repair',
       replacement: 'Replacement',
-      tuninge: 'Tuning',
+      tuning: 'Tuning',
       sparePart: 'Spare part',
       diagnostics: 'Diagnostics',
       carWash: 'Car wash',
@@ -52,6 +53,22 @@ export function eventLang() {
       tax: 'Tax',
       registration: 'Registration',
       techInspect: 'Technical inspection',
+      changingOil: 'Oil change with a filter in the engine',
+      airFilter: 'Replacing the air filter',
+      fuelFilter: 'Replacing the fuel filter',
+      interiorFilter: 'Replacement of the interior dust filter',
+      brakePadsFront: 'Replacement of brake pads (front)',
+      brakePadsRear: 'Replacement of brake pads (rear)',
+      brakeFluid: 'Replacement the brake fluid',
+      timingBelts: 'Replacement of belts, timing rollers',
+      sparkPlugs: 'Replacing spark plugs',
+      antifreeze: 'Replacement of coolant (antifreeze)',
+      transmissionOil: 'Oil change from transmission',
+      diagnosticsSuspension: 'Diagnostics of car suspension steering',
+      diagnosticsElectrical: 'Diagnostics of electrical equipment',
+      WinterTires: 'Winter tires',
+      SummerTires: 'Summer tires',
+      carBattery: 'Replacement car battery',
     };
   } else {
     return {
@@ -106,6 +123,22 @@ export function eventLang() {
       tax: 'Налог',
       registration: 'Регистрация',
       techInspect: 'Техосмотр',
+      changingOil: 'Замена масла и масляного фильтра в двигателе',
+      airFilter: 'Замена воздушного фильтра',
+      fuelFilter: 'Замена топливного фильтра',
+      interiorFilter: 'Замена противопыльного фильтра салона',
+      brakePadsFront: 'Замена тормозных колодок (передние)',
+      brakePadsRear: 'Замена тормозных колодок (задние)',
+      brakeFluid: 'Замена тормозной жидкости',
+      timingBelts: 'Замена ремней, роликов ГРМ',
+      sparkPlugs: 'Замена свечей зажигания',
+      antifreeze: 'Замена охлаждающей жидкости (антифриз)',
+      transmissionOil: 'Смена масла с коробке передач',
+      diagnosticsSuspension: 'Диагностика подвески автомобиля  рулевого управления',
+      diagnosticsElectrical: 'Диагностика электрооборудования',
+      WinterTires: 'Зимние шины',
+      SummerTires: 'Летние шины',
+      carBattery: 'Замена аккумулятора автомобиля',
     };
   }
 }
