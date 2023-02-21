@@ -18,9 +18,12 @@ export function getCurrentPriceFuel(): string {
   const curCarData: ICarData = localStorage.getItem('car')
     ? JSON.parse(localStorage.getItem('car') as string)
     : carData;
-  return getSettingsFromLocal()?.rememberPriceFuel
-    ? curCarData.event.refuel[curCarData.event.refuel.length - 1].priceFuel
-    : '';
+  if (curCarData.event.refuel.length > 0) {
+    return getSettingsFromLocal()?.rememberPriceFuel
+      ? curCarData.event.refuel[curCarData.event.refuel.length - 1].priceFuel
+      : '';
+  }
+  return '';
 }
 
 // darkTheme: boolean;

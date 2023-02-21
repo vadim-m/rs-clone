@@ -125,9 +125,11 @@ export class Service {
       onFocus(this.eventPage);
     });
   }
+
   recalcTotal() {
-    this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
+    this.totalPriceService.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
   }
+
   calcTotalPriceService() {
     this.costWorksDOM.addEventListener('change', () => {
       this.recalcTotal();

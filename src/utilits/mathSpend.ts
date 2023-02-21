@@ -20,6 +20,7 @@ function lastEvent(carData: ICarData) {
 
 // для подсчета в других функциях - всего дней ведение записей
 export function dayTotal(carData: ICarData) {
+  if (lastEvent(carData) === undefined) return 0;
   const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
   const startDate = diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.startDate : firstEvent.date;
   const lastEventDate = (lastEvent(carData) as IRefuel | IService | IOther).date;
@@ -28,11 +29,10 @@ export function dayTotal(carData: ICarData) {
 // при входе на страницу в конструктор с ифом на наличие настройки( в локалке должен быть ключ тру)
 export function culcMaybeMileage(event: string, carData: ICarData) {
   if (getSettingsFromLocal()?.rememberPriceFuel) {
+    if (lastEvent(carData) === undefined) return;
     const curDate = (document.querySelector(`.${event}__input_date`) as HTMLInputElement).value;
     const mileageDOM = document.querySelector(`.${event}__input_mileage`) as HTMLInputElement;
     const lastEventDate = (lastEvent(carData) as IRefuel | IService | IOther).date;
-    console.log(lastEventDate);
-    console.log(getAverageMileageDay(carData));
     const maybeMileage =
       +(lastEvent(carData) as IRefuel | IService | IOther).mileage +
       +getAverageMileageDay(carData) * diffDates(curDate, lastEventDate);
@@ -44,22 +44,19 @@ export function culcMaybeMileage(event: string, carData: ICarData) {
 
 // пройдено пути владельцем
 export function calcMyMileageTotal(carData: ICarData): string {
+  if (lastEvent(carData) === undefined) return '0';
   const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
   const startMileage =
     diffDates(carData.info.startDate, firstEvent.date) > 0 ? carData.info.mileage : firstEvent.mileage;
   const lasteEventMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   const myMileageTotal = +lasteEventMileage - +startMileage;
-  console.log(lastEvent(carData));
-  console.log(startMileage);
   return String(myMileageTotal);
 }
 
 // средний пробег в день
 function getAverageMileageDay(carData: ICarData): string {
+  if (lastEvent(carData) === undefined) return '0';
   const averageMileageDay = (+calcMyMileageTotal(carData) / dayTotal(carData)).toFixed(2);
-  console.log(dayTotal(carData));
-  console.log(calcMyMileageTotal(carData));
-  console.log(averageMileageDay);
   return averageMileageDay;
 }
 
@@ -91,13 +88,11 @@ export function culcSpendFuelTotal(carData: ICarData): string {
       return acc + +e.amountFuel;
     }, 0)
     .toFixed(2);
-  console.log(allRefuels);
   return String(spendFuelTotal);
 }
 // расчет расхода топлива
 export function culcConsumption(carData: ICarData) {
   const allEventRefuel = carData.event.refuel;
-  console.log(allEventRefuel);
   if (allEventRefuel.length > 1) {
     const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
     const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
