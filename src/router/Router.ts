@@ -3,6 +3,9 @@ import { HomePage } from '../pages/homePage/HomePage';
 import { EventsPage } from '../pages/eventsPage/EventsPage';
 import { PlansPage } from '../pages/plansPage/PlansPage';
 import { Service } from '../pages/serviceAddPage/service';
+import { Reminder } from '../pages/reminderAddPage/reminder';
+import { Refuel } from '../pages/refuelAddPage/refuel';
+import { Other } from '../pages/otherAddPage/other';
 import { StatisticPage } from '../pages/statisticPage/StatisticPage';
 import { LoginPage } from '../pages/loginPage/login';
 import { RegistrationPage } from '../pages/registrationPage/registration';
@@ -15,6 +18,9 @@ export class Router {
   statisticPage: StatisticPage | null = null;
   eventsPage: EventsPage | null = null;
   plansPage: PlansPage | null = null;
+  reminderPage: Reminder | null = null;
+  refuelPage: Refuel | null = null;
+  otherPage: Other | null = null;
   loginPage: LoginPage | null = null;
   registrationPage: RegistrationPage | null = null;
 
@@ -25,6 +31,8 @@ export class Router {
     this.eventsPage;
     this.plansPage;
     this.servicePage;
+    this.reminderPage;
+    this.refuelPage;
     this.loginPage;
     this.registrationPage;
     this.initRouter();
@@ -40,13 +48,13 @@ export class Router {
     } else if (routes.Statistic.match(path)) {
       this.statisticPage = new StatisticPage();
     } else if (routes.Refuel.match(path)) {
-      // result = new PlansPage().element;
+      this.refuelPage = new Refuel();
     } else if (routes.Service.match(path)) {
       this.servicePage = new Service();
-      // result = new HTMLElement();
-    } else if (routes.Schedule.match(path)) {
-      // result = new PlansPage().element;
+    } else if (routes.Reminder.match(path)) {
+      this.reminderPage = new Reminder();
     } else if (routes.Other.match(path)) {
+      this.otherPage = new Other();
       // result = new PlansPage().element;
     } else if (routes.Login.match(path)) {
       this.loginPage = new LoginPage();
@@ -63,6 +71,9 @@ export class Router {
     this.plansPage = null;
     this.statisticPage = null;
     this.servicePage = null;
+    this.reminderPage = null;
+    this.refuelPage = null;
+    this.otherPage = null;
     this.loginPage = null;
     this.registrationPage = null;
     this.parent.innerHTML = '';

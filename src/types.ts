@@ -2,10 +2,10 @@ interface ICarData {
   info: IInfo;
   indicators: IIndicators;
   event: {
-    fill: IFill[];
+    refuel: IRefuel[];
     service: IService[];
     others: IOther[];
-    plans: IPlans[];
+    reminders: IReminders[];
   };
 }
 interface IInfo {
@@ -14,42 +14,42 @@ interface IInfo {
   year: number;
   mileage: number;
   sizeTank: number;
-  fuelInTank: number;
+  startFuel: number;
+  startDate: string; // новое поле
   cost: number;
 }
+
 interface IIndicators {
-  curMileage: number;
-  curSpendMoney: number;
-  curSpendFuel: number;
-  previousRefuel: {
-    mileage: number;
-    spendMoney: number;
-    spendFuel: number;
-  };
-  lastFullTank: {
-    mileage: number;
-    spendFuel: number;
-  };
+  curMileage: string;
+  spendMoneyTotal: string;
+  spendFuelTotal: string;
+  curConsumptionFuel: string;
+  totalConsumptionFuel: string;
+  myMileageTotal: string;
+  averageMileageDay: string;
+  costOneKM: string;
 }
-interface IFill {
+
+interface IRefuel {
   date: string;
-  mileage: number;
-  costFuel: number;
-  amountFuel: number;
+  mileage: string;
+  priceFuel: string;
+  amountFuel: string;
+  totalPrice: string;
+  totalSpendFuel: string;
   isFull: boolean;
-  isLostRefuel: boolean;
-  fuelInTank?: number;
+  place: string;
   notes: string;
   id: string;
 }
 
 interface IService {
   date: string;
-  mileage: number;
+  mileage: string;
   type: string;
   name: string;
   detals: IDetals[];
-  amount: number;
+  totalPrice: string;
   place: string;
   notes: string;
   id: string;
@@ -59,24 +59,35 @@ interface IDetals {
     name: string;
     partNumber: string;
     manufacturer: string;
-    price: number;
-    quantity: number;
-    amount: number;
+    price: string;
+    quantity: string;
+    amount: string;
   };
 }
 
 interface IOther {
   date: string;
-  mileage: number;
-  name: number;
-  amount: number;
+  mileage: string;
+  name: string;
+  totalPrice: string;
   place: string;
   notes: string;
   id: string;
 }
 
-interface IPlans {
-  category: IService | IOther;
+interface IReminders {
+  type: string;
+  name: string;
+  previosDate: string;
+  previosMileage: string;
+  rememberOnMilege: string;
+  rememberAfterMilege: string;
+  rememberOnDate: string;
+  rememberAfteDate: string;
+  repeatTime: string;
+  repeatMileage: string;
+  notes: string;
+  id: string;
 }
 
 interface Iicon {
@@ -91,6 +102,30 @@ interface Iicon {
   comments: string;
   plus: string;
   wrench: string;
+  category: string;
+  repeat: string;
+  coins: string;
+  quantFuel: string;
+}
+interface IParamsLineOfEvent {
+  idAndClass: string;
+  textTitle: string;
+  icon: string;
+  typeInput: string;
+  size: string;
+  required: boolean;
+  min?: number;
+  max?: number;
+  option?: string;
+  units?: string;
+  value?: string;
+}
+interface ISettingsMyCar {
+  language: string;
+  currency: string;
+  rememberPriceFuel: boolean;
+  predictMileage: boolean;
+  darkTheme: boolean;
 }
 
 enum unitsEnum {
@@ -119,6 +154,12 @@ interface IUser {
   fullName?: string;
 }
 
+interface IUser {
+  email: string;
+  password: string;
+  fullName?: string;
+}
+
 interface ICar {
   _id?: string;
   brand: string;
@@ -131,4 +172,18 @@ interface ICar {
   enginePower?: string;
 }
 
-export { ICarData, IFill, IOther, IPlans, IService, IDetals, Iicon, unitsEnum, Imoney, moneyEnum, IUser, ICar };
+export {
+  ICarData,
+  IRefuel,
+  IOther,
+  IReminders,
+  IService,
+  IDetals,
+  Iicon,
+  unitsEnum,
+  Imoney,
+  moneyEnum,
+  IParamsLineOfEvent,
+  IUser,
+  ICar,
+};

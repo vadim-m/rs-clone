@@ -1,15 +1,22 @@
-import { IService, IDetals } from '../../types';
+import { IService, IDetals, ICarData } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconObj';
-import { serviceLang } from '../../lang/serviceLang';
+import { eventLang } from '../../lang/addEventLang';
 import { getMoney } from '../../components/units';
 import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
-import { searchLi } from '../../components/searchElement';
-import { currentLiArr } from '../../components/searchElement';
+import { searchLi } from '../../utilits/searchElement';
+import { currentLiArr } from '../../utilits/searchElement';
+import { renderButtonBlue } from '../../components/button';
+import { onFocus } from '../../utilits/onFocusFunc';
+import { paramsCollectionService } from './paramsForLineEvent';
+import { updateCarData } from '../../utilits/updateCarData';
+import { changeMileage } from '../../utilits/validMileage';
 
 export class Service {
+  eventPage = 'service';
+
   serviceEvent: IService | undefined;
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
@@ -25,8 +32,6 @@ export class Service {
   detalsTitleDOM!: HTMLElement;
   detalsBtnDOM!: HTMLElement;
   formService!: HTMLFormElement;
-  page!: HTMLElement;
-  bgPopup!: HTMLElement;
   totalPriceDetals!: HTMLInputElement;
   costWorksDOM!: HTMLInputElement;
   totalPriceTitle!: HTMLElement;
@@ -34,14 +39,23 @@ export class Service {
   pageBody!: HTMLElement;
   allInput!: NodeList;
   detalsListDOM!: HTMLElement;
+  addEventCircule: HTMLElement;
+  nameItem!: HTMLElement;
+  dateDOM!: HTMLInputElement;
+  carData: ICarData;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.style.display = 'none';
     this.renderPage();
+    this.nameItem = document.querySelector('.service__item_name') as HTMLElement;
+    this.renderDetalContainer();
     this.initDOM();
     this.addDetals();
+    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    changeMileage(this.eventPage, this.carData);
     this.createServiceEvent();
-    this.onFocus();
     this.amountServiceAll();
     this.changeDetals();
   }
@@ -52,6 +66,7 @@ export class Service {
     this.mileageDOM = document.querySelector('#service__input_mileage') as HTMLInputElement;
     this.typeDOM = document.querySelector('#service__input_type') as HTMLInputElement;
     this.nameDOM = document.querySelector('#service__input_name') as HTMLInputElement;
+    this.dateDOM = document.querySelector('#service__input_date') as HTMLInputElement;
     this.placeDOM = document.querySelector('#service__input_place') as HTMLInputElement;
     this.notesDOM = document.querySelector('#service__input_notes') as HTMLInputElement;
     this.allInput = document.querySelectorAll('.service__input') as NodeList;
@@ -73,41 +88,14 @@ export class Service {
   }
 
   renderPage() {
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
+    onFocus(this.eventPage);
   }
 
-  onFocus() {
-    const allInputArr: HTMLInputElement[] = [...this.formService.querySelectorAll('input')];
-    const allTitleArr: HTMLElement[] = Array.from(this.formService.querySelectorAll('.service__title'));
-
-    allInputArr.forEach((eI) => {
-      if (eI.value.length > 0) {
-        allTitleArr.forEach((eT) => {
-          if (eI.id.slice(15) === eT.id.slice(15)) {
-            eT.style.top = '-1.5rem';
-          }
-        });
-      }
-    });
-
-    this.formService.addEventListener('focusout', function (event) {
-      if ((event.target as HTMLInputElement).matches('.service__input')) {
-        const curInput = event.target as HTMLInputElement;
-        const lineParent = curInput.closest('.service__item') as HTMLElement;
-        const titleLine = lineParent.querySelector('.service__title') as HTMLElement;
-        if (curInput.value === '') {
-          titleLine.style.top = '0';
-        }
-      }
-    });
-    this.formService.addEventListener('focusin', function (event) {
-      if ((event.target as HTMLInputElement).matches('.service__input')) {
-        const curInput = event.target as HTMLInputElement;
-        const lineParent = curInput.closest('.service__item') as HTMLElement;
-        const titleLine = lineParent.querySelector('.service__title') as HTMLElement;
-        titleLine.style.top = '-1.5rem';
-      }
-    });
+  renderDetalContainer() {
+    this.nameItem.insertAdjacentHTML('afterend', this.createHTMLContainerDetalDOM());
   }
 
   changeTotalPriceDetals() {
@@ -115,43 +103,35 @@ export class Service {
     const popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
     const popupDetalAmount = document.querySelector(`.popup__input_amount`) as HTMLInputElement;
     popupDetalPrice.addEventListener('input', () => {
-      if (popupDetalQuant.value === '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * 1);
-        popupDetalQuant.value = '1';
-      } else {
-        popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
+      if (popupDetalAmount.value !== '') {
+        popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
+        if (popupDetalPrice.value === '') {
+          popupDetalQuant.value = '';
+        }
       }
+      onFocus(this.eventPage);
     });
     popupDetalQuant.addEventListener('input', () => {
-      if (popupDetalQuant.value !== '' && popupDetalPrice.value === '') {
-        popupDetalPrice.value = String(+popupDetalAmount.value / +popupDetalQuant.value);
-      }
-      if (popupDetalQuant.value === '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * 1);
-      } else {
+      if (popupDetalPrice.value !== '') {
         popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
       }
+      onFocus(this.eventPage);
     });
-    popupDetalAmount.addEventListener('change', () => {
-      if (popupDetalQuant.value === '' && popupDetalPrice.value !== '') {
-        popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
-      }
-      if (popupDetalAmount.value === '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
-      } else {
-        popupDetalQuant.value = String(+popupDetalQuant.value ? +popupDetalQuant.value : 1);
-        popupDetalPrice.value = String(+popupDetalAmount.value / (+popupDetalQuant.value ? +popupDetalQuant.value : 1));
-      }
+    popupDetalAmount.addEventListener('input', () => {
+      popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
+      onFocus(this.eventPage);
     });
   }
 
-  amountServiceAll(): number {
+  amountServiceAll(): string {
     this.costWorksDOM.addEventListener('change', () => {
       this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
       this.totalPriceTitle.style.top = '-1.5rem';
+      this.totalPriceTitle.style.color = 'grey';
+      this.totalPriceTitle.style.fontSize = '0.8rem';
       return this.totalPriceDetals.value;
     });
-    const curServiceAmount = +(document.querySelector('.service__input_total') as HTMLInputElement).value;
+    const curServiceAmount = (document.querySelector('.service__input_total') as HTMLInputElement).value;
     return curServiceAmount;
   }
 
@@ -165,6 +145,8 @@ export class Service {
         }, 0)
       );
       this.totalPriceTitle.style.top = '-1.5rem';
+      this.totalPriceTitle.style.color = 'grey';
+      this.totalPriceTitle.style.fontSize = '0.8rem';
       return +this.totalPriceDetals.value;
     } else return 0;
   }
@@ -172,7 +154,6 @@ export class Service {
   removePopup() {
     const bgPopup = document.querySelector('.bg__popup--grey') as HTMLElement;
     bgPopup.remove();
-    // (bgPopup as HTMLElement).classList.remove('active');
   }
 
   addDetals() {
@@ -193,23 +174,22 @@ export class Service {
   }
 
   saveDetalsFromPopup() {
-    // let additionID = 0;
     this.pageBody.addEventListener('click', (event) => {
       if ((event.target as HTMLElement).matches('.confirm__btn--ok')) {
         const quant = +(document.querySelector(`.popup__input_quant`) as HTMLInputElement).value;
         const price = +(document.querySelector(`.popup__input_price`) as HTMLInputElement).value;
         const popupDOM = document.querySelector('.popup__container') as HTMLElement;
         const allInputPopupArr = Array.from(popupDOM.querySelectorAll('input'));
-        // additionID += 1;
         if (allInputPopupArr.some((e) => e.value !== '')) {
-          this.detalsListDOM.insertAdjacentHTML('beforeend', this.createHTMLDetalsDOM(/* additionID, */ quant, price));
+          this.detalsListDOM.insertAdjacentHTML('beforeend', this.createHTMLDetalsDOM(quant, price));
         }
-        this.amountDetalsAll();
-
-        this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
-        // this.removePopup();
       }
+      this.recalcTotal();
     });
+  }
+
+  recalcTotal() {
+    this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
   }
 
   changeDetals() {
@@ -225,6 +205,8 @@ export class Service {
         'confirm__btn--edit',
         'confirm__btn--edit'
       );
+      const popup = document.querySelector('.popup__container');
+
       const currentDetalName = currentDetal.querySelector('.detals__item_name') as HTMLElement;
       const currentDetalPart = currentDetal.querySelector('.detals-part__input') as HTMLElement;
       const currentDetalManuf = currentDetal.querySelector('.detals__item_manuf') as HTMLElement;
@@ -232,32 +214,31 @@ export class Service {
       const currentDetalCostQuant = currentDetal.querySelector('.detals-cost__quant') as HTMLElement;
       const currentDetalCostPrice = currentDetal.querySelector('.detals-cost__price') as HTMLElement;
 
-      (document.querySelector(`.popup__input_name`) as HTMLInputElement).value =
-        currentDetalName?.textContent as string;
-      (document.querySelector(`.popup__input_part`) as HTMLInputElement).value = currentDetalPart?.textContent?.slice(
-        1,
-        -1
-      ) as string;
-      (document.querySelector(`.popup__input_manuf`) as HTMLInputElement).value =
-        currentDetalManuf?.textContent as string;
-      (document.querySelector(`.popup__input_price`) as HTMLInputElement).value =
-        currentDetalPrice?.textContent as string;
-      (document.querySelector(`.popup__input_quant`) as HTMLInputElement).value =
-        currentDetalCostQuant?.textContent as string;
-      (document.querySelector(`.popup__input_amount`) as HTMLInputElement).value =
-        currentDetalCostPrice?.textContent as string;
+      const popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
+      const popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
+      const popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
+      const popupDetalPrice = document.querySelector(`.popup__input_price`) as HTMLInputElement;
+      const popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
+      const popupDetalAmount = document.querySelector(`.popup__input_amount`) as HTMLInputElement;
+
+      popupDetalName.value = currentDetalName?.textContent as string;
+      popupDetalPart.value = currentDetalPart?.textContent?.slice(1, -1) as string;
+      popupDetalManuf.value = currentDetalManuf?.textContent as string;
+      popupDetalPrice.value = currentDetalCostPrice?.textContent as string;
+      popupDetalQuant.value = currentDetalCostQuant?.textContent as string;
+      popupDetalAmount.value = currentDetalPrice?.textContent as string;
+
       this.changeTotalPriceDetals();
 
-      this.pageBody.addEventListener('click', (event) => {
+      popup?.addEventListener('click', (event) => {
         if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
-          currentDetalName.textContent = (document.querySelector(`.popup__input_name`) as HTMLInputElement).value;
-          currentDetalPart.textContent = (document.querySelector(`.popup__input_part`) as HTMLInputElement).value;
-          currentDetalManuf.textContent = (document.querySelector(`.popup__input_manuf`) as HTMLInputElement).value;
-          currentDetalPrice.textContent = (document.querySelector(`.popup__input_price`) as HTMLInputElement).value;
-          currentDetalCostQuant.textContent = (document.querySelector(`.popup__input_quant`) as HTMLInputElement).value;
-          currentDetalCostPrice.textContent = (
-            document.querySelector(`.popup__input_amount`) as HTMLInputElement
-          ).value;
+          currentDetalName.textContent = popupDetalName.value;
+          currentDetalPart.textContent = `${popupDetalPart.value ? `[${popupDetalPart.value}]` : ''}`;
+          currentDetalManuf.textContent = popupDetalManuf.value;
+          currentDetalPrice.textContent = popupDetalAmount.value;
+          currentDetalCostQuant.textContent = popupDetalQuant.value;
+          currentDetalCostPrice.textContent = popupDetalPrice.value;
+          this.recalcTotal();
         }
       });
     });
@@ -265,41 +246,36 @@ export class Service {
 
   createServiceEvent() {
     const addServiceBtn = document.querySelector('.add--event-service__btn') as HTMLFormElement;
-    addServiceBtn.addEventListener('click', (event) => {
+    addServiceBtn.addEventListener('click', () => {
       this.initDOM();
-      const worksDetalsArr: IDetals[] = [];
 
+      const worksDetalsArr: IDetals[] = [];
       for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
         worksDetalsArr.push({
           detals: {
             name: (this.detalsNameDOM[i] as HTMLInputElement).value,
             partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
             manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
-            price: Number((this.detalsPriceDOM[i] as HTMLInputElement).value),
-            quantity: Number((this.detalsQuantyDOM[i] as HTMLInputElement).value),
-            amount: Number((this.detalsAmountDOM[i] as HTMLInputElement).value),
+            price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
+            quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
+            amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
           },
         });
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newCarData = JSON.parse(localStorage.getItem('car')!) ? JSON.parse(localStorage.getItem('car')!) : carData;
-
-      newCarData.event.service.push({
-        date: new Date().toLocaleString(),
-        mileage: Number(this.mileageDOM.value),
+      this.serviceEvent = {
+        date: this.dateDOM.value,
+        mileage: this.mileageDOM.value,
         type: this.typeDOM.value,
         name: this.nameDOM.value,
-        worksDetals: worksDetalsArr,
-        amount: this.amountServiceAll(),
+        detals: worksDetalsArr,
+        totalPrice: this.amountServiceAll(),
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
-      });
-      localStorage.setItem('car', JSON.stringify(newCarData));
-      // formDervice.submit();
-      // console.log(carData);
-      event.preventDefault();
+      };
+      const eventArr = this.carData.event.service;
+      updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
     });
   }
 
@@ -307,30 +283,30 @@ export class Service {
     return `
     <div id="popup__content" class="popup__content active ">
           <div class="flex flex-col mb-2">
-            <span id="popup__title_name" class="popup__title_name">${serviceLang().name}</span>
+            <span id="popup__title_name" class="popup__title_name">${eventLang().name}</span>
             <input id="popup__inpit_name" class="popup__input_name border-b border-slate" type="text" placeholder="" />
           </div>
           <div class="flex flex-col mb-2">
-            <span id=="popup__title_part" class="popup__title_part">${serviceLang().part}</span>
+            <span id=="popup__title_part" class="popup__title_part">${eventLang().part}</span>
             <input id="popup__input_part" class="popup__input_part border-b border-slate" type="text" placeholder="" />
           </div>
           <div class="flex flex-col mb-2">
-            <span id=="popup__title_manuf" class="popup__title_manuf">${serviceLang().manufacture}</span>
+            <span id=="popup__title_manuf" class="popup__title_manuf">${eventLang().manufacture}</span>
             <input id=="popup__input_manuf" class="popup__input_manuf  border-b border-slate" type="text" placeholder="" />
           </div>
           <div class="popup-total-service flex flex-col mb-4">
             <div class="grid grid-cols-2 mb-2 gap-4">
               <div class="flex flex-col">
-                <span id=="popup__title_price" class="popup__title_price">${serviceLang().price}</span>
+                <span id=="popup__title_price" class="popup__title_price">${eventLang().price}</span>
                 <input id=="popup__input_price" class="popup__input_price border-b border-slate" type="number" min="0" placeholder="" />
               </div>
               <div class="flex flex-col">
-                <span id=="popup__title_quant" class="popup__title_quant">${serviceLang().quant}</span>
+                <span id=="popup__title_quant" class="popup__title_quant">${eventLang().quant}</span>
                 <input id=="popup__input_quant" class="popup__input_quant border-b border-slate" type="number" min="0" placeholder="" />
               </div>
             </div>
             <div class="flex flex-col">
-              <span id=="popup__title_amount" class="popup__title_amount">${serviceLang().amount}</span>
+              <span id=="popup__title_amount" class="popup__title_amount">${eventLang().amount}</span>
               <input
                 id=="popup__input_amount" class="popup__input_amount border-b border-slate"
                 type="number" min="0"
@@ -341,70 +317,67 @@ export class Service {
       </div>`;
   }
 
-  createHTMLDetalsDOM(/* additionID: number,  */ quant: number, price: number) {
+  createHTMLDetalsDOM(quant: number, price: number) {
     const popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
     const popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
     const popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
     return `
       <li id="detals__item" class="detals__item active">
-          <div class="detals__item_basic">
+          <div class="detals__item_basic flex justify-between">
             <span class="detals__item_name">${popupDetalName.value ? popupDetalName.value : ''}</span>
             <div>
               <span class="detals__item_price">${price ? (quant >= 1 ? quant : 1) * price : ''}</span>
               <span class="detals__item_price-units">${getMoney('BY')?.slice(2)}</span>
             </div>
           </div>
-          <div class="detals__item_sub">
+          <div class="detals__item_sub flex justify-between border-b-2 border-slateBorders">
             <div>
-              <span class="detals__item_manuf"">${popupDetalManuf.value ? popupDetalManuf.value : ''}</span>
-              <span class="detals-part__input">${popupDetalPart.value ? `[${popupDetalPart.value}]` : ''}</span>
+              <span class="detals__item_manuf text-xs">${popupDetalManuf.value ? popupDetalManuf.value : ' '}</span>
+              <span class="detals-part__input text-xs">${
+                popupDetalPart.value ? `[${popupDetalPart.value}]` : ' '
+              }</span>
             </div>
-            <span class="detals-cost__full">${
+            <span class="detals-cost__full text-xs">${
               quant > 1
-                ? `[<span class="detals-cost__quant">${quant}</span> x <span class="detals-cost__price">${price}</span>${getMoney(
+                ? `[<span class="detals-cost__quant text-xs">${quant}</span> x <span class="detals-cost__price text-xs">${price}</span>${getMoney(
                     'BY'
                   )?.slice(1)}]`
-                : ''
+                : ' '
             }</span>
           </div>
       </li>`;
   }
+  createHTMLContainerDetalDOM() {
+    return `
+          <div class="col-span-2">
+            <div
+              id="service__detals-add_container"
+              class="service__detals-add_container flex items-center justify-between">
+              ${icon.wrench}
+              <span id="detals-add__title" class="detals-add__title mb-0">
+                Детали
+              </span>
+              ${renderButtonBlue(eventLang().add, 'detals-add__btn', 'detals-add__btn', '1/2')}
+            </div>
+            <ul id="detals__list" class="detals__list"></ul>
+          </div>`;
+  }
 
   createHTMLServiceDOM() {
-    return `<form id="main-form service" class="main-form service flex flex-col gap-8 justify-between h-80" action="/" method="put">
-      ${lineOfEvent('service', 'type', serviceLang().type, icon.gear, 'text')}
-      ${lineOfEvent('service', 'name', serviceLang().name, icon.pen, 'text')}
-        <div id="service__detals-add_container" class="service__detals-add_container flex items-center">
-            ${icon.wrench}
-          <span id="detals-add__title" class="detals-add__title mb-0">
-            Детали
-          </span>
-          <ul id="detals__list" class="detals__list"></ul>
-          <button id="detals-add__btn" class="detals-add__btn ml-4">
-            ${icon.plus}
-          </button>
-        </div>
-        <div id="service__total_container" class="service__total_container flex justify-between">
-              ${lineOfEvent('service', 'cost-works', serviceLang().costWorks, icon.cost, 'number', getMoney('BY'))}
-                ${lineOfEvent('service', 'total', serviceLang().amount, icon.wallet, 'number', getMoney('BY'))}
-        </div>
-        <div id="service__time_container" class="service__time_container flex justify-between">
-                ${lineOfEvent(
-                  'service',
-                  'date',
-                  serviceLang().date,
-                  icon.date,
-                  'datetime-local',
-                  '',
-                  `${new Date().toISOString().slice(0, 16)}`
-                )}
-                ${lineOfEvent('service', 'mileage', serviceLang().mileage, icon.mileage, 'number')}
-        </div>
-          ${lineOfEvent('service', 'place', serviceLang().place, icon.place, 'text')}
-          ${lineOfEvent('service', 'notes', serviceLang().comments, icon.comments, 'text')}
-        <button id="add--event-service__btn" class="add--event-service__btn text-md bg-myblue text-white px-7 py-1 rounded-md" type="submit">
-          ${serviceLang().addEvent}
-        </button>
+    return `
+                <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
+    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]" action="/" method="put">
+            ${paramsCollectionService
+              .map((obj) => {
+                return lineOfEvent(this.eventPage, obj);
+              })
+              .join('')}
+          ${renderButtonBlue(
+            eventLang().addEvent,
+            'add--event-service__btn col-span-2',
+            'add--event-service__btn',
+            'full'
+          )}
       </form>`;
   }
 }

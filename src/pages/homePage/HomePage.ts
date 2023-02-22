@@ -16,6 +16,7 @@ export class HomePage {
   private car: ICar | null;
   private hiddenFormSectionClass: string | null;
   parent: HTMLElement;
+  addEventCircule!: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;

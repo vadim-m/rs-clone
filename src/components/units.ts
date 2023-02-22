@@ -14,14 +14,33 @@ const unitsEN = {
   volume: ', l',
 };
 
-export function getMoney(country: string) {
+export function getMoney(country: string, litr?: string) {
   const money = new Map([
     ['RU', ', ₽'],
     ['BY', ', BYN'],
     ['EN', ', $'],
     ['EU', ', €'],
   ]);
-  return money.get(country);
+  return litr ? `${money.get(country)}/${getCurrentLanguage() === 'EN' ? 'l' : 'л'}` : money.get(country);
+}
+
+export function getPriceFuel(country: string) {
+  let money = new Map([
+    ['RU', ', ₽/л'],
+    ['BY', ', BYN/л'],
+    ['EN', ', $/л'],
+    ['EU', ', €/л'],
+  ]);
+  if (getCurrentLanguage() === 'EN') {
+    money = new Map([
+      ['RU', ', ₽/l'],
+      ['BY', ', BYN/l'],
+      ['EN', ', $/l'],
+      ['EU', ', €/l'],
+    ]);
+    return money.get(country) as string;
+  }
+  return money.get(country) as string;
 }
 
 export function getUnits() {
