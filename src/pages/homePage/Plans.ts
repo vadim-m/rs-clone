@@ -15,7 +15,7 @@ export class Plans {
     <h2 class="plans__title font-medium text-sm mb-2">Ближайшие планы</h2>
     <ul class="plans__list grid gap-y-3 mb-4">
       <li class="plans__item relative bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 shadow-md">
-        <div class="plans__bar absolute bottom-14 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">Через 10 дней</div>
+        <div class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">Через 10 дней</div>
         <div class="plans__item-and-icon flex items-center mr-2">
           <img src="${carOil}" class="plans__image w-7 h-7 mr-4" alt="oil-icon">
           <div class="plans__text">

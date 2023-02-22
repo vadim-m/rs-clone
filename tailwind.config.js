@@ -34,7 +34,7 @@ module.exports = {
         events: "url('/img/footer-texture.png')",
       },
       gridTemplateAreas: {
-        layout: ['name name', 'mileage year', 'mileage img', 'stats stats'],
+        layout: ['name name', 'mileage year', 'stats img'],
       },
       boxShadow: {
         top: '0 -8px 8px -6px #adaaaa',

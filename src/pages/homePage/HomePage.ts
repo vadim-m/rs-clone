@@ -2,6 +2,7 @@ import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
 import { ICar } from '../../types';
+import data from '../../data/cars.json';
 import { CarForm } from './CarForm';
 import { createCar, getCar, updateCar, deleteCar } from '../../helpers/api';
 import { prepareDataObj } from '../../helpers/utils';
@@ -43,6 +44,28 @@ export class HomePage {
   setCarData(car: ICar) {
     this.hasCar = true; // а это можно убрать (отсылка к строке 20)
     this.car = car; // аналогично (к строке 21)
+  }
+
+  createModels() {
+    const datalist = document.querySelector('#models') as HTMLElement;
+    datalist.innerHTML = '';
+    const brandName = document.querySelector('#add-brand') as HTMLInputElement;
+    const brand = brandName.value;
+    const currentBrand = data.filter((el) => el.name === brand);
+    for (let i = 0; i <= data.length; i++) {
+      if (currentBrand[i]) {
+        currentBrand[i].models.forEach((el) => {
+          const li = document.createElement('option');
+          li.value = el['name'];
+          datalist.append(li);
+        });
+      }
+    }
+  }
+
+  deleteModels() {
+    const datalist = document.querySelector('#add-model') as HTMLInputElement;
+    datalist.value = '';
   }
 
   async createElement() {
@@ -91,6 +114,16 @@ export class HomePage {
     const closeCarSettingsBtn = this.parent.querySelector('#stop-change-car') as HTMLFormElement;
     const carDeleteBtn = this.parent.querySelector('#delete-car') as HTMLFormElement;
     const alertEl = document.querySelector('#car-alert') as HTMLDivElement;
+
+    const brand = this.parent.querySelector('#add-brand') as HTMLInputElement;
+    brand.addEventListener('input', () => {
+      if (+brand.value < 1) this.deleteModels();
+    });
+
+    const model = this.parent.querySelector('#add-model') as HTMLInputElement;
+    model.addEventListener('focus', () => {
+      this.createModels();
+    });
 
     carSettingsBtn?.addEventListener('click', (e) => {
       e.preventDefault();
