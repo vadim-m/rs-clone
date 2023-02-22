@@ -127,7 +127,6 @@ interface ICar {
   fuel: string;
   mileage: string;
   sizeTank: string;
-  engineType?: string;
   engineDisplacement?: string;
   enginePower?: string;
 }

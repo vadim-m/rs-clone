@@ -3,10 +3,12 @@ import { ICar } from '../../types';
 export class CarForm {
   public element: DocumentFragment;
   private carAction: string;
+  private hiddenButton: string;
   private car: ICar | null;
 
   constructor(hasCar: boolean, car: ICar | null) {
     this.carAction = hasCar ? 'Изменить' : 'Добавить';
+    this.hiddenButton = hasCar ? '' : 'hidden';
     this.car = car;
     this.element = this.createElement();
   }
@@ -86,26 +88,8 @@ export class CarForm {
           </div>
         </div>
 
-        <h3 class="text-xl font-bold text-slate-400 mb-4">Двигатель</h3>
+        <h3 class="text-xl font-bold text-slate-400 mb-4 px-3">Двигатель</h3>
           <div class="md:flex">
-
-            <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
-                Тип двигателя
-              </label>
-              <div class="relative">
-                <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded" name="engine">
-                  <option>Бензин</option>
-                  <option>Дизель</option>
-                  <option>Газ</option>
-                  <option>Электричество</option>
-                  <option>Гибрид</option>
-                </select>
-                <div class="pointer-events-none absolute right-0 top-4 pin-y pin-r flex items-center px-2 text-grey-darker">
-                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                </div>
-              </div>
-            </div>
 
             <div class="md:w-1/2 px-3 mb-6">
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
@@ -132,10 +116,14 @@ export class CarForm {
             <button id="car-btn" class="text-md bg-myblue text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait" type="submit">
               ${this.carAction} машину
             </button>
-            <button id="stop-change-car" class="text-md bg-myblue text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait" type="button">
+            <button id="stop-change-car" class="text-md bg-myblue text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait ${
+              this.hiddenButton
+            }" type="button">
               Отмена
             </button>
-            <button id="delete-car" class="text-md bg-red-700 text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-red-600 enabled:focus:bg-red-600 disabled:opacity-25 disabled:cursor-wait" type="button">
+            <button id="delete-car" class="text-md bg-red-700 text-white mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-red-600 enabled:focus:bg-red-600 disabled:opacity-25 disabled:cursor-wait ${
+              this.hiddenButton
+            }" type="button">
               Удалить машину
             </button>
           </div>

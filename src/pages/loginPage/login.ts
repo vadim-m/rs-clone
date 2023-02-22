@@ -76,7 +76,7 @@ export class LoginPage {
         // ЭТО КОСТЫЛЬ с перезагрузкой страницы через 2 секунды
         setTimeout(() => {
           location.href = '/';
-        }, 2000);
+        }, 12000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
