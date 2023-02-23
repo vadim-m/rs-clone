@@ -13,6 +13,7 @@ import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
+import { culcMaybeMileage } from '../../utilits/mathSpend';
 
 export class Service {
   eventPage = 'service';
@@ -43,6 +44,7 @@ export class Service {
   nameItem!: HTMLElement;
   dateDOM!: HTMLInputElement;
   carData: ICarData;
+  totalPriceService!: HTMLInputElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -52,12 +54,14 @@ export class Service {
     this.nameItem = document.querySelector('.service__item_name') as HTMLElement;
     this.renderDetalContainer();
     this.initDOM();
-    this.addDetals();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
+    this.addDetals();
     this.createServiceEvent();
-    this.amountServiceAll();
+    this.calcTotalPriceService();
     this.changeDetals();
+    onFocus(this.eventPage);
   }
 
   initDOM() {
@@ -82,7 +86,7 @@ export class Service {
     this.detalsQuantyDOM = document.querySelectorAll('.detals-quant__input') as NodeList;
     this.detalsAmountDOM = document.querySelectorAll('.detals-amount__input') as NodeList;
 
-    this.totalPriceDetals = document.querySelector('.service__input_total') as HTMLInputElement;
+    this.totalPriceService = document.querySelector('.service__input_total') as HTMLInputElement;
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
     this.totalPriceTitle = document.querySelector('.service__title_total') as HTMLElement;
   }
@@ -91,7 +95,6 @@ export class Service {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
-    onFocus(this.eventPage);
   }
 
   renderDetalContainer() {
@@ -123,16 +126,15 @@ export class Service {
     });
   }
 
-  amountServiceAll(): string {
+  recalcTotal() {
+    this.totalPriceService.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
+  }
+
+  calcTotalPriceService() {
     this.costWorksDOM.addEventListener('change', () => {
-      this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
-      this.totalPriceTitle.style.top = '-1.5rem';
-      this.totalPriceTitle.style.color = 'grey';
-      this.totalPriceTitle.style.fontSize = '0.8rem';
-      return this.totalPriceDetals.value;
+      this.recalcTotal();
+      onFocus(this.eventPage);
     });
-    const curServiceAmount = (document.querySelector('.service__input_total') as HTMLInputElement).value;
-    return curServiceAmount;
   }
 
   amountDetalsAll(): number {
@@ -149,11 +151,6 @@ export class Service {
       this.totalPriceTitle.style.fontSize = '0.8rem';
       return +this.totalPriceDetals.value;
     } else return 0;
-  }
-
-  removePopup() {
-    const bgPopup = document.querySelector('.bg__popup--grey') as HTMLElement;
-    bgPopup.remove();
   }
 
   addDetals() {
@@ -186,10 +183,6 @@ export class Service {
       }
       this.recalcTotal();
     });
-  }
-
-  recalcTotal() {
-    this.totalPriceDetals.value = String(this.amountDetalsAll() + +this.costWorksDOM.value);
   }
 
   changeDetals() {
@@ -269,7 +262,7 @@ export class Service {
         type: this.typeDOM.value,
         name: this.nameDOM.value,
         detals: worksDetalsArr,
-        totalPrice: this.amountServiceAll(),
+        totalPrice: this.totalPriceService.value,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),

@@ -120,6 +120,13 @@ interface IParamsLineOfEvent {
   units?: string;
   value?: string;
 }
+interface ISettingsMyCar {
+  language: string;
+  currency: string;
+  rememberPriceFuel: boolean;
+  predictMileage: boolean;
+  darkTheme: boolean;
+}
 
 enum unitsEnum {
   money = 'money',
@@ -160,4 +167,5 @@ export {
   moneyEnum,
   IParamsLineOfEvent,
   IUser,
+  ISettingsMyCar,
 };

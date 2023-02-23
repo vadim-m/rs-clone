@@ -3,6 +3,7 @@ import { getDateTime } from '../../utilits/getDateTimeFunc';
 import { icon } from '../../components/iconObj';
 import { getMoney, getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
+import { getCurrentPriceFuel } from '../../utilits/getCurrentSettings';
 
 const typeFuel: IParamsLineOfEvent = {
   idAndClass: 'type-fuel',
@@ -21,6 +22,7 @@ const price: IParamsLineOfEvent = {
   typeInput: 'number',
   size: '1',
   required: true,
+  value: getCurrentPriceFuel(),
   units: getMoney('BY', 'litr'),
 };
 

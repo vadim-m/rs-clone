@@ -1,5 +1,5 @@
 import { ICarData, IOther, IRefuel, IService } from '../types';
-import { culcConsumption, updateIndicatirs } from './mathSpend';
+import { updateIndicatirs } from './mathSpend';
 
 export function updateCarData(
   carData: ICarData,
@@ -16,7 +16,6 @@ export function updateCarData(
       return +new Date(a.date) - +new Date(b.date);
     });
     updateIndicatirs(eventPage, carData); // обновляем все индикаторы
-    if (eventPage === 'refuel') culcConsumption(carData); // только для заправки
     localStorage.setItem('car', JSON.stringify(carData)); // обновляем полностью carData
     // event.preventDefault();
   }
