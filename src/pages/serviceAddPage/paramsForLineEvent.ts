@@ -92,7 +92,7 @@ export const paramsCollectionService: IParamsLineOfEvent[] = [
   notes,
 ];
 
-function createHTMLDatalistForType() {
+export function createHTMLDatalistForType() {
   return `
     <option value="${eventLang().maintenance}">
     <option value="${eventLang().repair}">
@@ -118,7 +118,7 @@ function createHTMLDatalistForName() {
     <option value="${eventLang().transmissionOil}">
     <option value="${eventLang().diagnosticsSuspension}">
     <option value="${eventLang().diagnosticsElectrical}">
-    <option value="${eventLang().WinterTires}">
-    <option value="${eventLang().SummerTires}">
+    <option value="${eventLang().winterTires}">
+    <option value="${eventLang().summerTires}">
     <option value="${eventLang().carBattery}">`;
 }

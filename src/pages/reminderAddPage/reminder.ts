@@ -36,6 +36,8 @@ export class Reminder {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.renderPage();
     this.initDOM();
+    // this.changesize();
+    // this.changesize2();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     this.createReminderEvent();
   }
@@ -64,12 +66,26 @@ export class Reminder {
     onFocus(this.eventPage);
   }
 
+  // changesize() {
+  //   (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).addEventListener('focusin', () => {
+  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).size = 4;
+  //   });
+  // }
+  // changesize2() {
+  //   (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).addEventListener('change', () => {
+  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).size = 0;
+  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).blur();
+  //   });
+  //   (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).addEventListener('focusout', () => {
+  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).size = 0;
+  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).blur();
+  //   });
+  // }
   createReminderEvent() {
     const addReminderBtn = document.querySelector('#add--event-reminder__btn') as HTMLButtonElement;
     console.log(addReminderBtn);
     addReminderBtn.addEventListener('click', (event) => {
       this.initDOM();
-
       this.reminderEvent = {
         type: this.typeDOM.value,
         name: this.nameDOM.value,
@@ -79,11 +95,12 @@ export class Reminder {
         rememberAfterMilege: this.previosAfterMileageDOM.value,
         rememberOnDate: this.previosOnDateDOM.value,
         rememberAfteDate: this.previosAfterDateDOM.value,
-        repeatTime: this.previosRepeatTimeDOM.value,
-        repeatMileage: this.previosRepeatMileageDOM.value,
+        repeatTime: '',
+        repeatMileage: '',
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
+      console.log(this.reminderEvent);
       this.carData.event.reminders.push(this.reminderEvent);
       localStorage.setItem('car', JSON.stringify(this.carData));
       event.preventDefault();
@@ -106,6 +123,15 @@ export class Reminder {
             'add--event-reminder__btn',
             'full'
           )}
+          <form>
+  <label for="timeInput">Укажите время:</label>
+  <input type="time" list="timeList" id="timeInput" step="any">
+  <datalist id="timeList">
+    <option value="08:00:20" label="Утром">
+    <option value="12:00" label="Днём">
+    <option value="18:00" label="Вечером">
+  </datalist>
+</form>
       </form>`;
   }
 }

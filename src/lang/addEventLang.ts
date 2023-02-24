@@ -31,8 +31,7 @@ export function eventLang() {
       afterMileage: 'and/or after',
       onDate: 'Remind on the day and time',
       afterDate: 'and/or after',
-      repeatTime: 'To repeat by time',
-      repeatMileage: 'by mileage',
+      repeat: 'To repeat',
       tankFull: 'Full tank',
       petrol: 'Petrol - AI',
       diesel: 'Diesel',
@@ -66,9 +65,13 @@ export function eventLang() {
       transmissionOil: 'Oil change from transmission',
       diagnosticsSuspension: 'Diagnostics of car suspension steering',
       diagnosticsElectrical: 'Diagnostics of electrical equipment',
-      WinterTires: 'Winter tires',
-      SummerTires: 'Summer tires',
+      winterTires: 'Winter tires',
+      summerTires: 'Summer tires',
       carBattery: 'Replacement car battery',
+      day: 'day',
+      week: 'week',
+      month: 'month',
+      year: 'year',
     };
   } else {
     return {
@@ -101,8 +104,7 @@ export function eventLang() {
       afterMileage: 'и/или через',
       onDate: 'Напомнить в день и время',
       afterDate: 'и/или через',
-      repeatTime: 'Повторять по времени',
-      repeatMileage: 'по пробегу',
+      repeat: 'Повторять',
       tankFull: 'Полный бак',
       petrol: 'Бензин - АИ',
       diesel: 'Дизель',
@@ -136,9 +138,13 @@ export function eventLang() {
       transmissionOil: 'Смена масла с коробке передач',
       diagnosticsSuspension: 'Диагностика подвески автомобиля  рулевого управления',
       diagnosticsElectrical: 'Диагностика электрооборудования',
-      WinterTires: 'Зимние шины',
-      SummerTires: 'Летние шины',
+      winterTires: 'Зимние шины',
+      summerTires: 'Летние шины',
       carBattery: 'Замена аккумулятора автомобиля',
+      day: 'день',
+      week: 'неделя',
+      month: 'месяц',
+      year: 'год',
     };
   }
 }

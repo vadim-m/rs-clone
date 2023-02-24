@@ -127,7 +127,17 @@ interface ISettingsMyCar {
   predictMileage: boolean;
   darkTheme: boolean;
 }
-
+interface IParamsOneReminder {
+  class: string;
+  textName: string;
+  textType: string;
+  reminderDefault: boolean;
+  icon?: string;
+  complete?: string;
+  button?: string;
+  label?: string;
+  id: string;
+}
 enum unitsEnum {
   money = 'money',
   distance = 'distance',
@@ -168,4 +178,5 @@ export {
   IParamsLineOfEvent,
   IUser,
   ISettingsMyCar,
+  IParamsOneReminder,
 };
