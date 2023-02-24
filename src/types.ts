@@ -186,4 +186,5 @@ export {
   IParamsLineOfEvent,
   IUser,
   ICar,
+  ISettingsMyCar,
 };

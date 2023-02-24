@@ -1,5 +1,7 @@
+import { getCurrentLanguage } from '../utilits/getCurrentSettings';
+
 export function buttonLang() {
-  if (localStorage.getItem('langMyCar') === 'EN') {
+  if (getCurrentLanguage() === 'EN') {
     return {
       ok: 'OK',
       cancel: 'CANCEL',

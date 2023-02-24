@@ -18,9 +18,10 @@ const name: IParamsLineOfEvent = {
   idAndClass: 'name',
   textTitle: eventLang().name,
   icon: icon.pen,
-  typeInput: 'text',
+  typeInput: 'search',
   size: '2',
   required: false,
+  option: createHTMLDatalistForName(),
 };
 
 const costWorks: IParamsLineOfEvent = {
@@ -91,67 +92,33 @@ export const paramsCollectionService: IParamsLineOfEvent[] = [
   notes,
 ];
 
-/*   ${lineOfEvent(
-        'service',
-        'type',
-        eventLang().type,
-        icon.gear,
-        'search',
-        'full',
-        'yes',
-        createHTMLDatalistTypeService()
-      )}
-      ${lineOfEvent('service', 'name', eventLang().name, icon.pen, 'text', 'full')}
-
-        <div id="service__total_container" class="service__total_container flex justify-between">
-              ${lineOfEvent(
-                'service',
-                'cost-works',
-                eventLang().costWorks,
-                icon.cost,
-                'number',
-                '48',
-                '',
-                '',
-                getMoney('BY')
-              )}
-                ${lineOfEvent(
-                  'service',
-                  'total',
-                  eventLang().amount,
-                  icon.wallet,
-                  'number',
-                  '48',
-                  '',
-                  '',
-                  getMoney('BY')
-                )}
-        </div>
-        <div id="service__time_container" class="service__time_container flex justify-between">
-                ${lineOfEvent(
-                  'service',
-                  'date',
-                  eventLang().date,
-                  icon.date,
-                  'datetime-local',
-                  '48',
-                  '',
-                  '',
-                  '',
-                  getDateTime()
-                )}
-                ${lineOfEvent('service', 'mileage', eventLang().mileage, icon.mileage, 'number', '48')}
-        </div>
-          ${lineOfEvent('service', 'place', eventLang().place, icon.place, 'text', 'full')}
-          ${lineOfEvent('service', 'notes', eventLang().comments, icon.comments, 'text', 'full')} */
-
 function createHTMLDatalistForType() {
   return `
     <option value="${eventLang().maintenance}">
     <option value="${eventLang().repair}">
     <option value="${eventLang().replacement}">
-    <option value="${eventLang().tuninge}">
+    <option value="${eventLang().tuning}">
     <option value="${eventLang().sparePart}">
     <option value="${eventLang().diagnostics}">
     <option value="${eventLang().other}">`;
+}
+
+function createHTMLDatalistForName() {
+  return `
+    <option value="${eventLang().changingOil}">
+    <option value="${eventLang().airFilter}">
+    <option value="${eventLang().fuelFilter}">
+    <option value="${eventLang().interiorFilter}">
+    <option value="${eventLang().brakePadsFront}">
+    <option value="${eventLang().brakePadsRear}">
+    <option value="${eventLang().brakeFluid}">
+    <option value="${eventLang().timingBelts}">
+    <option value="${eventLang().sparkPlugs}">
+    <option value="${eventLang().antifreeze}">
+    <option value="${eventLang().transmissionOil}">
+    <option value="${eventLang().diagnosticsSuspension}">
+    <option value="${eventLang().diagnosticsElectrical}">
+    <option value="${eventLang().WinterTires}">
+    <option value="${eventLang().SummerTires}">
+    <option value="${eventLang().carBattery}">`;
 }
