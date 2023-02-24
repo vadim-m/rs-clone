@@ -1,6 +1,7 @@
 const loginImage = require('../../assets/images/login-image.jpg');
 import { SigninForm } from '../../components/form/SigninForm';
 import { login } from '../../helpers/api';
+import { setToken, setUserID } from '../../helpers/authentication';
 import { IUser } from '../../types';
 
 export class LoginPage {
@@ -56,11 +57,15 @@ export class LoginPage {
         email: email.value,
         password: pass.value,
       };
+
       const res = await login(userData);
       const status = res.status;
       const data = await res.json();
+
       // log
-      console.log(status, data);
+      console.log('Ответ сервера:', status, data);
+      setToken(data.token);
+      setUserID(data.id);
 
       if (status === 200) {
         alertEl.classList.remove('invisible');
@@ -68,9 +73,10 @@ export class LoginPage {
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Token received.`;
-        submitBtn.disabled = false;
-        // ЭТО КОСТЫЛЬ с перезагрузкой страницы
-        // location.href = '/';
+        // ЭТО КОСТЫЛЬ с перезагрузкой страницы через 2 секунды
+        setTimeout(() => {
+          location.href = '/';
+        }, 12000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
