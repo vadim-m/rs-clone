@@ -7,6 +7,7 @@ import { renderButtonBlue } from '../../components/button';
 import { paramsCollectionOther } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
+import { culcMaybeMileage } from '../../utilits/mathSpend';
 
 export class Other {
   eventPage = 'other';
@@ -30,7 +31,9 @@ export class Other {
     this.initDOM();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     changeMileage(this.eventPage, this.carData);
+    culcMaybeMileage(this.eventPage, this.carData);
     this.createotherEvent();
+    onFocus(this.eventPage);
   }
 
   initDOM() {
@@ -47,7 +50,6 @@ export class Other {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLOtherDOM());
-    onFocus(this.eventPage);
   }
 
   createotherEvent() {

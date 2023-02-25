@@ -3,6 +3,7 @@ export function onFocus(page: string) {
   const allTitleArr: HTMLElement[] = Array.from(document.querySelectorAll(`.${page}__title`));
 
   allTitleArr.forEach((eTitle) => {
+    eTitle.style.transition = 'all 0.2s ease-out';
     eTitle.style.top = `${eTitle.clientHeight > 30 ? '-1.5rem' : '0'}`;
   });
   allInputArr.forEach((eInput) => {

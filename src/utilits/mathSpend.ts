@@ -1,12 +1,12 @@
+import { getSettingsFromLocal } from './getCurrentSettings';
 import { ICarData, IOther, IRefuel, IService } from '../types';
 
 // для подсчета в других функциях  - разница между периодами в днях
 function diffDates(dateOne: string, dateTwoLess: string) {
   const result = (+new Date(dateOne) - +new Date(dateTwoLess)) / (60 * 60 * 24 * 1000);
-  console.log(result);
   return result;
 }
-
+// последнее событие
 function lastEvent(carData: ICarData) {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   if (allEvents.length > 0) {
@@ -17,39 +17,46 @@ function lastEvent(carData: ICarData) {
     return undefined; // не знаю, может нужно что-то другое возвращать
   }
 }
+
 // для подсчета в других функциях - всего дней ведение записей
 export function dayTotal(carData: ICarData) {
+  if (lastEvent(carData) === undefined) return 0;
   const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
   const startDate = diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.startDate : firstEvent.date;
   const lastEventDate = (lastEvent(carData) as IRefuel | IService | IOther).date;
-  console.log(lastEventDate);
   return diffDates(lastEventDate, startDate);
 }
 // при входе на страницу в конструктор с ифом на наличие настройки( в локалке должен быть ключ тру)
-export function culcMaybeMileage(event: string, carData: ICarData): string {
-  const curDate = (document.querySelector(`.${event}__input_date`) as HTMLInputElement).value;
-  const lastEventDate = (lastEvent(carData) as IRefuel | IService | IOther).date;
-  const maybeMileage = +getAverageMileageDay(carData) * diffDates(curDate, lastEventDate);
-  return String(maybeMileage);
+export function culcMaybeMileage(event: string, carData: ICarData) {
+  if (getSettingsFromLocal()?.rememberPriceFuel) {
+    if (lastEvent(carData) === undefined) return;
+    const curDate = (document.querySelector(`.${event}__input_date`) as HTMLInputElement).value;
+    const mileageDOM = document.querySelector(`.${event}__input_mileage`) as HTMLInputElement;
+    const lastEventDate = (lastEvent(carData) as IRefuel | IService | IOther).date;
+    const maybeMileage =
+      +(lastEvent(carData) as IRefuel | IService | IOther).mileage +
+      +getAverageMileageDay(carData) * diffDates(curDate, lastEventDate);
+    mileageDOM.value = String(Number(maybeMileage).toFixed(0));
+  }
 }
 
 //в CarDate
 
 // пройдено пути владельцем
 export function calcMyMileageTotal(carData: ICarData): string {
+  if (lastEvent(carData) === undefined) return '0';
   const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
   const startMileage =
-    diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.mileage : firstEvent.mileage;
+    diffDates(carData.info.startDate, firstEvent.date) > 0 ? carData.info.mileage : firstEvent.mileage;
   const lasteEventMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   const myMileageTotal = +lasteEventMileage - +startMileage;
-  console.log(myMileageTotal);
   return String(myMileageTotal);
 }
 
 // средний пробег в день
 function getAverageMileageDay(carData: ICarData): string {
+  if (lastEvent(carData) === undefined) return '0';
   const averageMileageDay = (+calcMyMileageTotal(carData) / dayTotal(carData)).toFixed(2);
-  console.log(dayTotal(carData));
   return averageMileageDay;
 }
 
@@ -73,7 +80,7 @@ export function culcSpendMoneyTotal(carData: ICarData): string {
     .toFixed(2);
   return String(spendMoneyTotal);
 }
-//  общие затраты топлива выполняется после добавления события
+//  общие затраченное топлива выполняется после добавления события
 export function culcSpendFuelTotal(carData: ICarData): string {
   const allRefuels = carData.event.refuel;
   const spendFuelTotal = allRefuels
@@ -81,12 +88,11 @@ export function culcSpendFuelTotal(carData: ICarData): string {
       return acc + +e.amountFuel;
     }, 0)
     .toFixed(2);
-  console.log(allRefuels);
   return String(spendFuelTotal);
 }
+// расчет расхода топлива
 export function culcConsumption(carData: ICarData) {
   const allEventRefuel = carData.event.refuel;
-  console.log(allEventRefuel);
   if (allEventRefuel.length > 1) {
     const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
     const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
@@ -115,37 +121,15 @@ export function culcConsumption(carData: ICarData) {
     }
   }
 }
-
+// обновление всех показателей
 export function updateIndicatirs(curEvent: string, carData: ICarData) {
   if (curEvent === 'refuel') {
     carData.indicators.spendFuelTotal = culcSpendFuelTotal(carData);
+    culcConsumption(carData);
   }
   carData.indicators.curMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   carData.indicators.myMileageTotal = calcMyMileageTotal(carData);
   carData.indicators.averageMileageDay = getAverageMileageDay(carData);
   carData.indicators.spendMoneyTotal = culcSpendMoneyTotal(carData);
   carData.indicators.costOneKM = culcCostOneKM(carData);
-}
-
-export function minMilaeage(curEvent: string, carData: ICarData): string {
-  const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
-  const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
-
-  const beforeDateEvents = allEvents.filter((e) => {
-    return new Date(e.date) < new Date(curDate);
-  });
-  console.log(beforeDateEvents);
-  const lastMileageBefore = beforeDateEvents[beforeDateEvents.length - 1]?.mileage ? beforeDateEvents[0].mileage : '';
-  return lastMileageBefore;
-}
-
-export function maxMilaeage(curEvent: string, carData: ICarData): string {
-  const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
-  const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
-
-  const afterDateEvents = allEvents.filter((e) => {
-    return new Date(e.date) > new Date(curDate);
-  });
-  const firstMileageAfter = afterDateEvents[0]?.mileage ? afterDateEvents[0].mileage : '';
-  return firstMileageAfter;
 }
