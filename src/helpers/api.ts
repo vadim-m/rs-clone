@@ -80,3 +80,41 @@ export const deleteCar = async (id: string) => {
 
   return res;
 };
+
+// Functions for TODO app
+
+export const getTaskAPI = async () => {
+  (await fetch(`${pathURL.toDoTasks}`)).json();
+};
+
+export const postTask = async (text: string) => {
+  (
+    await fetch(pathURL.toDoTasks, {
+      method: 'POST',
+      body: JSON.stringify({
+        text: text,
+        status: false,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    })
+  ).json();
+};
+
+export const deleteTask = async (id: string) =>
+  (await fetch(`${pathURL.toDoTasks}/${id}`, { method: 'DELETE' })).json();
+
+export const updateTasks = async (id: string, text: string, status: boolean) =>
+  (
+    await fetch(`${pathURL.toDoTasks}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        text: text,
+        status: status,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  ).json();

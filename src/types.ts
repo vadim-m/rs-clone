@@ -154,12 +154,6 @@ interface IUser {
   fullName?: string;
 }
 
-interface IUser {
-  email: string;
-  password: string;
-  fullName?: string;
-}
-
 interface ICar {
   _id?: string;
   brand: string;
@@ -170,6 +164,12 @@ interface ICar {
   sizeTank: string;
   engineDisplacement?: string;
   enginePower?: string;
+}
+
+interface IToDo {
+  text: string;
+  progress: boolean;
+  id: string;
 }
 
 export {
@@ -187,4 +187,5 @@ export {
   IUser,
   ICar,
   ISettingsMyCar,
+  IToDo,
 };

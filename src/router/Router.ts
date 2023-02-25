@@ -9,6 +9,8 @@ import { Other } from '../pages/otherAddPage/other';
 import { StatisticPage } from '../pages/statisticPage/StatisticPage';
 import { LoginPage } from '../pages/loginPage/login';
 import { RegistrationPage } from '../pages/registrationPage/registration';
+import { ToDoPage } from '../pages/toDoPage/ToDoPage';
+import { toDoList } from '../pages/toDoPage/data';
 
 export class Router {
   url: URL;
@@ -23,6 +25,7 @@ export class Router {
   otherPage: Other | null = null;
   loginPage: LoginPage | null = null;
   registrationPage: RegistrationPage | null = null;
+  toDoPage: ToDoPage | null = null;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -35,6 +38,7 @@ export class Router {
     this.refuelPage;
     this.loginPage;
     this.registrationPage;
+    this.toDoPage;
     this.initRouter();
   }
 
@@ -60,6 +64,8 @@ export class Router {
       this.loginPage = new LoginPage();
     } else if (routes.Registration.match(path)) {
       this.registrationPage = new RegistrationPage();
+    } else if (routes.Todo.match(path)) {
+      this.toDoPage = new ToDoPage(toDoList);
     }
 
     this.addListeners();
@@ -76,6 +82,7 @@ export class Router {
     this.otherPage = null;
     this.loginPage = null;
     this.registrationPage = null;
+    this.toDoPage = null;
     this.parent.innerHTML = '';
   }
 
