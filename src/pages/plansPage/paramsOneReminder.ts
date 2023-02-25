@@ -4,32 +4,8 @@ import { icon } from '../../components/iconObj';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
 import { diffDates } from '../../utilits/mathSpend';
-import { getDateTime } from '../../utilits/getDateTimeFunc';
+import { getDateTime } from '../../utilits/dateTimeFunc';
 
-const myRemindersContainer: IParamsOneReminder[] = [];
-// Созданное
-const myCarData: ICarData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
-
-const myReminderArr: IReminders[] = myCarData.event.reminders;
-
-myReminderArr.forEach((e) => {
-  return myRemindersContainer.push({
-    class: `reminder-${e.id}`,
-    textName: e.name,
-    textType: e.type,
-    icon: icon.gear,
-    reminderDefault: false,
-    complete: `${e.rememberOnDate ? new Date(e.rememberOnDate) : e.rememberOnMilege}`,
-    label: `${
-      e.rememberOnDate
-        ? diffDates(e.rememberOnDate, getDateTime())
-        : `${+e.rememberOnMilege - myCarData.info.mileage} ${getUnits().distance}`
-    }`,
-    id: e.id,
-  });
-});
-
-export const myRemindersForParams = myRemindersContainer;
 // График ТО
 const changingOil: IParamsOneReminder = {
   class: 'changingOil',
@@ -227,8 +203,47 @@ export const maintenanceArr = [
   tax,
   inshurance,
 ];
+export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
+  const myCarData: ICarData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+  const myReminderArr: IReminders[] = myCarData.event.reminders;
+  const myRemindersContainer: IParamsOneReminder[] = [];
+  let myRemindersForParams = myRemindersContainer;
 
-export const allReminder = [...myRemindersForParams, ...maintenanceArr];
+  myReminderArr.forEach((e) => {
+    return myRemindersContainer.push({
+      class: `reminder-${e.id}`,
+      textName: e.name,
+      textType: e.type,
+      icon: icon.gear,
+      reminderDefault: false,
+      completeDate: `${e.rememberOnDate ? e.rememberOnDate : ''}`,
+      completeMileage: `${e.rememberOnMilege ? e.rememberOnMilege : ''}`,
+      label: `${
+        e.rememberOnDate
+          ? `${diffDates(e.rememberOnDate, getDateTime()).toFixed(0)} ${eventLang().day}`
+          : `${+e.rememberOnMilege - myCarData.info.mileage}${getUnits().distance}`
+      }`,
+      id: e.id,
+    });
+  });
+  myRemindersForParams = myRemindersForParams.sort((a, b) => {
+    return a.completeDate
+      ? +new Date(a.completeDate as string) - +new Date(b.completeDate as string)
+      : +(a.completeMileage as string) - +(b.completeMileage as string);
+  });
+  if (showPlansValue === 'myMaintenance') {
+    return maintenanceArr;
+  }
+  if (showPlansValue === 'myPlans') {
+    return myRemindersForParams.sort((a, b) => {
+      return a.completeDate
+        ? +new Date(a.completeDate as string) - +new Date(b.completeDate as string)
+        : +(a.completeMileage as string) - +(b.completeMileage as string);
+    });
+  } else {
+    return [...myRemindersForParams, ...maintenanceArr];
+  }
+}
 export function createHTMLDatalistForType() {
   return `
     <option value="${eventLang().maintenance}">

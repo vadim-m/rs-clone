@@ -268,7 +268,9 @@ export class Service {
         id: Date.now().toString(),
       };
       const eventArr = this.carData.event.service;
-      updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
+      if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+        updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
+      }
     });
   }
 

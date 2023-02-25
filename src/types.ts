@@ -83,9 +83,7 @@ interface IReminders {
   rememberOnMilege: string;
   rememberAfterMilege: string;
   rememberOnDate: string;
-  rememberAfteDate: string;
-  repeatTime: string;
-  repeatMileage: string;
+  repeat: boolean;
   notes: string;
   id: string;
 }
@@ -133,7 +131,8 @@ interface IParamsOneReminder {
   textType: string;
   reminderDefault: boolean;
   icon?: string;
-  complete?: string;
+  completeDate?: string;
+  completeMileage?: string;
   button?: string;
   label?: string;
   id: string;
@@ -158,6 +157,12 @@ enum moneyEnum {
   EU = 'EU',
 }
 
+interface IShowPlans {
+  myMaintenance: string;
+  myPlans: string;
+  allPlans: string;
+}
+
 interface IUser {
   email: string;
   password: string;
@@ -179,4 +184,5 @@ export {
   IUser,
   ISettingsMyCar,
   IParamsOneReminder,
+  IShowPlans,
 };

@@ -29,6 +29,7 @@ export function eventLang() {
       previosMileage: 'Mileage at the time of execution',
       onMileage: 'Remind on run',
       afterMileage: 'and/or after',
+      after: 'after',
       onDate: 'Remind on the day and time',
       afterDate: 'and/or after',
       repeat: 'To repeat',
@@ -68,10 +69,13 @@ export function eventLang() {
       winterTires: 'Winter tires',
       summerTires: 'Summer tires',
       carBattery: 'Replacement car battery',
-      day: 'day',
+      day: 'days',
       week: 'week',
       month: 'month',
       year: 'year',
+      myMaintenance: 'Maintenance schedule',
+      myPlans: 'My plans',
+      allPlans: 'All plans',
     };
   } else {
     return {
@@ -104,6 +108,7 @@ export function eventLang() {
       afterMileage: 'и/или через',
       onDate: 'Напомнить в день и время',
       afterDate: 'и/или через',
+      after: 'через',
       repeat: 'Повторять',
       tankFull: 'Полный бак',
       petrol: 'Бензин - АИ',
@@ -141,10 +146,13 @@ export function eventLang() {
       winterTires: 'Зимние шины',
       summerTires: 'Летние шины',
       carBattery: 'Замена аккумулятора автомобиля',
-      day: 'день',
-      week: 'неделя',
+      day: 'дн.',
+      week: 'неделю',
       month: 'месяц',
       year: 'год',
+      myMaintenance: 'График ТО',
+      myPlans: 'Мои планы',
+      allPlans: 'Все планы',
     };
   }
 }

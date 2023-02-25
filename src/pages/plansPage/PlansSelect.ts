@@ -1,3 +1,5 @@
+import { eventLang } from '../../lang/addEventLang';
+
 export class PlansSearch {
   public element: DocumentFragment;
 
@@ -14,10 +16,10 @@ export class PlansSearch {
     </div>
 
     <div class="plans__menus grid grid-cols-1 gap-2 justify-between md:grid-cols-2 mb-8">
-      <select>
-        <option>График ТО</option>
-        <option>Мои планы</option>
-        <option>Все планы</option>
+      <select class="plans__menus_select">
+        <option>${eventLang().allPlans}</option>
+        <option>${eventLang().myMaintenance}</option>
+        <option>${eventLang().myPlans}</option>
       </select>
     </div>
     `;

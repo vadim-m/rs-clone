@@ -5,6 +5,7 @@ import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
 import { paramsCollectionReminder } from './paramsForLineEvent';
+import { updateCarData } from '../../utilits/updateCarData';
 
 export class Reminder {
   eventPage = 'reminder';
@@ -24,21 +25,18 @@ export class Reminder {
   addEventCircule!: HTMLElement;
   previosDateDOM!: HTMLInputElement;
   previosMileageDOM!: HTMLInputElement;
-  previosOnMileageDOM!: HTMLInputElement;
-  previosAfterMileageDOM!: HTMLInputElement;
-  previosOnDateDOM!: HTMLInputElement;
-  previosAfterDateDOM!: HTMLInputElement;
-  previosRepeatTimeDOM!: HTMLInputElement;
-  previosRepeatMileageDOM!: HTMLInputElement;
   carData: ICarData;
+  onMileageDOM!: HTMLInputElement;
+  afterMileageDOM!: HTMLInputElement;
+  onDateDOM!: HTMLInputElement;
+  repeatDOM!: HTMLInputElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.renderPage();
     this.initDOM();
-    // this.changesize();
-    // this.changesize2();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    this.calcDiffMileage();
     this.createReminderEvent();
   }
 
@@ -48,12 +46,10 @@ export class Reminder {
     this.nameDOM = document.querySelector('#reminder__input_name') as HTMLInputElement;
     this.previosDateDOM = document.querySelector('#reminder__input_previos-date') as HTMLInputElement;
     this.previosMileageDOM = document.querySelector('#reminder__input_previos-mileage') as HTMLInputElement;
-    this.previosOnMileageDOM = document.querySelector('#reminder__input_on-mileage') as HTMLInputElement;
-    this.previosAfterMileageDOM = document.querySelector('#reminder__input_after-mileage') as HTMLInputElement;
-    this.previosOnDateDOM = document.querySelector('#reminder__input_on-date') as HTMLInputElement;
-    this.previosAfterDateDOM = document.querySelector('#reminder__input_after-date') as HTMLInputElement;
-    this.previosRepeatTimeDOM = document.querySelector('#reminder__input_repeat-time') as HTMLInputElement;
-    this.previosRepeatMileageDOM = document.querySelector('#reminder__input_repeat-mileage') as HTMLInputElement;
+    this.onMileageDOM = document.querySelector('#reminder__input_on-mileage') as HTMLInputElement;
+    this.afterMileageDOM = document.querySelector('#reminder__input_after-mileage') as HTMLInputElement;
+    this.onDateDOM = document.querySelector('#reminder__input_on-date') as HTMLInputElement;
+    this.repeatDOM = document.querySelector('#reminder__input_repeat') as HTMLInputElement;
     this.notesDOM = document.querySelector('#reminder__input_notes') as HTMLInputElement;
 
     this.allInput = document.querySelectorAll('.reminder__input') as NodeList;
@@ -66,21 +62,31 @@ export class Reminder {
     onFocus(this.eventPage);
   }
 
-  // changesize() {
-  //   (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).addEventListener('focusin', () => {
-  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).size = 4;
-  //   });
-  // }
-  // changesize2() {
-  //   (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).addEventListener('change', () => {
-  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).size = 0;
-  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).blur();
-  //   });
-  //   (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).addEventListener('focusout', () => {
-  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).size = 0;
-  //     (document.querySelector(`#reminder__listN_after-date`) as HTMLSelectElement).blur();
-  //   });
-  // }
+  calcDiffMileage() {
+    this.onMileageDOM.addEventListener('change', () => {
+      if (+this.onMileageDOM.value < +this.carData.indicators.curMileage) {
+        this.onMileageDOM.value = this.carData.indicators.curMileage;
+      }
+      this.afterMileageDOM.value = this.onMileageDOM.value
+        ? String(+this.onMileageDOM.value - +this.carData.indicators.curMileage)
+        : '';
+      onFocus(this.eventPage);
+    });
+    this.afterMileageDOM.addEventListener('change', () => {
+      this.onMileageDOM.value = this.afterMileageDOM.value
+        ? String(+this.afterMileageDOM.value + +this.carData.indicators.curMileage)
+        : '';
+      onFocus(this.eventPage);
+    });
+  }
+
+  requredMileageDate() {
+    console.log(this.onMileageDOM.value);
+    console.log(this.onDateDOM.value);
+    this.onMileageDOM.value ? (this.onDateDOM.required = false) : (this.onDateDOM.required = true);
+    this.onDateDOM.value ? (this.onMileageDOM.required = false) : (this.onMileageDOM.required = true);
+  }
+
   createReminderEvent() {
     const addReminderBtn = document.querySelector('#add--event-reminder__btn') as HTMLButtonElement;
     console.log(addReminderBtn);
@@ -91,19 +97,20 @@ export class Reminder {
         name: this.nameDOM.value,
         previosDate: this.previosDateDOM.value,
         previosMileage: this.previosMileageDOM.value,
-        rememberOnMilege: this.previosOnMileageDOM.value,
-        rememberAfterMilege: this.previosAfterMileageDOM.value,
-        rememberOnDate: this.previosOnDateDOM.value,
-        rememberAfteDate: this.previosAfterDateDOM.value,
-        repeatTime: '',
-        repeatMileage: '',
+        rememberOnMilege: this.onMileageDOM.value,
+        rememberAfterMilege: this.afterMileageDOM.value,
+        rememberOnDate: this.onDateDOM.value,
+        repeat: this.repeatDOM.checked,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
       };
-      console.log(this.reminderEvent);
-      this.carData.event.reminders.push(this.reminderEvent);
-      localStorage.setItem('car', JSON.stringify(this.carData));
-      event.preventDefault();
+      console.log(addReminderBtn);
+      const eventArr = this.carData.event.reminders;
+      this.requredMileageDate();
+      if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+        updateCarData(this.carData, this.eventPage, eventArr, this.reminderEvent);
+        event.preventDefault();
+      }
     });
   }
 
@@ -123,15 +130,6 @@ export class Reminder {
             'add--event-reminder__btn',
             'full'
           )}
-          <form>
-  <label for="timeInput">Укажите время:</label>
-  <input type="time" list="timeList" id="timeInput" step="any">
-  <datalist id="timeList">
-    <option value="08:00:20" label="Утром">
-    <option value="12:00" label="Днём">
-    <option value="18:00" label="Вечером">
-  </datalist>
-</form>
       </form>`;
   }
 }
