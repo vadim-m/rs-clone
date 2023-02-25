@@ -2,7 +2,8 @@ import { PanelNav } from '../components/footer/PanelNav';
 import { Router } from '../router/Router';
 import { Header } from '../components/header/Header';
 import { carData } from '../car/car_data';
-import { settingsMyCar } from '../components/settingsMyCar';
+import { defaultSettings } from '../constants/constants';
+import { setUserSettings } from '../helpers/authentication';
 
 export class App {
   header: Header | undefined;
@@ -15,8 +16,8 @@ export class App {
     this.main;
     this.footer;
     this.isUserAuthenticated = this.checkUserAuthentication();
+    this.setSettings();
     this.setNewCarDataToLocal();
-    this.setSettingMyCar();
   }
 
   checkUserAuthentication() {
@@ -25,18 +26,37 @@ export class App {
     return !!hasToken;
   }
 
-  setNewCarDataToLocal() {
-    //! заполнить данными с ДБ
-    if (!localStorage.getItem('car')) {
-      // carData будет первоначальная при создании машины прилетать
-      localStorage.setItem('car', JSON.stringify(carData));
+  setSettings() {
+    if (!localStorage.getItem('settingsCar')) {
+      setUserSettings(defaultSettings);
+    } else {
+      //! update get from API ниже
+      // settings
+      // info
+      // fuels
+      // services
+      // others
+      // reminders
+      const todos = get().json();
+      car.Todos = todos;
     }
   }
 
-  setSettingMyCar() {
-    if (!localStorage.getItem('settingsCar')) {
+  // ! тут
+  // async loadCarData() {
+  //   const res = await getCar();
+  //   const status = res.status;
+  //   const data: ICar = await res.json();
+  //   if (status === 200) {
+  //     this.setCarData(data);
+  //   }
+  // }
+
+  setNewCarDataToLocal() {
+    //! заполнить данными с ДБ
+    if (this.isUserAuthenticated) {
       // carData будет первоначальная при создании машины прилетать
-      localStorage.setItem('settingsCar', JSON.stringify(settingsMyCar));
+      localStorage.setItem('car', JSON.stringify(carData));
     }
   }
 

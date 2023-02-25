@@ -8,14 +8,20 @@ interface ICarData {
     reminders: IReminders[];
   };
 }
-interface IInfo {
+
+export interface IInfo {
+  _id?: string;
   brand: string;
   model: string;
   year: number;
+  fuel?: string;
+  hasCar?: false;
   mileage: number;
   sizeTank: number;
+  engineDisplacement?: string;
+  enginePower?: string;
   startFuel: number;
-  startDate: string; // новое поле
+  startDate: string;
   cost: number;
 }
 
@@ -121,6 +127,8 @@ interface IParamsLineOfEvent {
   value?: string;
 }
 interface ISettingsMyCar {
+  fullName?: string;
+  hasCar?: boolean;
   language: string;
   currency: string;
   rememberPriceFuel: boolean;

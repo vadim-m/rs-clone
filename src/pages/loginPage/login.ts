@@ -1,7 +1,7 @@
 const loginImage = require('../../assets/images/login-image.jpg');
 import { SigninForm } from '../../components/form/SigninForm';
 import { login } from '../../helpers/api';
-import { setToken, setUserID } from '../../helpers/authentication';
+import { setToken, setUserID, setUserSettings } from '../../helpers/authentication';
 import { IUser } from '../../types';
 
 export class LoginPage {
@@ -66,6 +66,7 @@ export class LoginPage {
       console.log('Ответ сервера:', status, data);
       setToken(data.token);
       setUserID(data.id);
+      setUserSettings(data.userSettings);
 
       if (status === 200) {
         alertEl.classList.remove('invisible');

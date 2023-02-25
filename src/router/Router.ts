@@ -1,4 +1,4 @@
-import { routes } from './constants';
+import { routes } from './routes';
 import { HomePage } from '../pages/homePage/HomePage';
 import { EventsPage } from '../pages/eventsPage/EventsPage';
 import { PlansPage } from '../pages/plansPage/PlansPage';
@@ -98,10 +98,11 @@ export class Router {
   }
 
   addListeners() {
-    window.addEventListener('popstate', () => {
-      this.destroy();
-      this.render(new URL(window.location.href).pathname);
-    });
+    // ! ломаент рендерс при переходе по стрелкам
+    // window.addEventListener('popstate', () => {
+    //   this.destroy();
+    //   this.render(new URL(window.location.href).pathname);
+    // });
 
     document.querySelectorAll('[href^="/"]').forEach((el) => {
       el.addEventListener('click', (e) => {
