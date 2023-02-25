@@ -4,18 +4,27 @@ import { Header } from '../components/header/Header';
 import { carData } from '../car/car_data';
 
 export class App {
-  footer: PanelNav | undefined;
-  router: Router | undefined;
   header: Header | undefined;
+  main: Router | undefined;
+  footer: PanelNav | undefined;
+  isUserAuthenticated = false;
 
   constructor() {
-    this.footer;
-    this.router;
     this.header;
+    this.main;
+    this.footer;
+    this.isUserAuthenticated = this.checkUserAuthentication();
     this.setNewCarDataToLocal();
   }
 
+  checkUserAuthentication() {
+    const hasToken = localStorage.getItem('token');
+
+    return !!hasToken;
+  }
+
   setNewCarDataToLocal() {
+    //! заполнить данными с ДБ
     if (!localStorage.getItem('car')) {
       // carData будет первоначальная при создании машины прилетать
       localStorage.setItem('car', JSON.stringify(carData));
@@ -23,8 +32,8 @@ export class App {
   }
 
   render() {
-    this.header = new Header();
-    this.footer = new PanelNav();
-    this.router = new Router();
+    this.header = new Header(this.isUserAuthenticated);
+    this.footer = new PanelNav(this.isUserAuthenticated);
+    this.main = new Router(this.isUserAuthenticated);
   }
 }

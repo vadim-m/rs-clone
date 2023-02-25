@@ -26,7 +26,7 @@ export class RegistrationPage {
       flex items-center justify-center">
 
         <div class="w-full h-100">
-          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Sign in</h1>
+          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Sign up</h1>
 
           ${this.form}
 

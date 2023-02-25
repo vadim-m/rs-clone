@@ -17,8 +17,9 @@ export class HomePage {
   private hiddenFormSectionClass: string | null;
   parent: HTMLElement;
   addEventCircule!: HTMLElement;
+  goTo: (path: string) => void;
 
-  constructor() {
+  constructor(router: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.hasCar = false; // сюда потом можно брать инфо из локалстораж
     this.car = null; // тут тоже можно брать из локалстораж по логике Саши
@@ -27,6 +28,7 @@ export class HomePage {
     this.events = null;
     this.carForm = null;
     this.hiddenFormSectionClass = null;
+    this.goTo = router;
 
     this.createElement();
   }
@@ -165,7 +167,7 @@ export class HomePage {
         alertEl.textContent = `Status: ${status}. Successfully.`;
         setTimeout(() => {
           location.reload();
-        }, 8000);
+        }, 3000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
@@ -177,7 +179,7 @@ export class HomePage {
 
       setTimeout(() => {
         location.reload();
-      }, 8000);
+      }, 3000);
     });
 
     form?.addEventListener('submit', async (e) => {
@@ -231,8 +233,9 @@ export class HomePage {
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
         setTimeout(() => {
-          location.reload();
-        }, 8000);
+          // сюда функцию обновления LC через await
+          this.goTo('/');
+        }, 3000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

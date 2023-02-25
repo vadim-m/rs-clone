@@ -154,12 +154,6 @@ interface IUser {
   fullName?: string;
 }
 
-interface IUser {
-  email: string;
-  password: string;
-  fullName?: string;
-}
-
 interface ICar {
   _id?: string;
   brand: string;

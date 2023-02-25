@@ -13,34 +13,46 @@ import { RegistrationPage } from '../pages/registrationPage/registration';
 export class Router {
   url: URL;
   parent: HTMLElement;
-  homePage: HomePage | null = null;
-  servicePage: Service | null = null;
-  statisticPage: StatisticPage | null = null;
-  eventsPage: EventsPage | null = null;
-  plansPage: PlansPage | null = null;
-  reminderPage: Reminder | null = null;
-  refuelPage: Refuel | null = null;
-  otherPage: Other | null = null;
-  loginPage: LoginPage | null = null;
-  registrationPage: RegistrationPage | null = null;
+  homePage: HomePage | null;
+  servicePage: Service | null;
+  statisticPage: StatisticPage | null;
+  eventsPage: EventsPage | null;
+  plansPage: PlansPage | null;
+  reminderPage: Reminder | null;
+  refuelPage: Refuel | null;
+  otherPage: Other | null;
+  loginPage: LoginPage | null;
+  registrationPage: RegistrationPage | null;
+  isUserAuthenticated: boolean;
 
-  constructor() {
+  constructor(isUserAuthenticated: boolean) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.isUserAuthenticated = isUserAuthenticated;
     this.url = new URL(window.location.href);
-    this.homePage;
-    this.eventsPage;
-    this.plansPage;
-    this.servicePage;
-    this.reminderPage;
-    this.refuelPage;
-    this.loginPage;
-    this.registrationPage;
-    this.initRouter();
+    this.homePage = null;
+    this.servicePage = null;
+    this.statisticPage = null;
+    this.eventsPage = null;
+    this.plansPage = null;
+    this.reminderPage = null;
+    this.refuelPage = null;
+    this.otherPage = null;
+    this.loginPage = null;
+    this.registrationPage = null;
+    this.render(new URL(window.location.href).pathname);
   }
 
   render(path: string) {
+    if (!this.isUserAuthenticated && location.pathname === '/signup') {
+      this.registrationPage = new RegistrationPage();
+      return;
+    } else if (!this.isUserAuthenticated) {
+      this.loginPage = new LoginPage();
+      return;
+    }
+
     if (routes.Home.match(path)) {
-      this.homePage = new HomePage();
+      this.homePage = new HomePage(this.goTo.bind(this));
     } else if (routes.Events.match(path)) {
       this.eventsPage = new EventsPage();
     } else if (routes.Plans.match(path)) {
@@ -60,7 +72,7 @@ export class Router {
       this.loginPage = new LoginPage();
     } else if (routes.Registration.match(path)) {
       this.registrationPage = new RegistrationPage();
-    }
+    } //! else 404 page
 
     this.addListeners();
   }
@@ -81,6 +93,7 @@ export class Router {
 
   goTo(path: string) {
     window.history.pushState({ path }, path, path);
+    this.destroy();
     this.render(path);
   }
 
@@ -89,6 +102,7 @@ export class Router {
       this.destroy();
       this.render(new URL(window.location.href).pathname);
     });
+
     document.querySelectorAll('[href^="/"]').forEach((el) => {
       el.addEventListener('click', (e) => {
         e.preventDefault();
@@ -104,9 +118,5 @@ export class Router {
         this.goTo(path);
       });
     });
-  }
-
-  initRouter() {
-    this.render(new URL(window.location.href).pathname);
   }
 }

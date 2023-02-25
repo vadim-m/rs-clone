@@ -31,7 +31,7 @@ export class SignupForm {
         </div>
 
         <button type="submit" class="w-full block bg-indigo-500 enabled:hover:bg-indigo-400 enabled:focus:bg-indigo-400 disabled:opacity-25 disabled:cursor-wait text-white font-semibold rounded-lgpx-4 py-3 mt-6" id="${this.id}-btn">
-          Sign In
+          Sign Up
         </button>
       </form>
     `;
