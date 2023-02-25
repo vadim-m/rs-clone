@@ -61,12 +61,15 @@ export class Router {
     } else if (routes.Registration.match(path)) {
       this.registrationPage = new RegistrationPage();
     }
+
+    this.addListeners();
   }
 
   destroy() {
     this.homePage = null;
     this.eventsPage = null;
     this.plansPage = null;
+    this.statisticPage = null;
     this.servicePage = null;
     this.reminderPage = null;
     this.refuelPage = null;
@@ -81,7 +84,7 @@ export class Router {
     this.render(path);
   }
 
-  initRouter() {
+  addListeners() {
     window.addEventListener('popstate', () => {
       this.destroy();
       this.render(new URL(window.location.href).pathname);
@@ -101,6 +104,9 @@ export class Router {
         this.goTo(path);
       });
     });
+  }
+
+  initRouter() {
     this.render(new URL(window.location.href).pathname);
   }
 }

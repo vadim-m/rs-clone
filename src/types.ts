@@ -169,6 +169,25 @@ interface IUser {
   fullName?: string;
 }
 
+// eslint-disable-next-line no-redeclare
+interface IUser {
+  email: string;
+  password: string;
+  fullName?: string;
+}
+
+interface ICar {
+  _id?: string;
+  brand: string;
+  model: string;
+  year: string;
+  fuel: string;
+  mileage: string;
+  sizeTank: string;
+  engineDisplacement?: string;
+  enginePower?: string;
+}
+
 export {
   ICarData,
   IRefuel,
@@ -182,6 +201,7 @@ export {
   moneyEnum,
   IParamsLineOfEvent,
   IUser,
+  ICar,
   ISettingsMyCar,
   IParamsOneReminder,
   IShowPlans,

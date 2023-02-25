@@ -34,7 +34,7 @@ module.exports = {
         events: "url('/img/footer-texture.png')",
       },
       gridTemplateAreas: {
-        layout: ['name name', 'mileage year', 'mileage img', 'stats stats'],
+        layout: ['name name', 'mileage year', 'stats img'],
       },
       boxShadow: {
         top: '0 -8px 8px -6px #adaaaa',
@@ -58,15 +58,6 @@ module.exports = {
         slateBorders: 'rgb(203 213 225)',
         myblue: '#394f89',
         mydark: 'rgba(0, 0, 0, 0.5)',
-      },
-      colors: {
-        transparent: 'transparent',
-        current: 'currentColor',
-        white: '#ffffff',
-        slate: '#f0f2f6',
-        slateBorders: 'rgb(203 213 225)',
-        blue: '#394f89',
-        dark: 'rgba(0, 0, 0, 0.5)',
       },
     },
   },

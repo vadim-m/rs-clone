@@ -11,7 +11,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   } relative bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
   ${
     paramsRemindObj.reminderDefault === false
-      ? `<p class="plans__bar absolute bottom-12 right-0 bg-blue text-white text-xs px-3 py-1 rounded-md">${
+      ? `<p class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">${
           eventLang().after
         } ${paramsRemindObj.label}</p>`
       : ''
