@@ -4,9 +4,9 @@ import { Events } from './Events';
 import { ICar } from '../../types';
 import data from '../../data/cars.json';
 import { CarForm } from './CarForm';
-import { createCar, getCar, updateCar, deleteCar } from '../../helpers/api';
+import { createCar, updateCar, deleteCar } from '../../helpers/api';
 import { prepareDataObj } from '../../helpers/utils';
-import { getAppSettings } from '../../helpers/localStorage';
+import { getAppSettingsFromLS, setCarDataFromDB } from '../../helpers/localStorage';
 
 export class HomePage {
   private info: DocumentFragment | null;
@@ -14,7 +14,6 @@ export class HomePage {
   private events: DocumentFragment | null;
   private carForm: DocumentFragment | null;
   private hasCar: boolean;
-  private car: ICar | null;
   private hiddenFormSectionClass: string | null;
   parent: HTMLElement;
   addEventCircule!: HTMLElement;
@@ -29,32 +28,11 @@ export class HomePage {
     this.hiddenFormSectionClass = null;
     this.navigateTo = goTo;
     this.hasCar = this.checkAvailabilityCar();
-    this.car = null; // тут тоже можно брать из локалстораж по логике Саши
-    // this.car = this.setCarData();
     this.createElement();
   }
 
   checkAvailabilityCar() {
-    return getAppSettings()?.hasCar ?? false;
-  }
-
-  // загрузка данных о машине, от этой функции можно будет избавиться
-  // async loadCarData() {
-  //   const res = await getCar();
-  //   const status = res.status;
-  //   const data: ICar = await res.json();
-  //   if (status === 200) {
-  //     this.setCarData(data);
-  //   }
-  // }
-
-  // обновление данных о машине в текущем инстансе HomePage, от этой функции можно будет избавиться
-  setCarData() {
-    if (this.hasCar) {
-      //
-    } else {
-      return null;
-    }
+    return getAppSettingsFromLS()?.hasCar ?? false;
   }
 
   createModels() {
@@ -80,13 +58,10 @@ export class HomePage {
   }
 
   async createElement() {
-    console.log();
-
-    await this.loadCarData();
-    this.info = new Info(this.car).element;
+    this.info = new Info().element;
     this.plans = new Plans().element;
     this.events = new Events().element;
-    this.carForm = new CarForm(this.hasCar, this.car).element;
+    this.carForm = new CarForm(this.hasCar).element;
     this.hiddenFormSectionClass = this.hasCar ? 'hidden' : '';
 
     if (!this.hasCar) {
@@ -175,9 +150,10 @@ export class HomePage {
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
+        await setCarDataFromDB();
         setTimeout(() => {
-          location.reload();
-        }, 3000);
+          this.navigateTo('/');
+        }, 2000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
@@ -186,10 +162,6 @@ export class HomePage {
         alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
         submitBtn.disabled = false;
       }
-
-      setTimeout(() => {
-        location.reload();
-      }, 3000);
     });
 
     form?.addEventListener('submit', async (e) => {
@@ -242,10 +214,10 @@ export class HomePage {
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
+        await setCarDataFromDB();
         setTimeout(() => {
-          // сюда функцию обновления LC через await
           this.navigateTo('/');
-        }, 3000);
+        }, 2000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

@@ -3,7 +3,11 @@ import { IUser } from '../types';
 import { ICar } from '../types';
 import { getUserID } from '../helpers/authentication';
 
-const userId = getUserID();
+let userId = getUserID();
+
+const updateUserID = () => {
+  userId = getUserID();
+};
 
 export const login = async (body: IUser) => {
   const res = await fetch(pathURL.login, {
@@ -30,6 +34,7 @@ export const registration = async (body: IUser) => {
 };
 
 export const createCar = async (body: ICar) => {
+  updateUserID();
   const res = await fetch(pathURL.cars, {
     method: 'POST',
     body: JSON.stringify(body),
@@ -44,6 +49,7 @@ export const createCar = async (body: ICar) => {
 };
 
 export const updateCar = async (body: ICar, id: string) => {
+  updateUserID();
   const res = await fetch(`${pathURL.cars}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(body),
@@ -58,6 +64,7 @@ export const updateCar = async (body: ICar, id: string) => {
 };
 
 export const getCar = async () => {
+  updateUserID();
   const res = await fetch(`${pathURL.cars}/id`, {
     // после добавления passport удалить!
     headers: {
@@ -69,6 +76,7 @@ export const getCar = async () => {
 };
 
 export const deleteCar = async (id: string) => {
+  updateUserID();
   const res = await fetch(`${pathURL.cars}/${id}`, {
     method: 'DELETE',
     headers: {

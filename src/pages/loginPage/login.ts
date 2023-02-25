@@ -2,14 +2,17 @@ const loginImage = require('../../assets/images/login-image.jpg');
 import { SigninForm } from '../../components/form/SigninForm';
 import { login } from '../../helpers/api';
 import { setToken, setUserID, setUserSettings } from '../../helpers/authentication';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 import { IUser } from '../../types';
 
 export class LoginPage {
   parent: HTMLElement;
+  navigateTo: (path: string) => void;
   private form = new SigninForm('login').element;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.navigateTo = goTo;
     this.createElement();
     this.addListeners();
   }
@@ -66,6 +69,8 @@ export class LoginPage {
       console.log('Ответ сервера:', status, data);
       setToken(data.token);
       setUserID(data.id);
+      console.log('дал айди,', data.id);
+
       setUserSettings(data.userSettings);
 
       if (status === 200) {
@@ -74,10 +79,11 @@ export class LoginPage {
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Token received.`;
-        // ЭТО КОСТЫЛЬ с перезагрузкой страницы через 2 секунды
+        await setCarDataFromDB();
+        console.log('обновил дату');
         setTimeout(() => {
-          location.href = '/';
-        }, 12000);
+          this.navigateTo('/');
+        }, 4000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

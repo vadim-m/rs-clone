@@ -42,12 +42,18 @@ export class Router {
     this.render(new URL(window.location.href).pathname);
   }
 
+  checkUserAuthentication() {
+    const hasToken = localStorage.getItem('token');
+
+    this.isUserAuthenticated = !!hasToken;
+  }
+
   render(path: string) {
     if (!this.isUserAuthenticated && location.pathname === '/signup') {
       this.registrationPage = new RegistrationPage();
       return;
     } else if (!this.isUserAuthenticated) {
-      this.loginPage = new LoginPage();
+      this.loginPage = new LoginPage(this.goTo.bind(this));
       return;
     }
 
@@ -69,7 +75,7 @@ export class Router {
       this.otherPage = new Other();
       // result = new PlansPage().element;
     } else if (routes.Login.match(path)) {
-      this.loginPage = new LoginPage();
+      this.loginPage = new LoginPage(this.goTo.bind(this));
     } else if (routes.Registration.match(path)) {
       this.registrationPage = new RegistrationPage();
     } //! else 404 page
@@ -93,6 +99,7 @@ export class Router {
 
   goTo(path: string) {
     window.history.pushState({ path }, path, path);
+    this.checkUserAuthentication();
     this.destroy();
     this.render(path);
   }

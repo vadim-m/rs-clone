@@ -6,18 +6,14 @@ import { TabsButton } from './buttonEventAdd';
 
 export class PanelNav {
   private tabsButton = new TabsButton().element;
-  isUserAuth: boolean;
 
-  constructor(isUserAuth: boolean) {
-    this.isUserAuth = isUserAuth;
+  constructor() {
     this.render();
   }
 
   render() {
-    if (this.isUserAuth) {
-      const mainContainer = document.querySelector('.main') as HTMLElement;
-      mainContainer.after(this.createElement());
-    }
+    const mainContainer = document.querySelector('.main') as HTMLElement;
+    mainContainer.after(this.createElement());
   }
 
   createElement() {

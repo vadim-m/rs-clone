@@ -1,17 +1,18 @@
-import { ICar } from '../../types';
+import { IInfo } from '../../types';
 
 const expenses = require('../../assets/icons/expenses.png');
 const finance = require('../../assets/icons/finance.png');
 const coins = require('../../assets/icons/coins.png');
 const gasStation = require('../../assets/icons/gas-station.png');
 const gear = require('../../assets/icons/gear.svg');
+import { getCarInfoFromLS } from '../../helpers/localStorage';
 
 export class Info {
   public element: DocumentFragment;
-  private car: ICar | null;
+  private car: IInfo | null;
 
-  constructor(car: ICar | null) {
-    this.car = car;
+  constructor() {
+    this.car = getCarInfoFromLS();
     this.element = this.createElement();
   }
 

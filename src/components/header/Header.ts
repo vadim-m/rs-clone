@@ -3,19 +3,14 @@ const downArror = require('../../assets/icons/down-arrow.png');
 const wheel = require('../../assets/icons/steering-wheel.svg');
 
 export class Header {
-  isUserAuth: boolean;
-
-  constructor(isUserAuth: boolean) {
-    this.isUserAuth = isUserAuth;
+  constructor() {
     this.render();
   }
 
   render() {
-    if (this.isUserAuth) {
-      const body = document.querySelector('body') as HTMLElement;
-      body.prepend(this.createElement());
-      this.addEvents();
-    }
+    const body = document.querySelector('body') as HTMLElement;
+    body.prepend(this.createElement());
+    this.addEvents();
   }
 
   createElement() {
