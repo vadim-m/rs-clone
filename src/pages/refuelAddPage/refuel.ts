@@ -122,13 +122,18 @@ export class Refuel {
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-    <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-8 h-[32rem] w-full" action="/" method="put">
+          <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full" action="/" method="put">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
             })
             .join('')}
-          ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn col-span-2', 'add--event-refuel__btn', 'full')}
-      </form>`;
+          ${renderButtonBlue(
+            eventLang().add,
+            'add--event-refuel__btn col-span-2 dark:bg-slate-600 ml-4',
+            'add--event-refuel__btn',
+            'full'
+          )}
+          </form>`;
   }
 }

@@ -148,6 +148,7 @@ interface ISettingsMyCar {
   rememberPriceFuel: boolean;
   predictMileage: boolean;
   darkTheme: boolean;
+  orientation: boolean;
 }
 
 enum unitsEnum {
@@ -170,16 +171,16 @@ enum moneyEnum {
   EU = 'EU',
 }
 
-interface IUser {
-  email: string;
-  password: string;
-  fullName?: string;
-}
-
 interface IToDo {
   _id?: string;
   text?: string;
   progress: boolean;
+}
+
+interface IUser {
+  email: string;
+  password: string;
+  fullName?: string;
 }
 
 export {

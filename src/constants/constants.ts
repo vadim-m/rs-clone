@@ -18,4 +18,5 @@ export const defaultSettings: ISettingsMyCar = {
   darkTheme: false,
   predictMileage: true,
   rememberPriceFuel: true,
+  orientation: false
 };

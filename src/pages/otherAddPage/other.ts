@@ -81,7 +81,12 @@ export class Other {
         return lineOfEvent(this.eventPage, obj);
       })
       .join('')}
-          ${renderButtonBlue(eventLang().addEvent, 'add--event-other__btn col-span-2', 'add--event-other__btn', 'full')}
+          ${renderButtonBlue(
+            eventLang().addEvent,
+            'add--event-other__btn col-span-2 dark:bg-slate-600 ml-4',
+            'add--event-other__btn',
+            'full'
+          )}
 
       </form>`;
   }

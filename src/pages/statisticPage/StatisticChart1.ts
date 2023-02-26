@@ -10,7 +10,7 @@ export class StatisticChart1 {
     <!--Slide 1-->
     <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
     <div class="carousel-item absolute opacity-0 hidden">
-      <div class="block w-full bg-myslate h-10 shadow-md"></div>
+      <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
       <div class="mb-6 flex justify-center"><canvas id="acquisitions" style="max-width: 250px; max-height: 250px"></canvas></div>
       <div class="statistic__legend mb-8">
       <div class="statistic__fuels item flex pr-10 border-b border-t border-r border-slate">
