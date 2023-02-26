@@ -1,4 +1,4 @@
-import { createTodo } from '../../helpers/api';
+import { createTodo, deleteTodo, updateTodo } from '../../helpers/api';
 import { getCarTodosFromLS, setCarDataFromDB } from '../../helpers/localStorage';
 import { IToDo } from '../../types';
 
@@ -58,72 +58,81 @@ export class TodoPage {
     todoList.addEventListener('click', this.updateToDoItem);
   }
 
-  async addTodo(event: MouseEvent) {
+  addTodo = async (event: MouseEvent) => {
     event.preventDefault();
     const todoInput = document.querySelector('.todo__input') as HTMLInputElement;
+    const addTodoBtn = document.querySelector('.todo__button') as HTMLButtonElement;
 
     if (todoInput.value !== '') {
-      console.log(this.navigateTo);
       const todoData: IToDo = {
         text: todoInput.value,
         progress: false,
       };
 
+      todoInput.disabled = true;
+      addTodoBtn.disabled = true;
+
       const res = await createTodo(todoData);
       const status = res.status;
-      const data = await res.json();
 
       if (status === 200 || status === 201) {
-        console.log(status, data);
-
         // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
-        // переадресация на главную
-        setTimeout(() => {
-          this.navigateTo('/todo');
-        }, 2000);
+        // обновить страницу todo
+        this.navigateTo('/todo');
       }
     }
-  }
+  };
 
-  updateToDoItem(event: MouseEvent) {
+  updateToDoItem = async (event: MouseEvent) => {
     const item = event.target as HTMLImageElement;
 
     if (item.classList[0] === 'todo__close') {
       const todo = item.parentElement as HTMLButtonElement;
-      const parent = todo.parentElement as HTMLDivElement;
-      // deleteTask(parent.id);
-      parent.remove();
+      const res = await deleteTodo(todo.id);
+
+      if (res.status === 200 || res.status === 201) {
+        // получаем и устанавливаем свежие данные в LC
+        await setCarDataFromDB();
+        // обновляем страницу
+        this.navigateTo('/todo');
+      }
     }
 
     if (item.classList[0] === 'todo__unfinished') {
       const todo = item.parentElement as HTMLButtonElement;
-      const parent = todo.parentElement as HTMLDivElement;
-      const p = parent.querySelector('p') as HTMLElement;
-      p.classList.add('line-through');
-      item.remove();
-      const newTodoImg = document.createElement('img');
-      newTodoImg.src = `${checked}`;
-      newTodoImg.alt = 'icon-finished-circle';
-      newTodoImg.className = 'todo__finished';
-      todo.appendChild(newTodoImg);
-      // updateTasks(parent.id, p.innerText, true);
+
+      const todoData: IToDo = {
+        progress: true,
+      };
+
+      const res = await updateTodo(todoData, todo.id);
+
+      if (res.status === 200 || res.status === 201) {
+        // получаем и устанавливаем свежие данные в LC
+        await setCarDataFromDB();
+        // обновляем страницу
+        this.navigateTo('/todo');
+      }
     }
 
     if (item.classList[0] === 'todo__finished') {
       const todo = item.parentElement as HTMLButtonElement;
-      const parent = todo.parentElement as HTMLDivElement;
-      const p = parent.querySelector('p') as HTMLElement;
-      p.classList.remove('line-through');
-      item.remove();
-      const newTodoImg = document.createElement('img');
-      newTodoImg.src = `${circle}`;
-      newTodoImg.alt = 'icon-unfinished-circle';
-      newTodoImg.className = 'todo__unfinished';
-      todo.appendChild(newTodoImg);
-      // updateTasks(parent.id, p.innerText, false);
+
+      const todoData: IToDo = {
+        progress: false,
+      };
+
+      const res = await updateTodo(todoData, todo.id);
+
+      if (res.status === 200 || res.status === 201) {
+        // получаем и устанавливаем свежие данные в LC
+        await setCarDataFromDB();
+        // обновляем страницу
+        this.navigateTo('/todo');
+      }
     }
-  }
+  };
 
   renderTodos() {
     this.list = getCarTodosFromLS();
@@ -134,14 +143,16 @@ export class TodoPage {
           <div class="todo__item flex w-full h-16 px-6 mb-3 text-lg leading-tight text-gray-700 align-middle bg-white shadow rounded-lg" id="${
             item._id
           }">
-            <button class="w-6 h-6 my-auto mr-6 z-10">
-              <img src="${item.progress ? checked : circle}" alt="icon-unfinished-circle" class="todo__unfinished">
+            <button class="w-6 h-6 my-auto mr-6 z-10" id="${item._id}">
+              <img src="${item.progress ? checked : circle}" alt="icon-unfinished-circle" class="${
+          item.progress ? 'todo__finished' : 'todo__unfinished'
+        }">
             </button>
-            <p class="flex flex-1 w-full my-auto align-middle border-none cursor-pointer input hover:text-blue-600 
+            <p class="flex flex-1 w-full my-auto align-middle border-none input
             ${item.progress ? 'line-through' : 'no-underline'}">
               ${item.text}
             </p>
-            <button class="w-6 h-6 my-auto ml-6 z-10">
+            <button class="w-6 h-6 my-auto ml-6 z-10" id="${item._id}">
               <img src="${close}" alt="icon-close" class="todo__close">
             </button>
           </div>

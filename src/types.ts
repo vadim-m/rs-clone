@@ -178,7 +178,7 @@ interface IUser {
 
 interface IToDo {
   _id?: string;
-  text: string;
+  text?: string;
   progress: boolean;
 }
 

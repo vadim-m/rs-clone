@@ -103,7 +103,7 @@ export class Router {
     this.parent.innerHTML = '';
   }
 
-  goTo(path: string) {
+  async goTo(path: string) {
     window.history.pushState({ path }, path, path);
     this.checkUserAuthentication();
     this.destroy();
@@ -112,11 +112,10 @@ export class Router {
 
   addListeners() {
     // ! ломаент рендерс при переходе по стрелкам
-    // window.addEventListener('popstate', () => {
-    //   this.destroy();
-    //   this.render(new URL(window.location.href).pathname);
-    // });
-    // !
+    window.addEventListener('popstate', () => {
+      this.destroy();
+      this.render(new URL(window.location.href).pathname);
+    });
 
     document.querySelectorAll('[href^="/"]').forEach((el) => {
       el.addEventListener('click', (e) => {

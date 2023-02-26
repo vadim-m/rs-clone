@@ -131,3 +131,32 @@ export const getTodos = async () => {
 
   return res;
 };
+
+export const updateTodo = async (body: IToDo, id: string) => {
+  updateUserID();
+  const res = await fetch(`${pathURL.todo}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const deleteTodo = async (id: string) => {
+  updateUserID();
+  const res = await fetch(`${pathURL.todo}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
