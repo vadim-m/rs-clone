@@ -3,5 +3,5 @@ export function renderButtonWhite(name: string, className: string, id: string, w
 }
 
 export function renderButtonBlue(name: string, className: string, id: string, width: string) {
-  return `<button id="${id}" class="${className} w-${width} inline-flex items-center justify-center text-md bg-myblue text-white px-4 py-2 rounded-md focus:outline-none focus:shadow-none">${name}</button>`;
+  return `<button id="${id}" class="${className} w-${width} text-sm bg-myblue text-white px-3 py-1 rounded-md">${name}</button>`;
 }

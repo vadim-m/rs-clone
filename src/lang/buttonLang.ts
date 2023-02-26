@@ -4,6 +4,7 @@ export function buttonLang() {
   if (getCurrentLanguage() === 'EN') {
     return {
       ok: 'OK',
+      completed: 'COMPLETED',
       cancel: 'CANCEL',
       add: 'ADD',
       delete: 'DELETE',
@@ -13,6 +14,7 @@ export function buttonLang() {
   } else {
     return {
       ok: 'OK',
+      completed: 'ВЫПОЛНЕНО',
       cancel: 'ОТМЕНА',
       add: 'ДОБАВИТЬ',
       delete: 'УДАЛИТЬ',

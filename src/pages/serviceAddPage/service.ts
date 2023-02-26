@@ -14,6 +14,8 @@ import { paramsCollectionService } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
+import { createArrPlans } from '../plansPage/arrayReminders';
+import { showPlans } from '../reminderAddPage/paramsForLineEvent';
 
 export class Service {
   eventPage = 'service';
@@ -265,7 +267,9 @@ export class Service {
         totalPrice: this.totalPriceService.value,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
-        id: Date.now().toString(),
+        id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+          ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+          : Date.now().toString(),
       };
       const eventArr = this.carData.event.service;
       if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {

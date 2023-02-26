@@ -6,9 +6,9 @@ import { getUnits } from './units';
 
 export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   return `
-  <li id="paramsRemindObj.id" class="plans__item plans__item_${
+  <li id=${paramsRemindObj.id} class="plans__item plans__item_${
     paramsRemindObj.id
-  } relative bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
+  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
   ${
     paramsRemindObj.reminderDefault === false
       ? `<p class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">${
@@ -36,8 +36,8 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
                   day: 'numeric',
                 }
               )
-            : paramsRemindObj.completeMileage
-        }${paramsRemindObj.completeMileage ? getUnits().distance.slice(1) : ''}</div>`
+            : `${paramsRemindObj.completeMileage as string} ${getUnits().distance.slice(1)}`
+        }</div>`
       : `${renderButtonBlue(eventLang().add, 'reminder-add__btn', 'reminder-add__btn', '1/2')}`
   }
               `;

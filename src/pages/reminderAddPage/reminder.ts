@@ -1,11 +1,12 @@
-import { ICarData, IReminders } from '../../types';
+import { ICarData, IParamsOneReminder, IReminders } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue } from '../../components/button';
-import { paramsCollectionReminder } from './paramsForLineEvent';
+import { paramsCollectionReminder, showPlans } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
+import { createArrPlans } from '../plansPage/arrayReminders';
 
 export class Reminder {
   eventPage = 'reminder';
@@ -30,14 +31,22 @@ export class Reminder {
   afterMileageDOM!: HTMLInputElement;
   onDateDOM!: HTMLInputElement;
   repeatDOM!: HTMLInputElement;
+  pageCall: string | undefined;
+  url: URL;
+  curID: string | undefined;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.renderPage();
     this.initDOM();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    this.url = new URL(window.location.href);
+    this.curID = this.url.searchParams.get('id') as string;
+    this.pageCall = this.url.searchParams.get('pageCall') as string;
+    this.fillInput();
     this.calcDiffMileage();
     this.createReminderEvent();
+    onFocus(this.eventPage);
   }
 
   initDOM() {
@@ -59,11 +68,25 @@ export class Reminder {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLreminderDOM());
-    onFocus(this.eventPage);
+  }
+
+  fillInput() {
+    if (this.curID) {
+      this.nameDOM.value = (
+        createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+      ).textName;
+      this.nameDOM.readOnly = true;
+      this.typeDOM.value = (
+        createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+      ).textType;
+      this.typeDOM.readOnly = true;
+    }
   }
 
   calcDiffMileage() {
     this.onMileageDOM.addEventListener('change', () => {
+      console.log(this.onMileageDOM.value);
+      console.log(this.nameDOM.value);
       if (+this.onMileageDOM.value < +this.carData.indicators.curMileage) {
         this.onMileageDOM.value = this.carData.indicators.curMileage;
       }
@@ -81,15 +104,12 @@ export class Reminder {
   }
 
   requredMileageDate() {
-    console.log(this.onMileageDOM.value);
-    console.log(this.onDateDOM.value);
     this.onMileageDOM.value ? (this.onDateDOM.required = false) : (this.onDateDOM.required = true);
     this.onDateDOM.value ? (this.onMileageDOM.required = false) : (this.onMileageDOM.required = true);
   }
 
   createReminderEvent() {
     const addReminderBtn = document.querySelector('#add--event-reminder__btn') as HTMLButtonElement;
-    console.log(addReminderBtn);
     addReminderBtn.addEventListener('click', (event) => {
       this.initDOM();
       this.reminderEvent = {
@@ -102,14 +122,19 @@ export class Reminder {
         rememberOnDate: this.onDateDOM.value,
         repeat: this.repeatDOM.checked,
         notes: this.notesDOM.value,
-        id: Date.now().toString(),
+        id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+          ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+          : Date.now().toString(),
       };
-      console.log(addReminderBtn);
       const eventArr = this.carData.event.reminders;
       this.requredMileageDate();
       if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
         updateCarData(this.carData, this.eventPage, eventArr, this.reminderEvent);
-        event.preventDefault();
+
+        if (this.pageCall) {
+          event.preventDefault();
+          window.location.href = `/${this.pageCall}`;
+        }
       }
     });
   }

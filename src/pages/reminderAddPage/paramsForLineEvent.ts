@@ -20,7 +20,7 @@ const name: IParamsLineOfEvent = {
   idAndClass: 'name',
   textTitle: eventLang().name,
   icon: icon.pen,
-  typeInput: 'search',
+  typeInput: 'text',
   size: '2',
   required: false,
 };

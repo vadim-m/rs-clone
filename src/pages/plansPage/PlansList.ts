@@ -1,5 +1,5 @@
-import { oneOfReminder } from '../../components/oneReminder';
-import { createArrPlans } from './paramsOneReminder';
+import { oneOfReminder } from '../../components/lineReminder';
+import { createArrPlans } from './arrayReminders';
 
 export class PlansList {
   public element: DocumentFragment;
@@ -8,12 +8,13 @@ export class PlansList {
     this.element = this.createElement(showPlans);
   }
 
-  createElement(display: string) {
+  createElement(showPlans: string) {
     const fragment = document.createElement('template');
+
     fragment.innerHTML = `
     <ul class="plans__list grid gap-y-3 mb-4">
             
-            ${createArrPlans(display)
+            ${createArrPlans(showPlans)
               .map((paramsRemindObj) => {
                 return oneOfReminder(paramsRemindObj);
               })

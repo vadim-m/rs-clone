@@ -203,14 +203,21 @@ export const maintenanceArr = [
   tax,
   inshurance,
 ];
+
+// reduce((o: IParamsOneReminder[], i: IParamsOneReminder) => {
+//   if (!o.find((v: IParamsOneReminder) => v.id == i.id)) {
+//     o.push(i);
+//   }
+//   return o;
+// }, []);
+
 export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
   const myCarData: ICarData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
   const myReminderArr: IReminders[] = myCarData.event.reminders;
-  const myRemindersContainer: IParamsOneReminder[] = [];
-  let myRemindersForParams = myRemindersContainer;
+  const myRemindersPlans: IParamsOneReminder[] = [];
 
   myReminderArr.forEach((e) => {
-    return myRemindersContainer.push({
+    return myRemindersPlans.push({
       class: `reminder-${e.id}`,
       textName: e.name,
       textType: e.type,
@@ -221,27 +228,33 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
       label: `${
         e.rememberOnDate
           ? `${diffDates(e.rememberOnDate, getDateTime()).toFixed(0)} ${eventLang().day}`
-          : `${+e.rememberOnMilege - myCarData.info.mileage}${getUnits().distance}`
+          : `${+e.rememberOnMilege - +myCarData.indicators.curMileage}${getUnits().distance.slice(1)}`
       }`,
       id: e.id,
     });
   });
-  myRemindersForParams = myRemindersForParams.sort((a, b) => {
-    return a.completeDate
-      ? +new Date(a.completeDate as string) - +new Date(b.completeDate as string)
-      : +(a.completeMileage as string) - +(b.completeMileage as string);
-  });
+
   if (showPlansValue === 'myMaintenance') {
-    return maintenanceArr;
+    console.log(
+      maintenanceArr.filter((e) => (myRemindersPlans.length > 0 ? myRemindersPlans.some((x) => x.id !== e.id) : ''))
+    );
+    return maintenanceArr.filter((e) =>
+      myRemindersPlans.length > 0 ? myRemindersPlans.some((x) => x.id !== e.id) : true
+    );
   }
   if (showPlansValue === 'myPlans') {
-    return myRemindersForParams.sort((a, b) => {
+    return myRemindersPlans.sort((a, b) => {
       return a.completeDate
         ? +new Date(a.completeDate as string) - +new Date(b.completeDate as string)
         : +(a.completeMileage as string) - +(b.completeMileage as string);
     });
   } else {
-    return [...myRemindersForParams, ...maintenanceArr];
+    return [
+      ...myRemindersPlans,
+      ...maintenanceArr.filter((e) =>
+        myRemindersPlans.length > 0 ? myRemindersPlans.some((x) => x.id !== e.id) : true
+      ),
+    ];
   }
 }
 export function createHTMLDatalistForType() {
