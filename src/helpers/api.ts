@@ -88,3 +88,15 @@ export const deleteCar = async (id: string) => {
 
   return res;
 };
+
+export const getSettingsFromAPI = async () => {
+  updateUserID();
+  const res = await fetch(`${pathURL.settings}/id`, {
+    // после добавления passport удалить!
+    headers: {
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};

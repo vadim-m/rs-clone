@@ -1,12 +1,13 @@
 import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
-import { ICar } from '../../types';
+import { ICar, ISettingsMyCar } from '../../types';
 import data from '../../data/cars.json';
 import { CarForm } from './CarForm';
-import { createCar, updateCar, deleteCar } from '../../helpers/api';
+import { createCar, updateCar, deleteCar, getSettingsFromAPI } from '../../helpers/api';
 import { prepareDataObj } from '../../helpers/utils';
 import { getAppSettingsFromLS, setCarDataFromDB } from '../../helpers/localStorage';
+import { setUserSettings } from '../../helpers/authentication';
 
 export class HomePage {
   private info: DocumentFragment | null;
@@ -141,16 +142,18 @@ export class HomePage {
       const status = res.status;
       const data = await res.json();
 
-      //* log
-      console.log('Удаляем машину', status, data);
-
       if (status === 200) {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-red-100');
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
+        // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
+        // получаем и устанавливаем новые настройки
+        const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
+        setUserSettings(updatedSettings);
+        // переадресация на главную
         setTimeout(() => {
           this.navigateTo('/');
         }, 2000);
@@ -205,16 +208,18 @@ export class HomePage {
       const status = res.status;
       const data = await res.json();
 
-      //* log
-      console.log('Результат', status, data);
-
       if (status === 200 || status === 201) {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-red-100');
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
+        // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
+        // получаем и устанавливаем новые настройки
+        const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
+        setUserSettings(updatedSettings);
+        // переадресация на главную
         setTimeout(() => {
           this.navigateTo('/');
         }, 2000);
