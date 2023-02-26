@@ -9,8 +9,7 @@ import { Other } from '../pages/otherAddPage/other';
 import { StatisticPage } from '../pages/statisticPage/StatisticPage';
 import { LoginPage } from '../pages/loginPage/login';
 import { RegistrationPage } from '../pages/registrationPage/registration';
-import { ToDoPage } from '../pages/toDoPage/ToDoPage';
-import { toDoList } from '../pages/toDoPage/data';
+import { TodoPage } from '../pages/toDoPage/todo';
 
 export class Router {
   url: URL;
@@ -25,8 +24,8 @@ export class Router {
   otherPage: Other | null;
   loginPage: LoginPage | null;
   registrationPage: RegistrationPage | null;
+  toDoPage: TodoPage | null;
   isUserAuthenticated: boolean;
-  toDoPage: ToDoPage | null = null;
 
   constructor(isUserAuthenticated: boolean) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -42,7 +41,7 @@ export class Router {
     this.otherPage = null;
     this.loginPage = null;
     this.registrationPage = null;
-    this.toDoPage;
+    this.toDoPage = null;
     this.render(new URL(window.location.href).pathname);
   }
 
@@ -54,7 +53,7 @@ export class Router {
 
   render(path: string) {
     if (!this.isUserAuthenticated && location.pathname === '/signup') {
-      this.registrationPage = new RegistrationPage();
+      this.registrationPage = new RegistrationPage(this.goTo.bind(this));
       return;
     } else if (!this.isUserAuthenticated) {
       this.loginPage = new LoginPage(this.goTo.bind(this));
@@ -80,10 +79,10 @@ export class Router {
       // result = new PlansPage().element;
     } else if (routes.Login.match(path)) {
       this.loginPage = new LoginPage(this.goTo.bind(this));
-    } else if (routes.Registration.match(path)) {
-      this.registrationPage = new RegistrationPage();
     } else if (routes.Todo.match(path)) {
-      this.toDoPage = new ToDoPage(toDoList);
+      this.toDoPage = new TodoPage(this.goTo.bind(this));
+    } else if (routes.Registration.match(path)) {
+      this.registrationPage = new RegistrationPage(this.goTo.bind(this));
     }
 
     this.addListeners();
@@ -117,6 +116,7 @@ export class Router {
     //   this.destroy();
     //   this.render(new URL(window.location.href).pathname);
     // });
+    // !
 
     document.querySelectorAll('[href^="/"]').forEach((el) => {
       el.addEventListener('click', (e) => {

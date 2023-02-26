@@ -7,7 +7,7 @@ export const pathURL = {
   registration: `${API_URL}/auth/registration`,
   cars: `${API_URL}/cars`,
   settings: `${API_URL}/settings`,
-  toDoTasks: `${API_URL}/todo`,
+  todo: `${API_URL}/todo`,
 };
 
 export const defaultSettings: ISettingsMyCar = {

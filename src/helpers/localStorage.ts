@@ -1,17 +1,20 @@
-import { ICarData, IInfo, ICar } from '../types';
-import { getCar } from './api';
+import { ICarData, IInfo, ICar, IToDo } from '../types';
+import { getCar, getTodos } from './api';
 import { carData as defaultCar } from '../car/car_data';
 
+// заполняем LS данными из базы данных
 export async function setCarDataFromDB() {
   defaultCar.info = await fillCarInfo();
   defaultCar.event.refuel = [];
   defaultCar.event.reminders = [];
   defaultCar.event.service = [];
   defaultCar.event.others = [];
+  defaultCar.todos = await (await getTodos()).json();
 
   localStorage.setItem('car', JSON.stringify(defaultCar));
 }
 
+// получаем объект ICar, преобразуем его в IInfo для расчетов Сани
 async function fillCarInfo() {
   const res = await getCar();
   const data: ICar = await res.json();
@@ -43,7 +46,13 @@ export function getCarInfoFromLS(): IInfo | null {
   return car?.info ? car.info : null;
 }
 
-// записать машину LC после запроса на сервер]
+// получить объект carData.info из LS
+export function getCarTodosFromLS(): IToDo[] | [] {
+  const car = getCarFromLS();
+  return car?.todos ? car.todos : [];
+}
+
+// получить объект настроек settingsCar из LS
 export function getAppSettingsFromLS(): IInfo | null {
   return JSON.parse(localStorage.getItem('settingsCar') as string) ?? null;
 }

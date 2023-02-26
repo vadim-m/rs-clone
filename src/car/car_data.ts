@@ -29,4 +29,5 @@ export const carData: ICarData = {
     others: [],
     reminders: [],
   },
+  todos: [],
 };

@@ -1,6 +1,7 @@
 interface ICarData {
   info: IInfo;
   indicators: IIndicators;
+  todos: IToDo[];
   event: {
     refuel: IRefuel[];
     service: IService[];
@@ -176,9 +177,9 @@ interface IUser {
 }
 
 interface IToDo {
+  _id?: string;
   text: string;
   progress: boolean;
-  id: string;
 }
 
 export {
