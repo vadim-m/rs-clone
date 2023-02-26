@@ -7,13 +7,13 @@ import { setCarDataFromDB } from '../helpers/localStorage';
 
 export class App {
   header: Header | undefined;
-  main: Router | undefined;
+  router: Router | undefined;
   footer: PanelNav | undefined;
   isUserAuthenticated = false;
 
   constructor() {
     this.header;
-    this.main;
+    this.router;
     this.footer;
     this.isUserAuthenticated = this.checkUserAuthentication();
   }
@@ -42,6 +42,6 @@ export class App {
 
     this.header = new Header();
     this.footer = new PanelNav();
-    this.main = new Router(this.isUserAuthenticated);
+    this.router = new Router(this.isUserAuthenticated);
   }
 }

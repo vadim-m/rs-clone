@@ -1,4 +1,4 @@
-import { routes } from './routes';
+import { routes } from './constants';
 import { HomePage } from '../pages/homePage/HomePage';
 import { EventsPage } from '../pages/eventsPage/EventsPage';
 import { PlansPage } from '../pages/plansPage/PlansPage';
