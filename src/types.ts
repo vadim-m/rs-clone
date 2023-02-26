@@ -175,6 +175,12 @@ interface IUser {
   fullName?: string;
 }
 
+interface IToDo {
+  text: string;
+  progress: boolean;
+  id: string;
+}
+
 export {
   ICarData,
   IRefuel,
@@ -190,4 +196,5 @@ export {
   IUser,
   ICar,
   ISettingsMyCar,
+  IToDo,
 };
