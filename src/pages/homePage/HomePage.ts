@@ -20,7 +20,7 @@ export class HomePage {
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
-    this.hasCar = false; // сюда потом можно брать инфо из локалстораж
+    this.hasCar = true; // сюда потом можно брать инфо из локалстораж
     this.car = null; // тут тоже можно брать из локалстораж по логике Саши
     this.info = null;
     this.plans = null;

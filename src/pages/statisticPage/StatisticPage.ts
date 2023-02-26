@@ -70,6 +70,7 @@ export class StatisticPage {
 
         ctx.textAlign = 'center';
         ctx.font = '1.3rem sans-serif';
+        ctx.fillStyle = '#8a8888';
         ctx.fillText(`${sum}${currency}`, chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y);
 
         ctx.beginPath();
@@ -85,6 +86,7 @@ export class StatisticPage {
           {
             data: givenData,
             backgroundColor: ['rgb(250, 32, 32)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+            borderColor: 'rgb(224, 224, 224)',
             hoverOffset: 4,
           },
         ],
@@ -130,6 +132,7 @@ export class StatisticPage {
         datasets: [
           {
             label: 'Расход топлива за месяц',
+            backgroundColor: 'rgba(255, 205, 86, 1)',
             data: data.filter((row) => row.count !== 0).map((row) => row.count),
           },
         ],

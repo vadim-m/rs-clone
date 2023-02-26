@@ -102,7 +102,7 @@ export class Reminder {
                   .join('')}
           ${renderButtonBlue(
             eventLang().addReminder,
-            'add--event-reminder__btn col-span-2',
+            'add--event-reminder__btn col-span-2 dark:bg-slate-600 ml-4',
             'add--event-reminder__btn',
             'full'
           )}

@@ -2,6 +2,7 @@ import { pathURL } from '../constants/constants';
 import { IUser } from '../types';
 import { ICar } from '../types';
 import { getUserID } from '../helpers/authentication';
+import { ISettings } from '../types';
 
 const userId = getUserID();
 
@@ -75,6 +76,18 @@ export const deleteCar = async (id: string) => {
       'Content-Type': 'application/json',
       // после добавления passport удалить!
       'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const updateSettings = async (body: ISettings, id: string) => {
+  const res = await fetch(`${pathURL.settings}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
     },
   });
 

@@ -367,7 +367,7 @@ export class Service {
               .join('')}
           ${renderButtonBlue(
             eventLang().addEvent,
-            'add--event-service__btn col-span-2',
+            'add--event-service__btn col-span-2 dark:bg-slate-600 ml-4',
             'add--event-service__btn',
             'full'
           )}
