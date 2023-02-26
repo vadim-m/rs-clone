@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/loginPage/login';
 import { RegistrationPage } from '../pages/registrationPage/registration';
 import { SettingsPage } from '../pages/settingsPage/SettingsPage';
 import { TodoPage } from '../pages/toDoPage/todo';
+import { getAppSettingsFromLS } from '../helpers/localStorage';
 
 export class Router {
   url: URL;
@@ -27,7 +28,7 @@ export class Router {
   registrationPage: RegistrationPage | null;
   toDoPage: TodoPage | null;
   isUserAuthenticated: boolean;
-  settingsPage: SettingsPage | null
+  settingsPage: SettingsPage | null;
 
   constructor(isUserAuthenticated: boolean) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -46,12 +47,50 @@ export class Router {
     this.toDoPage = null;
     this.settingsPage = null;
     this.render(new URL(window.location.href).pathname);
+    this.checkDarkMode();
+    this.setOrientation();
   }
 
   checkUserAuthentication() {
     const hasToken = localStorage.getItem('token');
 
     this.isUserAuthenticated = !!hasToken;
+  }
+
+  setOrientation() {
+    const tabButton = document.querySelector('.menu');
+    const burger = document.querySelector('.header__burger');
+    const logo = document.querySelector('.header__logo');
+    const navbarMenu = document.querySelector('.navbar__menu');
+
+    const orientation = getAppSettingsFromLS()?.orientation;
+
+    if (orientation) {
+      tabButton?.classList.remove('right-3');
+      tabButton?.classList.add('left-3');
+      navbarMenu?.classList.remove('right-0');
+      navbarMenu?.classList.add('left-0');
+      burger?.classList.add('order-1');
+      logo?.classList.add('order-2');
+    } else {
+      tabButton?.classList.add('right-3');
+      tabButton?.classList.remove('left-3');
+      navbarMenu?.classList.add('right-0');
+      navbarMenu?.classList.remove('left-0');
+      burger?.classList.remove('order-1');
+      logo?.classList.remove('order-2');
+    }
+  }
+
+  checkDarkMode() {
+    const settings = getAppSettingsFromLS();
+
+    const html = document.querySelector('html') as HTMLElement;
+    if (settings?.darkTheme) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
   }
 
   render(path: string) {
@@ -86,7 +125,7 @@ export class Router {
     } else if (routes.Registration.match(path)) {
       this.registrationPage = new RegistrationPage(this.goTo.bind(this));
     } else if (routes.Settings.match(path)) {
-      this.settingsPage = new SettingsPage();
+      this.settingsPage = new SettingsPage(this.goTo.bind(this));
     }
 
     this.addListeners();
@@ -113,14 +152,16 @@ export class Router {
     this.checkUserAuthentication();
     this.destroy();
     this.render(path);
+    this.checkDarkMode();
+    this.setOrientation();
   }
 
   addListeners() {
     // ! ломаент рендерс при переходе по стрелкам
-    window.addEventListener('popstate', () => {
-      this.destroy();
-      this.render(new URL(window.location.href).pathname);
-    });
+    // window.addEventListener('popstate', () => {
+    //   this.destroy();
+    //   this.render(new URL(window.location.href).pathname);
+    // });
 
     document.querySelectorAll('[href^="/"]').forEach((el) => {
       el.addEventListener('click', (e) => {

@@ -65,12 +65,8 @@ export class LoginPage {
       const status = res.status;
       const data = await res.json();
 
-      // log
-      console.log('Ответ сервера:', status, data);
       setToken(data.token);
       setUserID(data.id);
-      console.log('дал айди,', data.id);
-
       setUserSettings(data.userSettings);
 
       if (status === 200) {
@@ -83,7 +79,7 @@ export class LoginPage {
         console.log('обновил дату');
         setTimeout(() => {
           this.navigateTo('/');
-        }, 4000);
+        }, 800);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

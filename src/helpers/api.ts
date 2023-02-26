@@ -1,5 +1,5 @@
 import { pathURL } from '../constants/constants';
-import { IToDo, IUser } from '../types';
+import { ISettingsMyCar, IToDo, IUser } from '../types';
 import { ICar } from '../types';
 import { getUserID } from '../helpers/authentication';
 
@@ -97,6 +97,21 @@ export const getSettingsFromAPI = async () => {
   const res = await fetch(`${pathURL.settings}/id`, {
     // после добавления passport удалить!
     headers: {
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const updateSettings = async (body: ISettingsMyCar) => {
+  updateUserID();
+  const res = await fetch(`${pathURL.settings}/id`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
       'user-id': userId,
     },
   });

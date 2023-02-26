@@ -74,6 +74,7 @@ interface IService {
   notes: string;
   id: string;
 }
+
 interface IDetals {
   detals: {
     name: string;
@@ -127,6 +128,7 @@ interface Iicon {
   coins: string;
   quantFuel: string;
 }
+
 interface IParamsLineOfEvent {
   idAndClass: string;
   textTitle: string;
@@ -140,15 +142,16 @@ interface IParamsLineOfEvent {
   units?: string;
   value?: string;
 }
+
 interface ISettingsMyCar {
   fullName?: string;
   hasCar?: boolean;
   language: string;
   currency: string;
-  rememberPriceFuel: boolean;
-  predictMileage: boolean;
-  darkTheme: boolean;
-  orientation: boolean;
+  rememberPriceFuel?: boolean;
+  predictMileage?: boolean;
+  darkTheme?: boolean;
+  orientation?: boolean;
 }
 
 enum unitsEnum {

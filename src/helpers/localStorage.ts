@@ -1,4 +1,4 @@
-import { ICarData, IInfo, ICar, IToDo } from '../types';
+import { ICarData, IInfo, ICar, IToDo, ISettingsMyCar } from '../types';
 import { getCar, getTodos } from './api';
 import { carData as defaultCar } from '../car/car_data';
 
@@ -53,6 +53,6 @@ export function getCarTodosFromLS(): IToDo[] | [] {
 }
 
 // получить объект настроек settingsCar из LS
-export function getAppSettingsFromLS(): IInfo | null {
+export function getAppSettingsFromLS(): ISettingsMyCar | null {
   return JSON.parse(localStorage.getItem('settingsCar') as string) ?? null;
 }
