@@ -1,6 +1,7 @@
 interface ICarData {
   info: IInfo;
   indicators: IIndicators;
+  todos: IToDo[];
   event: {
     refuel: IRefuel[];
     service: IService[];
@@ -8,15 +9,34 @@ interface ICarData {
     reminders: IReminders[];
   };
 }
-interface IInfo {
+
+export interface IInfo {
+  _id?: string;
   brand: string;
   model: string;
   year: number;
+  fuel?: string;
+  hasCar?: false;
   mileage: number;
   sizeTank: number;
+  engineDisplacement?: string;
+  enginePower?: string;
   startFuel: number;
-  startDate: string; // новое поле
+  startDate: string;
   cost: number;
+}
+
+interface ICar {
+  _id?: string;
+  brand: string;
+  model: string;
+  year: string;
+  fuel: string;
+  mileage: string;
+  sizeTank: string;
+  engineDisplacement?: string;
+  enginePower?: string;
+  createdAt?: Date;
 }
 
 interface IIndicators {
@@ -54,6 +74,7 @@ interface IService {
   notes: string;
   id: string;
 }
+
 interface IDetals {
   detals: {
     name: string;
@@ -106,6 +127,7 @@ interface Iicon {
   coins: string;
   quantFuel: string;
 }
+
 interface IParamsLineOfEvent {
   idAndClass: string;
   textTitle: string;
@@ -119,12 +141,16 @@ interface IParamsLineOfEvent {
   units?: string;
   value?: string;
 }
+
 interface ISettingsMyCar {
+  fullName?: string;
+  hasCar?: boolean;
   language: string;
   currency: string;
-  rememberPriceFuel: boolean;
-  predictMileage: boolean;
-  darkTheme: boolean;
+  rememberPriceFuel?: boolean;
+  predictMileage?: boolean;
+  darkTheme?: boolean;
+  orientation?: boolean;
 }
 interface IParamsOneReminder {
   class: string;
@@ -164,10 +190,10 @@ interface IShowPlans {
   allPlans: string;
 }
 
-interface IUser {
-  email: string;
-  password: string;
-  fullName?: string;
+interface IToDo {
+  _id?: string;
+  text?: string;
+  progress: boolean;
 }
 
 // eslint-disable-next-line no-redeclare
@@ -175,18 +201,6 @@ interface IUser {
   email: string;
   password: string;
   fullName?: string;
-}
-
-interface ICar {
-  _id?: string;
-  brand: string;
-  model: string;
-  year: string;
-  fuel: string;
-  mileage: string;
-  sizeTank: string;
-  engineDisplacement?: string;
-  enginePower?: string;
 }
 
 export {
@@ -206,4 +220,5 @@ export {
   ISettingsMyCar,
   IParamsOneReminder,
   IShowPlans,
+  IToDo,
 };

@@ -10,6 +10,8 @@ export const carData: ICarData = {
     startFuel: 20,
     startDate: '2023-02-04T18:00',
     cost: 45000,
+    fuel: 'Бензин',
+    hasCar: false,
   },
   indicators: {
     curMileage: '60000',
@@ -27,4 +29,5 @@ export const carData: ICarData = {
     others: [],
     reminders: [],
   },
+  todos: [],
 };

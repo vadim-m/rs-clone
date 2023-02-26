@@ -13,8 +13,8 @@ export class Events {
     fragment.innerHTML = ` 
     <div class="relative py-2 px-4 rounded-lg bg-slate">
       <h2 class="events__title font-medium text-sm mb-2">Последние события</h2>
-      <ul class="events__list grid gap-y-3">
-        <li class="events__item grid grid-cols-layout justify-between items-center p-2 drop-shadow-md bg-white">
+      <ul class="events__list grid gap-y-3 dark:text-black">
+        <li class="events__item grid grid-cols-layout justify-between items-center p-2 drop-shadow-md bg-white dark:bg-slate-400">
           <div class="events__item-and-icon flex items-center mr-2">
             <img src="${funnel}" class="plans__image w-7 h-7 mr-4" alt="funnell-icon">
             <div class="events__text flex flex-col">
@@ -29,7 +29,7 @@ export class Events {
           </div>
         </li>
 
-        <li class="events__item grid grid-cols-layout justify-between items-center p-2 drop-shadow-md bg-white">
+        <li class="events__item grid grid-cols-layout justify-between items-center p-2 drop-shadow-md bg-white dark:bg-slate-400">
           <div class="events__item-and-icon flex items-center mr-2">
             <img src="${tires}" class="plans__image w-7 h-7 mr-4" alt="tires-icon">
             <div class="events__text flex flex-col">

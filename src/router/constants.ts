@@ -12,6 +12,8 @@ export const appConstants = {
     other: '/other',
     login: '/signin',
     registration: '/signup',
+    settings: '/settings',
+    todo: '/todo',
   },
   search: {
     types: {
@@ -32,4 +34,6 @@ export const routes = {
   Other: new Route(appConstants.routes.other),
   Login: new Route(appConstants.routes.login),
   Registration: new Route(appConstants.routes.registration),
+  Settings: new Route(appConstants.routes.settings),
+  Todo: new Route(appConstants.routes.todo),
 };

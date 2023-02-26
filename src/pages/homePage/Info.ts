@@ -1,17 +1,18 @@
-import { ICar } from '../../types';
+import { IInfo } from '../../types';
 
 const expenses = require('../../assets/icons/expenses.png');
 const finance = require('../../assets/icons/finance.png');
 const coins = require('../../assets/icons/coins.png');
 const gasStation = require('../../assets/icons/gas-station.png');
 const gear = require('../../assets/icons/gear.svg');
+import { getCarInfoFromLS } from '../../helpers/localStorage';
 
 export class Info {
   public element: DocumentFragment;
-  private car: ICar | null;
+  private car: IInfo | null;
 
-  constructor(car: ICar | null) {
-    this.car = car;
+  constructor() {
+    this.car = getCarInfoFromLS();
     this.element = this.createElement();
   }
 
@@ -25,15 +26,15 @@ export class Info {
           </button>
         </div>
 
-        <div class="info__car car bg-myslate rounded-lg shadow-md mb-2 p-4 grid md:grid-cols-2 gap-x-2">
+        <div class="info__car car bg-myslate rounded-lg shadow-md mb-2 p-4 grid-cols-2 gap-x-2 dark:bg-slate-700">
           <div class="md:order-1 flex flex-col justify-between">
-            <div><h3 class="car__name font-bold text-xl text-right grid-in-name">${this.car?.brand} ${this.car?.model}</h3>
-            <p class="car__year text-sm text-right grid-in-year">${this.car?.year}</p></div>
+            <div><h3 class="car__name font-bold text-xl text-right">${this.car?.brand} ${this.car?.model}</h3>
+            <p class="car__year text-sm text-right">${this.car?.year}</p></div>
           </div>
 
           <div>
-            <div class="info__stats grid-in-stats grid grid-cols-1 gap-4 mt-2">
-              <div class="info__expenses flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2">
+            <div class="info__stats grid grid-cols-2 gap-4 mt-2">
+              <div class="info__expenses flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2 dark:bg-slate-500">
                 <img src="${expenses}" class="info__img w-7 h-7" alt="expenses-icon">
                 <div class="expenses">
                   <div class="expenses__title font-bold text-xxs">Затраты на машину</div>
@@ -43,7 +44,7 @@ export class Info {
                 </div>
               </div>
 
-              <div class="info__petrol flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2">
+              <div class="info__petrol flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2 dark:bg-slate-500">
                 <img src="${finance}" class="info__img w-7 h-7" alt="petrol-icon">
                 <div class="petrol">
                   <div class="petrol__title font-bold text-xxs">
@@ -55,7 +56,7 @@ export class Info {
                 </div>
               </div>
 
-              <div class="info__petrol flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2 pr-2">
+              <div class="info__petrol flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2 pr-2 dark:bg-slate-500">
                 <img src="${coins}" class="info__img w-7 h-7" alt="petrol-icon">
                 <div class="petrol">
                   <div class="petrol__title font-bold text-xxs">
@@ -67,7 +68,7 @@ export class Info {
                 </div>
               </div>
 
-              <div class="info__petrol flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2">
+              <div class="info__petrol flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2 dark:bg-slate-500">
                 <img src="${gasStation}" class="info__img w-7 h-7" alt="petrol-icon">
                 <div class="petrol">
                   <div class="petrol__title font-bold text-xs">

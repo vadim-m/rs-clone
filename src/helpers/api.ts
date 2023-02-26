@@ -1,10 +1,15 @@
 import { pathURL } from '../constants/constants';
-import { IUser } from '../types';
+import { ISettingsMyCar, IToDo, IUser } from '../types';
 import { ICar } from '../types';
 import { getUserID } from '../helpers/authentication';
 
-const userId = getUserID();
+let userId = getUserID();
 
+const updateUserID = () => {
+  userId = getUserID();
+};
+
+//* Auth
 export const login = async (body: IUser) => {
   const res = await fetch(pathURL.login, {
     method: 'POST',
@@ -29,7 +34,9 @@ export const registration = async (body: IUser) => {
   return res;
 };
 
+//* Cars
 export const createCar = async (body: ICar) => {
+  updateUserID();
   const res = await fetch(pathURL.cars, {
     method: 'POST',
     body: JSON.stringify(body),
@@ -44,6 +51,7 @@ export const createCar = async (body: ICar) => {
 };
 
 export const updateCar = async (body: ICar, id: string) => {
+  updateUserID();
   const res = await fetch(`${pathURL.cars}/${id}`, {
     method: 'PATCH',
     body: JSON.stringify(body),
@@ -58,6 +66,7 @@ export const updateCar = async (body: ICar, id: string) => {
 };
 
 export const getCar = async () => {
+  updateUserID();
   const res = await fetch(`${pathURL.cars}/id`, {
     // после добавления passport удалить!
     headers: {
@@ -69,7 +78,93 @@ export const getCar = async () => {
 };
 
 export const deleteCar = async (id: string) => {
+  updateUserID();
   const res = await fetch(`${pathURL.cars}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+//* Settings
+export const getSettingsFromAPI = async () => {
+  updateUserID();
+  const res = await fetch(`${pathURL.settings}/id`, {
+    // после добавления passport удалить!
+    headers: {
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const updateSettings = async (body: ISettingsMyCar) => {
+  updateUserID();
+  const res = await fetch(`${pathURL.settings}/id`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+//* ToDo
+export const createTodo = async (body: IToDo) => {
+  updateUserID();
+  const res = await fetch(pathURL.todo, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const getTodos = async () => {
+  updateUserID();
+  const res = await fetch(`${pathURL.todo}/id`, {
+    // после добавления passport удалить!
+    headers: {
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const updateTodo = async (body: IToDo, id: string) => {
+  updateUserID();
+  const res = await fetch(`${pathURL.todo}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      // после добавления passport удалить!
+      'user-id': userId,
+    },
+  });
+
+  return res;
+};
+
+export const deleteTodo = async (id: string) => {
+  updateUserID();
+  const res = await fetch(`${pathURL.todo}/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

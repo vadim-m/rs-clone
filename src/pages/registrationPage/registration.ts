@@ -6,9 +6,11 @@ import { IUser } from '../../types';
 export class RegistrationPage {
   parent: HTMLElement;
   private form = new SignupForm('signup').element;
+  navigateTo: (path: string) => void;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.navigateTo = goTo;
     this.createElement();
     this.addListeners();
   }
@@ -26,7 +28,7 @@ export class RegistrationPage {
       flex items-center justify-center">
 
         <div class="w-full h-100">
-          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Sign in</h1>
+          <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Sign up</h1>
 
           ${this.form}
 
@@ -73,6 +75,9 @@ export class RegistrationPage {
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. User created!`;
         submitBtn.disabled = false;
+        setTimeout(() => {
+          this.navigateTo('/signin');
+        }, 2000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

@@ -1,11 +1,13 @@
 import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
-import { ICar } from '../../types';
+import { ICar, ISettingsMyCar } from '../../types';
 import data from '../../data/cars.json';
 import { CarForm } from './CarForm';
-import { createCar, getCar, updateCar, deleteCar } from '../../helpers/api';
+import { createCar, updateCar, deleteCar, getSettingsFromAPI } from '../../helpers/api';
 import { prepareDataObj } from '../../helpers/utils';
+import { getAppSettingsFromLS, setCarDataFromDB } from '../../helpers/localStorage';
+import { setUserSettings } from '../../helpers/authentication';
 
 export class HomePage {
   private info: DocumentFragment | null;
@@ -13,38 +15,25 @@ export class HomePage {
   private events: DocumentFragment | null;
   private carForm: DocumentFragment | null;
   private hasCar: boolean;
-  private car: ICar | null;
   private hiddenFormSectionClass: string | null;
   parent: HTMLElement;
   addEventCircule!: HTMLElement;
+  navigateTo: (path: string) => void;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
-    this.hasCar = false; // сюда потом можно брать инфо из локалстораж
-    this.car = null; // тут тоже можно брать из локалстораж по логике Саши
     this.info = null;
     this.plans = null;
     this.events = null;
     this.carForm = null;
     this.hiddenFormSectionClass = null;
-
+    this.navigateTo = goTo;
+    this.hasCar = this.checkAvailabilityCar();
     this.createElement();
   }
 
-  // загрузка данных о машине, от этой функции можно будет избавиться
-  async loadCarData() {
-    const res = await getCar();
-    const status = res.status;
-    const data: ICar = await res.json();
-    if (status === 200) {
-      this.setCarData(data);
-    }
-  }
-
-  // обновление данных о машине в текущем инстансе HomePage, от этой функции можно будет избавиться
-  setCarData(car: ICar) {
-    this.hasCar = true; // а это можно убрать (отсылка к строке 20)
-    this.car = car; // аналогично (к строке 21)
+  checkAvailabilityCar() {
+    return getAppSettingsFromLS()?.hasCar ?? false;
   }
 
   createModels() {
@@ -70,11 +59,10 @@ export class HomePage {
   }
 
   async createElement() {
-    await this.loadCarData();
-    this.info = new Info(this.car).element;
+    this.info = new Info().element;
     this.plans = new Plans().element;
     this.events = new Events().element;
-    this.carForm = new CarForm(this.hasCar, this.car).element;
+    this.carForm = new CarForm(this.hasCar).element;
     this.hiddenFormSectionClass = this.hasCar ? 'hidden' : '';
 
     if (!this.hasCar) {
@@ -154,18 +142,21 @@ export class HomePage {
       const status = res.status;
       const data = await res.json();
 
-      //* log
-      console.log('Удаляем машину', status, data);
-
       if (status === 200) {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-red-100');
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
+        // получаем и устанавливаем свежие данные в LC
+        await setCarDataFromDB();
+        // получаем и устанавливаем новые настройки
+        const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
+        setUserSettings(updatedSettings);
+        // переадресация на главную
         setTimeout(() => {
-          location.reload();
-        }, 8000);
+          this.navigateTo('/');
+        }, 2000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
@@ -174,10 +165,6 @@ export class HomePage {
         alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
         submitBtn.disabled = false;
       }
-
-      setTimeout(() => {
-        location.reload();
-      }, 8000);
     });
 
     form?.addEventListener('submit', async (e) => {
@@ -221,18 +208,21 @@ export class HomePage {
       const status = res.status;
       const data = await res.json();
 
-      //* log
-      console.log('Результат', status, data);
-
       if (status === 200 || status === 201) {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-red-100');
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
+        // получаем и устанавливаем свежие данные в LC
+        await setCarDataFromDB();
+        // получаем и устанавливаем новые настройки
+        const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
+        setUserSettings(updatedSettings);
+        // переадресация на главную
         setTimeout(() => {
-          location.reload();
-        }, 8000);
+          this.navigateTo('/');
+        }, 2000);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
