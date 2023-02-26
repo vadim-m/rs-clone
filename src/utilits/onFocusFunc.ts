@@ -1,5 +1,6 @@
 export function onFocus(page: string) {
   const allInputArr: HTMLInputElement[] = [...document.querySelectorAll('input')];
+  const allSelectArr: HTMLSelectElement[] = [...document.querySelectorAll('select')];
   const allTitleArr: HTMLElement[] = Array.from(document.querySelectorAll(`.${page}__title`));
 
   allTitleArr.forEach((eTitle) => {
@@ -42,5 +43,15 @@ export function onFocus(page: string) {
       titleLine.style.color = 'grey';
       titleLine.style.fontSize = '0.8rem';
     }
+  });
+  allSelectArr.forEach((eSelect) => {
+    console.log(allSelectArr);
+    allTitleArr.forEach((eTitle) => {
+      if (eSelect.id.slice(15) === eTitle.id.slice(15)) {
+        eTitle.style.top = `${eTitle.clientHeight > 30 ? '-2.5rem' : '-1.5rem'}`;
+        eTitle.style.color = 'grey';
+        eTitle.style.fontSize = '0.8rem';
+      }
+    });
   });
 }

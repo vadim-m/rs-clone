@@ -32,7 +32,7 @@ export class StatisticHeader {
         </div>
         
         <div class="flex justify-center">
-          <button id="calendar-ok" class="confirm__btn--ok block inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-myblue rounded-md shadow-sm hover:bg-myblue hover:text-white focus:outline-none focus:shadow-none w-32 my-auto">OK</button>
+          <button id="calendar-ok" class="confirm__btn--ok block items-center justify-center px-4 py-2 text-base font-medium leading-6 text-gray-600 whitespace-no-wrap bg-white border border-myblue rounded-md shadow-sm hover:bg-myblue hover:text-white focus:outline-none focus:shadow-none w-32 my-auto">OK</button>
         </div>
         
       </div>

@@ -2,7 +2,7 @@ import { getSettingsFromLocal } from './getCurrentSettings';
 import { ICarData, IOther, IRefuel, IService } from '../types';
 
 // для подсчета в других функциях  - разница между периодами в днях
-function diffDates(dateOne: string, dateTwoLess: string) {
+export function diffDates(dateOne: string, dateTwoLess: string) {
   const result = (+new Date(dateOne) - +new Date(dateTwoLess)) / (60 * 60 * 24 * 1000);
   return result;
 }

@@ -115,7 +115,9 @@ export class Refuel {
         id: Date.now().toString(),
       };
       const eventArr = newCarData.event.refuel;
-      updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
+      if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+        updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
+      }
     });
   }
 

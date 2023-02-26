@@ -1,5 +1,5 @@
 import { IParamsLineOfEvent } from '../../types';
-import { getDateTime } from '../../utilits/getDateTimeFunc';
+import { getDateTime } from '../../utilits/dateTimeFunc';
 import { icon } from '../../components/iconObj';
 import { getMoney, getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
