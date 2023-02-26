@@ -8,7 +8,9 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   return `
   <li id=${paramsRemindObj.id} class="plans__item plans__item_${
     paramsRemindObj.id
-  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md">
+  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md" data-default="${
+    paramsRemindObj.reminderDefault
+  }" data-typeService="${paramsRemindObj.textType}">
   ${
     paramsRemindObj.reminderDefault === false
       ? `<p class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">${

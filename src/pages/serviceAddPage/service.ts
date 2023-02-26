@@ -1,4 +1,4 @@
-import { IService, IDetals, ICarData } from '../../types';
+import { IService, IDetals, ICarData, IParamsOneReminder } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconObj';
@@ -8,7 +8,7 @@ import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
 import { searchLi } from '../../utilits/searchElement';
 import { currentLiArr } from '../../utilits/searchElement';
-import { renderButtonBlue } from '../../components/button';
+import { renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
@@ -47,6 +47,10 @@ export class Service {
   dateDOM!: HTMLInputElement;
   carData: ICarData;
   totalPriceService!: HTMLInputElement;
+  pageCall: string | undefined;
+  curID: string | undefined;
+  url: URL | undefined;
+  editEvent: string | undefined;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -63,6 +67,11 @@ export class Service {
     this.createServiceEvent();
     this.calcTotalPriceService();
     this.changeDetals();
+    this.url = new URL(window.location.href);
+    this.curID = this.url.searchParams.get('id') as string;
+    this.pageCall = this.url.searchParams.get('pageCall') as string;
+    this.editEvent = this.url.searchParams.get('edit') as string;
+    this.fillInput();
     onFocus(this.eventPage);
   }
 
@@ -102,7 +111,18 @@ export class Service {
   renderDetalContainer() {
     this.nameItem.insertAdjacentHTML('afterend', this.createHTMLContainerDetalDOM());
   }
-
+  fillInput() {
+    if (this.curID) {
+      this.nameDOM.value = (
+        createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
+      ).textName;
+      this.nameDOM.readOnly = true;
+      this.typeDOM.value = (
+        createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
+      ).textType;
+      this.typeDOM.readOnly = true;
+    }
+  }
   changeTotalPriceDetals() {
     const popupDetalPrice = document.querySelector(`.popup__input_price`) as HTMLInputElement;
     const popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
@@ -268,7 +288,9 @@ export class Service {
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-          ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+          ? `${Date.now().toString()}_${
+              createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+            }`
           : Date.now().toString(),
       };
       const eventArr = this.carData.event.service;
@@ -371,12 +393,27 @@ export class Service {
                 return lineOfEvent(this.eventPage, obj);
               })
               .join('')}
-          ${renderButtonBlue(
-            eventLang().addEvent,
-            'add--event-service__btn col-span-2',
-            'add--event-service__btn',
-            'full'
-          )}
+          ${
+            !this.editEvent
+              ? renderButtonBlue(
+                  eventLang().addEvent,
+                  'add--event-service__btn col-span-2',
+                  'add--event-service__btn',
+                  'full'
+                )
+              : `${renderButtonWhite(
+                  buttonLang().delete,
+                  'add--event-service__btn col-span-1',
+                  'add--event-service__btn',
+                  '1/2'
+                )}
+              ${renderButtonWhite(
+                buttonLang().save,
+                'add--event-service__btn col-span-1',
+                'add--event-service__btn',
+                '1/2'
+              )}`
+          }
       </form>`;
   }
 }

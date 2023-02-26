@@ -8,6 +8,7 @@ export function buttonLang() {
       cancel: 'CANCEL',
       add: 'ADD',
       delete: 'DELETE',
+      save: 'SAVE',
       edit: 'EDIT',
       option: '...',
     };
@@ -18,6 +19,7 @@ export function buttonLang() {
       cancel: 'ОТМЕНА',
       add: 'ДОБАВИТЬ',
       delete: 'УДАЛИТЬ',
+      save: 'СОХРАНИТЬ',
       edit: 'ИЗМЕНИТЬ',
       option: '...',
     };

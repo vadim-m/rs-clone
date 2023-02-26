@@ -1,4 +1,4 @@
-import { ICarData, IOther } from '../../types';
+import { ICarData, IOther, IParamsOneReminder } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
@@ -26,6 +26,9 @@ export class Other {
   addEventCircule!: HTMLElement;
   totalPriceDOM!: HTMLInputElement;
   carData: ICarData;
+  pageCall: string | undefined;
+  curID: string | undefined;
+  url: URL | undefined;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -34,6 +37,9 @@ export class Other {
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     changeMileage(this.eventPage, this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
+    this.url = new URL(window.location.href);
+    this.curID = this.url.searchParams.get('id') as string;
+    this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.createotherEvent();
     onFocus(this.eventPage);
   }
@@ -54,6 +60,18 @@ export class Other {
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLOtherDOM());
   }
 
+  fillInput() {
+    if (this.curID) {
+      this.nameDOM.value = (
+        createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+      ).textName;
+      this.nameDOM.readOnly = true;
+      this.typeDOM.value = (
+        createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+      ).textType;
+      this.typeDOM.readOnly = true;
+    }
+  }
   createotherEvent() {
     const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
 
@@ -68,7 +86,9 @@ export class Other {
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-          ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+          ? `${Date.now().toString()}_${
+              createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+            }`
           : Date.now().toString(),
       };
       const eventArr = this.carData.event.others;

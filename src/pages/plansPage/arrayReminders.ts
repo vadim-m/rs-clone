@@ -236,10 +236,14 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
 
   if (showPlansValue === 'myMaintenance') {
     console.log(
-      maintenanceArr.filter((e) => (myRemindersPlans.length > 0 ? myRemindersPlans.some((x) => x.id !== e.id) : ''))
+      maintenanceArr.filter((e) => {
+        return !myRemindersPlans.some((x) => {
+          return x.id === e.id;
+        });
+      })
     );
     return maintenanceArr.filter((e) =>
-      myRemindersPlans.length > 0 ? myRemindersPlans.some((x) => x.id !== e.id) : true
+      myRemindersPlans.length > 0 ? !myRemindersPlans.some((x) => x.id === e.id) : true
     );
   }
   if (showPlansValue === 'myPlans') {
@@ -252,7 +256,7 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
     return [
       ...myRemindersPlans,
       ...maintenanceArr.filter((e) =>
-        myRemindersPlans.length > 0 ? myRemindersPlans.some((x) => x.id !== e.id) : true
+        myRemindersPlans.length > 0 ? !myRemindersPlans.some((x) => x.id === e.id) : true
       ),
     ];
   }

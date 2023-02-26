@@ -49,7 +49,6 @@ export class PlansPage {
     this.listContainer.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, this.listContainer);
       const curID = currentLiArr[0].id;
-      console.log(curID);
       if ((event.target as HTMLElement).matches('.reminder-add__btn')) {
         window.location.href = `/reminder?id=${curID}&pageCall=${this.page}`;
       }
@@ -60,25 +59,32 @@ export class PlansPage {
     this.listContainer.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, this.listContainer);
       const curID = currentLiArr[0].id;
+
       const curReminderObj = createArrPlans(showPlans.myPlans).filter((e) => e.id === curID)[0];
-      new Popup(
-        `<p class="mb-20 text-center">${curReminderObj.textName}</p>`,
-        buttonLang().edit,
-        'confirm__btn--edit',
-        'confirm__btn--edit',
-        buttonLang().completed,
-        'confirm__btn--completed',
-        'confirm__btn--completed'
-      );
-      const popup = document.querySelector('.popup__container') as HTMLElement;
-      popup.addEventListener('click', (event) => {
-        if ((event.target as HTMLElement).matches('.confirm__btn--completed')) {
-          window.location.href = `/service?id=${curReminderObj.id}&pageCall=${this.page}`;
-        }
-        if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
-          window.location.href = `/reminder?id=${curReminderObj.id}&pageCall=${this.page}`;
-        }
-      });
+      if (currentLiArr[0].getAttribute('data-default') === 'false') {
+        new Popup(
+          `<p class="mb-20 text-center">${curReminderObj.textName}</p>`,
+          buttonLang().edit,
+          'confirm__btn--edit',
+          'confirm__btn--edit',
+          buttonLang().completed,
+          'confirm__btn--completed',
+          'confirm__btn--completed'
+        );
+        const popup = document.querySelector('.popup__container') as HTMLElement;
+        popup.addEventListener('click', (event) => {
+          if ((event.target as HTMLElement).matches('.confirm__btn--completed')) {
+            if (currentLiArr[0].getAttribute('data-typeService') === eventLang().other) {
+              window.location.href = `/other?id=${curReminderObj.id}&pageCall=${this.page}`;
+            } else {
+              window.location.href = `/service?id=${curReminderObj.id}&pageCall=${this.page}`;
+            }
+          }
+          if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
+            window.location.href = `/reminder?id=${curReminderObj.id}&pageCall=${this.page}&edit=true`;
+          }
+        });
+      }
     });
   }
 

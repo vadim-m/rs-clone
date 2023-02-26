@@ -83,6 +83,7 @@ interface IReminders {
   rememberOnMilege: string;
   rememberAfterMilege: string;
   rememberOnDate: string;
+  rememberAfterDate: string;
   repeat: boolean;
   notes: string;
   id: string;
