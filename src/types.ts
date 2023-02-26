@@ -104,9 +104,8 @@ interface IReminders {
   rememberOnMilege: string;
   rememberAfterMilege: string;
   rememberOnDate: string;
-  rememberAfteDate: string;
-  repeatTime: string;
-  repeatMileage: string;
+  rememberAfterDate: string;
+  repeat: boolean;
   notes: string;
   id: string;
 }
@@ -153,7 +152,18 @@ interface ISettingsMyCar {
   darkTheme?: boolean;
   orientation?: boolean;
 }
-
+interface IParamsOneReminder {
+  class: string;
+  textName: string;
+  textType: string;
+  reminderDefault: boolean;
+  icon?: string;
+  completeDate?: string;
+  completeMileage?: string;
+  button?: string;
+  label?: string;
+  id: string;
+}
 enum unitsEnum {
   money = 'money',
   distance = 'distance',
@@ -174,12 +184,19 @@ enum moneyEnum {
   EU = 'EU',
 }
 
+interface IShowPlans {
+  myMaintenance: string;
+  myPlans: string;
+  allPlans: string;
+}
+
 interface IToDo {
   _id?: string;
   text?: string;
   progress: boolean;
 }
 
+// eslint-disable-next-line no-redeclare
 interface IUser {
   email: string;
   password: string;
@@ -201,5 +218,7 @@ export {
   IUser,
   ICar,
   ISettingsMyCar,
+  IParamsOneReminder,
+  IShowPlans,
   IToDo,
 };

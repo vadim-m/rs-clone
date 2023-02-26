@@ -2,7 +2,7 @@ import { ICarData } from '../types';
 
 // валидтор пробега - устанавливается мин и макс для пробега в зависимости от даты
 
-function minMilaeage(curEvent: string, carData: ICarData): string {
+function minMileage(curEvent: string, carData: ICarData): string {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   if (allEvents.length > 0) {
     const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
@@ -25,7 +25,7 @@ function minMilaeage(curEvent: string, carData: ICarData): string {
   } else return String(carData.info.mileage);
 }
 
-function maxMilaeage(curEvent: string, carData: ICarData): string {
+function maxMileage(curEvent: string, carData: ICarData): string {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   const curDate = (document.querySelector(`.${curEvent}__input_date`) as HTMLInputElement).value;
   if (allEvents.length > 0) {
@@ -43,8 +43,8 @@ export function changeMileage(eventPage: string, carData: ICarData) {
   const dateDOM = document.querySelector(`.${eventPage}__input_date`) as HTMLInputElement;
 
   function minMaxMileage(): void {
-    mileageDOM.min = minMilaeage(eventPage, carData);
-    mileageDOM.max = maxMilaeage(eventPage, carData);
+    mileageDOM.min = minMileage(eventPage, carData);
+    mileageDOM.max = maxMileage(eventPage, carData);
   }
   mileageDOM.addEventListener('change', minMaxMileage);
   dateDOM.addEventListener('change', minMaxMileage);

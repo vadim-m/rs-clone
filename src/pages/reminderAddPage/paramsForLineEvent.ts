@@ -1,16 +1,19 @@
 import { IParamsLineOfEvent } from '../../types';
-import { getDateTime } from '../../utilits/getDateTimeFunc';
+import { getDateTime, getDatePlusMonths, getDatePlusYear } from '../../utilits/dateTimeFunc';
 import { icon } from '../../components/iconObj';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
+import { createHTMLDatalistForType } from '../serviceAddPage/paramsForLineEvent';
+import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
 
 const type: IParamsLineOfEvent = {
   idAndClass: 'type',
   textTitle: eventLang().type,
   icon: icon.gear,
-  typeInput: 'text',
+  typeInput: 'search',
   size: '2',
   required: true,
+  option: createHTMLDatalistForType(),
 };
 
 const name: IParamsLineOfEvent = {
@@ -26,10 +29,9 @@ const previosDate: IParamsLineOfEvent = {
   idAndClass: 'previos-date',
   textTitle: eventLang().previosDate,
   icon: icon.date,
-  typeInput: 'datetime-local',
+  typeInput: 'date',
   size: '1',
   required: false,
-  value: getDateTime(),
 };
 const previosMileage: IParamsLineOfEvent = {
   idAndClass: 'previos-mileage',
@@ -46,7 +48,7 @@ const onMileage: IParamsLineOfEvent = {
   icon: icon.mileage,
   typeInput: 'number',
   size: '1',
-  required: false,
+  required: true,
   units: getUnits().distance,
 };
 const afterMileage: IParamsLineOfEvent = {
@@ -65,34 +67,17 @@ const onDate: IParamsLineOfEvent = {
   icon: icon.date,
   typeInput: 'date',
   size: '1',
-  required: false,
-};
-const afterDate: IParamsLineOfEvent = {
-  idAndClass: 'after-date',
-  textTitle: eventLang().afterDate,
-  icon: icon.date,
-  typeInput: 'date',
-  size: '1',
-  required: false,
+  required: true,
+  option: createHTMLSelectDate(),
 };
 
-const repeatTime: IParamsLineOfEvent = {
-  idAndClass: 'repeat-time',
-  textTitle: eventLang().repeatTime,
+const repeat: IParamsLineOfEvent = {
+  idAndClass: 'repeat',
+  textTitle: eventLang().repeat,
   icon: icon.repeat,
-  typeInput: 'date',
+  typeInput: 'checkbox',
   size: '1',
   required: false,
-};
-
-const repeatMileage: IParamsLineOfEvent = {
-  idAndClass: 'repeat-mileage',
-  textTitle: eventLang().repeatMileage,
-  icon: icon.mileage,
-  typeInput: 'number',
-  size: '1',
-  required: false,
-  units: getUnits().distance,
 };
 
 const notes: IParamsLineOfEvent = {
@@ -112,8 +97,30 @@ export const paramsCollectionReminder: IParamsLineOfEvent[] = [
   onMileage,
   afterMileage,
   onDate,
-  afterDate,
-  repeatTime,
-  repeatMileage,
+  repeat,
   notes,
 ];
+
+export const showPlans = {
+  myMaintenance: 'myMaintenance',
+  myPlans: 'myPlans',
+  allPlans: 'allPlans',
+};
+
+function createHTMLSelectDate() {
+  console.log(new Date(getDateTime().slice(0, 10)).setDate(new Date(getDateTime()).getDate() + 7));
+  return `
+    <option value="${getDatePlusMonths(1)}" label="${eventLang().after} ${eventLang().month}">
+    <option value="${getDatePlusMonths(3)}" label="${eventLang().after} 3 ${eventLang().month}${
+    getCurrentLanguage() === 'RU' ? 'а' : ''
+  }">
+    <option value="${getDatePlusMonths(6)}" label="${eventLang().after} 6 ${eventLang().month}${
+    getCurrentLanguage() === 'RU' ? 'ев' : ''
+  }">
+    <option value="${getDatePlusMonths(9)}" label="${eventLang().after} 9 ${eventLang().month}${
+    getCurrentLanguage() === 'RU' ? 'ев' : ''
+  }">
+    <option value="${getDatePlusYear(1)}" label="${eventLang().after} ${eventLang().year}">
+
+    `;
+}

@@ -1,6 +1,22 @@
 import { IParamsLineOfEvent } from '../types';
 
 export function lineOfEvent(event: string, paramsObj: IParamsLineOfEvent) {
+  // if (event === 'reminder' && (paramsObj.idAndClass === 'after-date' || paramsObj.idAndClass === 'repeat-time')) {
+  //   return `  <div class="${event}__item ${event}__item_${paramsObj.idAndClass}
+  //            relative col-span-${paramsObj.size} z-1">
+  //               <span id="${event}__title_${paramsObj.idAndClass}"
+  //                     class="${event}__title ${event}__title_${paramsObj.idAndClass}
+  //                     absolute left-8 pointer-events-none">
+  //                     ${paramsObj.textTitle}${paramsObj.units ? paramsObj.units : ''}
+  //               </span>
+  //               <div class="w-full m-0 border-b-2 border-slateBorders focus:border-green-400 text-gray-600 placeholder-gray-400 outline-none h-6 pl-2 ml-6 align-baseline ">
+  //                   <select id="${event}__listN_${paramsObj.idAndClass}" class="absolute w-16 text-center">${
+  //     paramsObj.option
+  //   }</select>
+  //                   <select id="${event}__listD_${paramsObj.idAndClass}"  class="ml-20">${paramsObj.option2}</select>
+  //               </div>
+  //           </div>`;
+  // } else
   return `  <div class="${event}__item ${event}__item_${paramsObj.idAndClass}
              relative col-span-${paramsObj.size} z-1">
                 <span class="${event}__icon_${paramsObj.idAndClass} absolute top-0">${paramsObj.icon}</span>
