@@ -8,7 +8,7 @@ import { paramsCollectionReminder, showPlans } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { createArrPlans } from '../plansPage/arrayReminders';
 import { diffDates } from '../../utilits/mathSpend';
-import { getDateTime, getSumDate } from '../../utilits/dateTimeFunc';
+import { getDateTime } from '../../utilits/dateTimeFunc';
 import { buttonLang } from '../../lang/buttonLang';
 
 export class Reminder {
@@ -101,7 +101,6 @@ export class Reminder {
 
   calcDiffMileage() {
     this.onMileageDOM.addEventListener('change', () => {
-      getSumDate(this.onDateDOM.value, '85');
       console.log(this.onMileageDOM.value);
       console.log(this.nameDOM.value);
       if (+this.onMileageDOM.value < +this.carData.indicators.curMileage) {

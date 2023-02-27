@@ -44,23 +44,3 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   }
               `;
 }
-export const maintenanceArr = [
-  eventLang().changingOil,
-  eventLang().airFilter,
-  eventLang().fuelFilter,
-  eventLang().interiorFilter,
-  eventLang().brakePadsFront,
-  eventLang().brakePadsRear,
-  eventLang().timingBelts,
-  eventLang().sparkPlugs,
-  eventLang().antifreeze,
-  eventLang().transmissionOil,
-  eventLang().diagnosticsSuspension,
-  eventLang().diagnosticsElectrical,
-  eventLang().winterTires,
-  eventLang().summerTires,
-  eventLang().carBattery,
-  eventLang().inshurance,
-  eventLang().techInspect,
-  eventLang().tax,
-];

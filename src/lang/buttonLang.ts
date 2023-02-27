@@ -1,7 +1,7 @@
 import { getCurrentLanguage } from '../utilits/getCurrentSettings';
 
 export function buttonLang() {
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     return {
       ok: 'OK',
       completed: 'COMPLETED',

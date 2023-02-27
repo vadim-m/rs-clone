@@ -1,6 +1,6 @@
 import { getCurrentLanguage } from '../utilits/getCurrentSettings';
 export function eventLang() {
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     return {
       typeService: 'Type of service',
       typeFuel: 'Type of fuel',
