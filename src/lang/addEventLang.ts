@@ -91,6 +91,13 @@ export function eventLang() {
       gasMileage: 'Gas mileage',
       nearestPlans: 'Nearest Plans',
       recentEvents: 'Recent Events',
+      whatToDo: 'What to do ?',
+      perMonth: 'Per Month:',
+      perYear: 'Per Year:',
+      currentYear: 'Current year',
+      lastYear: 'Last year',
+      totalMileage: 'Total MileAge',
+      perPeriodMileage: 'Mileage per Period',
     };
   } else {
     return {
@@ -183,6 +190,13 @@ export function eventLang() {
       gasMileage: 'Расход бензина',
       nearestPlans: 'Ближайшие планы',
       recentEvents: 'Последние события',
+      whatToDo: 'Что нужно сделать ?',
+      perMonth: 'За месяц:',
+      perYear: 'За год:',
+      currentYear: 'Текущий год',
+      lastYear: 'Прошлый год',
+      totalMileage: 'Общий пробег:',
+      perPeriodMileage: 'Пробег за период:',
     };
   }
 }

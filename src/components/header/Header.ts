@@ -158,7 +158,7 @@ export class Header {
             <path d="M440,424V88H352V13.005L88,58.522V424H16v32h86.9L352,490.358V120h56V456h88V424ZM320,453.642,120,426.056V85.478L320,51Z"></path>
             <rect width="32" height="64" x="256" y="232"></rect>
           </svg>
-          <span>Выйти</span>
+          <span>${buttonLang().exit}</span>
         </a>
       </li>
     </ul>
@@ -177,12 +177,16 @@ export class Header {
     const burger = document.querySelector('#nav-burger');
     const navBar = document.querySelector('#nav-bar');
     const closeButton = document.querySelector('.navbar__close');
-    const navBackdrop = document.querySelector('.navbar__backdrop');
+    const navBackdrop = document.querySelector('.navbar__backdrop') as HTMLDivElement;
     burger?.addEventListener('click', () => {
       navBar?.classList.remove('hidden');
       navBackdrop?.classList.remove('hidden');
     });
     closeButton?.addEventListener('click', () => {
+      navBar?.classList.add('hidden');
+      navBackdrop?.classList.add('hidden');
+    });
+    navBackdrop.addEventListener('click', () => {
       navBar?.classList.add('hidden');
       navBackdrop?.classList.add('hidden');
     });

@@ -13,7 +13,12 @@ export class StatisticChart2 {
           <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
           <div class="carousel-item absolute opacity-0 hidden pb-20">
             <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
-            <div class="mb-6 flex justify-center border-b pb-2 border-slate"><canvas id="bar-chart" style="min-width: 250px; min-height: 250px"></canvas></div>
+            <div class="mb-6 flex flex-col justify-center border-b pb-2 border-slate">
+              <div class="mt-2 text-center">Расход топлива за <span>февраль</span> <span>2023</span> <span>г.</span></div>
+              <div class="flex justify-center">
+                <canvas id="bar-chart" style="min-width: 250px; min-height: 250px"></canvas>
+              </div>
+            </div>
             <div class="statistic__average-expense text-right border-b pb-2 border-slate">
               Средний расход: <span>8.1</span> л/100км.<br>
               Мин: <span>5.7</span> Макс: <span>15.6</span> л/100км.<br>

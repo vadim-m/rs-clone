@@ -1,6 +1,7 @@
 import { createTodo, deleteTodo, updateTodo } from '../../helpers/api';
 import { getCarTodosFromLS, setCarDataFromDB } from '../../helpers/localStorage';
 import { IToDo } from '../../types';
+import { eventLang } from '../../lang/addEventLang';
 
 const circle = require('../../assets/icons/dry-clean.png');
 const add = require('../../assets/icons/add.png');
@@ -25,14 +26,16 @@ export class TodoPage {
     fragment.classList.add('todo');
     fragment.innerHTML = `
       <div class="relative w-full">
-        <div class="relative z-10 flex h-auto max-w-xl px-10 mx-auto md:mx-auto">
+        <div class="relative z-0 flex h-auto max-w-xl px-10 mx-auto md:mx-auto">
           <div class="w-full mt-20 text-left">
             <div class="flex w-full h-16 px-6 my-12 text-lg leading-tight text-gray-700 align-middle bg-white rounded shadow">
               <div class="w-6 h-6 my-auto mr-6">
                 <img src="${circle}" alt="LogoCentang">
               </div>
               <form class="flex justify-between w-full">
-                <input class="todo__input w-full h-16 border-none" type="text" placeholder="Что нужно сделать ?" value=""> 
+                <input class="todo__input w-full h-16 border-none" type="text" placeholder="${
+                  eventLang().whatToDo
+                }" value=""> 
                 <button type="submit" class="todo__button w-6 h-6 my-auto">
                   <img src="${add}" alt="LogoAdd">
                 </button> 
@@ -140,7 +143,7 @@ export class TodoPage {
     const todos = this.list
       .map((item) => {
         return `
-          <div class="todo__item flex w-full h-16 px-6 mb-3 text-lg leading-tight text-gray-700 align-middle bg-white shadow rounded-lg" id="${
+          <div class="todo__item flex w-full h-16 px-6 mb-3 text-lg leading-tight text-gray-700 align-middle z-0 bg-white shadow rounded-lg" id="${
             item._id
           }">
             <button class="w-6 h-6 my-auto mr-6 z-10" id="${item._id}">

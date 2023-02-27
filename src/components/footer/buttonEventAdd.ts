@@ -38,7 +38,7 @@ export class TabsButton {
         <img class="p-2" src="${other}" alt="event-icon">
       </a>
 
-      <button class="menu__button relative w-14 h-14 p-2 rounded-full bg-myblue z-20">
+      <button class="menu__button relative w-14 h-14 p-3 rounded-full bg-myblue z-20">
         <img src="${plus}" alt="plus">
       </button>
 

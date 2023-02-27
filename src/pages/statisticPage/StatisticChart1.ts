@@ -12,7 +12,7 @@ export class StatisticChart1 {
     <div class="carousel-item absolute opacity-0 hidden">
       <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
       <div class="mb-6 flex flex-col">
-        <div class="mt-2 text-center">Общие расходы за 2023 г.</div>
+        <div class="mt-2 text-center">Общие расходы за <span>2023</span> <span>г.</span></div>
         <div class="flex justify-center">
           <canvas id="acquisitions" class="my-auto" style="max-width: 250px; max-height: 250px"></canvas>
         </div>
