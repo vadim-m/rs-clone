@@ -1,8 +1,13 @@
-const car = require('../../assets/images/chevrolet.png');
-const downArror = require('../../assets/icons/down-arrow.png');
+import { setLogo } from '../../helpers/utils';
+import { IInfo } from '../../types';
+import { getCarInfoFromLS } from '../../helpers/localStorage';
+import { getAppSettingsFromLS } from '../../helpers/localStorage';
 
 export class Header {
+  private car: IInfo | null;
+
   constructor() {
+    this.car = getCarInfoFromLS();
     this.render();
   }
 
@@ -13,7 +18,10 @@ export class Header {
   }
 
   createElement() {
+    const settings = getAppSettingsFromLS();
+
     const fragment = document.createElement('header');
+    const carImg = require(`../../assets/icons/brands/${setLogo(String(this.car?.brand))}.svg`);
     fragment.classList.add('container');
     fragment.classList.add('mx-auto');
     fragment.innerHTML = `
@@ -99,18 +107,17 @@ export class Header {
   <div class="navbar__backdrop fixed inset-0 bg-gray-800 opacity-25 z-10 dark:bg-slate-400 hidden"></div>
 	<div class="navbar__menu absolute top-0 right-0 p-4 space-y-2 w-64 h-full bg-gray-50 text-gray-800 border z-40 dark:bg-slate-800 dark:text-gray-50 hidden" id="nav-bar">
 		
-    <div class="flex items-center p-2 space-x-4 mb-8">
-    <img src="https://source.unsplash.com/100x100/?portrait" alt="" class="w-12 h-12 rounded-full bg-gray-500">
-    <div>
-      <h2 class="text-lg font-semibold">Иван Лапшин</h2>
-    </div>
+    <div class="flex items-center py-2 space-x-4 mb-8">
+      <h2 class="text-lg font-semibold">${settings?.fullName}</h2>
   </div>
   <div>
-    <div class="text-sm">Выбранный авто</div>
-    <div class="info__car car flex justify-between items-center bg-slate rounded-lg shadow-md mb-6 p-2 dark:bg-slate-400">
-      <img src="${car}" alt="car-image" class="car__image w-5/12 mr-2">
-      <h3 class="car__name font-bold text-xxs">Chevrolet</br>Aveo, 2007 г.в.</h3>
-      <img src="${downArror}" alt="down-arror" class="car__image w-4 h-4">
+    <div class="text-sm">Мой автомобиль</div>
+    <div class="info__car car flex items-center bg-slate rounded-lg shadow-md mb-6 px-3 py-2 dark:bg-slate-400">
+      <img src="${carImg}" alt="car-image" class="car__image w-10 mr-6">
+      <div>
+      <h3 class="car__name font-bold text-xxs text-center">${this.car?.brand} ${this.car?.model}</h3>
+      <p class="car__year text-xxs text-center">${this.car?.year}</p>
+      </div>
     </div>
   </div>
     <ul class="pt-2 pb-4 space-y-1 text-sm">
@@ -132,24 +139,6 @@ export class Header {
           <span>Заметки</span>
         </a>
       </li>
-
-    </ul>
-    <div class="mb-6">
-    <label class="text-xs font-bold">
-      Валюта по умолчанию
-    </label>
-    <div class="relative">
-      <select class="appearance-none block w-full bg-grey-lighter text-grey-darker rounded py-2 px-2 mb-3 text-xs dark:bg-slate-400">
-        <option>₽ (российский рубль)</option>
-        <option>BYN (белорусский рубль)</option>
-        <option>$ (доллары)</option>
-      </select>
-      <div class="pointer-events-none absolute right-0 top-3 pin-y pin-r flex items-center px-2 text-grey-darker">
-        <svg class="h-4 w-4 dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-      </div>
-    </div>
-  </div>  
-    <ul class="pt-4 pb-2 text-sm">
       <li class="hover:bg-gray-100">
         <a rel="noopener noreferrer" href="/settings" class="flex items-center p-2 space-x-3 rounded-md">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current text-gray-600">

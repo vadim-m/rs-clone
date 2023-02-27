@@ -5,7 +5,9 @@ const finance = require('../../assets/icons/finance.png');
 const coins = require('../../assets/icons/coins.png');
 const gasStation = require('../../assets/icons/gas-station.png');
 const gear = require('../../assets/icons/gear.svg');
+
 import { getCarInfoFromLS } from '../../helpers/localStorage';
+import { setLogo } from '../../helpers/utils';
 
 export class Info {
   public element: DocumentFragment;
@@ -18,6 +20,7 @@ export class Info {
 
   createElement() {
     const fragment = document.createElement('template');
+    const carImg = require(`../../assets/icons/brands/${setLogo(String(this.car?.brand))}.svg`);
     fragment.innerHTML = `
         <div class="info__header pt-3 pb-3 flex justify-between">
           <h1 class="info__title font-bold text-lg">Мой автомобиль</h1>
@@ -26,8 +29,11 @@ export class Info {
           </button>
         </div>
 
-        <div class="info__car car bg-myslate rounded-lg shadow-md mb-2 p-4 grid-cols-2 gap-x-2 dark:bg-slate-700">
-          <div class="md:order-1 flex flex-col justify-between">
+        <div class="info__car car bg-myslate rounded-lg shadow-md mb-4 p-4 grid-cols-2 gap-x-2 dark:bg-slate-700">
+          <div class="flex justify-between">
+            <div>
+            <img src="${carImg}" class="info__logo w-16 h-16" alt="logo-icon">
+            </div>
             <div><h3 class="car__name font-bold text-xl text-right">${this.car?.brand} ${this.car?.model}</h3>
             <p class="car__year text-sm text-right">${this.car?.year}</p></div>
           </div>

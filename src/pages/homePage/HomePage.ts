@@ -6,7 +6,7 @@ import data from '../../data/cars.json';
 import { CarForm } from './CarForm';
 import { createCar, updateCar, deleteCar, getSettingsFromAPI } from '../../helpers/api';
 import { prepareDataObj } from '../../helpers/utils';
-import { getAppSettingsFromLS, setCarDataFromDB } from '../../helpers/localStorage';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 import { setUserSettings } from '../../helpers/authentication';
 
 export class HomePage {
@@ -33,7 +33,7 @@ export class HomePage {
   }
 
   checkAvailabilityCar() {
-    return getAppSettingsFromLS()?.hasCar ?? false;
+    return true;
   }
 
   createModels() {

@@ -17,8 +17,8 @@ export class PanelNav {
     element.className = 'footer fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-800';
 
     element.innerHTML = `
-      <nav class="nav relative shadow-top px-5 py-3">
-        <ul class="nav__list flex flex-row justify-between text-xs">
+      <nav class="nav relative shadow-top px-5 py-3 flex justify-center">
+        <ul class="nav__list flex flex-row justify-between text-xs container">
           <li class="nav__item">
             <a href="/" class="nav__link flex flex-col items-center">
               <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
