@@ -34,3 +34,42 @@
 #carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
   color: #2b6cb0; /*Set to match the Tailwind colour you want the active one to be */
 }
+
+/* CHECKBOX TOGGLE SWITCH */
+/* @apply rules for documentation, these do not work as inline style */
+.toggle__checkbox_night:checked {
+  right: 0;
+  border-color: #2b6cb0;
+}
+.toggle__checkbox_night:checked + .toggle__label_night {
+  background-color: #2b6cb0;
+}
+
+.toggle__checkbox_left:checked {
+  right: 0;
+  border-color: #2b6cb0;
+}
+.toggle__checkbox_left:checked + .toggle__label_left {
+  background-color: #2b6cb0;
+}
+
+.toggle__checkbox_price:checked {
+  right: 0;
+  border-color: #2b6cb0;
+}
+.toggle__checkbox_price:checked + .toggle__label_price {
+  background-color: #2b6cb0;
+}
+
+.toggle__checkbox_mileage:checked {
+  right: 0;
+  border-color: #2b6cb0;
+}
+.toggle__checkbox_mileage:checked + .toggle__label_mileage {
+  background-color: #2b6cb0;
+}
+
+.label__after_plans {
+  background-color: #2b6cb0;
+  width: 8rem;
+}

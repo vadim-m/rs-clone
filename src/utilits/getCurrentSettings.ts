@@ -25,5 +25,3 @@ export function getCurrentPriceFuel(): string {
   }
   return '';
 }
-
-// darkTheme: boolean;

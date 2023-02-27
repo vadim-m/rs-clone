@@ -76,6 +76,8 @@ export function eventLang() {
       myMaintenance: 'Maintenance schedule',
       myPlans: 'My plans',
       allPlans: 'All plans',
+      allEvents: 'All events',
+      refuels: 'Refuels',
       validatorName: 'There is already such a reminder. Change the name of the reminder.',
     };
   } else {
@@ -154,6 +156,8 @@ export function eventLang() {
       myMaintenance: 'График ТО',
       myPlans: 'Мои планы',
       allPlans: 'Все планы',
+      allEvents: 'Все события',
+      refuels: 'Заправки',
       validatorName: 'Такое напоминние уже есть. Измените название напоминания.',
     };
   }

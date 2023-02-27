@@ -1,3 +1,5 @@
+import { ISettingsMyCar } from '../types';
+
 export const setToken = (token: string) => {
   localStorage.setItem('token', token);
 };
@@ -22,6 +24,14 @@ const deleteUserID = () => {
   localStorage.removeItem('userID');
 };
 
+export const setUserSettings = (settings: ISettingsMyCar) => {
+  localStorage.setItem('settingsCar', JSON.stringify(settings));
+};
+
+export const deleteUserSettings = () => {
+  localStorage.removeItem('settingsCar');
+};
+
 export const isAuthenticated = () => {
   if (getToken()) {
     return true;
@@ -33,4 +43,5 @@ export const isAuthenticated = () => {
 export const loguot = () => {
   deleteToken();
   deleteUserID();
+  deleteUserSettings();
 };

@@ -1,6 +1,7 @@
 interface ICarData {
   info: IInfo;
   indicators: IIndicators;
+  todos: IToDo[];
   event: {
     refuel: IRefuel[];
     service: IService[];
@@ -8,15 +9,34 @@ interface ICarData {
     reminders: IReminders[];
   };
 }
-interface IInfo {
+
+export interface IInfo {
+  _id?: string;
   brand: string;
   model: string;
   year: number;
+  fuel?: string;
+  hasCar?: false;
   mileage: number;
   sizeTank: number;
+  engineDisplacement?: string;
+  enginePower?: string;
   startFuel: number;
-  startDate: string; // новое поле
+  startDate: string;
   cost: number;
+}
+
+interface ICar {
+  _id?: string;
+  brand: string;
+  model: string;
+  year: string;
+  fuel: string;
+  mileage: string;
+  sizeTank: string;
+  engineDisplacement?: string;
+  enginePower?: string;
+  createdAt?: Date;
 }
 
 interface IIndicators {
@@ -29,10 +49,27 @@ interface IIndicators {
   averageMileageDay: string;
   costOneKM: string;
 }
+interface IEvent {
+  date: string;
+  mileage: string;
+  totalPrice: string;
+  typeEvent: string;
+  name: string;
+  type?: string;
+  priceFuel?: string;
+  amountFuel?: string;
+  detals?: IDetals[];
+  totalSpendFuel?: string;
+  isFull?: boolean;
+  place: string;
+  notes: string;
+  id: string;
+}
 
 interface IRefuel {
   date: string;
   mileage: string;
+  name: string;
   priceFuel: string;
   amountFuel: string;
   totalPrice: string;
@@ -41,6 +78,7 @@ interface IRefuel {
   place: string;
   notes: string;
   id: string;
+  typeEvent: string;
 }
 
 interface IService {
@@ -53,7 +91,9 @@ interface IService {
   place: string;
   notes: string;
   id: string;
+  typeEvent: string;
 }
+
 interface IDetals {
   detals: {
     name: string;
@@ -73,6 +113,7 @@ interface IOther {
   place: string;
   notes: string;
   id: string;
+  typeEvent: string;
 }
 
 interface IReminders {
@@ -93,7 +134,9 @@ interface Iicon {
   gear: string;
   pen: string;
   gasPump: string;
+  gasPumpYellow: string;
   wallet: string;
+  walletBlue: string;
   cost: string;
   date: string;
   mileage: string;
@@ -101,11 +144,13 @@ interface Iicon {
   comments: string;
   plus: string;
   wrench: string;
+  wrenchRed: string;
   category: string;
   repeat: string;
   coins: string;
   quantFuel: string;
 }
+
 interface IParamsLineOfEvent {
   idAndClass: string;
   textTitle: string;
@@ -119,12 +164,16 @@ interface IParamsLineOfEvent {
   units?: string;
   value?: string;
 }
+
 interface ISettingsMyCar {
+  fullName?: string;
+  hasCar?: boolean;
   language: string;
   currency: string;
-  rememberPriceFuel: boolean;
-  predictMileage: boolean;
-  darkTheme: boolean;
+  rememberPriceFuel?: boolean;
+  predictMileage?: boolean;
+  darkTheme?: boolean;
+  orientation?: boolean;
 }
 interface IParamsOneReminder {
   class: string;
@@ -138,6 +187,22 @@ interface IParamsOneReminder {
   label?: string;
   id: string;
 }
+
+interface IParamsOneEvents {
+  class: string;
+  titleName: string;
+  mileage: string;
+  date: string;
+  totalPrice: string;
+  amountFuel?: string;
+  titleType?: string;
+  eventType: string;
+  icon?: string;
+  place: string;
+  notes: string;
+  id: string;
+}
+
 enum unitsEnum {
   money = 'money',
   distance = 'distance',
@@ -164,10 +229,10 @@ interface IShowPlans {
   allPlans: string;
 }
 
-interface IUser {
-  email: string;
-  password: string;
-  fullName?: string;
+interface IToDo {
+  _id?: string;
+  text?: string;
+  progress: boolean;
 }
 
 // eslint-disable-next-line no-redeclare
@@ -175,18 +240,6 @@ interface IUser {
   email: string;
   password: string;
   fullName?: string;
-}
-
-interface ICar {
-  _id?: string;
-  brand: string;
-  model: string;
-  year: string;
-  fuel: string;
-  mileage: string;
-  sizeTank: string;
-  engineDisplacement?: string;
-  enginePower?: string;
 }
 
 export {
@@ -205,5 +258,8 @@ export {
   ICar,
   ISettingsMyCar,
   IParamsOneReminder,
+  IParamsOneEvents,
   IShowPlans,
+  IToDo,
+  IEvent,
 };

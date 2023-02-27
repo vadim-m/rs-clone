@@ -1,11 +1,17 @@
-import { IParamsLineOfEvent } from '../../types';
+import { IParamsLineOfEvent, ISettingsMyCar } from '../../types';
 import { getDateTime } from '../../utilits/dateTimeFunc';
 import { icon } from '../../components/iconObj';
-import { getMoney, getUnits } from '../../components/units';
+import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
 import { getCurrentPriceFuel } from '../../utilits/getCurrentSettings';
+import { setUserSettings } from '../../helpers/authentication';
+import { defaultSettings } from '../../constants/constants';
 
-const typeFuel: IParamsLineOfEvent = {
+const setting: ISettingsMyCar = localStorage.getItem('settingsCar')
+  ? JSON.parse(localStorage.getItem('settingsCar') as string)
+  : setUserSettings(defaultSettings);
+
+const name: IParamsLineOfEvent = {
   idAndClass: 'type-fuel',
   textTitle: eventLang().typeFuel,
   icon: icon.gasPump,
@@ -23,7 +29,7 @@ const price: IParamsLineOfEvent = {
   size: '1',
   required: true,
   value: getCurrentPriceFuel(),
-  units: getMoney('BY', 'litr'),
+  units: `, ${setting.currency}/${getUnits().volume.slice(2)}`,
 };
 
 const amountFuel: IParamsLineOfEvent = {
@@ -42,7 +48,7 @@ const amountPrice: IParamsLineOfEvent = {
   typeInput: 'number',
   size: '1',
   required: true,
-  units: getMoney('BY'),
+  units: `, ${setting.currency}`,
 };
 
 const mileage: IParamsLineOfEvent = {
@@ -91,7 +97,7 @@ const notes: IParamsLineOfEvent = {
 };
 
 export const paramsCollectionRefuel: IParamsLineOfEvent[] = [
-  typeFuel,
+  name,
   price,
   amountFuel,
   amountPrice,

@@ -9,8 +9,8 @@ export class StatisticCalendar {
     return `
       
           <!-- Week -->
-      <form class="flex gap-8 justify-end">
-        <label for="weekInput">За неделю:</label>
+      <form class="flex gap-8 justify-end dark:text-black">
+        <label class="dark:text-white" for="weekInput">За неделю:</label>
         <input type="week" list="weekList" id="weekInput"  class="border w-44 px-2">
         <datalist id="weekList">
           <option value="2022-W12" label="Двенадцатая неделя">
@@ -20,8 +20,8 @@ export class StatisticCalendar {
       </form>
 
             <!-- Month -->
-      <form class="flex gap-8 justify-end">
-        <label for="monthInput">За месяц:</label>
+      <form class="flex gap-8 justify-end dark:text-black">
+        <label class="dark:text-white" for="monthInput">За месяц:</label>
         <input type="month" list="monthList" id="monthInput"  class="border w-44 px-2">
         <datalist id="monthList">
           <option value="2022-10" label="Осень">
@@ -31,8 +31,8 @@ export class StatisticCalendar {
       </form>
 
       <!-- Year -->
-      <form class="flex gap-8 justify-end">
-        <label for="yearInput">За год:</label>
+      <form class="flex gap-8 justify-end dark:text-black">
+        <label class="dark:text-white" for="yearInput">За год:</label>
         <input type="year" list="yearList" id="yearInput" class="border w-44 px-2">
         <datalist id="yearList">
           <option value="2023" label="Текущий год">

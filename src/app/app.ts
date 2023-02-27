@@ -1,39 +1,47 @@
 import { PanelNav } from '../components/footer/PanelNav';
 import { Router } from '../router/Router';
 import { Header } from '../components/header/Header';
-import { carData } from '../car/car_data';
-import { settingsMyCar } from '../components/settingsMyCar';
+import { defaultSettings } from '../constants/constants';
+import { setUserSettings } from '../helpers/authentication';
+import { setCarDataFromDB } from '../helpers/localStorage';
 
 export class App {
-  footer: PanelNav | undefined;
-  router: Router | undefined;
   header: Header | undefined;
+  router: Router | undefined;
+  footer: PanelNav | undefined;
+  isUserAuthenticated = false;
 
   constructor() {
-    this.footer;
-    this.router;
     this.header;
-    this.setNewCarDataToLocal();
-    this.setSettingMyCar();
+    this.router;
+    this.footer;
+    this.isUserAuthenticated = this.checkUserAuthentication();
   }
 
-  setNewCarDataToLocal() {
-    if (!localStorage.getItem('car')) {
-      // carData будет первоначальная при создании машины прилетать
-      localStorage.setItem('car', JSON.stringify(carData));
+  checkUserAuthentication() {
+    const hasToken = localStorage.getItem('token');
+
+    return !!hasToken;
+  }
+
+  setSettings() {
+    if (!localStorage.getItem('settingsCar')) {
+      setUserSettings(defaultSettings);
     }
   }
 
-  setSettingMyCar() {
-    if (!localStorage.getItem('settingsCar')) {
-      // carData будет первоначальная при создании машины прилетать
-      localStorage.setItem('settingsCar', JSON.stringify(settingsMyCar));
+  async setNewCarDataToLocal() {
+    if (this.isUserAuthenticated) {
+      await setCarDataFromDB();
     }
   }
 
   render() {
+    this.setNewCarDataToLocal();
+    this.setSettings();
+
     this.header = new Header();
     this.footer = new PanelNav();
-    this.router = new Router();
+    this.router = new Router(this.isUserAuthenticated);
   }
 }

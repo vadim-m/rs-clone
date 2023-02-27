@@ -105,6 +105,7 @@ export class Refuel {
       this.refuelEvent = {
         date: this.dateDOM.value,
         mileage: this.mileageDOM.value,
+        name: this.typeDOM.value,
         priceFuel: this.priceFuelDOM.value,
         amountFuel: this.amountFuelDOM.value,
         totalPrice: this.totalPriceDOM.value,
@@ -113,6 +114,7 @@ export class Refuel {
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
         id: Date.now().toString(),
+        typeEvent: this.eventPage,
       };
       const eventArr = newCarData.event.refuel;
       if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
@@ -124,13 +126,18 @@ export class Refuel {
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-    <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-8 h-[32rem] w-full" action="/" method="put">
+          <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full" action="/" method="put">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
             })
             .join('')}
-          ${renderButtonBlue(eventLang().add, 'add--event-refuel__btn col-span-2', 'add--event-refuel__btn', 'full')}
-      </form>`;
+          ${renderButtonBlue(
+            eventLang().add,
+            'add--event-refuel__btn col-span-2 dark:bg-slate-600 ml-4',
+            'add--event-refuel__btn',
+            'full'
+          )}
+          </form>`;
   }
 }

@@ -1,16 +1,17 @@
-import { ICar } from '../../types';
+import { IInfo } from '../../types';
 import data from '../../data/cars.json';
+import { getCarInfoFromLS } from '../../helpers/localStorage';
 
 export class CarForm {
   public element: DocumentFragment;
   private carAction: string;
   private hiddenButton: string;
-  private car: ICar | null;
+  private car: IInfo | null;
 
-  constructor(hasCar: boolean, car: ICar | null) {
+  constructor(hasCar: boolean) {
     this.carAction = hasCar ? 'Изменить' : 'Добавить';
     this.hiddenButton = hasCar ? '' : 'hidden';
-    this.car = car;
+    this.car = getCarInfoFromLS();
     this.element = this.createElement();
   }
 

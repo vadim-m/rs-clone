@@ -1,8 +1,14 @@
-import { IParamsLineOfEvent } from '../../types';
+import { IParamsLineOfEvent, ISettingsMyCar } from '../../types';
 import { getDateTime } from '../../utilits/dateTimeFunc';
 import { icon } from '../../components/iconObj';
-import { getMoney, getUnits } from '../../components/units';
+import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
+import { setUserSettings } from '../../helpers/authentication';
+import { defaultSettings } from '../../constants/constants';
+
+const setting: ISettingsMyCar = localStorage.getItem('settingsCar')
+  ? JSON.parse(localStorage.getItem('settingsCar') as string)
+  : setUserSettings(defaultSettings);
 
 const name: IParamsLineOfEvent = {
   idAndClass: 'name',
@@ -21,7 +27,7 @@ const total: IParamsLineOfEvent = {
   typeInput: 'number',
   size: '2',
   required: false,
-  units: getMoney('BY'),
+  units: `, ${setting.currency}`,
 };
 
 const mileage: IParamsLineOfEvent = {

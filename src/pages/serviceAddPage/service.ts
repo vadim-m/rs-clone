@@ -1,9 +1,8 @@
-import { IService, IDetals, ICarData, IParamsOneReminder } from '../../types';
+import { IService, IDetals, ICarData, IParamsOneReminder, ISettingsMyCar, IParamsOneEvents } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconObj';
 import { eventLang } from '../../lang/addEventLang';
-import { getMoney } from '../../components/units';
 import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
 import { searchLi } from '../../utilits/searchElement';
@@ -16,6 +15,9 @@ import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
 import { createArrPlans } from '../plansPage/arrayReminders';
 import { showPlans } from '../reminderAddPage/paramsForLineEvent';
+import { setUserSettings } from '../../helpers/authentication';
+import { defaultSettings } from '../../constants/constants';
+import { createArrEvents } from '../eventsPage/arrayEvents';
 
 export class Service {
   eventPage = 'service';
@@ -51,6 +53,7 @@ export class Service {
   curID: string | undefined;
   url: URL | undefined;
   editEvent: string | undefined;
+  setting: ISettingsMyCar;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -61,6 +64,9 @@ export class Service {
     this.renderDetalContainer();
     this.initDOM();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    this.setting = localStorage.getItem('settingsCar')
+      ? JSON.parse(localStorage.getItem('settingsCar') as string)
+      : setUserSettings(defaultSettings);
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.addDetals();
@@ -113,14 +119,26 @@ export class Service {
   }
   fillInput() {
     if (this.curID) {
-      this.nameDOM.value = (
-        createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
-      ).textName;
-      this.nameDOM.readOnly = true;
-      this.typeDOM.value = (
-        createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
-      ).textType;
-      this.typeDOM.readOnly = true;
+      if (this.pageCall === 'plans') {
+        this.nameDOM.value = (
+          createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
+        ).textName;
+        this.nameDOM.readOnly = true;
+        this.typeDOM.value = (
+          createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
+        ).textType;
+        this.typeDOM.readOnly = true;
+      }
+      if (this.pageCall === 'events') {
+        const curEventArr = createArrEvents(this.eventPage);
+        this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
+        this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
+        this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
+        this.totalPriceService.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
+        this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
+        this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
+        this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
+      }
     }
   }
   changeTotalPriceDetals() {
@@ -292,6 +310,7 @@ export class Service {
               createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
             }`
           : Date.now().toString(),
+        typeEvent: this.eventPage,
       };
       const eventArr = this.carData.event.service;
       if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
@@ -342,13 +361,14 @@ export class Service {
     const popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
     const popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
     const popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
+
     return `
       <li id="detals__item" class="detals__item active">
           <div class="detals__item_basic flex justify-between">
             <span class="detals__item_name">${popupDetalName.value ? popupDetalName.value : ''}</span>
             <div>
               <span class="detals__item_price">${price ? (quant >= 1 ? quant : 1) * price : ''}</span>
-              <span class="detals__item_price-units">${getMoney('BY')?.slice(2)}</span>
+              <span class="detals__item_price-units">${this.setting.currency}</span>
             </div>
           </div>
           <div class="detals__item_sub flex justify-between border-b-2 border-slateBorders">
@@ -360,9 +380,7 @@ export class Service {
             </div>
             <span class="detals-cost__full text-xs">${
               quant > 1
-                ? `[<span class="detals-cost__quant text-xs">${quant}</span> x <span class="detals-cost__price text-xs">${price}</span>${getMoney(
-                    'BY'
-                  )?.slice(1)}]`
+                ? `[<span class="detals-cost__quant text-xs">${quant}</span> x <span class="detals-cost__price text-xs">${price}</span>${this.setting.currency}]`
                 : ' '
             }</span>
           </div>

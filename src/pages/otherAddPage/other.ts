@@ -90,6 +90,7 @@ export class Other {
               createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
             }`
           : Date.now().toString(),
+        typeEvent: this.eventPage,
       };
       const eventArr = this.carData.event.others;
       if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
@@ -107,7 +108,12 @@ export class Other {
         return lineOfEvent(this.eventPage, obj);
       })
       .join('')}
-          ${renderButtonBlue(eventLang().addEvent, 'add--event-other__btn col-span-2', 'add--event-other__btn', 'full')}
+          ${renderButtonBlue(
+            eventLang().addEvent,
+            'add--event-other__btn col-span-2 dark:bg-slate-600 ml-4',
+            'add--event-other__btn',
+            'full'
+          )}
 
       </form>`;
   }

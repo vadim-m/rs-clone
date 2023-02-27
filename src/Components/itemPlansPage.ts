@@ -8,12 +8,12 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   return `
   <li id=${paramsRemindObj.id} class="plans__item plans__item_${
     paramsRemindObj.id
-  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 pr-2 shadow-md" data-default="${
+  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md" data-default="${
     paramsRemindObj.reminderDefault
   }" data-typeService="${paramsRemindObj.textType}">
   ${
     paramsRemindObj.reminderDefault === false
-      ? `<p class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">${
+      ? `<p class="plans__bar absolute bottom-12 right-0 label__after_plans text-white text-center text-xs px-2 py-1 mr-1 rounded-md">${
           eventLang().after
         } ${paramsRemindObj.label}</p>`
       : ''
@@ -31,7 +31,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
       ? `<div class="plans__date text-xs font-bold text-end">${
           paramsRemindObj.completeDate
             ? new Date(paramsRemindObj.completeDate as string).toLocaleString(
-                getCurrentLanguage() === 'EN' ? 'en-US' : 'ru',
+                getCurrentLanguage() === 'English' ? 'en-US' : 'ru',
                 {
                   year: 'numeric',
                   month: 'short',

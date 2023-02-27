@@ -15,7 +15,7 @@ export class PlansSearch {
     </div>
 
     <div class="plans__menus grid grid-cols-1 gap-2 justify-between md:grid-cols-2 mb-8">
-      <select class="plans__menus_select">
+      <select class="plans__menus_select appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 dark:bg-slate-400">
         <option>${eventLang().allPlans}</option>
         <option>${eventLang().myMaintenance}</option>
         <option>${eventLang().myPlans}</option>
