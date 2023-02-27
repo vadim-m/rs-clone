@@ -1,6 +1,6 @@
 import { ICarData, IEvent, IParamsOneEvents } from '../../types';
 import { carData } from '../../car/car_data';
-import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconFont';
 
 export const showEvents = {
   refuel: 'refuel',

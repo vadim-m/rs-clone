@@ -8,7 +8,7 @@ import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
 import { IParamsOneEvents } from '../../types';
 import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
-import { mySetting } from '../../car/settings';
+import { mySetting } from '../../utilits/getCurrentSettings';
 import { getUnits } from '../../components/units';
 
 export class EventsPage {

@@ -1,6 +1,6 @@
 import { IParamsLineOfEvent } from '../../types';
 import { getDateTime, getDatePlusMonths, getDatePlusYear } from '../../utilits/dateTimeFunc';
-import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconFont';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
 import { createHTMLDatalistForType } from '../serviceAddPage/paramsForLineEvent';

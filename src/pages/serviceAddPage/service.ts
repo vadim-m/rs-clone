@@ -1,7 +1,7 @@
 import { IService, IDetals, ICarData, IParamsOneReminder, ISettingsMyCar, IParamsOneEvents } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
-import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconFont';
 import { eventLang } from '../../lang/addEventLang';
 import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';

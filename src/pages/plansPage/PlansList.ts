@@ -1,4 +1,4 @@
-import { oneOfReminder } from '../../components/itemPlansPage';
+import { oneOfReminder } from './itemPlansPage';
 import { createArrPlans } from './arrayReminders';
 
 export class PlansList {

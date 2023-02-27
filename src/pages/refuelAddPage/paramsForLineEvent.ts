@@ -1,6 +1,6 @@
 import { IParamsLineOfEvent, ISettingsMyCar } from '../../types';
 import { getDateTime } from '../../utilits/dateTimeFunc';
-import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconFont';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
 import { getCurrentPriceFuel } from '../../utilits/getCurrentSettings';
