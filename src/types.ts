@@ -49,10 +49,28 @@ interface IIndicators {
   averageMileageDay: string;
   costOneKM: string;
 }
+interface IEvent {
+  date: string;
+  mileage: string;
+  totalPrice: string;
+  typeEvent: string;
+  name: string;
+  type?: string;
+  costWorks?: string;
+  priceFuel?: string;
+  amountFuel?: string;
+  detals?: IDetals[];
+  totalSpendFuel?: string;
+  isFull?: boolean;
+  place: string;
+  notes: string;
+  id: string;
+}
 
 interface IRefuel {
   date: string;
   mileage: string;
+  name: string;
   priceFuel: string;
   amountFuel: string;
   totalPrice: string;
@@ -61,6 +79,7 @@ interface IRefuel {
   place: string;
   notes: string;
   id: string;
+  typeEvent: string;
 }
 
 interface IService {
@@ -70,9 +89,11 @@ interface IService {
   name: string;
   detals: IDetals[];
   totalPrice: string;
+  costWorks?: string;
   place: string;
   notes: string;
   id: string;
+  typeEvent: string;
 }
 
 interface IDetals {
@@ -94,6 +115,7 @@ interface IOther {
   place: string;
   notes: string;
   id: string;
+  typeEvent: string;
 }
 
 interface IReminders {
@@ -114,7 +136,9 @@ interface Iicon {
   gear: string;
   pen: string;
   gasPump: string;
+  gasPumpYellow: string;
   wallet: string;
+  walletBlue: string;
   cost: string;
   date: string;
   mileage: string;
@@ -122,6 +146,7 @@ interface Iicon {
   comments: string;
   plus: string;
   wrench: string;
+  wrenchRed: string;
   category: string;
   repeat: string;
   coins: string;
@@ -164,6 +189,25 @@ interface IParamsOneReminder {
   label?: string;
   id: string;
 }
+
+interface IParamsOneEvents {
+  class: string;
+  titleName: string;
+  mileage: string;
+  date: string;
+  totalPrice: string;
+  costWorks?: string;
+  amountFuel?: string;
+  titleType?: string;
+  isFullTank?: boolean;
+  priceFuel?: string;
+  eventType: string;
+  icon?: string;
+  place: string;
+  notes: string;
+  id: string;
+}
+
 enum unitsEnum {
   money = 'money',
   distance = 'distance',
@@ -219,6 +263,8 @@ export {
   ICar,
   ISettingsMyCar,
   IParamsOneReminder,
+  IParamsOneEvents,
   IShowPlans,
   IToDo,
+  IEvent,
 };

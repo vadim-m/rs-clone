@@ -1,15 +1,17 @@
-import { ICarData, IOther, IParamsOneReminder } from '../../types';
+import { ICarData, IOther, IParamsOneEvents, IParamsOneReminder } from '../../types';
 import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { renderButtonBlue } from '../../components/button';
+import { renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { paramsCollectionOther } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
 import { createArrPlans } from '../plansPage/arrayReminders';
 import { showPlans } from '../reminderAddPage/paramsForLineEvent';
+import { buttonLang } from '../../lang/buttonLang';
+import { createArrEvents } from '../eventsPage/arrayEvents';
 
 export class Other {
   eventPage = 'other';
@@ -29,18 +31,21 @@ export class Other {
   pageCall: string | undefined;
   curID: string | undefined;
   url: URL | undefined;
+  editEvent: string | undefined;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.url = new URL(window.location.href);
+    this.curID = this.url.searchParams.get('id') as string;
+    this.pageCall = this.url.searchParams.get('pageCall') as string;
+    this.editEvent = this.url.searchParams.get('edit') as string;
     this.renderPage();
     this.initDOM();
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     changeMileage(this.eventPage, this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
-    this.url = new URL(window.location.href);
-    this.curID = this.url.searchParams.get('id') as string;
-    this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.createotherEvent();
+    this.fillInput();
     onFocus(this.eventPage);
   }
 
@@ -62,40 +67,55 @@ export class Other {
 
   fillInput() {
     if (this.curID) {
-      this.nameDOM.value = (
-        createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
-      ).textName;
-      this.nameDOM.readOnly = true;
-      this.typeDOM.value = (
-        createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
-      ).textType;
-      this.typeDOM.readOnly = true;
+      if (this.pageCall === 'plans') {
+        this.nameDOM.value = (
+          createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+        ).textName;
+        this.nameDOM.readOnly = true;
+        this.typeDOM.value = (
+          createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+        ).textType;
+        this.typeDOM.readOnly = true;
+      }
+
+      if (this.pageCall === 'events') {
+        const curEventArr = createArrEvents(this.eventPage);
+        this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
+        this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
+        this.totalPriceDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
+        this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
+        this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
+        this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
+      }
     }
   }
   createotherEvent() {
-    const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
+    if (!this.editEvent) {
+      const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
 
-    addOtherBtn.addEventListener('click', () => {
-      this.initDOM();
+      addOtherBtn.addEventListener('click', () => {
+        this.initDOM();
 
-      this.otherEvent = {
-        date: this.dateDOM.value,
-        mileage: this.mileageDOM.value,
-        name: this.nameDOM.value,
-        totalPrice: this.totalPriceDOM.value,
-        place: this.placeDOM.value,
-        notes: this.notesDOM.value,
-        id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-          ? `${Date.now().toString()}_${
-              createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-            }`
-          : Date.now().toString(),
-      };
-      const eventArr = this.carData.event.others;
-      if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-        updateCarData(this.carData, this.eventPage, eventArr, this.otherEvent);
-      }
-    });
+        this.otherEvent = {
+          date: this.dateDOM.value,
+          mileage: this.mileageDOM.value,
+          name: this.nameDOM.value,
+          totalPrice: this.totalPriceDOM.value,
+          place: this.placeDOM.value,
+          notes: this.notesDOM.value,
+          id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+            ? `${Date.now().toString()}_${
+                createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+              }`
+            : Date.now().toString(),
+          typeEvent: this.eventPage,
+        };
+        const eventArr = this.carData.event.others;
+        if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+          updateCarData(this.carData, this.eventPage, eventArr, this.otherEvent);
+        }
+      });
+    }
   }
 
   createHTMLOtherDOM() {
@@ -107,13 +127,27 @@ export class Other {
         return lineOfEvent(this.eventPage, obj);
       })
       .join('')}
-          ${renderButtonBlue(
+    ${
+      !this.editEvent
+        ? renderButtonBlue(
             eventLang().addEvent,
-            'add--event-other__btn col-span-2 dark:bg-slate-600 ml-4',
-            'add--event-other__btn',
+            'add--event-service__btn col-span-2',
+            'add--event-service__btn',
             'full'
+          )
+        : `${renderButtonWhite(
+            buttonLang().delete,
+            'add--event-service__btn col-span-1',
+            'add--event-service__btn',
+            '1/2'
           )}
-
-      </form>`;
+              ${renderButtonWhite(
+                buttonLang().save,
+                'add--event-service__btn col-span-1',
+                'add--event-service__btn',
+                '1/2'
+              )}`
+    }
+          </form>`;
   }
 }

@@ -47,7 +47,7 @@ export function calcMyMileageTotal(carData: ICarData): string {
   if (lastEvent(carData) === undefined) return '0';
   const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
   const startMileage =
-    diffDates(carData.info.startDate, firstEvent.date) > 0 ? carData.info.mileage : firstEvent.mileage;
+    diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.mileage : firstEvent.mileage;
   const lasteEventMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   const myMileageTotal = +lasteEventMileage - +startMileage;
   return String(myMileageTotal);

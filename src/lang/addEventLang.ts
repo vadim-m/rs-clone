@@ -1,6 +1,6 @@
 import { getCurrentLanguage } from '../utilits/getCurrentSettings';
 export function eventLang() {
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     return {
       typeService: 'Type of service',
       typeFuel: 'Type of fuel',
@@ -76,6 +76,8 @@ export function eventLang() {
       myMaintenance: 'Maintenance schedule',
       myPlans: 'My plans',
       allPlans: 'All plans',
+      allEvents: 'All events',
+      refuels: 'Refuels',
       validatorName: 'There is already such a reminder. Change the name of the reminder.',
       cantFindPage: 'Sorry, we couldn`t find this page.',
       main: 'Main',
@@ -175,6 +177,8 @@ export function eventLang() {
       myMaintenance: 'График ТО',
       myPlans: 'Мои планы',
       allPlans: 'Все планы',
+      allEvents: 'Все события',
+      refuels: 'Заправки',
       validatorName: 'Такое напоминние уже есть. Измените название напоминания.',
       cantFindPage: 'Похоже, мы не можем найти нужную страницу.',
       main: 'Главная',

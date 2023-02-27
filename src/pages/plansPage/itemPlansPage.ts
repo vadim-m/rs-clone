@@ -1,8 +1,8 @@
-import { eventLang } from '../lang/addEventLang';
-import { IParamsOneReminder } from '../types';
-import { getCurrentLanguage } from '../utilits/getCurrentSettings';
-import { renderButtonBlue } from '../components/button';
-import { getUnits } from '../components/units';
+import { eventLang } from '../../lang/addEventLang';
+import { IParamsOneReminder } from '../../types';
+import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
+import { renderButtonBlue } from '../../components/button';
+import { getUnits } from '../../components/units';
 
 export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   return `

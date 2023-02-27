@@ -1,6 +1,6 @@
 import { ICarData, IParamsOneReminder, IReminders } from '../../types';
 import { carData } from '../../car/car_data';
-import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconFont';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
 import { diffDates } from '../../utilits/mathSpend';
