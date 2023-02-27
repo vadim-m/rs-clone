@@ -57,6 +57,10 @@ export class Service {
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.url = new URL(window.location.href);
+    this.curID = this.url.searchParams.get('id') as string;
+    this.pageCall = this.url.searchParams.get('pageCall') as string;
+    this.editEvent = this.url.searchParams.get('edit') as string;
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.renderPage();
@@ -73,10 +77,7 @@ export class Service {
     this.createServiceEvent();
     this.calcTotalPriceService();
     this.changeDetals();
-    this.url = new URL(window.location.href);
-    this.curID = this.url.searchParams.get('id') as string;
-    this.pageCall = this.url.searchParams.get('pageCall') as string;
-    this.editEvent = this.url.searchParams.get('edit') as string;
+
     this.fillInput();
     onFocus(this.eventPage);
   }
@@ -131,9 +132,13 @@ export class Service {
       }
       if (this.pageCall === 'events') {
         const curEventArr = createArrEvents(this.eventPage);
+        // const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
+        // console.log(curDetals.find((e)=> e.detals.name));
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
+        this.costWorksDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)
+          .costWorks as string;
         this.totalPriceService.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
         this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
         this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
@@ -302,6 +307,7 @@ export class Service {
         type: this.typeDOM.value,
         name: this.nameDOM.value,
         detals: worksDetalsArr,
+        costWorks: this.costWorksDOM.value,
         totalPrice: this.totalPriceService.value,
         place: this.placeDOM.value,
         notes: this.notesDOM.value,
@@ -403,6 +409,7 @@ export class Service {
   }
 
   createHTMLServiceDOM() {
+    console.log(this.editEvent);
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
     <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]" action="/" method="put">

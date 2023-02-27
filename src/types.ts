@@ -56,6 +56,7 @@ interface IEvent {
   typeEvent: string;
   name: string;
   type?: string;
+  costWorks?: string;
   priceFuel?: string;
   amountFuel?: string;
   detals?: IDetals[];
@@ -88,6 +89,7 @@ interface IService {
   name: string;
   detals: IDetals[];
   totalPrice: string;
+  costWorks?: string;
   place: string;
   notes: string;
   id: string;
@@ -194,8 +196,11 @@ interface IParamsOneEvents {
   mileage: string;
   date: string;
   totalPrice: string;
+  costWorks?: string;
   amountFuel?: string;
   titleType?: string;
+  isFullTank?: boolean;
+  priceFuel?: string;
   eventType: string;
   icon?: string;
   place: string;
