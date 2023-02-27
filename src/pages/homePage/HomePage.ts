@@ -1,13 +1,22 @@
 import { Info } from './Info';
 import { Plans } from './Plans';
 import { Events } from './Events';
-import { ICar, ISettingsMyCar } from '../../types';
+import { ICar, IParamsOneEvents, ISettingsMyCar } from '../../types';
 import data from '../../data/cars.json';
 import { CarForm } from './CarForm';
 import { createCar, updateCar, deleteCar, getSettingsFromAPI } from '../../helpers/api';
 import { prepareDataObj } from '../../helpers/utils';
 import { setCarDataFromDB } from '../../helpers/localStorage';
 import { setUserSettings } from '../../helpers/authentication';
+import { currentLiArr, searchLi } from '../../utilits/searchElement';
+import { createArrPlans } from '../plansPage/arrayReminders';
+import { showPlans } from '../reminderAddPage/paramsForLineEvent';
+import { Popup } from '../../components/popup';
+import { buttonLang } from '../../lang/buttonLang';
+import { eventLang } from '../../lang/addEventLang';
+import { getUnits } from '../../components/units';
+import { getCurrentLanguage, mySetting } from '../../utilits/getCurrentSettings';
+import { createArrEvents, showEvents } from '../eventsPage/arrayEvents';
 
 export class HomePage {
   private info: DocumentFragment | null;
@@ -16,9 +25,12 @@ export class HomePage {
   private carForm: DocumentFragment | null;
   private hasCar: boolean;
   private hiddenFormSectionClass: string | null;
+  page = 'home';
   parent: HTMLElement;
   addEventCircule!: HTMLElement;
   navigateTo: (path: string) => void;
+  listContainerPlans: HTMLUListElement | null;
+  listContainerEvents: HTMLUListElement | null;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -30,6 +42,11 @@ export class HomePage {
     this.navigateTo = goTo;
     this.hasCar = this.checkAvailabilityCar();
     this.createElement();
+    this.listContainerPlans = document.querySelector('.plans__list');
+    this.listContainerEvents = document.querySelector('.events__list');
+    this.addDefaultRemind();
+    this.handlerReminder();
+    this.handlerEvents();
   }
 
   checkAvailabilityCar() {
@@ -232,5 +249,140 @@ export class HomePage {
         submitBtn.disabled = false;
       }
     });
+  }
+  // методы Планов
+  addDefaultRemind() {
+    (this.listContainerPlans as HTMLUListElement).addEventListener('click', (event) => {
+      searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
+      const curID = currentLiArr[0].id;
+      if ((event.target as HTMLElement).matches('.reminder-add__btn')) {
+        window.location.href = `/reminder?id=${curID}&pageCall=${this.page}`;
+      }
+    });
+  }
+
+  handlerReminder() {
+    (this.listContainerPlans as HTMLUListElement).addEventListener('click', (event) => {
+      searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
+      const curID = currentLiArr[0].id;
+
+      const curReminderObj = createArrPlans(showPlans.myPlans).filter((e) => e.id === curID)[0];
+      if (currentLiArr[0].getAttribute('data-default') === 'false') {
+        new Popup(
+          `<p class="mb-20 text-center">${curReminderObj.textName}</p>`,
+          buttonLang().edit,
+          'confirm__btn--edit',
+          'confirm__btn--edit',
+          buttonLang().completed,
+          'confirm__btn--completed',
+          'confirm__btn--completed'
+        );
+        const popup = document.querySelector('.popup__container') as HTMLElement;
+        popup.addEventListener('click', (event) => {
+          if ((event.target as HTMLElement).matches('.confirm__btn--completed')) {
+            if (currentLiArr[0].getAttribute('data-typeService') === eventLang().other) {
+              window.location.href = `/other?id=${curReminderObj.id}&pageCall=${this.page}`;
+            } else {
+              window.location.href = `/service?id=${curReminderObj.id}&pageCall=${this.page}`;
+            }
+          }
+          if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
+            window.location.href = `/reminder?id=${curReminderObj.id}&pageCall=${this.page}&edit=true`;
+          }
+        });
+      }
+    });
+  }
+  // методы событий
+
+  handlerEvents() {
+    (this.listContainerEvents as HTMLUListElement).addEventListener('click', (event) => {
+      searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
+      const curID = currentLiArr[0].id;
+      const curEventsObj = createArrEvents(showEvents.all).filter((e) => e.id === curID)[0];
+
+      const popup = new Popup(
+        this.popupContent(curEventsObj),
+        buttonLang().edit,
+        'confirm__btn--edit',
+        'confirm__btn--edit',
+        buttonLang().ok,
+        'confirm__btn--ok',
+        'confirm__btn--ok'
+      );
+      console.log(popup);
+      // console.log(eventLang().other);
+      const popupHandler = document.querySelector('.popup__container') as HTMLElement;
+      popupHandler.addEventListener('click', (event) => {
+        if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
+          if (currentLiArr[0].getAttribute('data-event') === 'other') {
+            window.location.href = `/other?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
+            console.log(currentLiArr[0].getAttribute('data-event'));
+          }
+          if (currentLiArr[0].getAttribute('data-event') === 'service') {
+            window.location.href = `/service?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
+            console.log(eventLang().other);
+          }
+          if (currentLiArr[0].getAttribute('data-event') === 'refuel') {
+            window.location.href = `/refuel?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
+          }
+        }
+        if ((event.target as HTMLElement).matches('.confirm__btn--ok')) {
+          popup.removePopup();
+        }
+      });
+    });
+  }
+
+  popupContent(curEventsObj: IParamsOneEvents) {
+    return `
+              <h1 class="data text-sm font-bold mb-4 leading-4 text-center">${new Date(
+                curEventsObj.date as string
+              ).toLocaleString(getCurrentLanguage() === 'English' ? 'en-US' : 'ru', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false,
+              })}</h1>
+            <div class="flex flex-col">
+              <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().name}:</p>            
+              <p class="name bg-myslate pl-2 mb-2">${curEventsObj.titleName}</p>
+            </div>
+
+            ${
+              curEventsObj.amountFuel
+                ? `        <div class="flex flex-col">
+              <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().quant}:</p>            
+              <p class="name bg-myslate pl-2 mb-2">${curEventsObj.amountFuel}${getUnits().volume.slice(2)}</p>
+            </div> `
+                : ''
+            }
+            <div class="flex flex-col">
+              <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().mileage}:</p>            
+              <p class="name bg-myslate pl-2 mb-2">${curEventsObj.mileage}${getUnits().distance.slice(2)}</p>
+            </div>
+            
+            ${
+              curEventsObj.place
+                ? `        <div class="flex flex-col">
+              <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().place}:</p>            
+              <p class="name bg-myslate pl-2 mb-2">${curEventsObj.place}</p>
+            </div> `
+                : ''
+            }  
+                    ${
+                      curEventsObj.notes
+                        ? `        <div class="flex flex-col">
+              <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().comments}:</p>            
+              <p class="name bg-myslate pl-2 mb-2">${curEventsObj.notes}</p>
+            </div> `
+                        : ''
+                    }  
+          <div class="flex flex-col">
+              <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().amount}:</p>            
+              <p class="name bg-myslate pl-2 mb-10">${curEventsObj.totalPrice}${mySetting().currency}</p>
+            </div>  `;
   }
 }
