@@ -8,6 +8,7 @@ const gear = require('../../assets/icons/gear.svg');
 
 import { getCarInfoFromLS } from '../../helpers/localStorage';
 import { setLogo } from '../../helpers/utils';
+import { eventLang } from '../../lang/addEventLang';
 
 export class Info {
   public element: DocumentFragment;
@@ -43,7 +44,7 @@ export class Info {
               <div class="info__expenses flex gap-3 items-center bg-white p-1 drop-shadow-md pl-2 dark:bg-slate-500">
                 <img src="${expenses}" class="info__img w-7 h-7" alt="expenses-icon">
                 <div class="expenses">
-                  <div class="expenses__title font-bold text-xxs">Затраты на машину</div>
+                  <div class="expenses__title font-bold text-xxs">${eventLang().carCosts}</div>
                   <div class="expenses__amount text-xxs">
                     <span class="expenses__sum">1000</span><span class="expenses__currency">₽</span>
                   </div>
@@ -54,7 +55,7 @@ export class Info {
                 <img src="${finance}" class="info__img w-7 h-7" alt="petrol-icon">
                 <div class="petrol">
                   <div class="petrol__title font-bold text-xxs">
-                    Пробег
+                  ${eventLang().mileage}
                   </div>
                   <div class="text-xxs">
                     <span>${this.car?.mileage}</span>км 
@@ -66,7 +67,7 @@ export class Info {
                 <img src="${coins}" class="info__img w-7 h-7" alt="petrol-icon">
                 <div class="petrol">
                   <div class="petrol__title font-bold text-xxs">
-                    Стоимость бензина
+                  ${eventLang().gasolineCost}
                   </div>
                   <div class="petrol__amount text-xxs">
                     <span class="petrol__sum">0.0</span><span class="petrol__currency"> руб/км</span>
@@ -78,7 +79,7 @@ export class Info {
                 <img src="${gasStation}" class="info__img w-7 h-7" alt="petrol-icon">
                 <div class="petrol">
                   <div class="petrol__title font-bold text-xs">
-                    Расход бензина
+                  ${eventLang().gasMileage}
                   </div>
                   <div class="petrol__amount text-xxs">
                     <span class="petrol__sum">0.0</span><span class="petrol__currency"> л/100км</span>

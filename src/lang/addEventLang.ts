@@ -77,6 +77,20 @@ export function eventLang() {
       myPlans: 'My plans',
       allPlans: 'All plans',
       validatorName: 'There is already such a reminder. Change the name of the reminder.',
+      cantFindPage: 'Sorry, we couldn`t find this page.',
+      main: 'Main',
+      events: 'Events',
+      plans: 'Plans',
+      statistic: 'Statistics',
+      settings: 'Settings',
+      notes: 'Notes',
+      aboutUs: 'About us',
+      myCar: 'My car',
+      carCosts: 'Car costs',
+      gasolineCost: 'Cost of gasoline',
+      gasMileage: 'Gas mileage',
+      nearestPlans: 'Nearest Plans',
+      recentEvents: 'Recent Events',
     };
   } else {
     return {
@@ -155,6 +169,20 @@ export function eventLang() {
       myPlans: 'Мои планы',
       allPlans: 'Все планы',
       validatorName: 'Такое напоминние уже есть. Измените название напоминания.',
+      cantFindPage: 'Похоже, мы не можем найти нужную страницу.',
+      main: 'Главная',
+      events: 'События',
+      plans: 'Планы',
+      statistic: 'Статистика',
+      settings: 'Настройки',
+      notes: 'Заметки',
+      aboutUs: 'О нас',
+      myCar: 'Мой автомобиль',
+      carCosts: 'Затраты на машину',
+      gasolineCost: 'Стоимость бензина',
+      gasMileage: 'Расход бензина',
+      nearestPlans: 'Ближайшие планы',
+      recentEvents: 'Последние события',
     };
   }
 }

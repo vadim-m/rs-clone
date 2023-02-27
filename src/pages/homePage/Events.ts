@@ -1,5 +1,6 @@
 const funnel = require('../../assets/icons/funnel.png');
 const tires = require('../../assets/icons/tires.png');
+import { eventLang } from '../../lang/addEventLang';
 
 export class Events {
   public element: DocumentFragment;
@@ -12,7 +13,7 @@ export class Events {
     const fragment = document.createElement('template');
     fragment.innerHTML = ` 
     <div class="relative py-2 rounded-lg bg-slate">
-      <h2 class="events__title font-medium text-sm mb-2">Последние события</h2>
+      <h2 class="events__title font-medium text-sm mb-2">${eventLang().recentEvents}</h2>
       <ul class="events__list grid gap-y-3 dark:text-black">
         <li class="events__item grid grid-cols-layout justify-between items-center p-2 drop-shadow-md bg-white dark:bg-slate-400">
           <div class="events__item-and-icon flex items-center mr-2">

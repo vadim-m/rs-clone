@@ -12,6 +12,7 @@ import { RegistrationPage } from '../pages/registrationPage/registration';
 import { SettingsPage } from '../pages/settingsPage/SettingsPage';
 import { TodoPage } from '../pages/toDoPage/todo';
 import { getAppSettingsFromLS } from '../helpers/localStorage';
+import { ErrorPage } from '../pages/ErrorPage/ErrorPage';
 
 export class Router {
   url: URL;
@@ -29,6 +30,7 @@ export class Router {
   toDoPage: TodoPage | null;
   isUserAuthenticated: boolean;
   settingsPage: SettingsPage | null;
+  errorPage: ErrorPage | null;
 
   constructor(isUserAuthenticated: boolean) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -46,6 +48,7 @@ export class Router {
     this.registrationPage = null;
     this.toDoPage = null;
     this.settingsPage = null;
+    this.errorPage = null;
     this.render(new URL(window.location.href).pathname);
     this.checkDarkMode();
     this.setOrientation();
@@ -126,6 +129,8 @@ export class Router {
       this.registrationPage = new RegistrationPage(this.goTo.bind(this));
     } else if (routes.Settings.match(path)) {
       this.settingsPage = new SettingsPage(this.goTo.bind(this));
+    } else {
+      this.errorPage = new ErrorPage();
     }
 
     this.addListeners();
@@ -144,6 +149,7 @@ export class Router {
     this.registrationPage = null;
     this.toDoPage = null;
     this.settingsPage = null;
+    this.errorPage = null;
     this.parent.innerHTML = '';
   }
 

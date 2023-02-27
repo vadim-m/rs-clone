@@ -11,6 +11,8 @@ export function buttonLang() {
       save: 'SAVE',
       edit: 'EDIT',
       option: '...',
+      backtoHome: 'Back to homepage',
+      exit: 'Exit',
     };
   } else {
     return {
@@ -22,6 +24,8 @@ export function buttonLang() {
       save: 'СОХРАНИТЬ',
       edit: 'ИЗМЕНИТЬ',
       option: '...',
+      backtoHome: 'Перейти на главную',
+      exit: 'Выйти',
     };
   }
 }

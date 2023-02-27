@@ -1,5 +1,6 @@
 const carRepair = require('../../assets/icons/car-repair.png');
 const gear = require('../../assets/icons/gear.png');
+import { eventLang } from '../../lang/addEventLang';
 
 export class Plans {
   public element: DocumentFragment;
@@ -11,7 +12,7 @@ export class Plans {
   createElement() {
     const fragment = document.createElement('template');
     fragment.innerHTML = `       
-    <h2 class="plans__title font-medium text-sm mb-2">Ближайшие планы</h2>
+    <h2 class="plans__title font-medium text-sm mb-2">${eventLang().nearestPlans}</h2>
     <ul class="plans__list grid gap-y-3 mb-4 dark:text-black">
       <li class="plans__item relative bg-myslate rounded-lg flex justify-between gap-x-2 items-center py-2 pl-4 shadow-md dark:bg-slate-500">
         <div class="plans__bar absolute bottom-12 right-0 bg-myblue text-white text-xs px-3 py-1 rounded-md">Через 10 дней</div>

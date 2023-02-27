@@ -19,6 +19,7 @@ export class StatisticPage {
     this.countForecast();
     this.clearInput();
     this.openCalendar();
+    this.submitPeriod();
   }
 
   createElement() {
@@ -209,5 +210,24 @@ export class StatisticPage {
     calendarOk.onclick = function () {
       modal.style.display = 'none';
     };
+  }
+
+  submitPeriod() {
+    const form = document.getElementById('calendar-form');
+    const monthInput = document.getElementById('monthInput') as HTMLInputElement;
+    const yearInput = document.getElementById('yearInput') as HTMLInputElement;
+
+    monthInput?.addEventListener('input', () => {
+      yearInput.value = '';
+    });
+
+    yearInput?.addEventListener('input', () => {
+      monthInput.value = '';
+    });
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      console.log(monthInput.value, yearInput.value);
+    });
   }
 }
