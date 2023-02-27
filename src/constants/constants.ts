@@ -1,6 +1,6 @@
 import { ISettingsMyCar } from '../types';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://api-test-rs-clone.vercel.app/api';
 
 export const pathURL = {
   login: `${API_URL}/auth/login`,

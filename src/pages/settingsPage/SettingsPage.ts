@@ -45,7 +45,7 @@ export class SettingsPage {
         setUserSettings(data);
         setTimeout(() => {
           this.navigateTo('/settings');
-        }, 200);
+        }, 100);
       }
     });
   }

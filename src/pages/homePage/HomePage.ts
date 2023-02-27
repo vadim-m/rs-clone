@@ -156,7 +156,7 @@ export class HomePage {
         // переадресация на главную
         setTimeout(() => {
           this.navigateTo('/');
-        }, 2000);
+        }, 100);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
@@ -222,7 +222,7 @@ export class HomePage {
         // переадресация на главную
         setTimeout(() => {
           this.navigateTo('/');
-        }, 2000);
+        }, 100);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');
