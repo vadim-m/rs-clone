@@ -89,6 +89,7 @@ export class PlansPage {
   }
 
   createElement() {
+    const parent = document.querySelector('.main') as HTMLElement;
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'block';
     const plans = document.createElement('section');
@@ -98,6 +99,6 @@ export class PlansPage {
     this.list.append(new PlansList(showPlans.allPlans).element);
     plans.append(this.search, this.list);
 
-    this.parent.append(plans);
+    parent.append(plans);
   }
 }

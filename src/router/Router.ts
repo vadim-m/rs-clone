@@ -101,7 +101,6 @@ export class Router {
       this.loginPage = new LoginPage(this.goTo.bind(this));
       return;
     }
-
     if (routes.Home.match(path)) {
       this.homePage = new HomePage(this.goTo.bind(this));
     } else if (routes.Events.match(path)) {
