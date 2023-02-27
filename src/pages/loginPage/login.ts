@@ -79,7 +79,7 @@ export class LoginPage {
         console.log('обновил дату');
         setTimeout(() => {
           this.navigateTo('/');
-        }, 800);
+        }, 100);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

@@ -33,9 +33,12 @@ export class Info {
         <div class="info__car car bg-myslate rounded-lg shadow-md mb-4 p-4 grid-cols-2 gap-x-2 dark:bg-slate-700">
           <div class="flex justify-between">
             <div>
-            <img src="${carImg}" class="info__logo w-16 h-16" alt="logo-icon">
+            <img src="${carImg}" class="info__logo w-20 h-20" alt="logo-icon">
             </div>
-            <div><h3 class="car__name font-bold text-xl text-right">${this.car?.brand} ${this.car?.model}</h3>
+            <div class="self-center">
+              <h3 class="car__name font-bold text-xl text-right">
+              ${this.car?.brand} ${this.car?.model}
+              </h3>
             <p class="car__year text-sm text-right">${this.car?.year}</p></div>
           </div>
 
