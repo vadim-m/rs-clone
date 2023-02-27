@@ -68,3 +68,8 @@
 .toggle__checkbox_mileage:checked + .toggle__label_mileage {
   background-color: #2b6cb0;
 }
+
+.label__after_plans {
+  background-color: #2b6cb0;
+  width: 8rem;
+}

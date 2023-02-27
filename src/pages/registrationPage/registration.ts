@@ -77,7 +77,7 @@ export class RegistrationPage {
         submitBtn.disabled = false;
         setTimeout(() => {
           this.navigateTo('/signin');
-        }, 2000);
+        }, 200);
       } else {
         alertEl.classList.remove('invisible');
         alertEl.classList.remove('bg-green-100');

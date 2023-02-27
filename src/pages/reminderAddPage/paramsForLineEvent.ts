@@ -1,10 +1,11 @@
 import { IParamsLineOfEvent } from '../../types';
 import { getDateTime, getDatePlusMonths, getDatePlusYear } from '../../utilits/dateTimeFunc';
-import { icon } from '../../components/iconObj';
+import { icon } from '../../components/iconFont';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
 import { createHTMLDatalistForType } from '../serviceAddPage/paramsForLineEvent';
 import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
+import { carData } from '../../car/car_data';
 
 const type: IParamsLineOfEvent = {
   idAndClass: 'type',
@@ -48,6 +49,7 @@ const onMileage: IParamsLineOfEvent = {
   icon: icon.mileage,
   typeInput: 'number',
   size: '1',
+  min: carData.indicators.curMileage ? +carData.indicators.curMileage : +carData.info.mileage,
   required: true,
   units: getUnits().distance,
 };

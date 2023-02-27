@@ -1,19 +1,21 @@
-import { ICarData, IRefuel } from '../../types';
+import { ICarData, IParamsOneEvents, IRefuel } from '../../types';
 import { culcMaybeMileage, culcSpendFuelTotal } from '../../utilits/mathSpend';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { renderButtonBlue } from '../../components/button';
+import { renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { carData } from '../../car/car_data';
 import { paramsCollectionRefuel } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
+import { buttonLang } from '../../lang/buttonLang';
+import { createArrEvents } from '../eventsPage/arrayEvents';
 
 export class Refuel {
   eventPage = 'refuel';
   refuelEvent: IRefuel | undefined;
   mileageDOM!: HTMLInputElement;
-  typeDOM!: HTMLInputElement;
+  typeFuelDOM!: HTMLInputElement;
   placeDOM!: HTMLInputElement;
   notesDOM!: HTMLInputElement;
   parent!: HTMLElement;
@@ -26,9 +28,17 @@ export class Refuel {
   dateDOM!: HTMLInputElement;
   formDOM!: HTMLFormElement;
   carData: ICarData;
+  url: URL;
+  curID: string;
+  pageCall: string;
+  editEvent: string | undefined;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.url = new URL(window.location.href);
+    this.curID = this.url.searchParams.get('id') as string;
+    this.pageCall = this.url.searchParams.get('pageCall') as string;
+    this.editEvent = this.url.searchParams.get('edit') as string;
     this.renderPage();
     this.initDOM();
     this.changeTotalPriceDetals();
@@ -36,12 +46,13 @@ export class Refuel {
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
+    this.fillInput();
     onFocus(this.eventPage);
   }
 
   initDOM() {
     this.formDOM = document.querySelector('#main-form') as HTMLFormElement;
-    this.typeDOM = document.querySelector('#refuel__input_type-fuel') as HTMLInputElement;
+    this.typeFuelDOM = document.querySelector('#refuel__input_type-fuel') as HTMLInputElement;
     this.priceFuelDOM = document.querySelector('#refuel__input_price') as HTMLInputElement;
     this.amountFuelDOM = document.querySelector('#refuel__input_amount-fuel') as HTMLInputElement;
     this.totalPriceDOM = document.querySelector('#refuel__input_total') as HTMLInputElement;
@@ -57,6 +68,20 @@ export class Refuel {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.style.display = 'none';
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLrefuelDOM());
+  }
+  fillInput() {
+    if (this.curID) {
+      const curEventArr = createArrEvents(this.eventPage);
+      this.amountFuelDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)
+        .amountFuel as string;
+      this.typeFuelDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
+      this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
+      this.totalPriceDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
+      this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
+      this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
+      this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
+      this.priceFuelDOM.value = String(+this.totalPriceDOM.value / +this.amountFuelDOM.value);
+    }
   }
 
   changeTotalPriceDetals() {
@@ -95,30 +120,32 @@ export class Refuel {
 
   createRefuelEvent() {
     const addrefuelBtn = document.querySelector('#add--event-refuel__btn') as HTMLButtonElement;
+    if (!this.editEvent)
+      addrefuelBtn.addEventListener('click', () => {
+        this.initDOM();
+        const newCarData: ICarData = localStorage.getItem('car')
+          ? JSON.parse(localStorage.getItem('car') as string)
+          : carData;
 
-    addrefuelBtn.addEventListener('click', () => {
-      this.initDOM();
-      const newCarData: ICarData = localStorage.getItem('car')
-        ? JSON.parse(localStorage.getItem('car') as string)
-        : carData;
-
-      this.refuelEvent = {
-        date: this.dateDOM.value,
-        mileage: this.mileageDOM.value,
-        priceFuel: this.priceFuelDOM.value,
-        amountFuel: this.amountFuelDOM.value,
-        totalPrice: this.totalPriceDOM.value,
-        totalSpendFuel: culcSpendFuelTotal(newCarData),
-        isFull: this.tankFullDOM.checked,
-        place: this.placeDOM.value,
-        notes: this.notesDOM.value,
-        id: Date.now().toString(),
-      };
-      const eventArr = newCarData.event.refuel;
-      if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-        updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
-      }
-    });
+        this.refuelEvent = {
+          date: this.dateDOM.value,
+          mileage: this.mileageDOM.value,
+          name: this.typeFuelDOM.value,
+          priceFuel: this.priceFuelDOM.value,
+          amountFuel: this.amountFuelDOM.value,
+          totalPrice: this.totalPriceDOM.value,
+          totalSpendFuel: culcSpendFuelTotal(newCarData),
+          isFull: this.tankFullDOM.checked,
+          place: this.placeDOM.value,
+          notes: this.notesDOM.value,
+          id: Date.now().toString(),
+          typeEvent: this.eventPage,
+        };
+        const eventArr = newCarData.event.refuel;
+        if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+          updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
+        }
+      });
   }
 
   createHTMLrefuelDOM() {
@@ -130,12 +157,27 @@ export class Refuel {
               return lineOfEvent(this.eventPage, obj);
             })
             .join('')}
-          ${renderButtonBlue(
-            eventLang().add,
-            'add--event-refuel__btn col-span-2 dark:bg-slate-600 ml-4',
-            'add--event-refuel__btn',
-            'full'
-          )}
+      ${
+        !this.editEvent
+          ? renderButtonBlue(
+              eventLang().addEvent,
+              'add--event-service__btn col-span-2',
+              'add--event-service__btn',
+              'full'
+            )
+          : `${renderButtonWhite(
+              buttonLang().delete,
+              'add--event-service__btn col-span-1',
+              'add--event-service__btn',
+              '1/2'
+            )}
+              ${renderButtonWhite(
+                buttonLang().save,
+                'add--event-service__btn col-span-1',
+                'add--event-service__btn',
+                '1/2'
+              )}`
+      }
           </form>`;
   }
 }

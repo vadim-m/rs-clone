@@ -1,7 +1,7 @@
 import { getCurrentLanguage } from '../utilits/getCurrentSettings';
 
 export function buttonLang() {
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     return {
       ok: 'OK',
       completed: 'COMPLETED',
@@ -11,6 +11,10 @@ export function buttonLang() {
       save: 'SAVE',
       edit: 'EDIT',
       option: '...',
+      backtoHome: 'Back to homepage',
+      exit: 'Exit',
+      addNew: 'Add new',
+      choosePeriod: 'Choose the period',
     };
   } else {
     return {
@@ -22,6 +26,10 @@ export function buttonLang() {
       save: 'СОХРАНИТЬ',
       edit: 'ИЗМЕНИТЬ',
       option: '...',
+      backtoHome: 'Перейти на главную',
+      exit: 'Выйти',
+      addNew: 'Добавить новое',
+      choosePeriod: 'Выбрать период',
     };
   }
 }

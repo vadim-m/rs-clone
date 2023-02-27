@@ -4,6 +4,7 @@ import { ChartItem } from 'chart.js/dist/types/index';
 import { StatisticHeader } from './StatisticHeader';
 import { StatisticChart1 } from './StatisticChart1';
 import { StatisticChart2 } from './StatisticChart2';
+import { eventLang } from '../../lang/addEventLang';
 
 export class StatisticPage {
   parent: HTMLElement;
@@ -19,6 +20,7 @@ export class StatisticPage {
     this.countForecast();
     this.clearInput();
     this.openCalendar();
+    this.submitPeriod();
   }
 
   createElement() {
@@ -28,11 +30,11 @@ export class StatisticPage {
       ${this.header}
       <div class="item-content item-link flex justify-between p-4 border-b border-t border-slate">
         <div class="item-title item-info flex flex-col items-center text-lg">
-          <div class="item-header">Общий пробег:</div>
+          <div class="item-header">${eventLang().totalMileage}</div>
           <span class="item-title"><span class="chart_distance">91 158</span>  км.</span>
         </div>
         <div class="item-title item-info  flex flex-col items-center text-lg">
-          <div class="item-header">Пробег за период:</div>
+          <div class="item-header">${eventLang().perPeriodMileage}</div>
           <span class="item-title"><span id="chart__distance_period">27 858</span> км.</span>
         </div>
       </div>
@@ -131,7 +133,7 @@ export class StatisticPage {
         labels: data.filter((row) => row.count !== 0).map((row) => row.day),
         datasets: [
           {
-            label: 'Расход топлива за месяц',
+            label: '',
             backgroundColor: 'rgba(255, 205, 86, 1)',
             data: data.filter((row) => row.count !== 0).map((row) => row.count),
           },
@@ -209,5 +211,24 @@ export class StatisticPage {
     calendarOk.onclick = function () {
       modal.style.display = 'none';
     };
+  }
+
+  submitPeriod() {
+    const form = document.getElementById('calendar-form');
+    const monthInput = document.getElementById('monthInput') as HTMLInputElement;
+    const yearInput = document.getElementById('yearInput') as HTMLInputElement;
+
+    monthInput?.addEventListener('input', () => {
+      yearInput.value = '';
+    });
+
+    yearInput?.addEventListener('input', () => {
+      monthInput.value = '';
+    });
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      console.log(monthInput.value, yearInput.value);
+    });
   }
 }

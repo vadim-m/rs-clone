@@ -1,6 +1,6 @@
 import { getCurrentLanguage } from '../utilits/getCurrentSettings';
 export function eventLang() {
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     return {
       typeService: 'Type of service',
       typeFuel: 'Type of fuel',
@@ -76,7 +76,30 @@ export function eventLang() {
       myMaintenance: 'Maintenance schedule',
       myPlans: 'My plans',
       allPlans: 'All plans',
+      allEvents: 'All events',
+      refuels: 'Refuels',
       validatorName: 'There is already such a reminder. Change the name of the reminder.',
+      cantFindPage: 'Sorry, we couldn`t find this page.',
+      main: 'Main',
+      events: 'Events',
+      plans: 'Plans',
+      statistic: 'Statistics',
+      settings: 'Settings',
+      notes: 'Notes',
+      aboutUs: 'About us',
+      myCar: 'My car',
+      carCosts: 'Car costs',
+      gasolineCost: 'Cost of gasoline',
+      gasMileage: 'Gas mileage',
+      nearestPlans: 'Nearest Plans',
+      recentEvents: 'Recent Events',
+      whatToDo: 'What to do ?',
+      perMonth: 'Per Month:',
+      perYear: 'Per Year:',
+      currentYear: 'Current year',
+      lastYear: 'Last year',
+      totalMileage: 'Total MileAge',
+      perPeriodMileage: 'Mileage per Period',
     };
   } else {
     return {
@@ -154,7 +177,30 @@ export function eventLang() {
       myMaintenance: 'График ТО',
       myPlans: 'Мои планы',
       allPlans: 'Все планы',
+      allEvents: 'Все события',
+      refuels: 'Заправки',
       validatorName: 'Такое напоминние уже есть. Измените название напоминания.',
+      cantFindPage: 'Похоже, мы не можем найти нужную страницу.',
+      main: 'Главная',
+      events: 'События',
+      plans: 'Планы',
+      statistic: 'Статистика',
+      settings: 'Настройки',
+      notes: 'Заметки',
+      aboutUs: 'О нас',
+      myCar: 'Мой автомобиль',
+      carCosts: 'Затраты на машину',
+      gasolineCost: 'Стоимость бензина',
+      gasMileage: 'Расход бензина',
+      nearestPlans: 'Ближайшие планы',
+      recentEvents: 'Последние события',
+      whatToDo: 'Что нужно сделать ?',
+      perMonth: 'За месяц:',
+      perYear: 'За год:',
+      currentYear: 'Текущий год',
+      lastYear: 'Прошлый год',
+      totalMileage: 'Общий пробег:',
+      perPeriodMileage: 'Пробег за период:',
     };
   }
 }

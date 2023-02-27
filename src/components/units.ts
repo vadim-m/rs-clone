@@ -14,15 +14,15 @@ const unitsEN = {
   volume: ', l',
 };
 
-export function getMoney(country: string, litr?: string) {
-  const money = new Map([
-    ['RU', ', ₽'],
-    ['BY', ', BYN'],
-    ['EN', ', $'],
-    ['EU', ', €'],
-  ]);
-  return litr ? `${money.get(country)}/${getCurrentLanguage() === 'EN' ? 'l' : 'л'}` : money.get(country);
-}
+// export function getMoney(country: string, litr?: string) {
+//   const money = new Map([
+//     ['RU', ', ₽'],
+//     ['BY', ', BYN'],
+//     ['EN', ', $'],
+//     ['EU', ', €'],
+//   ]);
+//   return litr ? `${money.get(country)}/${getCurrentLanguage() === 'EN' ? 'l' : 'л'}` : money.get(country);
+// }
 
 export function getPriceFuel(country: string) {
   let money = new Map([
@@ -31,7 +31,7 @@ export function getPriceFuel(country: string) {
     ['EN', ', $/л'],
     ['EU', ', €/л'],
   ]);
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     money = new Map([
       ['RU', ', ₽/l'],
       ['BY', ', BYN/l'],
@@ -44,7 +44,7 @@ export function getPriceFuel(country: string) {
 }
 
 export function getUnits() {
-  if (getCurrentLanguage() === 'EN') {
+  if (getCurrentLanguage() === 'English') {
     return unitsEN;
   } else {
     return unitsRU;

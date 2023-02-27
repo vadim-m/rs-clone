@@ -23,7 +23,7 @@ export function lineOfEvent(event: string, paramsObj: IParamsLineOfEvent) {
                 <span id="${event}__title_${paramsObj.idAndClass}" 
                       class="${event}__title ${event}__title_${paramsObj.idAndClass}
                       absolute top-0 left-8 pointer-events-none">
-                      ${paramsObj.textTitle}${paramsObj.units ? paramsObj.units : ''}
+                      ${paramsObj.textTitle}${paramsObj.units ? `${paramsObj.units}` : ''}
                 </span>
                 <input id="${event}__input_${paramsObj.idAndClass}"
                        list="${event}__list_${paramsObj.idAndClass}"

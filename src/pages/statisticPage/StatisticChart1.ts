@@ -11,14 +11,19 @@ export class StatisticChart1 {
     <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
     <div class="carousel-item absolute opacity-0 hidden">
       <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
-      <div class="mb-6 flex justify-center"><canvas id="acquisitions" style="max-width: 250px; max-height: 250px"></canvas></div>
-      <div class="statistic__legend mb-8">
-      <div class="statistic__fuels item flex pr-10 border-b border-t border-r border-slate">
-        <div class="item__color w-4" style="background-color: rgb(250, 32, 32)"></div>
-        <div class="item__inner flex justify-between w-full pl-2 py-2">
-          <div class="item__title">Заправки</div>
-          <div class="item__after"><span><span class="item__sum" id="stat1"></span>  ₽</span></div>
+      <div class="mb-6 flex flex-col">
+        <div class="mt-2 text-center">Общие расходы за <span>2023</span> <span>г.</span></div>
+        <div class="flex justify-center">
+          <canvas id="acquisitions" class="my-auto" style="max-width: 250px; max-height: 250px"></canvas>
         </div>
+      </div>
+      <div class="statistic__legend mb-8">
+        <div class="statistic__fuels item flex pr-10 border-b border-t border-r border-slate">
+          <div class="item__color w-4" style="background-color: rgb(250, 32, 32)"></div>
+          <div class="item__inner flex justify-between w-full pl-2 py-2">
+            <div class="item__title">Заправки</div>
+            <div class="item__after"><span><span class="item__sum" id="stat1"></span>  ₽</span></div>
+          </div>
       </div>
       <div class="statistic__fuels item flex pr-10 border-b border-r border-slate">
         <div class="item__color w-4" style="background-color: rgb(54, 162, 235)"></div>
