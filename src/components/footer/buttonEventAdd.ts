@@ -1,4 +1,3 @@
-const plus = require('../../assets/icons/plus.svg');
 const gasStation = require('../../assets/icons/gas-station.svg');
 const reminder = require('../../assets/icons/reminders.svg');
 const tool = require('../../assets/icons/tool.svg');
@@ -39,10 +38,10 @@ export class TabsButton {
       </a>
 
       <button class="menu__button relative w-14 h-14 p-3 rounded-full bg-myblue z-20">
-        <img src="${plus}" alt="plus">
+        <span class="menu__line"></span>
       </button>
 
-      <div class="menu__back hidden fixed z-1 left-0 top-0 h-full w-full overflow-auto bg-mydark"></div>
+      <div class="menu__back opacity-0 fixed z-1 left-0 top-0 h-full w-full overflow-auto bg-mydark"></div>
     `;
     return element;
   }
@@ -50,11 +49,13 @@ export class TabsButton {
   openTabs() {
     const menuItems = document.querySelectorAll('.menu__item') as NodeListOf<HTMLElement>;
     const menuBack = document.querySelector('.menu__back') as HTMLElement;
+    const menuBtn = document.querySelector('.menu__button') as HTMLElement;
     const itemsCount = menuItems.length;
     this.menuIsActive = !this.menuIsActive;
 
     if (this.menuIsActive) {
-      menuBack.classList.remove('hidden');
+      menuBack.classList.remove('opacity-0');
+      menuBtn.classList.add('menu_active');
 
       let bottomStyle = 110;
 
@@ -64,7 +65,8 @@ export class TabsButton {
       }
     } else {
       for (let i = 0; i < itemsCount; i++) {
-        menuBack.classList.add('hidden');
+        menuBack.classList.add('opacity-0');
+        menuBtn.classList.remove('menu_active');
         menuItems[i].removeAttribute('style');
       }
     }
