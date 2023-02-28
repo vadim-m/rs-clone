@@ -1,7 +1,7 @@
 import { eventLang } from '../../lang/addEventLang';
 import { IParamsOneReminder } from '../../types';
 import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
-import { renderButtonBlue } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { getUnits } from '../../components/units';
 
 export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
@@ -40,7 +40,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
               )
             : `${paramsRemindObj.completeMileage as string} ${getUnits().distance.slice(1)}`
         }</div>`
-      : `${renderButtonBlue(eventLang().add, 'reminder-add__btn', 'reminder-add__btn', '1/2')}`
+      : `${renderButton(eventLang().add, 'reminder-add__btn', paramsButton.blueXS)}`
   }
               `;
 }

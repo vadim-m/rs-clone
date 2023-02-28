@@ -1,6 +1,7 @@
-import { createArrEvents, showEvents } from '../eventsPage/arrayEvents';
 import { EventsItem } from '../eventsPage/EventsItem';
 import { eventLang } from '../../lang/addEventLang';
+import { IParamsOneEvents } from '../../types';
+import { createArrEvents, showEvents } from '../eventsPage/arrayEvents';
 
 // const funnel = require('../../assets/icons/funnel.png');
 // const tires = require('../../assets/icons/tires.png');
@@ -19,7 +20,7 @@ export class Events {
         <h2 class="events__title font-medium text-sm mb-2">${eventLang().recentEvents}</h2>
         <ul class="events__list grid gap-y-3 dark:text-black">
               ${createArrEvents(showEvents.all)
-                .map((eventItem) => {
+                .map((eventItem: IParamsOneEvents) => {
                   return new EventsItem(eventItem).element;
                 })
                 .slice(0, 2)

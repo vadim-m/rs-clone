@@ -27,7 +27,7 @@ export class HomePage {
   private sideMenu: DocumentFragment | null;
   private hasCar: boolean;
   private hiddenFormSectionClass: string | null;
-  page = 'home';
+  page = '/';
   parent: HTMLElement;
   addEventCircule!: HTMLElement;
   navigateTo: (path: string) => void;

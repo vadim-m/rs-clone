@@ -113,13 +113,13 @@ export class Router {
     } else if (routes.Statistic.match(path)) {
       this.statisticPage = new StatisticPage();
     } else if (routes.Refuel.match(path)) {
-      this.refuelPage = new Refuel();
+      this.refuelPage = new Refuel(this.goTo.bind(this));
     } else if (routes.Service.match(path)) {
-      this.servicePage = new Service();
+      this.servicePage = new Service(this.goTo.bind(this));
     } else if (routes.Reminder.match(path)) {
-      this.reminderPage = new Reminder();
+      this.reminderPage = new Reminder(this.goTo.bind(this));
     } else if (routes.Other.match(path)) {
-      this.otherPage = new Other();
+      this.otherPage = new Other(this.goTo.bind(this));
     } else if (routes.Login.match(path)) {
       this.loginPage = new LoginPage(this.goTo.bind(this));
     } else if (routes.Todo.match(path)) {
