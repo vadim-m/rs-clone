@@ -126,27 +126,30 @@ export class Refuel {
 
   createRefuelEvent() {
     if (!this.editEvent) {
-      this.addrefuelBtn.addEventListener('click', () => {
-        this.initDOM();
+      this.addrefuelBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.updateBackEnd();
+        
+        // this.initDOM();
 
-        this.refuelEvent = {
-          date: this.dateDOM.value,
-          mileage: this.mileageDOM.value,
-          name: this.typeFuelDOM.value,
-          priceFuel: this.priceFuelDOM.value,
-          amountFuel: this.amountFuelDOM.value,
-          totalPrice: this.totalPriceDOM.value,
-          totalSpendFuel: culcSpendFuelTotal(this.carData),
-          isFull: this.tankFullDOM.checked,
-          place: this.placeDOM.value,
-          notes: this.notesDOM.value,
-          id: Date.now().toString(),
-          typeEvent: this.eventPage,
-        };
-        const eventArr = this.carData.event.refuel;
-        if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-          updateCarData(this.carData, this.eventPage, eventArr, this.refuelEvent);
-        }
+        // this.refuelEvent = {
+        //   date: this.dateDOM.value,
+        //   mileage: this.mileageDOM.value,
+        //   name: this.typeFuelDOM.value,
+        //   priceFuel: this.priceFuelDOM.value,
+        //   amountFuel: this.amountFuelDOM.value,
+        //   totalPrice: this.totalPriceDOM.value,
+        //   totalSpendFuel: culcSpendFuelTotal(this.carData),
+        //   isFull: this.tankFullDOM.checked,
+        //   place: this.placeDOM.value,
+        //   notes: this.notesDOM.value,
+        //   id: Date.now().toString(),
+        //   typeEvent: this.eventPage,
+        // };
+        // const eventArr = this.carData.event.refuel;
+        // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+        //   updateCarData(this.carData, this.eventPage, eventArr, this.refuelEvent);
+        // }
       });
     }
   }
@@ -154,7 +157,7 @@ export class Refuel {
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-          <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full" action="/" method="put">
+          <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
@@ -180,46 +183,44 @@ export class Refuel {
   }
 
   // методы для БЭКА
-  updateBackEnd() {
-    this.formDOM?.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  async updateBackEnd() { 
+    document.querySelector('.spinner')?.classList.remove('hidden');
 
-      const refuel: IRefuel = {
-        date: this.dateDOM.value,
-        mileage: this.mileageDOM.value,
-        name: this.typeFuelDOM.value,
-        priceFuel: this.priceFuelDOM.value,
-        amountFuel: this.amountFuelDOM.value,
-        totalPrice: this.totalPriceDOM.value,
-        totalSpendFuel: culcSpendFuelTotal(this.carData),
-        isFull: this.tankFullDOM.checked,
-        place: this.placeDOM.value,
-        notes: this.notesDOM.value,
-        id: Date.now().toString(),
-        typeEvent: this.eventPage,
-      };
-      console.log(refuel);
-      const response = await createRefuel(refuel); // тут будет createRefuel и тд в зависимости от события
+    const refuel: IRefuel = {
+      date: this.dateDOM.value,
+      mileage: this.mileageDOM.value,
+      name: this.typeFuelDOM.value,
+      priceFuel: this.priceFuelDOM.value,
+      amountFuel: this.amountFuelDOM.value,
+      totalPrice: this.totalPriceDOM.value,
+      totalSpendFuel: 'culcSpendFuelTotal(this.carData)',
+      isFull: this.tankFullDOM.checked,
+      place: this.placeDOM.value,
+      notes: this.notesDOM.value,
+      id: Date.now().toString(),
+      typeEvent: this.eventPage,
+    };
 
-      const status = response.status;
-      const data = await response.json();
+    const response = await createRefuel(refuel); // тут будет createRefuel и тд в зависимости от события
 
-      console.log(data, status);
+    const status = response.status;
+    const data = await response.json();
 
-      if (status === 200 || status === 201) {
-        // получаем и устанавливаем свежие данные в LS
-        await setCarDataFromDB();
-        // спрятали спиннер
-        document.querySelector('.spinner')?.classList.add('hidden');
-        // переадресация на главную
-        setTimeout(() => {
-          this.navigateTo('/');
-        }, 100);
-      } else {
-        // ЕСЛИ сервер ответил с ошибкой
-        this.addrefuelBtn.disabled = false;
-        document.querySelector('.spinner')?.classList.add('hidden');
-      }
-    });
+    console.log(data, status);
+
+    if (status === 200 || status === 201) {
+      // получаем и устанавливаем свежие данные в LS
+      await setCarDataFromDB();
+      // спрятали спиннер
+      document.querySelector('.spinner')?.classList.add('hidden');
+      // переадресация на главную
+      setTimeout(() => {
+        this.navigateTo('/');
+      }, 2000);
+    } else {
+      // ЕСЛИ сервер ответил с ошибкой
+      this.addrefuelBtn.disabled = false;
+      document.querySelector('.spinner')?.classList.add('hidden');
+    }
   }
 }
