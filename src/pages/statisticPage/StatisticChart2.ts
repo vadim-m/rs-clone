@@ -24,7 +24,7 @@ export class StatisticChart2 {
               </div>
             </div>
             <div class="statistic__average-expense text-right border-b pb-2 border-slate">
-              ${eventLang().averageExpenses}<span>8.1</span> ${eventLang().l100}<br>
+              ${eventLang().averageExpenses}: <span>8.1</span> ${eventLang().l100}<br>
               ${eventLang().min} <span>5.7</span> ${eventLang().max} <span>15.6</span> ${eventLang().l100}<br>
               ${eventLang().recentExpenses} <span>9.2</span> ${eventLang().l100}<br>
             </div>
@@ -34,22 +34,26 @@ export class StatisticChart2 {
                 <li class="calc__content mb-2">
                     <div class="calc__title text-base">Средний расход, л/100км.</div>
                     <div class="calc__wrap relative">
-                      <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg text-gray-300 border-b w-full px-2 py-1 focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="Средний расход" validate="" id="calc__input_average-expense">
+                      <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg text-gray-300 border-b w-full px-2 py-1 focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="${
+                        eventLang().averageExpenses
+                      }" validate="" id="calc__input_average-expense">
                       <span class="calc__clear-button absolute right-1 top-2.5 cursor-pointer">
                         <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
                       </span>
                     </div>
                 </li>
                 <li class="calc__content mb-2">
-                    <div class="calc__title text-base">Расстояние, км.</div>
+                    <div class="calc__title text-base">${eventLang().distance}</div>
                     <div class="calc__wrap relative">
-                      <input type="number" inputmode="decimal" step="0.001" class="calc__input text-lg px-2 py-1 text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="Средний расход" validate="" id="calc__input_distance">
+                      <input type="number" inputmode="decimal" step="0.001" class="calc__input text-lg px-2 py-1 text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="${
+                        eventLang().averageExpenses
+                      }" validate="" id="calc__input_distance">
                       <span class="calc__clear-button absolute right-1 top-2.5 cursor-pointer">
                         <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
                       </span> </div>
                 </li>
                 <li class="calc__content">
-                    <div class="calc__title text-base">Цена, ₽/л</div>
+                    <div class="calc__title text-base">${eventLang().price} ₽/л</div>
                     <div class="calc__wrap relative">
                       <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg px-2 py-1 text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="Цена" validate="" id="calc__input_fuel-price"> 
                       <span class="calc__clear-button absolute right-1 top-2.5 cursor-pointer">
@@ -58,21 +62,27 @@ export class StatisticChart2 {
                 </li>
               </ul>
 
-        <div class="block-title calc text-2xl text-slate-400 mt-4 ml-1 mb-2">Расчет</div>
+        <div class="block-title calc text-2xl text-slate-400 mt-4 ml-1 mb-2">${eventLang().calculation}</div>
           <ul>
             <li class="calc__content mb-2 border-b w-full">
-              <div class="item-header text-base">Прогноз расхода топлива</div> 
-              <span class="calc__result-value text-lg text-slate-900 font-bold dark:text-white" id="result-value">0.00</span><span> л</span>
+              <div class="item-header text-base">${eventLang().forecast}</div> 
+              <span class="calc__result-value text-lg text-slate-900 font-bold dark:text-white" id="result-value">0.00</span><span> ${
+                eventLang().l
+              }</span>
             </li>
             <li class="border-b w-full">
-              <div class="item-header  text-base">Стоимость топлива</div>
+              <div class="item-header  text-base">${eventLang().fuelCost}</div>
               <span class="calc__result-sum text-lg text-slate-900 font-bold dark:text-white" id="result-sum">0.00</span><span> ₽</span> 
             </li>
           </ul>
 
           </div>
-          <label for="carousel-1" class="prev control-2 absolute cursor-pointer hidden text-xl text-myblue hover:text-white leading-tight text-center z-10 top-2 left-0 ml-12">Всего</label>
-          <label for="carousel-3" class="next control-2 absolute hidden text-xl leading-tight text-center z-10 top-2 right-0 mr-12">Расход</label>      
+          <label for="carousel-1" class="prev control-2 absolute cursor-pointer hidden text-xl text-myblue hover:text-white leading-tight text-center z-10 top-2 left-0 ml-12">${
+            eventLang().total
+          }</label>
+          <label for="carousel-3" class="next control-2 absolute hidden text-xl leading-tight text-center z-10 top-2 right-0 mr-12">${
+            eventLang().consumption
+          }</label>      
     `;
   }
 }

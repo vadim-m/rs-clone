@@ -128,10 +128,15 @@ export function eventLang() {
       rubDay: 'rub/day',
       costPerKm: 'Cost per km:',
       fuelСonsumption: 'Fuel consumption due ',
-      averageExpenses: 'Everage Expenses: ',
+      averageExpenses: 'Everage Expenses',
       min: 'Min:',
       max: 'Max:',
       recentExpenses: 'Recent expenses',
+      distance: 'Distance, km',
+      fuelCost: 'Fuel cost',
+      forecast: 'Fuel consumption forecast',
+      l: 'l',
+      calculation: 'Calculation',
     };
   } else {
     return {
@@ -261,10 +266,15 @@ export function eventLang() {
       rubDay: 'руб/День',
       costPerKm: 'Стоимость за км.:',
       fuelСonsumption: 'Расход топлива за ',
-      averageExpenses: 'Средний расход: ',
+      averageExpenses: 'Средний расход',
       min: 'Мин:',
       max: 'Макс:',
       recentExpenses: 'Последний расход:',
+      distance: 'Расстояние, км.',
+      fuelCost: 'Стоимость топлива',
+      forecast: 'Прогноз расхода топлива',
+      l: 'л.',
+      calculation: 'Расчёт',
     };
   }
 }
