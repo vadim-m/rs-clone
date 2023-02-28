@@ -5,7 +5,7 @@ import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { paramsCollectionReminder, showPlans } from './paramsForLineEvent';
-import { updateCarData } from '../../utilits/updateCarData';
+// import { updateCarData } from '../../utilits/updateCarData';
 import { createArrPlans } from '../plansPage/arrayReminders';
 import { diffDates } from '../../utilits/mathSpend';
 import { getDateTime } from '../../utilits/dateTimeFunc';

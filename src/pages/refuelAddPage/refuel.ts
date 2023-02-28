@@ -5,12 +5,12 @@ import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsButton, renderButton, renderButtonWhite } from '../../components/button';
 import { paramsCollectionRefuel } from './paramsForLineEvent';
-import { updateCarData } from '../../utilits/updateCarData';
+// import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { createRefuel } from '../../helpers/api';
-import { setCarDataFromDB } from '../../helpers/localStorage';
+// import { setCarDataFromDB } from '../../helpers/localStorage';
 import { addToBack } from '../../utilits/addToBack';
 // import { setCarDataFromDB } from '../../helpers/localStorage';
 

@@ -10,7 +10,7 @@ import { currentLiArr } from '../../utilits/searchElement';
 import { paramsButton, renderButton, renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
-import { updateCarData } from '../../utilits/updateCarData';
+// import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
 import { createArrPlans } from '../plansPage/arrayReminders';
