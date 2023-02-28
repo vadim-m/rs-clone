@@ -236,13 +236,6 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
   });
 
   if (showPlansValue === 'myMaintenance') {
-    console.log(
-      maintenanceArr.filter((e) => {
-        return !myRemindersPlans.some((x) => {
-          return x.id === e.id;
-        });
-      })
-    );
     return maintenanceArr.filter((e) =>
       myRemindersPlans.length > 0 ? !myRemindersPlans.some((x) => x.id === e.id) : true
     );

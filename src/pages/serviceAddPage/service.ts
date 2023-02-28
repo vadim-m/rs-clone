@@ -133,10 +133,13 @@ export class Service {
         ).textType;
         this.typeDOM.readOnly = true;
       }
-      if (this.pageCall === 'events' || this.pageCall === 'home') {
+      if (this.pageCall === 'events' || this.pageCall === '/') {
         const curEventArr = createArrEvents(this.eventPage);
-        // const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
-        // console.log(curDetals.find((e)=> e.detals.name));
+        const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
+        console.log(this.carData.event.service.filter((e) => e.id === this.curID)[0]);
+        if (curDetals.length > 0) {
+          console.log(curDetals);
+        }
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
@@ -237,7 +240,7 @@ export class Service {
     this.detalsListDOM.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLElement);
       const currentDetal = currentLiArr[0];
-      new Popup(
+      const popupInstance = new Popup(
         this.createHTMLDetalsPopup(),
         buttonLang().delete,
         'confirm__btn--delete',
@@ -279,6 +282,12 @@ export class Service {
           currentDetalPrice.textContent = popupDetalAmount.value;
           currentDetalCostQuant.textContent = popupDetalQuant.value;
           currentDetalCostPrice.textContent = popupDetalPrice.value;
+          this.recalcTotal();
+        }
+        if ((event.target as HTMLElement).matches('.confirm__btn--delete')) {
+          searchLi(event.target as HTMLElement, event.currentTarget as HTMLElement);
+          popupInstance.removePopup();
+          currentDetal.remove();
           this.recalcTotal();
         }
       });
@@ -376,7 +385,6 @@ export class Service {
   }
 
   createHTMLServiceDOM() {
-    console.log(this.editEvent);
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
     <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]">

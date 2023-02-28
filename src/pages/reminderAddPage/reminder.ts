@@ -57,7 +57,6 @@ export class Reminder {
     this.fillInput();
     this.calcDiffMileage();
     this.createReminderEvent();
-    console.log(this.editEvent);
     onFocus(this.eventPage);
   }
 
@@ -110,8 +109,6 @@ export class Reminder {
 
   calcDiffMileage() {
     this.onMileageDOM.addEventListener('change', () => {
-      console.log(this.onMileageDOM.value);
-      console.log(this.nameDOM.value);
       if (+this.onMileageDOM.value < +this.carData.indicators.curMileage) {
         this.onMileageDOM.value = this.carData.indicators.curMileage;
       }
@@ -149,7 +146,6 @@ export class Reminder {
   }
 
   createHTMLreminderDOM() {
-    console.log(this.editEvent);
     return `
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
     <form id="main-for__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80">
@@ -189,8 +185,6 @@ export class Reminder {
     };
 
     const response = await createReminder(reminder); // тут будет createRefuel и тд в зависимости от события
-    console.log(response);
-    alert(11);
     addToBack(response, this.navigateTo, this.addReminderBtn as HTMLButtonElement);
   }
 }

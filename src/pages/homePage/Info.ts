@@ -78,7 +78,9 @@ export class Info {
                   ${eventLang().cost1km}
                   </div>
                   <div class="petrol__amount text-xxs">
-                    <span class="petrol__sum">0.0</span><span class="petrol__currency"> ${eventLang().rubKm}</span>
+                    <span class="petrol__sum">${
+                      this.carData?.indicators.costOneKM
+                    }</span><span class="petrol__currency"> ${eventLang().rubKm}</span>
                   </div>
                 </div>
               </div>

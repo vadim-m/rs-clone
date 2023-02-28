@@ -45,7 +45,6 @@ export function onFocus(page: string) {
     }
   });
   allSelectArr.forEach((eSelect) => {
-    console.log(allSelectArr);
     allTitleArr.forEach((eTitle) => {
       if (eSelect.id.slice(15) === eTitle.id.slice(15)) {
         eTitle.style.top = `${eTitle.clientHeight > 30 ? '-2.5rem' : '-1.5rem'}`;
