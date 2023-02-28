@@ -76,7 +76,6 @@ export class LoginPage {
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Token received.`;
         await setCarDataFromDB();
-        console.log('обновил дату');
         setTimeout(() => {
           this.navigateTo('/');
         }, 100);

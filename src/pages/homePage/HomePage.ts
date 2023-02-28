@@ -215,10 +215,8 @@ export class HomePage {
       let res: Response;
 
       if (this.hasCar) {
-        console.log('Mашина есть, обновляем');
         res = await updateCar(preparedRequestData, carId);
       } else {
-        console.log('Mашины нет, создаем');
         res = await createCar(preparedRequestData);
       }
 
