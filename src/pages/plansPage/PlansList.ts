@@ -12,7 +12,7 @@ export class PlansList {
     const fragment = document.createElement('template');
 
     fragment.innerHTML = `
-    <ul class="plans__list grid gap-y-3 mb-4">
+    <ul class="plans__list grid gap-y-3 mb-4 dark:text-black">
             
             ${createArrPlans(showPlans)
               .map((paramsRemindObj) => {

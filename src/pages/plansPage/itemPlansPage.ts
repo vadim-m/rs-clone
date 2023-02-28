@@ -1,14 +1,14 @@
 import { eventLang } from '../../lang/addEventLang';
 import { IParamsOneReminder } from '../../types';
 import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
-import { renderButtonBlue } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { getUnits } from '../../components/units';
 
 export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   return `
   <li id=${paramsRemindObj.id} class="plans__item plans__item_${
     paramsRemindObj.id
-  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md" data-default="${
+  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md dark:bg-slate-300" data-default="${
     paramsRemindObj.reminderDefault
   }" data-typeService="${paramsRemindObj.textType}">
   ${
@@ -40,7 +40,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
               )
             : `${paramsRemindObj.completeMileage as string} ${getUnits().distance.slice(1)}`
         }</div>`
-      : `${renderButtonBlue(eventLang().add, 'reminder-add__btn', 'reminder-add__btn', '1/2')}`
+      : `${renderButton(eventLang().add, 'reminder-add__btn', paramsButton.blueXS)}`
   }
               `;
 }

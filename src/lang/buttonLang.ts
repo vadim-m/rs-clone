@@ -6,6 +6,7 @@ export function buttonLang() {
       ok: 'OK',
       completed: 'COMPLETED',
       cancel: 'CANCEL',
+      cancelForm: 'Cancel',
       add: 'ADD',
       delete: 'DELETE',
       save: 'SAVE',
@@ -15,12 +16,14 @@ export function buttonLang() {
       exit: 'Exit',
       addNew: 'Add new',
       choosePeriod: 'Choose the period',
+      deleteCar: 'Delete car',
     };
   } else {
     return {
       ok: 'OK',
       completed: 'ВЫПОЛНЕНО',
       cancel: 'ОТМЕНА',
+      cancelForm: 'Отменить',
       add: 'ДОБАВИТЬ',
       delete: 'УДАЛИТЬ',
       save: 'СОХРАНИТЬ',
@@ -30,6 +33,7 @@ export function buttonLang() {
       exit: 'Выйти',
       addNew: 'Добавить новое',
       choosePeriod: 'Выбрать период',
+      deleteCar: 'Удалить машину',
     };
   }
 }

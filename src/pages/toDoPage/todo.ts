@@ -74,6 +74,7 @@ export class TodoPage {
 
       todoInput.disabled = true;
       addTodoBtn.disabled = true;
+      document.querySelector('.spinner')?.classList.remove('hidden');
 
       const res = await createTodo(todoData);
       const status = res.status;
@@ -81,8 +82,12 @@ export class TodoPage {
       if (status === 200 || status === 201) {
         // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
         // обновить страницу todo
-        this.navigateTo('/todo');
+        setTimeout(() => {
+          this.navigateTo('/todo');
+        }, 100);
       }
     }
   };
@@ -92,18 +97,24 @@ export class TodoPage {
 
     if (item.classList[0] === 'todo__close') {
       const todo = item.parentElement as HTMLButtonElement;
+      document.querySelector('.spinner')?.classList.remove('hidden');
       const res = await deleteTodo(todo.id);
 
       if (res.status === 200 || res.status === 201) {
         // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
-        // обновляем страницу
-        this.navigateTo('/todo');
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
+        // обновить страницу todo
+        setTimeout(() => {
+          this.navigateTo('/todo');
+        }, 100);
       }
     }
 
     if (item.classList[0] === 'todo__unfinished') {
       const todo = item.parentElement as HTMLButtonElement;
+      document.querySelector('.spinner')?.classList.remove('hidden');
 
       const todoData: IToDo = {
         progress: true,
@@ -114,13 +125,18 @@ export class TodoPage {
       if (res.status === 200 || res.status === 201) {
         // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
-        // обновляем страницу
-        this.navigateTo('/todo');
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
+        // обновить страницу todo
+        setTimeout(() => {
+          this.navigateTo('/todo');
+        }, 100);
       }
     }
 
     if (item.classList[0] === 'todo__finished') {
       const todo = item.parentElement as HTMLButtonElement;
+      document.querySelector('.spinner')?.classList.remove('hidden');
 
       const todoData: IToDo = {
         progress: false,
@@ -131,8 +147,12 @@ export class TodoPage {
       if (res.status === 200 || res.status === 201) {
         // получаем и устанавливаем свежие данные в LC
         await setCarDataFromDB();
-        // обновляем страницу
-        this.navigateTo('/todo');
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
+        // обновить страницу todo
+        setTimeout(() => {
+          this.navigateTo('/todo');
+        }, 100);
       }
     }
   };

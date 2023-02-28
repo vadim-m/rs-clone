@@ -65,8 +65,6 @@ export class RegistrationPage {
       const res = await registration(userData);
       const status = res.status;
       const data = await res.json();
-      // log
-      console.log(status, data);
 
       if (status === 201) {
         alertEl.classList.remove('invisible');

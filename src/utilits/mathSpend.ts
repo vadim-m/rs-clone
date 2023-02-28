@@ -95,6 +95,8 @@ export function culcConsumption(carData: ICarData) {
   const allEventRefuel = carData.event.refuel;
   if (allEventRefuel.length > 1) {
     const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
+    console.log(curSpendFuel);
+
     const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
     console.log(firstMileageOnFuel);
     const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
@@ -126,6 +128,7 @@ export function updateIndicatirs(curEvent: string, carData: ICarData) {
   if (curEvent === 'refuel') {
     carData.indicators.spendFuelTotal = culcSpendFuelTotal(carData);
     culcConsumption(carData);
+    console.log(culcSpendFuelTotal(carData));
   }
   carData.indicators.curMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   carData.indicators.myMileageTotal = calcMyMileageTotal(carData);

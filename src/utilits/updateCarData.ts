@@ -41,7 +41,7 @@ export function updateCarData(
         });
       }
     }
-
     localStorage.setItem('car', JSON.stringify(carData)); // обновляем полностью carData}
   }
+  // debugger;
 }

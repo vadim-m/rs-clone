@@ -24,7 +24,7 @@ export class Info {
     const carImg = require(`../../assets/icons/brands/${setLogo(String(this.car?.brand))}.svg`);
     fragment.innerHTML = `
         <div class="info__header pt-3 pb-3 flex justify-between">
-          <h1 class="info__title font-bold text-lg">Мой автомобиль</h1>
+          <h1 class="info__title font-bold text-lg">${eventLang().myCar}</h1>
           <button class="info__btn" id="change-car">
             <img src="${gear}" class="info__gear w-7 h-7 mr-4" alt="gear-icon">
           </button>
@@ -49,7 +49,7 @@ export class Info {
                 <div class="expenses">
                   <div class="expenses__title font-bold text-xxs">${eventLang().carCosts}</div>
                   <div class="expenses__amount text-xxs">
-                    <span class="expenses__sum">1000</span><span class="expenses__currency">₽</span>
+                    <span class="expenses__sum">1000</span><span class="expenses__currency"> ₽</span>
                   </div>
                 </div>
               </div>
@@ -61,7 +61,7 @@ export class Info {
                   ${eventLang().mileage}
                   </div>
                   <div class="text-xxs">
-                    <span>${this.car?.mileage}</span>км 
+                    <span>${this.car?.mileage}</span> ${eventLang().km} 
                   </div>
                 </div>
               </div>
@@ -73,7 +73,7 @@ export class Info {
                   ${eventLang().gasolineCost}
                   </div>
                   <div class="petrol__amount text-xxs">
-                    <span class="petrol__sum">0.0</span><span class="petrol__currency"> руб/км</span>
+                    <span class="petrol__sum">0.0</span><span class="petrol__currency"> ${eventLang().rubKm}</span>
                   </div>
                 </div>
               </div>
@@ -85,7 +85,7 @@ export class Info {
                   ${eventLang().gasMileage}
                   </div>
                   <div class="petrol__amount text-xxs">
-                    <span class="petrol__sum">0.0</span><span class="petrol__currency"> л/100км</span>
+                    <span class="petrol__sum">0.0</span><span class="petrol__currency"> ${eventLang().l100}</span>
                   </div>
                 </div>
               </div>
