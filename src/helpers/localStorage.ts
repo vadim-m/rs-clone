@@ -1,17 +1,18 @@
 import { ICarData, IInfo, ICar, IToDo, ISettingsMyCar } from '../types';
 import { getCar, getTodos, getRefuels, getReminders, getServices, getOthers } from './api';
-import { carData as defaultCar } from '../car/car_data';
+import { carData as car } from '../car/car_data';
 
 // заполняем LS данными из базы данных
 export async function setCarDataFromDB() {
-  defaultCar.info = await fillCarInfo();
-  defaultCar.event.refuel = await (await getRefuels()).json();
-  defaultCar.event.reminders = await (await getReminders()).json();
-  defaultCar.event.service = await (await getServices()).json();
-  defaultCar.event.others = await (await getOthers()).json();
-  defaultCar.todos = await (await getTodos()).json();
+  car.info = await fillCarInfo();
+  car.event.refuel = await (await getRefuels()).json();
+  car.event.reminders = await (await getReminders()).json();
+  car.event.service = await (await getServices()).json();
+  car.event.others = await (await getOthers()).json();
+  car.todos = await (await getTodos()).json();
 
-  localStorage.setItem('car', JSON.stringify(defaultCar));
+  localStorage.setItem('car', JSON.stringify(car));
+  //! вот тут переделать индикаторы updateIndicators(car)
 }
 
 // получаем объект ICar, преобразуем его в IInfo для расчетов Сани
