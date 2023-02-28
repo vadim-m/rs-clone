@@ -78,7 +78,7 @@ export class Other {
         this.typeDOM.readOnly = true;
       }
 
-      if (this.pageCall === 'events') {
+      if (this.pageCall === 'events' || this.pageCall === 'home') {
         const curEventArr = createArrEvents(this.eventPage);
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
@@ -129,22 +129,12 @@ export class Other {
       .join('')}
     ${
       !this.editEvent
-        ? renderButtonBlue(
-            eventLang().addEvent,
-            'add--event-service__btn col-span-2',
-            'add--event-service__btn',
-            'full'
-          )
-        : `${renderButtonWhite(
-            buttonLang().delete,
-            'add--event-service__btn col-span-1',
-            'add--event-service__btn',
-            '1/2'
-          )}
+        ? renderButtonBlue(eventLang().addEvent, 'add--event-other__btn col-span-2', 'add--event-other__btn', 'full')
+        : `${renderButtonWhite(buttonLang().delete, 'add--event-other__btn col-span-1', 'add--event-other__btn', '1/2')}
               ${renderButtonWhite(
                 buttonLang().save,
-                'add--event-service__btn col-span-1',
-                'add--event-service__btn',
+                'add--event-other__btn col-span-1',
+                'add--event-other__btn',
                 '1/2'
               )}`
     }

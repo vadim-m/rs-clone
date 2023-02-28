@@ -20,7 +20,10 @@ export function createArrEvents(showEventsValue: string): IParamsOneEvents[] {
   let myEventsArr: IEvent[];
   switch (showEventsValue) {
     case 'refuel':
-      myEventsArr = myCarData.event.refuel.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+      myEventsArr =
+        myCarData.event.refuel.length > 1
+          ? myCarData.event.refuel.sort((a, b) => +new Date(b.date) - +new Date(a.date))
+          : myCarData.event.refuel;
       break;
     case 'service':
       myEventsArr = myCarData.event.service.sort((a, b) => +new Date(b.date) - +new Date(a.date));

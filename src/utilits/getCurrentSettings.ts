@@ -15,7 +15,7 @@ export function getSettingsFromLocal(): ISettingsMyCar | undefined {
   }
 }
 export function getCurrentLanguage(): string {
-  return getSettingsFromLocal()?.language ? (getSettingsFromLocal() as ISettingsMyCar).language : 'RU';
+  return getSettingsFromLocal()?.language ? (getSettingsFromLocal() as ISettingsMyCar).language : 'Русский';
 }
 
 export function getCurrentCurrency(): string {

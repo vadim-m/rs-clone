@@ -7,7 +7,7 @@ import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
 import { searchLi } from '../../utilits/searchElement';
 import { currentLiArr } from '../../utilits/searchElement';
-import { renderButtonBlue, renderButtonWhite } from '../../components/button';
+import { paramsButton, renderButton, renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
@@ -130,7 +130,7 @@ export class Service {
         ).textType;
         this.typeDOM.readOnly = true;
       }
-      if (this.pageCall === 'events') {
+      if (this.pageCall === 'events' || this.pageCall === 'home') {
         const curEventArr = createArrEvents(this.eventPage);
         // const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
         // console.log(curDetals.find((e)=> e.detals.name));
@@ -402,7 +402,7 @@ export class Service {
               <span id="detals-add__title" class="detals-add__title mb-0">
                 Детали
               </span>
-              ${renderButtonBlue(eventLang().add, 'detals-add__btn', 'detals-add__btn', '1/2')}
+              ${renderButton(eventLang().add, 'detals-add__btn', paramsButton.blueXS)}
             </div>
             <ul id="detals__list" class="detals__list"></ul>
           </div>`;

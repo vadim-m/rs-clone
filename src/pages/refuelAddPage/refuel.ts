@@ -3,13 +3,15 @@ import { culcMaybeMileage, culcSpendFuelTotal } from '../../utilits/mathSpend';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { renderButtonBlue, renderButtonWhite } from '../../components/button';
-import { carData } from '../../car/car_data';
+import { paramsButton, renderButton, renderButtonWhite } from '../../components/button';
 import { paramsCollectionRefuel } from './paramsForLineEvent';
 import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
+import { createRefuel } from '../../helpers/api';
+import { setCarDataFromDB } from '../../helpers/localStorage';
+// import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Refuel {
   eventPage = 'refuel';
@@ -32,9 +34,12 @@ export class Refuel {
   curID: string;
   pageCall: string;
   editEvent: string | undefined;
+  addrefuelBtn!: HTMLButtonElement;
+  navigateTo: (path: string) => void;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.navigateTo = goTo;
     this.url = new URL(window.location.href);
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
@@ -42,7 +47,7 @@ export class Refuel {
     this.renderPage();
     this.initDOM();
     this.changeTotalPriceDetals();
-    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
@@ -62,6 +67,7 @@ export class Refuel {
     this.notesDOM = document.querySelector('#refuel__input_notes') as HTMLInputElement;
     this.dateDOM = document.querySelector('#refuel__input_date') as HTMLInputElement;
     this.allInput = document.querySelectorAll('.refuel__input') as NodeList;
+    this.addrefuelBtn = document.querySelector('.add--event-refuel__btn') as HTMLButtonElement;
   }
 
   renderPage() {
@@ -119,13 +125,9 @@ export class Refuel {
   }
 
   createRefuelEvent() {
-    const addrefuelBtn = document.querySelector('#add--event-refuel__btn') as HTMLButtonElement;
-    if (!this.editEvent)
-      addrefuelBtn.addEventListener('click', () => {
+    if (!this.editEvent) {
+      this.addrefuelBtn.addEventListener('click', () => {
         this.initDOM();
-        const newCarData: ICarData = localStorage.getItem('car')
-          ? JSON.parse(localStorage.getItem('car') as string)
-          : carData;
 
         this.refuelEvent = {
           date: this.dateDOM.value,
@@ -134,18 +136,19 @@ export class Refuel {
           priceFuel: this.priceFuelDOM.value,
           amountFuel: this.amountFuelDOM.value,
           totalPrice: this.totalPriceDOM.value,
-          totalSpendFuel: culcSpendFuelTotal(newCarData),
+          totalSpendFuel: culcSpendFuelTotal(this.carData),
           isFull: this.tankFullDOM.checked,
           place: this.placeDOM.value,
           notes: this.notesDOM.value,
           id: Date.now().toString(),
           typeEvent: this.eventPage,
         };
-        const eventArr = newCarData.event.refuel;
+        const eventArr = this.carData.event.refuel;
         if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-          updateCarData(newCarData, this.eventPage, eventArr, this.refuelEvent);
+          updateCarData(this.carData, this.eventPage, eventArr, this.refuelEvent);
         }
       });
+    }
   }
 
   createHTMLrefuelDOM() {
@@ -159,25 +162,64 @@ export class Refuel {
             .join('')}
       ${
         !this.editEvent
-          ? renderButtonBlue(
-              eventLang().addEvent,
-              'add--event-service__btn col-span-2',
-              'add--event-service__btn',
-              'full'
-            )
+          ? renderButton(eventLang().addEvent, 'add--event-refuel__btn col-span-2', paramsButton.blueFull)
           : `${renderButtonWhite(
               buttonLang().delete,
-              'add--event-service__btn col-span-1',
-              'add--event-service__btn',
+              'add--event-refuel__btn col-span-1',
+              'add--event-refuel__btn',
               '1/2'
             )}
               ${renderButtonWhite(
                 buttonLang().save,
-                'add--event-service__btn col-span-1',
-                'add--event-service__btn',
+                'add--event-refuel__btn col-span-1',
+                'add--event-refuel__btn',
                 '1/2'
               )}`
       }
           </form>`;
+  }
+
+  // методы для БЭКА
+  updateBackEnd() {
+    this.formDOM?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const refuel: IRefuel = {
+        date: this.dateDOM.value,
+        mileage: this.mileageDOM.value,
+        name: this.typeFuelDOM.value,
+        priceFuel: this.priceFuelDOM.value,
+        amountFuel: this.amountFuelDOM.value,
+        totalPrice: this.totalPriceDOM.value,
+        totalSpendFuel: culcSpendFuelTotal(this.carData),
+        isFull: this.tankFullDOM.checked,
+        place: this.placeDOM.value,
+        notes: this.notesDOM.value,
+        id: Date.now().toString(),
+        typeEvent: this.eventPage,
+      };
+      console.log(refuel);
+      const response = await createRefuel(refuel); // тут будет createRefuel и тд в зависимости от события
+
+      const status = response.status;
+      const data = await response.json();
+
+      console.log(data, status);
+
+      if (status === 200 || status === 201) {
+        // получаем и устанавливаем свежие данные в LS
+        await setCarDataFromDB();
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
+        // переадресация на главную
+        setTimeout(() => {
+          this.navigateTo('/');
+        }, 100);
+      } else {
+        // ЕСЛИ сервер ответил с ошибкой
+        this.addrefuelBtn.disabled = false;
+        document.querySelector('.spinner')?.classList.add('hidden');
+      }
+    });
   }
 }
