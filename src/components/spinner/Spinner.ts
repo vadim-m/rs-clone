@@ -1,5 +1,4 @@
 export class Spinner {
-
   constructor() {
     this.render();
   }
