@@ -13,16 +13,20 @@ export class StatisticHeader {
 
   private createElement(): string {
     return `
-    <div class="statistic__header flex justify-between py-3 relative">
-      <div class="statistic__title flex flex-col">
-        <span class="text-2xl font-bold leading-3 mb-1">${eventLang().statistic}</span> 
-        <span class="statistic__subtitle">
-          февраль
-        </span>
-      </div>
-      <button class="statistic__button button text-sm bg-myblue text-white px-7 py-1 rounded-md h-8" id="open-calendar">${
-        buttonLang().choosePeriod
-      }</button>
+    <div class="statistic__header flex flex-col justify-between py-3 relative">
+      <span class="text-2xl font-bold mb-4">${eventLang().statistic}</span>
+      <form class="flex flex-col justify-end md:items-end md:flex-row" id="calendar-form">
+        <label class="w-52 mb-4 flex justify-between md:m-0">
+          <span class="font-bold mr-2">С: </span><input class="border-b-2 border-slateBorders focus:border-myblue text-gray-600 placeholder-gray-400 outline-none h-6 pl-2 align-baseline mr-4 dark:rounded-md dark:bg-slate-400" id="calendar-before" type="date" value="" required="" min="" max="">
+        </label>
+        <label class="w-52 mb-4 flex justify-between md:m-0">
+          <span class="font-bold mr-2">До: </span><input class="border-b-2 border-slateBorders focus:border-myblue text-gray-600 placeholder-gray-400 outline-none h-6 pl-2 align-baseline mr-4 dark:rounded-md dark:bg-slate-400" id="calendar-after" type="date" value="" required="" min="" max="">
+        </label>
+        <button class="statistic__button button text-base bg-myblue text-white px-7 py-1 rounded-md h-8 w-64">${
+          buttonLang().choosePeriod
+        }</button>
+      </form> 
+      
 
       <div class="absolute hidden top-0 right-0 pl-5 pr-7 pt-8 pb-4 border w-350 shadow-lg rounded-md bg-white z-50 dark:bg-slate-600" id="modal">
         <button type="button" class="absolute right-1 top-1 bg-white rounded-md inline-flex items-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:text-myblue" id="calendar-close">

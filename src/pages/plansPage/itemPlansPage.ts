@@ -13,7 +13,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   }" data-typeService="${paramsRemindObj.textType}">
   ${
     paramsRemindObj.reminderDefault === false
-      ? `<p class="plans__bar absolute bottom-12 right-0 label__after_plans text-white text-center text-xs px-2 py-1 mr-1 rounded-md">${
+      ? `<p class="plans__bar absolute bottom-12 right-0 bg-myblue label__after_plans text-white text-center text-xs px-2 py-1 mr-1 rounded-md">${
           eventLang().after
         } ${paramsRemindObj.label}</p>`
       : ''

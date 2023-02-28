@@ -15,8 +15,9 @@ export function buttonLang() {
       backtoHome: 'Back to homepage',
       exit: 'Exit',
       addNew: 'Add new',
-      choosePeriod: 'Choose the period',
+      choosePeriod: 'Apply the period',
       deleteCar: 'Delete car',
+      applyChanges: 'Apply changes',
     };
   } else {
     return {
@@ -32,8 +33,9 @@ export function buttonLang() {
       backtoHome: 'Перейти на главную',
       exit: 'Выйти',
       addNew: 'Добавить новое',
-      choosePeriod: 'Выбрать период',
+      choosePeriod: 'Применить период',
       deleteCar: 'Удалить машину',
+      applyChanges: 'Применить изменения',
     };
   }
 }

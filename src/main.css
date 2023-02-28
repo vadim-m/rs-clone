@@ -32,45 +32,44 @@
 #carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
 #carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
 #carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
-  color: #2b6cb0; /*Set to match the Tailwind colour you want the active one to be */
+  color: #394f89; /*Set to match the Tailwind colour you want the active one to be */
 }
 
 /* CHECKBOX TOGGLE SWITCH */
 /* @apply rules for documentation, these do not work as inline style */
 .toggle__checkbox_night:checked {
   right: 0;
-  border-color: #2b6cb0;
+  border-color: #394f89;
 }
 .toggle__checkbox_night:checked + .toggle__label_night {
-  background-color: #2b6cb0;
+  background-color: #394f89;
 }
 
 .toggle__checkbox_left:checked {
   right: 0;
-  border-color: #2b6cb0;
+  border-color: #394f89;
 }
 .toggle__checkbox_left:checked + .toggle__label_left {
-  background-color: #2b6cb0;
+  background-color: #394f89;
 }
 
 .toggle__checkbox_price:checked {
   right: 0;
-  border-color: #2b6cb0;
+  border-color: #394f89;
 }
 .toggle__checkbox_price:checked + .toggle__label_price {
-  background-color: #2b6cb0;
+  background-color: #394f89;
 }
 
 .toggle__checkbox_mileage:checked {
   right: 0;
-  border-color: #2b6cb0;
+  border-color: #394f89;
 }
 .toggle__checkbox_mileage:checked + .toggle__label_mileage {
-  background-color: #2b6cb0;
+  background-color: #394f89;
 }
 
 .label__after_plans {
-  background-color: #2b6cb0;
   width: 8rem;
 }
 
@@ -94,4 +93,39 @@
 }
 .hidden__menu {
   visibility: hidden;
+}
+/*TabButton*/
+
+.menu_active .menu__line:before {
+  transform: rotate(45deg);
+}
+
+.menu_active .menu__line:after {
+  transform: rotate(-45deg);
+}
+
+.menu__line,
+.menu__line:before,
+.menu__line:after {
+  position: absolute;
+  width: 2rem;
+  height: 0.25rem;
+  background-color: #fff;
+  transition: 0.3s;
+}
+
+.menu__line {
+  top: 50%;
+  left: 23%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+}
+
+.menu__line:before {
+  content: "";
+}
+
+.menu__line:after {
+  content: "";
+  transform: rotate(90deg);
 }

@@ -19,7 +19,7 @@ export class StatisticChart1 {
       eventLang().yearStat
     }</span></div>
         <div class="flex justify-center">
-          <canvas id="acquisitions" class="my-auto" style="max-width: 250px; max-height: 250px"></canvas>
+          <canvas id="acquisitions" class="my-auto" style="max-width: 280px; max-height: 280px"></canvas>
         </div>
       </div>
       <div class="statistic__legend mb-8">
@@ -53,7 +53,7 @@ export class StatisticChart1 {
       </div>
     </div>  
 
-      <div class="statistic__all pb-20">
+      <div class="statistic__all">
       <div class="statistic__all_title font-bold text-lg flex justify-center">${eventLang().costMaintenance}</div>
       <div class="statistic__all_content grid grid-cols-2">
         <div class="flex flex-col items-center">
