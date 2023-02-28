@@ -10,12 +10,10 @@ import { currentLiArr } from '../../utilits/searchElement';
 import { paramsButton, renderButton, renderButtonBlue, renderButtonWhite } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
-// import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
 import { createArrPlans } from '../plansPage/arrayReminders';
 import { showPlans } from '../reminderAddPage/paramsForLineEvent';
-import { setUserSettings } from '../../helpers/authentication';
 import { defaultSettings } from '../../constants/constants';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { addToBack } from '../../utilits/addToBack';
@@ -75,7 +73,7 @@ export class Service {
     this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     this.setting = localStorage.getItem('settingsCar')
       ? JSON.parse(localStorage.getItem('settingsCar') as string)
-      : setUserSettings(defaultSettings);
+      : defaultSettings;
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.addDetals();

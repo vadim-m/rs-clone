@@ -3,12 +3,11 @@ import { getDateTime } from '../../utilits/dateTimeFunc';
 import { icon } from '../../components/iconFont';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
-import { setUserSettings } from '../../helpers/authentication';
 import { defaultSettings } from '../../constants/constants';
 
 const setting: ISettingsMyCar = localStorage.getItem('settingsCar')
   ? JSON.parse(localStorage.getItem('settingsCar') as string)
-  : setUserSettings(defaultSettings);
+  : defaultSettings;
 
 const type: IParamsLineOfEvent = {
   idAndClass: 'type',

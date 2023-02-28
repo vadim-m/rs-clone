@@ -1,6 +1,5 @@
 import { getUnits } from '../../components/units';
 import { defaultSettings } from '../../constants/constants';
-import { setUserSettings } from '../../helpers/authentication';
 import { eventLang } from '../../lang/addEventLang';
 import { IParamsOneEvents, ISettingsMyCar } from '../../types';
 import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
@@ -15,7 +14,7 @@ export class EventsItem {
   private createElement(eventItem: IParamsOneEvents): string {
     const setting: ISettingsMyCar = localStorage.getItem('settingsCar')
       ? JSON.parse(localStorage.getItem('settingsCar') as string)
-      : setUserSettings(defaultSettings);
+      : defaultSettings;
     return `
       <li id="${
         eventItem.id
