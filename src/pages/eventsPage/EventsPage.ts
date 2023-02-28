@@ -32,7 +32,7 @@ export class EventsPage {
 
   createElement() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'block';
+    this.addEventCircule.classList.remove('hidden__menu');
     const fragment = document.createElement('section');
     this.listContainer = document.createElement('section');
     this.listContainer.classList.add('plans__section-list');

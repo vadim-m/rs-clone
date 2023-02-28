@@ -79,7 +79,7 @@ export class Reminder {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLreminderDOM());
   }
 
@@ -134,6 +134,7 @@ export class Reminder {
   createReminderEvent() {
     if (this.addReminderBtn) {
       this.addReminderBtn.addEventListener('click', (e) => {
+        alert('q');
         e.preventDefault();
         this.updateBackEnd();
         // this.initDOM();
@@ -170,7 +171,7 @@ export class Reminder {
     console.log(this.editEvent);
     return `
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
-    <form id="main-form reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80" action="/" method="put">
+    <form id="main-form reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80">
 
                 ${paramsCollectionReminder
                   .map((obj) => {
@@ -222,6 +223,8 @@ export class Reminder {
     };
 
     const response = await createReminder(reminder); // тут будет createRefuel и тд в зависимости от события
+    console.log(response);
+    alert(11);
     addToBack(response, this.navigateTo, this.addReminderBtn as HTMLButtonElement);
   }
 }

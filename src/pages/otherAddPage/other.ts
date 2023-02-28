@@ -1,5 +1,4 @@
 import { ICarData, IOther, IParamsOneEvents, IParamsOneReminder } from '../../types';
-import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
@@ -46,7 +45,7 @@ export class Other {
     this.editEvent = this.url.searchParams.get('edit') as string;
     this.renderPage();
     this.initDOM();
-    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     changeMileage(this.eventPage, this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
     this.createotherEvent();
@@ -67,7 +66,7 @@ export class Other {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLOtherDOM());
   }
 
@@ -97,7 +96,7 @@ export class Other {
   }
   createotherEvent() {
     if (!this.editEvent) {
-      this.addOtherBtn.addEventListener('click', (e) => {
+      this.addOtherBtn.addEventListener('submit', (e) => {
         e.preventDefault();
         this.updateBackEnd();
         // this.initDOM();
@@ -127,7 +126,7 @@ export class Other {
   createHTMLOtherDOM() {
     return `
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
-    <form id="main-form other" class="main-form other grid grid-cols-2 gap-8 h-[35rem]" action="/" method="put">
+    <form id="main-form other" class="main-form other grid grid-cols-2 gap-8 h-[35rem]">
     ${paramsCollectionOther
       .map((obj) => {
         return lineOfEvent(this.eventPage, obj);

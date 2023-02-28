@@ -41,7 +41,7 @@ function maxMileage(curEvent: string, carData: ICarData): string {
 export function changeMileage(eventPage: string, carData: ICarData) {
   const mileageDOM = document.querySelector(`.${eventPage}__input_mileage`) as HTMLInputElement;
   const dateDOM = document.querySelector(`.${eventPage}__input_date`) as HTMLInputElement;
-
+  console.log(minMileage(eventPage, carData));
   function minMaxMileage(): void {
     mileageDOM.min = minMileage(eventPage, carData);
     mileageDOM.max = maxMileage(eventPage, carData);

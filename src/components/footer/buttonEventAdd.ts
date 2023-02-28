@@ -34,15 +34,15 @@ export class TabsButton {
       <a href="/service" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-myblue z-10">
         <img class="p-2" src="${tool}" alt="event-icon">
       </a>
-      <a href="/other" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-myblue z-10">
+      <a href="/other" class="menu__item absolute right-0 bottom-15 w-14 h-14 p-2 rounded-full bg-myblue z-10 shadow-xl dark:bg-slate-500">
         <img class="p-2" src="${other}" alt="event-icon">
       </a>
 
-      <button class="menu__button relative w-14 h-14 p-3 rounded-full bg-myblue z-20">
+      <button class="menu__button relative w-14 h-14 p-3 rounded-full bg-myblue z-20 shadow-xl dark:bg-slate-500">
         <img src="${plus}" alt="plus">
       </button>
 
-      <div class="menu__back hidden fixed z-1 left-0 top-0 h-full w-full overflow-auto bg-mydark"></div>
+      <div class="menu__back hidden fixed z-1 left-0 top-0 h-full w-full overflow-auto bg-mydark "></div>
     `;
     return element;
   }

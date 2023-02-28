@@ -49,6 +49,7 @@ export class Refuel {
     this.initDOM();
     this.changeTotalPriceDetals();
     this.carData = JSON.parse(localStorage.getItem('car') as string);
+    console.log(this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
@@ -73,7 +74,7 @@ export class Refuel {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLrefuelDOM());
   }
   fillInput() {
@@ -127,7 +128,7 @@ export class Refuel {
 
   createRefuelEvent() {
     if (!this.editEvent) {
-      this.addrefuelBtn.addEventListener('click', (e) => {
+      this.addrefuelBtn.addEventListener('submit', (e) => {
         e.preventDefault();
         this.updateBackEnd();
         // this.initDOM();

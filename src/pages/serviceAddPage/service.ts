@@ -44,7 +44,7 @@ export class Service {
   pageBody!: HTMLElement;
   allInput!: NodeList;
   detalsListDOM!: HTMLElement;
-  addEventCircule: HTMLElement;
+  addEventCircule!: HTMLElement;
   nameItem!: HTMLElement;
   dateDOM!: HTMLInputElement;
   carData: ICarData;
@@ -64,8 +64,6 @@ export class Service {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
-    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
     this.renderPage();
     this.nameItem = document.querySelector('.service__item_name') as HTMLElement;
     this.renderDetalContainer();
@@ -116,7 +114,7 @@ export class Service {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
   }
 
@@ -288,7 +286,7 @@ export class Service {
   }
 
   createServiceEvent() {
-    this.addServiceBtn.addEventListener('click', (e) => {
+    this.addServiceBtn.addEventListener('submit', (e) => {
       e.preventDefault();
       this.updateBackEnd();
 
@@ -419,7 +417,7 @@ export class Service {
     console.log(this.editEvent);
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
-    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]" action="/" method="put">
+    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]">
             ${paramsCollectionService
               .map((obj) => {
                 return lineOfEvent(this.eventPage, obj);

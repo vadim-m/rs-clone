@@ -12,6 +12,7 @@ export async function addToBack(res: Response, navigateTo: (path: string) => voi
     // спрятали спиннер
     document.querySelector('.spinner')?.classList.add('hidden');
     // переадресация на главную
+
     setTimeout(() => {
       navigateTo('/');
     }, 100);

@@ -11,10 +11,13 @@ export class StatisticPage {
   private header = new StatisticHeader().element;
   private chart1 = new StatisticChart1().element;
   private chart2 = new StatisticChart2().element;
+  addEventCircule: HTMLElement;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.createElement();
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.classList.remove('hidden__menu');
     this.createDoughnutChart([3000, 5000, 1000]);
     this.createBarChart();
     this.countForecast();

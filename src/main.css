@@ -92,3 +92,6 @@
 .spinner__svg {
   fill: #394f89;
 }
+.hidden__menu {
+  visibility: hidden;
+}

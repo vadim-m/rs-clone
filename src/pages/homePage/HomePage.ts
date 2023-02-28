@@ -45,6 +45,8 @@ export class HomePage {
     this.navigateTo = goTo;
     this.hasCar = this.checkAvailabilityCar();
     this.createElement();
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.classList.remove('hidden__menu');
     this.listContainerPlans = document.querySelector('.plans__list');
     this.listContainerEvents = document.querySelector('.events__list');
     this.addDefaultRemind();

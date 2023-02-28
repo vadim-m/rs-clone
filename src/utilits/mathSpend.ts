@@ -7,7 +7,8 @@ export function diffDates(dateOne: string, dateTwoLess: string) {
   return result;
 }
 // последнее событие
-function lastEvent(carData: ICarData) {
+export function lastEvent(carData: ICarData) {
+  console.log(carData);
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   if (allEvents.length > 0) {
     const allEventsSort = allEvents.sort((a, b) => +new Date(a.date) - +new Date(b.date));
@@ -54,10 +55,21 @@ export function calcMyMileageTotal(carData: ICarData): string {
 }
 
 // средний пробег в день
-function getAverageMileageDay(carData: ICarData): string {
+export function getAverageMileageDay(carData: ICarData): string {
   if (lastEvent(carData) === undefined) return '0';
   const averageMileageDay = (+calcMyMileageTotal(carData) / dayTotal(carData)).toFixed(2);
   return averageMileageDay;
+}
+
+// затраты в этом месяце
+export function curSpendMonth(carData: ICarData): string {
+  if (lastEvent(carData) === undefined) return '0';
+  const myEventsArr = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
+  const allEventMonth = myEventsArr.filter((e) => new Date(e.date).getMonth() === new Date().getMonth());
+  const curSpendMonthMoney = allEventMonth.reduce((acc, e) => {
+    return acc + +e.totalPrice;
+  }, 0);
+  return String(curSpendMonthMoney);
 }
 
 // стоимость одного киллометра поле добавления события
