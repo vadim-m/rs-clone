@@ -94,13 +94,15 @@ export function culcSpendMoneyTotal(carData: ICarData): string {
 }
 //  общие затраченное топлива выполняется после добавления события
 export function culcSpendFuelTotal(carData: ICarData): string {
-  const allRefuels = carData.event.refuel;
-  const spendFuelTotal = allRefuels
-    .reduce((acc, e) => {
-      return acc + +e.amountFuel;
-    }, 0)
-    .toFixed(2);
-  return String(spendFuelTotal);
+  if (carData.event.refuel.length > 0) {
+    const allRefuels = carData.event.refuel;
+    const spendFuelTotal = allRefuels
+      .reduce((acc, e) => {
+        return acc + +e.amountFuel;
+      }, 0)
+      .toFixed(2);
+    return String(spendFuelTotal);
+  } else return '0';
 }
 // расчет расхода топлива
 export function culcConsumption(carData: ICarData) {

@@ -265,7 +265,7 @@ export class HomePage {
   }
   // методы Планов
   addDefaultRemind() {
-    (this.listContainerPlans as HTMLUListElement).addEventListener('click', (event) => {
+    (this.listContainerPlans as HTMLUListElement)?.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
       const curID = currentLiArr[0].id;
       if ((event.target as HTMLElement).matches('.reminder-add__btn')) {
@@ -275,7 +275,7 @@ export class HomePage {
   }
 
   handlerReminder() {
-    (this.listContainerPlans as HTMLUListElement).addEventListener('click', (event) => {
+    (this.listContainerPlans as HTMLUListElement)?.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
       const curID = currentLiArr[0].id;
 
@@ -309,7 +309,7 @@ export class HomePage {
   // методы событий
 
   handlerEvents() {
-    (this.listContainerEvents as HTMLUListElement).addEventListener('click', (event) => {
+    (this.listContainerEvents as HTMLUListElement)?.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
       const curID = currentLiArr[0].id;
       const curEventsObj = createArrEvents(showEvents.all).filter((e) => e.id === curID)[0];
@@ -412,7 +412,7 @@ export class HomePage {
       navBar?.classList.add('hidden');
       navBackdrop?.classList.add('hidden');
     });
-    navBackdrop.addEventListener('click', () => {
+    navBackdrop?.addEventListener('click', () => {
       navBar?.classList.add('hidden');
       navBackdrop?.classList.add('hidden');
     });

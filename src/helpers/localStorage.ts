@@ -23,7 +23,9 @@ export async function setCarDataFromDB() {
   car.indicators.spendFuelTotal = culcSpendFuelTotal(car);
   culcConsumption(car);
 
-  car.indicators.curMileage = (lastEvent(car) as IRefuel | IService | IOther).mileage;
+  car.indicators.curMileage = (lastEvent(car) as IRefuel | IService | IOther)?.mileage
+    ? (lastEvent(car) as IRefuel | IService | IOther).mileage
+    : String(car.info.mileage);
   car.indicators.myMileageTotal = calcMyMileageTotal(car);
   car.indicators.averageMileageDay = getAverageMileageDay(car);
   car.indicators.spendMoneyTotal = culcSpendMoneyTotal(car);

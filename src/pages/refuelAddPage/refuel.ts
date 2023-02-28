@@ -3,7 +3,7 @@ import { culcMaybeMileage, culcSpendFuelTotal } from '../../utilits/mathSpend';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { paramsButton, renderButton, renderButtonWhite } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { paramsCollectionRefuel } from './paramsForLineEvent';
 import { changeMileage } from '../../utilits/validMileage';
 import { buttonLang } from '../../lang/buttonLang';
@@ -70,7 +70,7 @@ export class Refuel {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLrefuelDOM());
   }
   fillInput() {
@@ -144,18 +144,8 @@ export class Refuel {
       ${
         !this.editEvent
           ? renderButton(eventLang().addEvent, 'add--event-refuel__btn col-span-2', paramsButton.blueFull)
-          : `${renderButtonWhite(
-              buttonLang().delete,
-              'add--event-refuel__btn col-span-1',
-              'add--event-refuel__btn',
-              '1/2'
-            )}
-              ${renderButtonWhite(
-                buttonLang().save,
-                'add--event-refuel__btn col-span-1',
-                'add--event-refuel__btn',
-                '1/2'
-              )}`
+          : `${renderButton(buttonLang().delete, 'add--event-refuel__btn col-span-1', paramsButton.redL)}
+              ${renderButton(buttonLang().save, 'add--event-refuel__btn col-span-1', paramsButton.blueL)}`
       }
           </form>`;
   }

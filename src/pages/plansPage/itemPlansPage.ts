@@ -19,7 +19,9 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
       : ''
   }
       <div class="plans__item-and-icon flex items-start mr-2">
+
         <span class="plans__icon_${paramsRemindObj.id}">${paramsRemindObj.icon}</span>
+
         <div class="plans__text ml-2">
           <h3 class="plans__title text-sm font-bold mb-1 leading-3">${paramsRemindObj.textName}</h3>
           <span class="plans__addition text-xs leading-3 inline-block">${paramsRemindObj.textType}
