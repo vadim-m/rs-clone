@@ -41,7 +41,7 @@ export class TabsButton {
         <span class="menu__line"></span>
       </button>
 
-      <div class="menu__back opacity-0 fixed z-1 left-0 top-0 h-full w-full overflow-auto bg-mydark"></div>
+      <div class="menu__back hidden fixed z-1 left-0 top-0 h-full w-full overflow-auto bg-mydark"></div>
     `;
     return element;
   }
@@ -54,7 +54,7 @@ export class TabsButton {
     this.menuIsActive = !this.menuIsActive;
 
     if (this.menuIsActive) {
-      menuBack.classList.remove('opacity-0');
+      menuBack.classList.remove('hidden');
       menuBtn.classList.add('menu_active');
 
       let bottomStyle = 110;
@@ -65,7 +65,7 @@ export class TabsButton {
       }
     } else {
       for (let i = 0; i < itemsCount; i++) {
-        menuBack.classList.add('opacity-0');
+        menuBack.classList.add('hidden');
         menuBtn.classList.remove('menu_active');
         menuItems[i].removeAttribute('style');
       }

@@ -127,7 +127,3 @@
   content: "";
   transform: rotate(90deg);
 }
-
-.menu__back {
-  transition: 0.3s;
-}
