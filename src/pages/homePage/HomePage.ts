@@ -154,6 +154,7 @@ export class HomePage {
       submitBtn.disabled = true;
       carSettingsBtn.disabled = true;
       closeCarSettingsBtn.disabled = true;
+      document.querySelector('.spinner')?.classList.remove('hidden');
 
       const res = await deleteCar(carId);
       const status = res.status;
@@ -170,6 +171,8 @@ export class HomePage {
         // получаем и устанавливаем новые настройки
         const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
         setUserSettings(updatedSettings);
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
         // переадресация на главную
         setTimeout(() => {
           this.navigateTo('/');
@@ -190,6 +193,7 @@ export class HomePage {
       carDeleteBtn.disabled = true;
       submitBtn.disabled = true;
       closeCarSettingsBtn.disabled = true;
+      document.querySelector('.spinner')?.classList.remove('hidden');
 
       const brand = form.brand as HTMLInputElement;
       const model = form.model as HTMLInputElement;
@@ -234,6 +238,8 @@ export class HomePage {
         // получаем и устанавливаем новые настройки
         const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
         setUserSettings(updatedSettings);
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
         // переадресация на главную
         setTimeout(() => {
           this.navigateTo('/');

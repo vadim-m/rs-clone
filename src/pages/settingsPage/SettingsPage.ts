@@ -20,6 +20,7 @@ export class SettingsPage {
       e.preventDefault();
       const button = form.querySelector('button') as HTMLButtonElement;
       button.disabled = true;
+      document.querySelector('.spinner')?.classList.remove('hidden');
 
       const language = form.language as HTMLInputElement;
       const currency = form.currency as HTMLInputElement;
@@ -42,7 +43,11 @@ export class SettingsPage {
       const data = await res.json();
 
       if (status === 200) {
+        // запихнули в LS новые настройки из DB
         setUserSettings(data);
+        // спрятали спиннер
+        document.querySelector('.spinner')?.classList.add('hidden');
+        // обновить страницу todo
         setTimeout(() => {
           this.navigateTo('/settings');
         }, 100);
@@ -151,7 +156,7 @@ export class SettingsPage {
 
       <div class="flex justify-center" id="settings-button">
         <button class="text-md bg-myblue text-white mt-4 px-9 py-2 w-72 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait" type="submit">
-          Сохранить изменения
+          Применить изменения
         </button>
       </div>
       
