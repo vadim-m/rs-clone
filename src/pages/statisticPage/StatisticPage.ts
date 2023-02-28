@@ -8,6 +8,9 @@ import { eventLang } from '../../lang/addEventLang';
 import { ICarData, IOther, IRefuel, IService } from '../../types';
 import { getCarFromLS } from '../../helpers/localStorage';
 
+Chart.defaults.color = '#fff';
+Chart.defaults.font.size = 16;
+
 export class StatisticPage {
   parent: HTMLElement;
   private header = new StatisticHeader().element;
@@ -37,7 +40,15 @@ export class StatisticPage {
 
   fillDoughnutChart() {
     if (!this.startPeriodDate && !this.endPeriodDate) {
-      this.createDoughnutChart([3000, 5000, 1000]);
+      const refuelsFrr = [...this.refuels];
+      const refuelsExpenses = refuelsFrr.reduce((acc: number, item: IRefuel) => acc + Number(item.totalPrice), 0);
+      const servicessFrr = [...this.services];
+      const servicesExpenses = servicessFrr.reduce((acc: number, item: IService) => acc + Number(item.totalPrice), 0);
+      const othersFrr = [...this.others];
+      const othersExpenses = othersFrr.reduce((acc: number, item: IOther) => acc + Number(item.totalPrice), 0);
+
+      console.log(refuelsExpenses, servicesExpenses, othersExpenses);
+      this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
     }
   }
 
@@ -89,25 +100,26 @@ export class StatisticPage {
         const currency = document.getElementById('stat__value')?.innerText;
 
         ctx.textAlign = 'center';
-        ctx.font = '1.3rem sans-serif';
-        ctx.fillStyle = '#8a8888';
+        ctx.font = '1.5rem sans-serif';
+        ctx.fillStyle = '#62729f';
         ctx.fillText(`${sum}${currency}`, chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y);
 
         ctx.beginPath();
         ctx.strokeStyle = 'rgba(102, 102, 102, 1)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 6;
       },
     };
 
     const myChart = new Chart(chart, {
       type: 'doughnut',
+
       data: {
         datasets: [
           {
             data: givenData,
-            backgroundColor: ['rgb(250, 32, 32)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-            borderColor: 'rgb(224, 224, 224)',
-            hoverOffset: 4,
+            backgroundColor: ['#FA2020', '#36A2EB', '#FFCD56'],
+            borderColor: '#fff',
+            hoverOffset: 8,
           },
         ],
       },
@@ -118,6 +130,7 @@ export class StatisticPage {
     const stat2 = document.getElementById('stat2') as HTMLElement;
     const stat3 = document.getElementById('stat3') as HTMLElement;
     const stat4 = document.getElementById('stat4') as HTMLElement;
+    stat4.style.color = '#white';
     stat1.innerText = String(myChart.data.datasets[0].data[0].toFixed(2));
     stat2.innerText = String(myChart.data.datasets[0].data[1].toFixed(2));
     stat3.innerText = String(myChart.data.datasets[0].data[2].toFixed(2));
