@@ -10,6 +10,8 @@ import { createArrPlans } from '../plansPage/arrayReminders';
 import { diffDates } from '../../utilits/mathSpend';
 import { getDateTime } from '../../utilits/dateTimeFunc';
 import { buttonLang } from '../../lang/buttonLang';
+import { createReminder } from '../../helpers/api';
+import { addToBack } from '../../utilits/addToBack';
 
 export class Reminder {
   eventPage = 'reminder';
@@ -38,9 +40,12 @@ export class Reminder {
   url: URL;
   curID: string | undefined;
   editEvent: string | undefined;
+  navigateTo: (path: string) => void;
+  addReminderBtn: HTMLButtonElement | undefined;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.navigateTo = goTo;
     this.url = new URL(window.location.href);
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
@@ -68,6 +73,8 @@ export class Reminder {
     this.notesDOM = document.querySelector('#reminder__input_notes') as HTMLInputElement;
 
     this.allInput = document.querySelectorAll('.reminder__input') as NodeList;
+
+    this.addReminderBtn = document.querySelector('#add--event-reminder__btn') as HTMLButtonElement | undefined;
   }
 
   renderPage() {
@@ -125,34 +132,34 @@ export class Reminder {
   }
 
   createReminderEvent() {
-    const addReminderBtn = document.querySelector('#add--event-reminder__btn') as HTMLButtonElement | undefined;
-    if (addReminderBtn) {
-      (addReminderBtn as HTMLButtonElement).addEventListener('click', (event) => {
-        this.initDOM();
-        this.reminderEvent = {
-          type: this.typeDOM.value,
-          name: this.nameDOM.value,
-          previosDate: this.previosDateDOM.value,
-          previosMileage: this.previosMileageDOM.value,
-          rememberOnMilege: this.onMileageDOM.value,
-          rememberAfterMilege: this.afterMileageDOM.value,
-          rememberOnDate: this.onDateDOM.value,
-          rememberAfterDate: String(diffDates(this.onDateDOM.value, getDateTime().slice(0, -6))),
-          repeat: this.repeatDOM.checked,
-          notes: this.notesDOM.value,
-          id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-            ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-            : Date.now().toString(),
-        };
-        const eventArr = this.carData.event.reminders;
-        this.requredMileageDate();
-        if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-          updateCarData(this.carData, this.eventPage, eventArr, this.reminderEvent);
+    if (this.addReminderBtn) {
+      this.addReminderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.updateBackEnd();
+        // this.initDOM();
+        // this.reminderEvent = {
+        //   type: this.typeDOM.value,
+        //   name: this.nameDOM.value,
+        //   previosDate: this.previosDateDOM.value,
+        //   previosMileage: this.previosMileageDOM.value,
+        //   rememberOnMilege: this.onMileageDOM.value,
+        //   rememberAfterMilege: this.afterMileageDOM.value,
+        //   rememberOnDate: this.onDateDOM.value,
+        //   rememberAfterDate: String(diffDates(this.onDateDOM.value, getDateTime().slice(0, -6))),
+        //   repeat: this.repeatDOM.checked,
+        //   notes: this.notesDOM.value,
+        //   id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+        //     ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+        //     : Date.now().toString(),
+        // };
+        // const eventArr = this.carData.event.reminders;
+        // this.requredMileageDate(); // Впрос проверить работате или нет
+        // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+        //   updateCarData(this.carData, this.eventPage, eventArr, this.reminderEvent);
 
-          if (this.pageCall) {
-            event.preventDefault();
-            window.location.href = `/${this.pageCall}`;
-          }
+        if (this.pageCall) {
+          e.preventDefault();
+          window.location.href = `/${this.pageCall}`;
         }
       });
     }
@@ -192,5 +199,29 @@ export class Reminder {
               )}`
         }
       </form>`;
+  }
+
+  // методы для БЭКА
+  async updateBackEnd() {
+    document.querySelector('.spinner')?.classList.remove('hidden');
+
+    const reminder: IReminders = {
+      type: this.typeDOM.value,
+      name: this.nameDOM.value,
+      previosDate: this.previosDateDOM.value,
+      previosMileage: this.previosMileageDOM.value,
+      rememberOnMilege: this.onMileageDOM.value,
+      rememberAfterMilege: this.afterMileageDOM.value,
+      rememberOnDate: this.onDateDOM.value,
+      rememberAfterDate: String(diffDates(this.onDateDOM.value, getDateTime().slice(0, -6))),
+      repeat: this.repeatDOM.checked,
+      notes: this.notesDOM.value,
+      id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+        ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+        : Date.now().toString(),
+    };
+
+    const response = await createReminder(reminder); // тут будет createRefuel и тд в зависимости от события
+    addToBack(response, this.navigateTo, this.addReminderBtn as HTMLButtonElement);
   }
 }

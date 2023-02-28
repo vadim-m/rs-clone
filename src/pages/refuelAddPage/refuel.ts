@@ -11,6 +11,7 @@ import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { createRefuel } from '../../helpers/api';
 import { setCarDataFromDB } from '../../helpers/localStorage';
+import { addToBack } from '../../utilits/addToBack';
 // import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Refuel {
@@ -129,7 +130,6 @@ export class Refuel {
       this.addrefuelBtn.addEventListener('click', (e) => {
         e.preventDefault();
         this.updateBackEnd();
-        
         // this.initDOM();
 
         // this.refuelEvent = {
@@ -183,7 +183,7 @@ export class Refuel {
   }
 
   // методы для БЭКА
-  async updateBackEnd() { 
+  async updateBackEnd() {
     document.querySelector('.spinner')?.classList.remove('hidden');
 
     const refuel: IRefuel = {
@@ -193,7 +193,7 @@ export class Refuel {
       priceFuel: this.priceFuelDOM.value,
       amountFuel: this.amountFuelDOM.value,
       totalPrice: this.totalPriceDOM.value,
-      totalSpendFuel: 'culcSpendFuelTotal(this.carData)',
+      totalSpendFuel: culcSpendFuelTotal(this.carData),
       isFull: this.tankFullDOM.checked,
       place: this.placeDOM.value,
       notes: this.notesDOM.value,
@@ -202,25 +202,6 @@ export class Refuel {
     };
 
     const response = await createRefuel(refuel); // тут будет createRefuel и тд в зависимости от события
-
-    const status = response.status;
-    const data = await response.json();
-
-    console.log(data, status);
-
-    if (status === 200 || status === 201) {
-      // получаем и устанавливаем свежие данные в LS
-      await setCarDataFromDB();
-      // спрятали спиннер
-      document.querySelector('.spinner')?.classList.add('hidden');
-      // переадресация на главную
-      setTimeout(() => {
-        this.navigateTo('/');
-      }, 2000);
-    } else {
-      // ЕСЛИ сервер ответил с ошибкой
-      this.addrefuelBtn.disabled = false;
-      document.querySelector('.spinner')?.classList.add('hidden');
-    }
+    addToBack(response, this.navigateTo, this.addrefuelBtn);
   }
 }

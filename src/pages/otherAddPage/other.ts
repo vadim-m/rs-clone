@@ -12,6 +12,8 @@ import { createArrPlans } from '../plansPage/arrayReminders';
 import { showPlans } from '../reminderAddPage/paramsForLineEvent';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
+import { createOther } from '../../helpers/api';
+import { addToBack } from '../../utilits/addToBack';
 
 export class Other {
   eventPage = 'other';
@@ -32,9 +34,12 @@ export class Other {
   curID: string | undefined;
   url: URL | undefined;
   editEvent: string | undefined;
+  addOtherBtn!: HTMLButtonElement;
+  navigateTo: (path: string) => void;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.navigateTo = goTo;
     this.url = new URL(window.location.href);
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
@@ -57,6 +62,7 @@ export class Other {
     this.placeDOM = document.querySelector('#other__input_place') as HTMLInputElement;
     this.notesDOM = document.querySelector('#other__input_notes') as HTMLInputElement;
     this.allInput = document.querySelectorAll('.other__input') as NodeList;
+    this.addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
   }
 
   renderPage() {
@@ -91,29 +97,29 @@ export class Other {
   }
   createotherEvent() {
     if (!this.editEvent) {
-      const addOtherBtn = document.querySelector('#add--event-other__btn') as HTMLButtonElement;
+      this.addOtherBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.updateBackEnd();
+        // this.initDOM();
 
-      addOtherBtn.addEventListener('click', () => {
-        this.initDOM();
-
-        this.otherEvent = {
-          date: this.dateDOM.value,
-          mileage: this.mileageDOM.value,
-          name: this.nameDOM.value,
-          totalPrice: this.totalPriceDOM.value,
-          place: this.placeDOM.value,
-          notes: this.notesDOM.value,
-          id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-            ? `${Date.now().toString()}_${
-                createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-              }`
-            : Date.now().toString(),
-          typeEvent: this.eventPage,
-        };
-        const eventArr = this.carData.event.others;
-        if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-          updateCarData(this.carData, this.eventPage, eventArr, this.otherEvent);
-        }
+        // this.otherEvent = {
+        //   date: this.dateDOM.value,
+        //   mileage: this.mileageDOM.value,
+        //   name: this.nameDOM.value,
+        //   totalPrice: this.totalPriceDOM.value,
+        //   place: this.placeDOM.value,
+        //   notes: this.notesDOM.value,
+        //   id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+        //     ? `${Date.now().toString()}_${
+        //         createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+        //       }`
+        //     : Date.now().toString(),
+        //   typeEvent: this.eventPage,
+        // };
+        // const eventArr = this.carData.event.others;
+        // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+        //   updateCarData(this.carData, this.eventPage, eventArr, this.otherEvent);
+        // }
       });
     }
   }
@@ -139,5 +145,43 @@ export class Other {
               )}`
     }
           </form>`;
+  }
+
+  async updateBackEnd() {
+    document.querySelector('.spinner')?.classList.remove('hidden');
+    const other: IOther = {
+      date: this.dateDOM.value,
+      mileage: this.mileageDOM.value,
+      name: this.nameDOM.value,
+      totalPrice: this.totalPriceDOM.value,
+      place: this.placeDOM.value,
+      notes: this.notesDOM.value,
+      id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+        ? `${Date.now().toString()}_${
+            createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+          }`
+        : Date.now().toString(),
+      typeEvent: this.eventPage,
+    };
+
+    const response = await createOther(other); // тут будет createRefuel и тд в зависимости от события
+    addToBack(response, this.navigateTo, this.addOtherBtn);
+    //   const status = response.status;
+    //   const data = await response.json();
+    //   console.log(data, status);
+    //   if (status === 200 || status === 201) {
+    //     // получаем и устанавливаем свежие данные в LS
+    //     await setCarDataFromDB();
+    //     // спрятали спиннер
+    //     document.querySelector('.spinner')?.classList.add('hidden');
+    //     // переадресация на главную
+    //     setTimeout(() => {
+    //       this.navigateTo('/');
+    //     }, 2000);
+    //   } else {
+    //     // ЕСЛИ сервер ответил с ошибкой
+    //     this.addrefuelBtn.disabled = false;
+    //     document.querySelector('.spinner')?.classList.add('hidden');
+    //   }
   }
 }

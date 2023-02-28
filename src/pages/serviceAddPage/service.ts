@@ -18,6 +18,8 @@ import { showPlans } from '../reminderAddPage/paramsForLineEvent';
 import { setUserSettings } from '../../helpers/authentication';
 import { defaultSettings } from '../../constants/constants';
 import { createArrEvents } from '../eventsPage/arrayEvents';
+import { addToBack } from '../../utilits/addToBack';
+import { createService } from '../../helpers/api';
 
 export class Service {
   eventPage = 'service';
@@ -54,9 +56,12 @@ export class Service {
   url: URL | undefined;
   editEvent: string | undefined;
   setting: ISettingsMyCar;
+  addServiceBtn!: HTMLButtonElement;
+  navigateTo: (path: string) => void;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.navigateTo = goTo;
     this.url = new URL(window.location.href);
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
@@ -107,6 +112,8 @@ export class Service {
     this.totalPriceService = document.querySelector('.service__input_total') as HTMLInputElement;
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
     this.totalPriceTitle = document.querySelector('.service__title_total') as HTMLElement;
+
+    this.addServiceBtn = document.querySelector('.add--event-service__btn') as HTMLButtonElement;
   }
 
   renderPage() {
@@ -186,7 +193,7 @@ export class Service {
     const allCostDetals = Array.from(document.querySelectorAll('.detals__item_price'));
 
     if (allCostDetals.length > 0) {
-      this.totalPriceDetals.value = String(
+      const totalPriceDetals = String(
         allCostDetals.reduce((acc, e) => {
           return acc + Number((e as HTMLElement).textContent);
         }, 0)
@@ -194,7 +201,7 @@ export class Service {
       this.totalPriceTitle.style.top = '-1.5rem';
       this.totalPriceTitle.style.color = 'grey';
       this.totalPriceTitle.style.fontSize = '0.8rem';
-      return +this.totalPriceDetals.value;
+      return +totalPriceDetals;
     } else return 0;
   }
 
@@ -283,45 +290,47 @@ export class Service {
   }
 
   createServiceEvent() {
-    const addServiceBtn = document.querySelector('.add--event-service__btn') as HTMLFormElement;
-    addServiceBtn.addEventListener('click', () => {
-      this.initDOM();
+    this.addServiceBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.updateBackEnd();
 
-      const worksDetalsArr: IDetals[] = [];
-      for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
-        worksDetalsArr.push({
-          detals: {
-            name: (this.detalsNameDOM[i] as HTMLInputElement).value,
-            partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
-            manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
-            price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
-            quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
-            amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
-          },
-        });
-      }
+      // this.initDOM();
 
-      this.serviceEvent = {
-        date: this.dateDOM.value,
-        mileage: this.mileageDOM.value,
-        type: this.typeDOM.value,
-        name: this.nameDOM.value,
-        detals: worksDetalsArr,
-        costWorks: this.costWorksDOM.value,
-        totalPrice: this.totalPriceService.value,
-        place: this.placeDOM.value,
-        notes: this.notesDOM.value,
-        id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-          ? `${Date.now().toString()}_${
-              createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-            }`
-          : Date.now().toString(),
-        typeEvent: this.eventPage,
-      };
-      const eventArr = this.carData.event.service;
-      if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-        updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
-      }
+      // const worksDetalsArr: IDetals[] = [];
+      // for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
+      //   worksDetalsArr.push({
+      //     detals: {
+      //       name: (this.detalsNameDOM[i] as HTMLInputElement).value,
+      //       partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
+      //       manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
+      //       price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
+      //       quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
+      //       amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
+      //     },
+      //   });
+      // }
+
+      // this.serviceEvent = {
+      //   date: this.dateDOM.value,
+      //   mileage: this.mileageDOM.value,
+      //   type: this.typeDOM.value,
+      //   name: this.nameDOM.value,
+      //   detals: worksDetalsArr,
+      //   costWorks: this.costWorksDOM.value,
+      //   totalPrice: this.totalPriceService.value,
+      //   place: this.placeDOM.value,
+      //   notes: this.notesDOM.value,
+      //   id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+      //     ? `${Date.now().toString()}_${
+      //         createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+      //       }`
+      //     : Date.now().toString(),
+      //   typeEvent: this.eventPage,
+      // };
+      // const eventArr = this.carData.event.service;
+      // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
+      //   updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
+      // }
     });
   }
 
@@ -440,5 +449,45 @@ export class Service {
               )}`
           }
       </form>`;
+  }
+
+  // методы для БЭКА
+  async updateBackEnd() {
+    document.querySelector('.spinner')?.classList.remove('hidden');
+
+    const worksDetalsArr: IDetals[] = [];
+    for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
+      worksDetalsArr.push({
+        detals: {
+          name: (this.detalsNameDOM[i] as HTMLInputElement).value,
+          partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
+          manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
+          price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
+          quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
+          amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
+        },
+      });
+    }
+
+    const service: IService = {
+      date: this.dateDOM.value,
+      mileage: this.mileageDOM.value,
+      type: this.typeDOM.value,
+      name: this.nameDOM.value,
+      detals: worksDetalsArr,
+      costWorks: this.costWorksDOM.value,
+      totalPrice: this.totalPriceService.value,
+      place: this.placeDOM.value,
+      notes: this.notesDOM.value,
+      id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+        ? `${Date.now().toString()}_${
+            createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+          }`
+        : Date.now().toString(),
+      typeEvent: this.eventPage,
+    };
+
+    const response = await createService(service); // тут будет createRefuel и тд в зависимости от события
+    addToBack(response, this.navigateTo, this.addServiceBtn);
   }
 }
