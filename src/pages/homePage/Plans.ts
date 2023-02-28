@@ -14,7 +14,7 @@ export class Plans {
     const fragment = document.createElement('template');
     fragment.innerHTML = `
       <h2 class="plans__title font-medium text-sm mb-2">${eventLang().nearestPlans}</h2>
-        <ul class="plans__list grid gap-y-3 mb-4">
+        <ul class="plans__list grid gap-y-3 mb-4 dark:text-black">
           ${createArrPlans(showPlans.allPlans)
             .map((paramsRemindObj) => {
               return oneOfReminder(paramsRemindObj);

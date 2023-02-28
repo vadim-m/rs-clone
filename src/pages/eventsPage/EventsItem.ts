@@ -19,7 +19,7 @@ export class EventsItem {
     return `
       <li id="${
         eventItem.id
-      }" class="events__item bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md "
+      }" class="events__item bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md dark:bg-slate-300"
       data-event="${eventItem.eventType}">
         <div class="events__item-and-icon flex items-center mr-2">
         ${eventItem.icon}

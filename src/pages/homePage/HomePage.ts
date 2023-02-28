@@ -17,12 +17,14 @@ import { eventLang } from '../../lang/addEventLang';
 import { getUnits } from '../../components/units';
 import { getCurrentLanguage, mySetting } from '../../utilits/getCurrentSettings';
 import { createArrEvents, showEvents } from '../eventsPage/arrayEvents';
+import { SideMenu } from './SideMenu';
 
 export class HomePage {
   private info: DocumentFragment | null;
   private plans: DocumentFragment | null;
   private events: DocumentFragment | null;
   private carForm: DocumentFragment | null;
+  private sideMenu: DocumentFragment | null;
   private hasCar: boolean;
   private hiddenFormSectionClass: string | null;
   page = 'home';
@@ -39,6 +41,7 @@ export class HomePage {
     this.events = null;
     this.carForm = null;
     this.hiddenFormSectionClass = null;
+    this.sideMenu = null;
     this.navigateTo = goTo;
     this.hasCar = this.checkAvailabilityCar();
     this.createElement();
@@ -47,6 +50,7 @@ export class HomePage {
     this.addDefaultRemind();
     this.handlerReminder();
     this.handlerEvents();
+    this.addEvents();
   }
 
   checkAvailabilityCar() {
@@ -80,6 +84,7 @@ export class HomePage {
     this.plans = new Plans().element;
     this.events = new Events().element;
     this.carForm = new CarForm(this.hasCar).element;
+    this.sideMenu = new SideMenu().element;
     this.hiddenFormSectionClass = this.hasCar ? 'hidden' : '';
 
     if (!this.hasCar) {
@@ -108,7 +113,7 @@ export class HomePage {
     eventsSection.classList.add('events');
     eventsSection.append(this.events);
 
-    this.parent.append(formSection, infoSection, plansSection, eventsSection);
+    this.parent.append(this.sideMenu, formSection, infoSection, plansSection, eventsSection);
     this.addListeners();
   }
 
@@ -390,5 +395,24 @@ export class HomePage {
               <p class="name text-sm leading-3 inline-block mb-1 ml-2">${eventLang().amount}:</p>            
               <p class="name bg-myslate pl-2 mb-10">${curEventsObj.totalPrice}${mySetting().currency}</p>
             </div>  `;
+  }
+
+  addEvents() {
+    const burger = document.querySelector('#nav-burger');
+    const navBar = document.querySelector('#nav-bar');
+    const closeButton = document.querySelector('.navbar__close');
+    const navBackdrop = document.querySelector('.navbar__backdrop') as HTMLDivElement;
+    burger?.addEventListener('click', () => {
+      navBar?.classList.remove('hidden');
+      navBackdrop?.classList.remove('hidden');
+    });
+    closeButton?.addEventListener('click', () => {
+      navBar?.classList.add('hidden');
+      navBackdrop?.classList.add('hidden');
+    });
+    navBackdrop.addEventListener('click', () => {
+      navBar?.classList.add('hidden');
+      navBackdrop?.classList.add('hidden');
+    });
   }
 }

@@ -1,3 +1,5 @@
+import { eventLang } from '../../lang/addEventLang';
+
 const close = require('../../assets/icons/close.png');
 
 export class StatisticChart2 {
@@ -14,15 +16,17 @@ export class StatisticChart2 {
           <div class="carousel-item absolute opacity-0 hidden pb-20">
             <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
             <div class="mb-6 flex flex-col justify-center border-b pb-2 border-slate">
-              <div class="mt-2 text-center">Расход топлива за <span>февраль</span> <span>2023</span> <span>г.</span></div>
+              <div class="mt-2 text-center">${
+                eventLang().fuelСonsumption
+              }<span>февраль</span> <span>2023</span> <span>${eventLang().yearStat}</span></div>
               <div class="flex justify-center">
                 <canvas id="bar-chart" style="min-width: 250px; min-height: 250px"></canvas>
               </div>
             </div>
             <div class="statistic__average-expense text-right border-b pb-2 border-slate">
-              Средний расход: <span>8.1</span> л/100км.<br>
-              Мин: <span>5.7</span> Макс: <span>15.6</span> л/100км.<br>
-              Последний расход: <span>9.2</span> л/100км.<br>
+              ${eventLang().averageExpenses}<span>8.1</span> ${eventLang().l100}<br>
+              ${eventLang().min} <span>5.7</span> ${eventLang().max} <span>15.6</span> ${eventLang().l100}<br>
+              ${eventLang().recentExpenses} <span>9.2</span> ${eventLang().l100}<br>
             </div>
 
             <div class="statistic__calc calc text-2xl text-slate-400 mt-6 mb-2 ml-1">Калькулятор расхода топлива</div>
