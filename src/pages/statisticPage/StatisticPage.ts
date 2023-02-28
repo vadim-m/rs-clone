@@ -5,20 +5,40 @@ import { StatisticHeader } from './StatisticHeader';
 import { StatisticChart1 } from './StatisticChart1';
 import { StatisticChart2 } from './StatisticChart2';
 import { eventLang } from '../../lang/addEventLang';
+import { ICarData, IOther, IRefuel, IService } from '../../types';
+import { getCarFromLS } from '../../helpers/localStorage';
 
 export class StatisticPage {
   parent: HTMLElement;
   private header = new StatisticHeader().element;
   private chart1 = new StatisticChart1().element;
   private chart2 = new StatisticChart2().element;
+  startPeriodDate: string | null;
+  endPeriodDate: string | null;
+  carData: ICarData | null;
+  refuels: IRefuel[] | [];
+  services: IService[] | [];
+  others: IOther[] | [];
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
+    this.startPeriodDate = null;
+    this.endPeriodDate = null;
+    this.carData = getCarFromLS();
+    this.refuels = this.carData?.event.refuel ?? [];
+    this.services = this.carData?.event.service ?? [];
+    this.others = this.carData?.event.others ?? [];
     this.createElement();
-    this.createDoughnutChart([3000, 5000, 1000]);
+    this.fillDoughnutChart();
     this.createBarChart();
     this.countForecast();
     this.submitPeriod();
+  }
+
+  fillDoughnutChart() {
+    if (!this.startPeriodDate && !this.endPeriodDate) {
+      this.createDoughnutChart([3000, 5000, 1000]);
+    }
   }
 
   createElement() {
