@@ -8,6 +8,10 @@ export const pathURL = {
   cars: `${API_URL}/cars`,
   settings: `${API_URL}/settings`,
   todo: `${API_URL}/todo`,
+  refuels: `${API_URL}/refuels`,
+  reminders: `${API_URL}/reminders`,
+  services: `${API_URL}/services`,
+  others: `${API_URL}/others`,
 };
 
 export const defaultSettings: ISettingsMyCar = {

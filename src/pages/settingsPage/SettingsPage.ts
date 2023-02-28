@@ -51,6 +51,8 @@ export class SettingsPage {
         setTimeout(() => {
           this.navigateTo('/settings');
         }, 100);
+      } else {
+        document.querySelector('.spinner')?.classList.add('hidden');
       }
     });
   }

@@ -184,6 +184,7 @@ export class HomePage {
         alertEl.classList.add('text-red-700');
         alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
         submitBtn.disabled = false;
+        document.querySelector('.spinner')?.classList.add('hidden');
       }
     });
 
@@ -233,7 +234,7 @@ export class HomePage {
         alertEl.classList.add('bg-green-100');
         alertEl.classList.remove('text-red-700');
         alertEl.textContent = `Status: ${status}. Successfully.`;
-        // получаем и устанавливаем свежие данные в LC
+        // получаем и устанавливаем свежие данные в LS
         await setCarDataFromDB();
         // получаем и устанавливаем новые настройки
         const updatedSettings: ISettingsMyCar = await (await getSettingsFromAPI()).json();
@@ -251,6 +252,7 @@ export class HomePage {
         alertEl.classList.add('text-red-700');
         alertEl.textContent = `Status: ${status}. Error: ${data.message}`;
         submitBtn.disabled = false;
+        document.querySelector('.spinner')?.classList.add('hidden');
       }
     });
   }
