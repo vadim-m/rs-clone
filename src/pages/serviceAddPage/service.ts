@@ -7,7 +7,7 @@ import { buttonLang } from '../../lang/buttonLang';
 import { Popup } from '../../components/popup';
 import { searchLi } from '../../utilits/searchElement';
 import { currentLiArr } from '../../utilits/searchElement';
-import { paramsButton, renderButton, renderButtonBlue, renderButtonWhite } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsCollectionService } from './paramsForLineEvent';
 import { changeMileage } from '../../utilits/validMileage';
@@ -36,7 +36,7 @@ export class Service {
   detalsQuantyDOM!: NodeList;
   detalsTitleDOM!: HTMLElement;
   detalsBtnDOM!: HTMLElement;
-  formService!: HTMLFormElement;
+  formDOM!: HTMLFormElement;
   totalPriceDetals!: HTMLInputElement;
   costWorksDOM!: HTMLInputElement;
   totalPriceTitle!: HTMLElement;
@@ -44,7 +44,7 @@ export class Service {
   pageBody!: HTMLElement;
   allInput!: NodeList;
   detalsListDOM!: HTMLElement;
-  addEventCircule: HTMLElement;
+  addEventCircule!: HTMLElement;
   nameItem!: HTMLElement;
   dateDOM!: HTMLInputElement;
   carData: ICarData;
@@ -64,8 +64,6 @@ export class Service {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
-    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
     this.renderPage();
     this.nameItem = document.querySelector('.service__item_name') as HTMLElement;
     this.renderDetalContainer();
@@ -87,7 +85,7 @@ export class Service {
 
   initDOM() {
     this.pageBody = document.querySelector('body') as HTMLElement;
-    this.formService = document.querySelector('.main-form') as HTMLFormElement;
+    this.formDOM = document.querySelector('.main-form') as HTMLFormElement;
     this.mileageDOM = document.querySelector('#service__input_mileage') as HTMLInputElement;
     this.typeDOM = document.querySelector('#service__input_type') as HTMLInputElement;
     this.nameDOM = document.querySelector('#service__input_name') as HTMLInputElement;
@@ -116,7 +114,7 @@ export class Service {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLServiceDOM());
   }
 
@@ -135,10 +133,13 @@ export class Service {
         ).textType;
         this.typeDOM.readOnly = true;
       }
-      if (this.pageCall === 'events' || this.pageCall === 'home') {
+      if (this.pageCall === 'events' || this.pageCall === '/') {
         const curEventArr = createArrEvents(this.eventPage);
-        // const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
-        // console.log(curDetals.find((e)=> e.detals.name));
+        const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
+        console.log(this.carData.event.service.filter((e) => e.id === this.curID)[0]);
+        if (curDetals.length > 0) {
+          console.log(curDetals);
+        }
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
@@ -239,7 +240,7 @@ export class Service {
     this.detalsListDOM.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLElement);
       const currentDetal = currentLiArr[0];
-      new Popup(
+      const popupInstance = new Popup(
         this.createHTMLDetalsPopup(),
         buttonLang().delete,
         'confirm__btn--delete',
@@ -283,52 +284,20 @@ export class Service {
           currentDetalCostPrice.textContent = popupDetalPrice.value;
           this.recalcTotal();
         }
+        if ((event.target as HTMLElement).matches('.confirm__btn--delete')) {
+          searchLi(event.target as HTMLElement, event.currentTarget as HTMLElement);
+          popupInstance.removePopup();
+          currentDetal.remove();
+          this.recalcTotal();
+        }
       });
     });
   }
 
   createServiceEvent() {
-    this.addServiceBtn.addEventListener('click', (e) => {
+    this.formDOM.addEventListener('submit', (e) => {
       e.preventDefault();
       this.updateBackEnd();
-
-      // this.initDOM();
-
-      // const worksDetalsArr: IDetals[] = [];
-      // for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
-      //   worksDetalsArr.push({
-      //     detals: {
-      //       name: (this.detalsNameDOM[i] as HTMLInputElement).value,
-      //       partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
-      //       manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
-      //       price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
-      //       quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
-      //       amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
-      //     },
-      //   });
-      // }
-
-      // this.serviceEvent = {
-      //   date: this.dateDOM.value,
-      //   mileage: this.mileageDOM.value,
-      //   type: this.typeDOM.value,
-      //   name: this.nameDOM.value,
-      //   detals: worksDetalsArr,
-      //   costWorks: this.costWorksDOM.value,
-      //   totalPrice: this.totalPriceService.value,
-      //   place: this.placeDOM.value,
-      //   notes: this.notesDOM.value,
-      //   id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-      //     ? `${Date.now().toString()}_${
-      //         createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-      //       }`
-      //     : Date.now().toString(),
-      //   typeEvent: this.eventPage,
-      // };
-      // const eventArr = this.carData.event.service;
-      // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-      //   updateCarData(this.carData, this.eventPage, eventArr, this.serviceEvent);
-      // }
     });
   }
 
@@ -416,36 +385,20 @@ export class Service {
   }
 
   createHTMLServiceDOM() {
-    console.log(this.editEvent);
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
-    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]" action="/" method="put">
+    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]">
             ${paramsCollectionService
               .map((obj) => {
                 return lineOfEvent(this.eventPage, obj);
               })
               .join('')}
-          ${
-            !this.editEvent
-              ? renderButtonBlue(
-                  eventLang().addEvent,
-                  'add--event-service__btn col-span-2',
-                  'add--event-service__btn',
-                  'full'
-                )
-              : `${renderButtonWhite(
-                  buttonLang().delete,
-                  'add--event-service__btn col-span-1',
-                  'add--event-service__btn',
-                  '1/2'
-                )}
-              ${renderButtonWhite(
-                buttonLang().save,
-                'add--event-service__btn col-span-1',
-                'add--event-service__btn',
-                '1/2'
-              )}`
-          }
+      ${
+        !this.editEvent
+          ? renderButton(eventLang().addEvent, 'add--event-service__btn col-span-2', paramsButton.blueFull)
+          : `${renderButton(buttonLang().delete, 'add--event-service__btn col-span-1', paramsButton.redL)}
+              ${renderButton(buttonLang().save, 'add--event-service__btn col-span-1', paramsButton.blueL)}`
+      }
       </form>`;
   }
 

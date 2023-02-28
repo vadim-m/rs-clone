@@ -16,6 +16,7 @@ export class StatisticPage {
   private header = new StatisticHeader().element;
   private chart1 = new StatisticChart1().element;
   private chart2 = new StatisticChart2().element;
+  addEventCircule: HTMLElement;
   startPeriodDate: string | null;
   endPeriodDate: string | null;
   carData: ICarData | null;
@@ -32,6 +33,9 @@ export class StatisticPage {
     this.services = this.carData?.event.service ?? [];
     this.others = this.carData?.event.others ?? [];
     this.createElement();
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.classList.remove('hidden__menu');
+    this.createDoughnutChart([3000, 5000, 1000]);
     this.fillDoughnutChart();
     this.createBarChart();
     this.countForecast();

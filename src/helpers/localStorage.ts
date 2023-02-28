@@ -1,6 +1,15 @@
-import { ICarData, IInfo, ICar, IToDo, ISettingsMyCar } from '../types';
+import { ICarData, IInfo, ICar, IToDo, ISettingsMyCar, IRefuel, IService, IOther } from '../types';
 import { getCar, getTodos, getRefuels, getReminders, getServices, getOthers } from './api';
 import { carData as car } from '../car/car_data';
+import {
+  calcMyMileageTotal,
+  culcConsumption,
+  culcCostOneKM,
+  culcSpendFuelTotal,
+  culcSpendMoneyTotal,
+  getAverageMileageDay,
+  lastEvent,
+} from '../utilits/mathSpend';
 
 // заполняем LS данными из базы данных
 export async function setCarDataFromDB() {
@@ -10,6 +19,17 @@ export async function setCarDataFromDB() {
   car.event.service = await (await getServices()).json();
   car.event.others = await (await getOthers()).json();
   car.todos = await (await getTodos()).json();
+
+  car.indicators.spendFuelTotal = culcSpendFuelTotal(car);
+  culcConsumption(car);
+
+  car.indicators.curMileage = (lastEvent(car) as IRefuel | IService | IOther)?.mileage
+    ? (lastEvent(car) as IRefuel | IService | IOther).mileage
+    : String(car.info.mileage);
+  car.indicators.myMileageTotal = calcMyMileageTotal(car);
+  car.indicators.averageMileageDay = getAverageMileageDay(car);
+  car.indicators.spendMoneyTotal = culcSpendMoneyTotal(car);
+  car.indicators.costOneKM = culcCostOneKM(car);
 
   localStorage.setItem('car', JSON.stringify(car));
   //! вот тут переделать индикаторы updateIndicators(car)

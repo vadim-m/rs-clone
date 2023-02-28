@@ -3,16 +3,13 @@ import { culcMaybeMileage, culcSpendFuelTotal } from '../../utilits/mathSpend';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { paramsButton, renderButton, renderButtonWhite } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { paramsCollectionRefuel } from './paramsForLineEvent';
-// import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { createRefuel } from '../../helpers/api';
-// import { setCarDataFromDB } from '../../helpers/localStorage';
 import { addToBack } from '../../utilits/addToBack';
-// import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Refuel {
   eventPage = 'refuel';
@@ -57,7 +54,7 @@ export class Refuel {
   }
 
   initDOM() {
-    this.formDOM = document.querySelector('#main-form') as HTMLFormElement;
+    this.formDOM = document.querySelector('#main-form-refuel') as HTMLFormElement;
     this.typeFuelDOM = document.querySelector('#refuel__input_type-fuel') as HTMLInputElement;
     this.priceFuelDOM = document.querySelector('#refuel__input_price') as HTMLInputElement;
     this.amountFuelDOM = document.querySelector('#refuel__input_amount-fuel') as HTMLInputElement;
@@ -73,7 +70,7 @@ export class Refuel {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLrefuelDOM());
   }
   fillInput() {
@@ -127,29 +124,10 @@ export class Refuel {
 
   createRefuelEvent() {
     if (!this.editEvent) {
-      this.addrefuelBtn.addEventListener('click', (e) => {
+      this.formDOM.addEventListener('submit', (e) => {
         e.preventDefault();
-        this.updateBackEnd();
-        // this.initDOM();
 
-        // this.refuelEvent = {
-        //   date: this.dateDOM.value,
-        //   mileage: this.mileageDOM.value,
-        //   name: this.typeFuelDOM.value,
-        //   priceFuel: this.priceFuelDOM.value,
-        //   amountFuel: this.amountFuelDOM.value,
-        //   totalPrice: this.totalPriceDOM.value,
-        //   totalSpendFuel: culcSpendFuelTotal(this.carData),
-        //   isFull: this.tankFullDOM.checked,
-        //   place: this.placeDOM.value,
-        //   notes: this.notesDOM.value,
-        //   id: Date.now().toString(),
-        //   typeEvent: this.eventPage,
-        // };
-        // const eventArr = this.carData.event.refuel;
-        // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-        //   updateCarData(this.carData, this.eventPage, eventArr, this.refuelEvent);
-        // }
+        this.updateBackEnd();
       });
     }
   }
@@ -157,7 +135,7 @@ export class Refuel {
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-          <form id="main-form refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full">
+          <form id="main-form-refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
@@ -166,18 +144,8 @@ export class Refuel {
       ${
         !this.editEvent
           ? renderButton(eventLang().addEvent, 'add--event-refuel__btn col-span-2', paramsButton.blueFull)
-          : `${renderButtonWhite(
-              buttonLang().delete,
-              'add--event-refuel__btn col-span-1',
-              'add--event-refuel__btn',
-              '1/2'
-            )}
-              ${renderButtonWhite(
-                buttonLang().save,
-                'add--event-refuel__btn col-span-1',
-                'add--event-refuel__btn',
-                '1/2'
-              )}`
+          : `${renderButton(buttonLang().delete, 'add--event-refuel__btn col-span-1', paramsButton.redL)}
+              ${renderButton(buttonLang().save, 'add--event-refuel__btn col-span-1', paramsButton.blueL)}`
       }
           </form>`;
   }

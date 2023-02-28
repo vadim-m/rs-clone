@@ -26,8 +26,8 @@ export const paramsButton = {
   transpBlueS2143:
     'text-sm w-32 leading-2 px-4 py-2 text-gray-600 bg-white border border-myblue rounded-md shadow-sm hover:bg-myblue hover:text-white focus:outline-none focus:shadow-none',
   blueL:
-    'text-md bg-myblue text-white w-full mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait ',
-  redL: 'text-md bg-myblue text-white w-full mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait ',
+    'text-md h-14 bg-myblue text-white w-[calc(100%_-_3rem)] mx-6 mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait ',
+  redL: 'text-md h-14 bg-red-700 text-white w-[calc(100%_-_3rem)] mx-6 mb-4 px-9 py-2 rounded-md  enabled:hover:bg-red-600 enabled:focus:bg-red-600 disabled:opacity-25 disabled:cursor-wait',
   blueFull:
-    'text-md bg-myblue text-white w-full mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait ',
+    'text-md h-14 bg-myblue text-white w-full mb-4 px-9 py-2 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait ',
 };

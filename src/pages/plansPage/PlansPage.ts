@@ -91,7 +91,7 @@ export class PlansPage {
   createElement() {
     const parent = document.querySelector('.main') as HTMLElement;
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'block';
+    this.addEventCircule.classList.remove('hidden__menu');
     const plans = document.createElement('section');
     this.list = document.createElement('section');
     this.list.classList.add('plans__section-list');

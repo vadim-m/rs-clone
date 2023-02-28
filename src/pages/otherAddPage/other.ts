@@ -1,9 +1,8 @@
 import { ICarData, IOther, IParamsOneEvents, IParamsOneReminder } from '../../types';
-import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { renderButtonBlue, renderButtonWhite } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { paramsCollectionOther } from './paramsForLineEvent';
 // import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
@@ -36,6 +35,7 @@ export class Other {
   editEvent: string | undefined;
   addOtherBtn!: HTMLButtonElement;
   navigateTo: (path: string) => void;
+  formDOM!: HTMLFormElement;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -46,7 +46,7 @@ export class Other {
     this.editEvent = this.url.searchParams.get('edit') as string;
     this.renderPage();
     this.initDOM();
-    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     changeMileage(this.eventPage, this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
     this.createotherEvent();
@@ -55,6 +55,7 @@ export class Other {
   }
 
   initDOM() {
+    this.formDOM = document.querySelector('#main-form__other') as HTMLFormElement;
     this.nameDOM = document.querySelector('#other__input_name') as HTMLInputElement;
     this.dateDOM = document.querySelector('#other__input_date') as HTMLInputElement;
     this.totalPriceDOM = document.querySelector('#other__input_total') as HTMLInputElement;
@@ -67,7 +68,7 @@ export class Other {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLOtherDOM());
   }
 
@@ -97,29 +98,9 @@ export class Other {
   }
   createotherEvent() {
     if (!this.editEvent) {
-      this.addOtherBtn.addEventListener('click', (e) => {
+      this.formDOM.addEventListener('submit', (e) => {
         e.preventDefault();
         this.updateBackEnd();
-        // this.initDOM();
-
-        // this.otherEvent = {
-        //   date: this.dateDOM.value,
-        //   mileage: this.mileageDOM.value,
-        //   name: this.nameDOM.value,
-        //   totalPrice: this.totalPriceDOM.value,
-        //   place: this.placeDOM.value,
-        //   notes: this.notesDOM.value,
-        //   id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-        //     ? `${Date.now().toString()}_${
-        //         createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-        //       }`
-        //     : Date.now().toString(),
-        //   typeEvent: this.eventPage,
-        // };
-        // const eventArr = this.carData.event.others;
-        // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-        //   updateCarData(this.carData, this.eventPage, eventArr, this.otherEvent);
-        // }
       });
     }
   }
@@ -127,23 +108,18 @@ export class Other {
   createHTMLOtherDOM() {
     return `
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
-    <form id="main-form other" class="main-form other grid grid-cols-2 gap-8 h-[35rem]" action="/" method="put">
+    <form id="main-form__other" class="main-form__other grid grid-cols-2 gap-8 h-[35rem]">
     ${paramsCollectionOther
       .map((obj) => {
         return lineOfEvent(this.eventPage, obj);
       })
       .join('')}
-    ${
-      !this.editEvent
-        ? renderButtonBlue(eventLang().addEvent, 'add--event-other__btn col-span-2', 'add--event-other__btn', 'full')
-        : `${renderButtonWhite(buttonLang().delete, 'add--event-other__btn col-span-1', 'add--event-other__btn', '1/2')}
-              ${renderButtonWhite(
-                buttonLang().save,
-                'add--event-other__btn col-span-1',
-                'add--event-other__btn',
-                '1/2'
-              )}`
-    }
+      ${
+        !this.editEvent
+          ? renderButton(eventLang().addEvent, 'add--event-other__btn col-span-2', paramsButton.blueFull)
+          : `${renderButton(buttonLang().delete, 'add--event-other__btn col-span-1', paramsButton.redL)}
+              ${renderButton(buttonLang().save, 'add--event-other__btn col-span-1', paramsButton.blueL)}`
+      }
           </form>`;
   }
 
@@ -166,22 +142,5 @@ export class Other {
 
     const response = await createOther(other); // тут будет createRefuel и тд в зависимости от события
     addToBack(response, this.navigateTo, this.addOtherBtn);
-    //   const status = response.status;
-    //   const data = await response.json();
-    //   console.log(data, status);
-    //   if (status === 200 || status === 201) {
-    //     // получаем и устанавливаем свежие данные в LS
-    //     await setCarDataFromDB();
-    //     // спрятали спиннер
-    //     document.querySelector('.spinner')?.classList.add('hidden');
-    //     // переадресация на главную
-    //     setTimeout(() => {
-    //       this.navigateTo('/');
-    //     }, 2000);
-    //   } else {
-    //     // ЕСЛИ сервер ответил с ошибкой
-    //     this.addrefuelBtn.disabled = false;
-    //     document.querySelector('.spinner')?.classList.add('hidden');
-    //   }
   }
 }

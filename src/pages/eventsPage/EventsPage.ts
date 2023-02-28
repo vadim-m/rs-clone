@@ -32,7 +32,7 @@ export class EventsPage {
 
   createElement() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'block';
+    this.addEventCircule.classList.remove('hidden__menu');
     const fragment = document.createElement('section');
     this.listContainer = document.createElement('section');
     this.listContainer.classList.add('plans__section-list');
@@ -79,18 +79,15 @@ export class EventsPage {
         'confirm__btn--ok',
         'confirm__btn--ok'
       );
-      console.log(popup);
-      // console.log(eventLang().other);
+
       const popupHandler = document.querySelector('.popup__container') as HTMLElement;
       popupHandler.addEventListener('click', (event) => {
         if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
           if (currentLiArr[0].getAttribute('data-event') === 'other') {
             window.location.href = `/other?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
-            console.log(currentLiArr[0].getAttribute('data-event'));
           }
           if (currentLiArr[0].getAttribute('data-event') === 'service') {
             window.location.href = `/service?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
-            console.log(eventLang().other);
           }
           if (currentLiArr[0].getAttribute('data-event') === 'refuel') {
             window.location.href = `/refuel?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;

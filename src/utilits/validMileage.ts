@@ -15,7 +15,6 @@ function minMileage(curEvent: string, carData: ICarData): string {
       const beforeDateEvents = allEvents.filter((e) => {
         return new Date(e.date) < new Date(curDate);
       });
-      console.log(beforeDateEvents);
       const lastMileageBefore =
         beforeDateEvents.length > 0
           ? beforeDateEvents[beforeDateEvents.length - 1].mileage
@@ -41,7 +40,6 @@ function maxMileage(curEvent: string, carData: ICarData): string {
 export function changeMileage(eventPage: string, carData: ICarData) {
   const mileageDOM = document.querySelector(`.${eventPage}__input_mileage`) as HTMLInputElement;
   const dateDOM = document.querySelector(`.${eventPage}__input_date`) as HTMLInputElement;
-
   function minMaxMileage(): void {
     mileageDOM.min = minMileage(eventPage, carData);
     mileageDOM.max = maxMileage(eventPage, carData);

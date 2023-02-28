@@ -44,12 +44,12 @@ export class Popup {
       if (
         (event.target as HTMLElement).matches('.bg__popup--grey') ||
         (event.target as HTMLElement).matches('.confirm__btn--cencel') ||
+        (event.target as HTMLElement).matches('.confirm__btn--delete') ||
         (event.target as HTMLElement).matches('.confirm__btn--edit') ||
         (event.target as HTMLElement).matches('.confirm__btn--ok')
       ) {
         bgPopup.remove();
       }
-      // (bgPopup as HTMLElement).classList.remove('active');
     });
   }
 

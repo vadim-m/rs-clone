@@ -3,7 +3,7 @@ import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { renderButtonBlue, renderButtonWhite } from '../../components/button';
+import { paramsButton, renderButton } from '../../components/button';
 import { paramsCollectionReminder, showPlans } from './paramsForLineEvent';
 // import { updateCarData } from '../../utilits/updateCarData';
 import { createArrPlans } from '../plansPage/arrayReminders';
@@ -42,6 +42,7 @@ export class Reminder {
   editEvent: string | undefined;
   navigateTo: (path: string) => void;
   addReminderBtn: HTMLButtonElement | undefined;
+  formDOM!: HTMLFormElement;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -56,11 +57,11 @@ export class Reminder {
     this.fillInput();
     this.calcDiffMileage();
     this.createReminderEvent();
-    console.log(this.editEvent);
     onFocus(this.eventPage);
   }
 
   initDOM() {
+    this.formDOM = document.querySelector('#main-form__reminder') as HTMLFormElement;
     this.pageBody = document.querySelector('body') as HTMLElement;
     this.typeDOM = document.querySelector('#reminder__input_type') as HTMLInputElement;
     this.nameDOM = document.querySelector('#reminder__input_name') as HTMLInputElement;
@@ -79,7 +80,7 @@ export class Reminder {
 
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
-    this.addEventCircule.style.display = 'none';
+    this.addEventCircule.classList.add('hidden__menu');
     this.parent.insertAdjacentHTML('afterbegin', this.createHTMLreminderDOM());
   }
 
@@ -108,8 +109,6 @@ export class Reminder {
 
   calcDiffMileage() {
     this.onMileageDOM.addEventListener('change', () => {
-      console.log(this.onMileageDOM.value);
-      console.log(this.nameDOM.value);
       if (+this.onMileageDOM.value < +this.carData.indicators.curMileage) {
         this.onMileageDOM.value = this.carData.indicators.curMileage;
       }
@@ -133,30 +132,10 @@ export class Reminder {
 
   createReminderEvent() {
     if (this.addReminderBtn) {
-      this.addReminderBtn.addEventListener('click', (e) => {
+      this.formDOM.addEventListener('click', (e) => {
+        alert('q');
         e.preventDefault();
         this.updateBackEnd();
-        // this.initDOM();
-        // this.reminderEvent = {
-        //   type: this.typeDOM.value,
-        //   name: this.nameDOM.value,
-        //   previosDate: this.previosDateDOM.value,
-        //   previosMileage: this.previosMileageDOM.value,
-        //   rememberOnMilege: this.onMileageDOM.value,
-        //   rememberAfterMilege: this.afterMileageDOM.value,
-        //   rememberOnDate: this.onDateDOM.value,
-        //   rememberAfterDate: String(diffDates(this.onDateDOM.value, getDateTime().slice(0, -6))),
-        //   repeat: this.repeatDOM.checked,
-        //   notes: this.notesDOM.value,
-        //   id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
-        //     ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
-        //     : Date.now().toString(),
-        // };
-        // const eventArr = this.carData.event.reminders;
-        // this.requredMileageDate(); // Впрос проверить работате или нет
-        // if (Array.from(this.allInput).every((e) => (e as HTMLInputElement).checkValidity())) {
-        //   updateCarData(this.carData, this.eventPage, eventArr, this.reminderEvent);
-
         if (this.pageCall) {
           e.preventDefault();
           window.location.href = `/${this.pageCall}`;
@@ -167,37 +146,21 @@ export class Reminder {
   }
 
   createHTMLreminderDOM() {
-    console.log(this.editEvent);
     return `
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
-    <form id="main-form reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80" action="/" method="put">
+    <form id="main-for__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80">
 
                 ${paramsCollectionReminder
                   .map((obj) => {
                     return lineOfEvent(this.eventPage, obj);
                   })
                   .join('')}
-        ${
-          !this.editEvent
-            ? renderButtonBlue(
-                eventLang().addEvent,
-                'add--event-reminder__btn col-span-2',
-                'add--event-reminder__btn',
-                '2'
-              )
-            : `${renderButtonWhite(
-                buttonLang().delete,
-                'del--event-reminder__btn col-span-1 h-12',
-                'del--event-reminder__btn',
-                'full'
-              )}
-              ${renderButtonWhite(
-                buttonLang().save,
-                'save--event-reminder__btn col-span-1 h-12',
-                'save--event-reminder__btn',
-                'full'
-              )}`
-        }
+      ${
+        !this.editEvent
+          ? renderButton(eventLang().addEvent, 'add--event-reminder__btn col-span-2', paramsButton.blueFull)
+          : `${renderButton(buttonLang().delete, 'add--event-reminder__btn col-span-1', paramsButton.redL)}
+              ${renderButton(buttonLang().save, 'add--event-reminder__btn col-span-1', paramsButton.blueL)}`
+      }
       </form>`;
   }
 

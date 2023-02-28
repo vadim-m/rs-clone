@@ -7,7 +7,7 @@ export function diffDates(dateOne: string, dateTwoLess: string) {
   return result;
 }
 // последнее событие
-function lastEvent(carData: ICarData) {
+export function lastEvent(carData: ICarData) {
   const allEvents = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
   if (allEvents.length > 0) {
     const allEventsSort = allEvents.sort((a, b) => +new Date(a.date) - +new Date(b.date));
@@ -54,10 +54,21 @@ export function calcMyMileageTotal(carData: ICarData): string {
 }
 
 // средний пробег в день
-function getAverageMileageDay(carData: ICarData): string {
+export function getAverageMileageDay(carData: ICarData): string {
   if (lastEvent(carData) === undefined) return '0';
   const averageMileageDay = (+calcMyMileageTotal(carData) / dayTotal(carData)).toFixed(2);
   return averageMileageDay;
+}
+
+// затраты в этом месяце
+export function curSpendMonth(carData: ICarData): string {
+  if (lastEvent(carData) === undefined) return '0';
+  const myEventsArr = [...carData.event.refuel, ...carData.event.service, ...carData.event.others];
+  const allEventMonth = myEventsArr.filter((e) => new Date(e.date).getMonth() === new Date().getMonth());
+  const curSpendMonthMoney = allEventMonth.reduce((acc, e) => {
+    return acc + +e.totalPrice;
+  }, 0);
+  return String(curSpendMonthMoney);
 }
 
 // стоимость одного киллометра поле добавления события
@@ -82,23 +93,23 @@ export function culcSpendMoneyTotal(carData: ICarData): string {
 }
 //  общие затраченное топлива выполняется после добавления события
 export function culcSpendFuelTotal(carData: ICarData): string {
-  const allRefuels = carData.event.refuel;
-  const spendFuelTotal = allRefuels
-    .reduce((acc, e) => {
-      return acc + +e.amountFuel;
-    }, 0)
-    .toFixed(2);
-  return String(spendFuelTotal);
+  if (carData.event.refuel.length > 0) {
+    const allRefuels = carData.event.refuel;
+    const spendFuelTotal = allRefuels
+      .reduce((acc, e) => {
+        return acc + +e.amountFuel;
+      }, 0)
+      .toFixed(2);
+    return String(spendFuelTotal);
+  } else return '0';
 }
 // расчет расхода топлива
 export function culcConsumption(carData: ICarData) {
   const allEventRefuel = carData.event.refuel;
   if (allEventRefuel.length > 1) {
     const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
-    console.log(curSpendFuel);
 
     const firstMileageOnFuel = +carData.event.refuel[0].mileage - carData.info.mileage;
-    console.log(firstMileageOnFuel);
     const fullTankCheckArr = carData.event.refuel.filter((e) => e.isFull === true); // все заправки с полным баком
     const consumptionWithoutData = (
       (+culcSpendFuelTotal(carData) - +curSpendFuel) /
@@ -128,7 +139,6 @@ export function updateIndicatirs(curEvent: string, carData: ICarData) {
   if (curEvent === 'refuel') {
     carData.indicators.spendFuelTotal = culcSpendFuelTotal(carData);
     culcConsumption(carData);
-    console.log(culcSpendFuelTotal(carData));
   }
   carData.indicators.curMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   carData.indicators.myMileageTotal = calcMyMileageTotal(carData);

@@ -5,7 +5,7 @@ export const carData: ICarData = {
     brand: 'Volkswagen',
     model: 'Jetta',
     year: 2018,
-    mileage: 60000,
+    mileage: 0,
     sizeTank: 50,
     startFuel: 20,
     startDate: '2023-02-04T18:00',
@@ -14,7 +14,7 @@ export const carData: ICarData = {
     hasCar: false,
   },
   indicators: {
-    curMileage: '60000',
+    curMileage: '0',
     spendMoneyTotal: '0',
     spendFuelTotal: '0',
     curConsumptionFuel: '--:--',

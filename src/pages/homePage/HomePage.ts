@@ -45,6 +45,8 @@ export class HomePage {
     this.navigateTo = goTo;
     this.hasCar = this.checkAvailabilityCar();
     this.createElement();
+    this.addEventCircule = document.querySelector('.menu') as HTMLElement;
+    this.addEventCircule.classList.remove('hidden__menu');
     this.listContainerPlans = document.querySelector('.plans__list');
     this.listContainerEvents = document.querySelector('.events__list');
     this.addDefaultRemind();
@@ -263,7 +265,7 @@ export class HomePage {
   }
   // методы Планов
   addDefaultRemind() {
-    (this.listContainerPlans as HTMLUListElement).addEventListener('click', (event) => {
+    (this.listContainerPlans as HTMLUListElement)?.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
       const curID = currentLiArr[0].id;
       if ((event.target as HTMLElement).matches('.reminder-add__btn')) {
@@ -273,7 +275,7 @@ export class HomePage {
   }
 
   handlerReminder() {
-    (this.listContainerPlans as HTMLUListElement).addEventListener('click', (event) => {
+    (this.listContainerPlans as HTMLUListElement)?.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
       const curID = currentLiArr[0].id;
 
@@ -307,7 +309,7 @@ export class HomePage {
   // методы событий
 
   handlerEvents() {
-    (this.listContainerEvents as HTMLUListElement).addEventListener('click', (event) => {
+    (this.listContainerEvents as HTMLUListElement)?.addEventListener('click', (event) => {
       searchLi(event.target as HTMLElement, event.currentTarget as HTMLUListElement);
       const curID = currentLiArr[0].id;
       const curEventsObj = createArrEvents(showEvents.all).filter((e) => e.id === curID)[0];
@@ -321,18 +323,15 @@ export class HomePage {
         'confirm__btn--ok',
         'confirm__btn--ok'
       );
-      console.log(popup);
-      // console.log(eventLang().other);
+
       const popupHandler = document.querySelector('.popup__container') as HTMLElement;
       popupHandler.addEventListener('click', (event) => {
         if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
           if (currentLiArr[0].getAttribute('data-event') === 'other') {
             window.location.href = `/other?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
-            console.log(currentLiArr[0].getAttribute('data-event'));
           }
           if (currentLiArr[0].getAttribute('data-event') === 'service') {
             window.location.href = `/service?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
-            console.log(eventLang().other);
           }
           if (currentLiArr[0].getAttribute('data-event') === 'refuel') {
             window.location.href = `/refuel?id=${curEventsObj.id}&pageCall=${this.page}&edit=true`;
@@ -410,7 +409,7 @@ export class HomePage {
       navBar?.classList.add('hidden');
       navBackdrop?.classList.add('hidden');
     });
-    navBackdrop.addEventListener('click', () => {
+    navBackdrop?.addEventListener('click', () => {
       navBar?.classList.add('hidden');
       navBackdrop?.classList.add('hidden');
     });

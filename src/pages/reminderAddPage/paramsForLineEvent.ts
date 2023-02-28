@@ -1,5 +1,5 @@
 import { IParamsLineOfEvent } from '../../types';
-import { getDateTime, getDatePlusMonths, getDatePlusYear } from '../../utilits/dateTimeFunc';
+import { getDatePlusMonths, getDatePlusYear } from '../../utilits/dateTimeFunc';
 import { icon } from '../../components/iconFont';
 import { getUnits } from '../../components/units';
 import { eventLang } from '../../lang/addEventLang';
@@ -110,7 +110,6 @@ export const showPlans = {
 };
 
 function createHTMLSelectDate() {
-  console.log(new Date(getDateTime().slice(0, 10)).setDate(new Date(getDateTime()).getDate() + 7));
   return `
     <option value="${getDatePlusMonths(1)}" label="${eventLang().after} ${eventLang().month}">
     <option value="${getDatePlusMonths(3)}" label="${eventLang().after} 3 ${eventLang().month}${
