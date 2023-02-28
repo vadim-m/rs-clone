@@ -14,7 +14,7 @@ export async function addToBack(res: Response, navigateTo: (path: string) => voi
     // переадресация на главную
     setTimeout(() => {
       navigateTo('/');
-    }, 2000);
+    }, 100);
   } else {
     // ЕСЛИ сервер ответил с ошибкой
     buttonCall.disabled = false;
