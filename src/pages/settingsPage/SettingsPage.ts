@@ -2,6 +2,8 @@ import { updateSettings } from '../../helpers/api';
 import { getAppSettingsFromLS } from '../../helpers/localStorage';
 import { setUserSettings } from '../../helpers/authentication';
 import { ISettingsMyCar } from '../../types';
+import { eventLang } from '../../lang/addEventLang';
+import { buttonLang } from '../../lang/buttonLang';
 
 export class SettingsPage {
   parent: HTMLElement;
@@ -70,12 +72,12 @@ export class SettingsPage {
     <div class="md:flex mb-6">
       <div class="settings-form__required md:w-1/2 px-3 mb-6 md:mb-0">
         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-          Язык
+          ${eventLang().language}
         </label>
         <div class="relative">
         <select class="appearance-none block w-full bg-grey-lighter text-grey-darker border rounded py-3 px-4 mb-3 dark:bg-slate-400" name="language">
-          <option>English</option>
-          <option>Русский</option>
+          <option>${eventLang().en}</option>
+          <option>${eventLang().ru}</option>
         </select>
         <div class="pointer-events-none absolute right-0 top-4 pin-y pin-r flex items-center px-2 text-grey-darker">
           <svg class="h-4 w-4 dark:fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
@@ -85,7 +87,7 @@ export class SettingsPage {
 
       <div class="settings-form__required md:w-1/2 px-3">
         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-          Валюта
+          ${eventLang().currency}
         </label>
         <div class="relative">
           <select class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3 dark:bg-slate-400" name="currency"">
@@ -103,13 +105,13 @@ export class SettingsPage {
     <div class="settings__interfaces flex flex-col md:flex">
       <div class="px-3 mb-6">
         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-          Ночной режим
+          ${eventLang().mode}
         </label>
         <div class="flex justify-between items-center">
-          <h2 class="text-xs">Включить ночной режим во всех разделах приложения</h2>
+          <h2 class="text-xs">${eventLang().modeOn}</h2>
           <div class="relative inline-block w-16 align-middle select-none transition duration-200 ease-in">
             <input type="checkbox" name="mode" id="toggle-night" class="toggle__checkbox_night absolute block shadow-md w-9 h-8 rounded-full bg-white border-4 appearance-none cursor-pointer"
-            ${settings?.darkTheme ? 'checked' : ''}
+              ${settings?.darkTheme ? 'checked' : ''}
             />
             <label for="toggle-night" class="toggle__label_night block overflow-hidden shadow-md h-8 rounded-full bg-slate-300 cursor-pointer"></label>
           </div>
@@ -118,13 +120,13 @@ export class SettingsPage {
 
       <div class="px-3 mb-6">
         <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2">
-          Ориентация интерфейса
+          ${eventLang().interface}
         </label>
         <div class="flex justify-between items-center">
-          <h2 class="text-xs">Включить режим для левшей</h2>
+          <h2 class="text-xs">${eventLang().interfaceOn}</h2>
           <div class="relative inline-block w-16 align-middle select-none transition duration-200 ease-in">
             <input type="checkbox" name="orientation" id="toggle-left" class="toggle__checkbox_left absolute block shadow-md w-9 h-8 rounded-full bg-white border-4 appearance-none cursor-pointer"
-            ${settings?.orientation ? 'checked' : ''}
+              ${settings?.orientation ? 'checked' : ''}
             />
             <label for="toggle-left" class="toggle__label_left block overflow-hidden shadow-md h-8 rounded-full bg-slate-300 cursor-pointer"></label>
           </div>
@@ -134,7 +136,9 @@ export class SettingsPage {
 
       <div class="px-3 mb-6">
         <div class="flex justify-between items-center">
-          <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold">Помнить цену топлива</label>
+          <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold">${
+            eventLang().rememberPrice
+          }</label>
           <div class="relative inline-block w-16 align-middle select-none transition duration-200 ease-in">
             <input type="checkbox" name="price" id="toggle-price" class="toggle__checkbox_price absolute block shadow-md w-9 h-8 rounded-full bg-white border-4 appearance-none cursor-pointer"
             ${settings?.rememberPriceFuel ? 'checked' : ''}
@@ -146,7 +150,9 @@ export class SettingsPage {
 
       <div class="px-3">
         <div class="flex justify-between items-center">
-          <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold">Предугадывать пробег</label>
+          <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold">${
+            eventLang().guessMileage
+          }</label>
           <div class="relative inline-block w-16 align-middle select-none transition duration-200 ease-in">
             <input type="checkbox" name="mileage" id="toggle-mileage" class="toggle__checkbox_mileage absolute block shadow-md w-9 h-8 rounded-full bg-white border-4 appearance-none cursor-pointer"
             ${settings?.predictMileage ? 'checked' : ''}
@@ -158,7 +164,7 @@ export class SettingsPage {
 
       <div class="flex justify-center" id="settings-button">
         <button class="text-md bg-myblue text-white mt-4 px-9 py-2 w-72 rounded-md enabled:hover:bg-blue-700 enabled:focus:bg-blue-700 disabled:opacity-25 disabled:cursor-wait" type="submit">
-          Применить изменения
+          ${buttonLang().applyChanges}
         </button>
       </div>
       
