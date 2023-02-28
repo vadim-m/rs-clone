@@ -287,7 +287,7 @@ export function eventLang() {
       l: 'л.',
       calculation: 'Расчёт',
       calculator: 'Калькулятор расхода топлива',
-      en: 'Английский',
+      en: 'English',
       ru: 'Русский',
       language: 'Язык',
       currency: 'Валюта',
