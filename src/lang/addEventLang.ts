@@ -137,6 +137,17 @@ export function eventLang() {
       forecast: 'Fuel consumption forecast',
       l: 'l',
       calculation: 'Calculation',
+      calculator: 'Fuel Consumption Calculator',
+      en: 'English',
+      ru: 'Russian',
+      language: 'Language',
+      currency: 'Currency',
+      mode: 'Night mode',
+      modeOn: 'Turn on night mode on all apps sections',
+      interface: 'Interface orientation',
+      interfaceOn: 'Turn on left hand irientation',
+      rememberPrice: 'Remember the fuel`s price',
+      guessMileage: 'Predict mileage',
     };
   } else {
     return {
@@ -275,6 +286,17 @@ export function eventLang() {
       forecast: 'Прогноз расхода топлива',
       l: 'л.',
       calculation: 'Расчёт',
+      calculator: 'Калькулятор расхода топлива',
+      en: 'Английский',
+      ru: 'Русский',
+      language: 'Язык',
+      currency: 'Валюта',
+      mode: 'Ночной режим',
+      modeOn: 'Включить ночной режим во всех разделах приложения',
+      interface: 'Ориентация интерфейса',
+      interfaceOn: 'Включить режим для левшей',
+      rememberPrice: 'Помнить цену топлива',
+      guessMileage: 'Предугадывать пробег',
     };
   }
 }

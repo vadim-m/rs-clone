@@ -18,8 +18,6 @@ export class StatisticPage {
     this.createDoughnutChart([3000, 5000, 1000]);
     this.createBarChart();
     this.countForecast();
-    this.clearInput();
-    this.openCalendar();
     this.submitPeriod();
   }
 
@@ -181,54 +179,14 @@ export class StatisticPage {
     }
   }
 
-  clearInput() {
-    const clearbuttons = document.querySelector('.calc__container');
-
-    clearbuttons?.addEventListener('click', (e) => {
-      const currentButton = e.target as HTMLElement;
-      const parent = currentButton.closest('.calc__wrap');
-      const input = parent?.querySelector('.calc__input') as HTMLInputElement;
-      if (input) {
-        input.value = '';
-      }
-    });
-  }
-
-  openCalendar() {
-    const modal = document.getElementById('modal') as HTMLDivElement;
-    const button = document.getElementById('open-calendar') as HTMLButtonElement;
-    const buttonClose = document.getElementById('calendar-close') as HTMLButtonElement;
-    const calendarOk = document.getElementById('calendar-ok') as HTMLButtonElement;
-
-    button.onclick = function () {
-      modal.style.display = 'block';
-    };
-
-    buttonClose.onclick = function () {
-      modal.style.display = 'none';
-    };
-
-    calendarOk.onclick = function () {
-      modal.style.display = 'none';
-    };
-  }
-
   submitPeriod() {
     const form = document.getElementById('calendar-form');
-    const monthInput = document.getElementById('monthInput') as HTMLInputElement;
-    const yearInput = document.getElementById('yearInput') as HTMLInputElement;
-
-    monthInput?.addEventListener('input', () => {
-      yearInput.value = '';
-    });
-
-    yearInput?.addEventListener('input', () => {
-      monthInput.value = '';
-    });
+    const beforeInput = document.getElementById('calendar-before') as HTMLInputElement;
+    const afterInput = document.getElementById('calendar-after') as HTMLInputElement;
 
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log(monthInput.value, yearInput.value);
+      console.log(beforeInput.value, afterInput.value);
     });
   }
 }

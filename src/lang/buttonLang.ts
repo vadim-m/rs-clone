@@ -17,6 +17,7 @@ export function buttonLang() {
       addNew: 'Add new',
       choosePeriod: 'Apply the period',
       deleteCar: 'Delete car',
+      applyChanges: 'Apply changes',
     };
   } else {
     return {
@@ -34,6 +35,7 @@ export function buttonLang() {
       addNew: 'Добавить новое',
       choosePeriod: 'Применить период',
       deleteCar: 'Удалить машину',
+      applyChanges: 'Применить изменения',
     };
   }
 }

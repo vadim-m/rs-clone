@@ -29,10 +29,10 @@ export class StatisticChart2 {
               ${eventLang().recentExpenses} <span>9.2</span> ${eventLang().l100}<br>
             </div>
 
-            <div class="statistic__calc calc text-2xl text-slate-400 mt-6 mb-2 ml-1">Калькулятор расхода топлива</div>
+            <div class="statistic__calc calc text-2xl text-slate-400 mt-6 mb-2 ml-1">${eventLang().calculator}</div>
               <ul class="calc__container">
                 <li class="calc__content mb-2">
-                    <div class="calc__title text-base">Средний расход, л/100км.</div>
+                    <div class="calc__title text-base">${eventLang().averageExpenses} ${eventLang().l100}</div>
                     <div class="calc__wrap relative">
                       <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg text-gray-300 border-b w-full px-2 py-1 focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="${
                         eventLang().averageExpenses
