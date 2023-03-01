@@ -212,7 +212,6 @@ export class StatisticPage {
     const beforeInput = document.getElementById('calendar-before') as HTMLInputElement;
     const afterInput = document.getElementById('calendar-after') as HTMLInputElement;
 
-
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.startPeriodDate = Date.parse(beforeInput.value);
@@ -223,7 +222,7 @@ export class StatisticPage {
     formResetBtn?.addEventListener('click', (e) => {
       e.preventDefault();
       console.log(e.target);
-      this.navigateTo("/statistic");
+      this.navigateTo('/statistic');
     });
   }
 

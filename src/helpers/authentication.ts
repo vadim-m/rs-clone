@@ -26,7 +26,7 @@ const deleteUserID = () => {
 
 const deleteCarfromLS = () => {
   localStorage.removeItem('car');
-}
+};
 
 export const setUserSettings = (settings: ISettingsMyCar) => {
   localStorage.setItem('settingsCar', JSON.stringify(settings));
