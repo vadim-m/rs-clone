@@ -19,7 +19,7 @@ export class StatisticChart2 {
             <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
             <div class="mb-6 flex flex-col justify-center border-b pb-2 border-slate">
               <div class="mt-2 text-center">${eventLang().fuelСonsumption}</div>
-              <div class="flex justify-center">
+              <div class="flex justify-center max-h-96">
                 <canvas id="bar-chart" style="min-width: 250px; min-height: 250px max-width: 500px"></canvas>
               </div>
             </div>

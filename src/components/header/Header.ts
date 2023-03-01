@@ -3,6 +3,7 @@ import { getCarInfoFromLS } from '../../helpers/localStorage';
 import { SideMenu } from './SideMenu';
 import { eventLang } from '../../lang/addEventLang';
 import { buttonLang } from '../../lang/buttonLang';
+import { loguot } from '../../helpers/authentication';
 
 export class Header {
   private car: IInfo | null;
@@ -25,6 +26,9 @@ export class Header {
     const navBar = document.querySelector('#nav-bar');
     const closeButton = document.querySelector('.navbar__close');
     const navBackdrop = document.querySelector('.navbar__backdrop') as HTMLDivElement;
+    const logoutBtn = document.querySelector('#header-exit');
+    const sideLogoutBtn = document.querySelector('#side-exit');
+
     burger?.addEventListener('click', () => {
       navBar?.classList.remove('hidden');
       navBackdrop?.classList.remove('hidden');
@@ -36,6 +40,14 @@ export class Header {
     navBackdrop.addEventListener('click', () => {
       navBar?.classList.add('hidden');
       navBackdrop?.classList.add('hidden');
+    });
+    logoutBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      loguot();
+    });
+    sideLogoutBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      loguot();
     });
   }
 
@@ -123,10 +135,10 @@ export class Header {
 			<li><a class="text-sm text-gray-400 hover:text-gray-500" href="/todo" id="header-todo">${eventLang().notes}</a></li>
 
 		</ul>
-		<a class="hidden lg:inline-block py-2 px-6 bg-myblue hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="#" id="header-exit">${
+		<a class="hidden lg:inline-block py-2 px-6 bg-myblue hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"  id="header-exit">${
       buttonLang().exit
     }</a>
-	</nav>
+	  </nav>
     `;
     fragment.append(this.sideMenu);
     return fragment;
