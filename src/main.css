@@ -91,11 +91,12 @@
 .spinner__svg {
   fill: #394f89;
 }
+
 .hidden__menu {
   visibility: hidden;
 }
-/*TabButton*/
 
+/*TabButton*/
 .menu_active .menu__line:before {
   transform: rotate(45deg);
 }
@@ -111,7 +112,7 @@
   width: 2rem;
   height: 0.25rem;
   background-color: #fff;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 
 .menu__line {
@@ -122,10 +123,15 @@
 }
 
 .menu__line:before {
-  content: "";
+  content: '';
 }
 
 .menu__line:after {
-  content: "";
+  content: '';
   transform: rotate(90deg);
+}
+
+.menu__item {
+  transition: bottom 0.18s;
+  bottom: 0;
 }
