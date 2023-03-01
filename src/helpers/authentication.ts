@@ -50,5 +50,5 @@ export const loguot = () => {
   deleteUserSettings();
   deleteCarfromLS();
 
-  location.reload();
+  location.href = '/';
 };

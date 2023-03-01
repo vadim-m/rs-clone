@@ -18,6 +18,8 @@ import { getUnits } from '../../components/units';
 import { getCurrentLanguage, mySetting } from '../../utilits/getCurrentSettings';
 import { createArrEvents, showEvents } from '../eventsPage/arrayEvents';
 import { updateSideMenu } from '../../helpers/utils';
+import { Header } from '../../components/header/Header';
+import { PanelNav } from '../../components/footer/PanelNav';
 
 export class HomePage {
   private info: DocumentFragment | null;
@@ -32,6 +34,8 @@ export class HomePage {
   navigateTo: (path: string) => void;
   listContainerPlans: HTMLUListElement | null;
   listContainerEvents: HTMLUListElement | null;
+  header: Header | null;
+  footer: PanelNav | null;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -50,6 +54,26 @@ export class HomePage {
     this.addDefaultRemind();
     this.handlerReminder();
     this.handlerEvents();
+    this.header = null;
+    this.footer = null;
+    this.updateHeader();
+    this.updateFooter();
+  }
+
+  updateHeader() {
+    const header = document.querySelector('header') as Node;
+    if (header) {
+      document.body.removeChild(header);
+      this.header = new Header();
+    }
+  }
+
+  updateFooter() {
+    const footer = document.querySelector('footer') as Node;
+    if (footer) {
+      document.body.removeChild(footer);
+      this.footer = new PanelNav();
+    }
   }
 
   checkAvailabilityCar() {
