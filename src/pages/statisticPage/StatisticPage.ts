@@ -8,6 +8,9 @@ import { eventLang } from '../../lang/addEventLang';
 import { ICarData, IOther, IRefuel, IService } from '../../types';
 import { getCarFromLS } from '../../helpers/localStorage';
 
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 Chart.defaults.color = '#fff';
 Chart.defaults.font.size = 16;
 
@@ -17,8 +20,8 @@ export class StatisticPage {
   private chart1 = new StatisticChart1().element;
   private chart2 = new StatisticChart2().element;
   addEventCircule: HTMLElement;
-  startPeriodDate: string | null;
-  endPeriodDate: string | null;
+  startPeriodDate: number | null;
+  endPeriodDate: number | null;
   carData: ICarData | null;
   refuels: IRefuel[] | [];
   services: IService[] | [];
@@ -46,15 +49,53 @@ export class StatisticPage {
   }
 
   async fillDoughnutChart() {
-    if (!this.startPeriodDate && !this.endPeriodDate) {
-      const refuelsFrr = [...this.refuels];
-      const refuelsExpenses = refuelsFrr.reduce((acc: number, item: IRefuel) => acc + Number(item.totalPrice), 0);
-      const servicessFrr = [...this.services];
-      const servicesExpenses = servicessFrr.reduce((acc: number, item: IService) => acc + Number(item.totalPrice), 0);
-      const othersFrr = [...this.others];
-      const othersExpenses = othersFrr.reduce((acc: number, item: IOther) => acc + Number(item.totalPrice), 0);
+    const startDate = this.startPeriodDate;
+    const endDate = this.endPeriodDate;
 
+    const refuelsArr = [...this.refuels];
+    let refuelsExpenses = refuelsArr.reduce((acc: number, item: IRefuel) => acc + Number(item.totalPrice), 0);
+    const servicesArr = [...this.services];
+    let servicesExpenses = servicesArr.reduce((acc: number, item: IService) => acc + Number(item.totalPrice), 0);
+    const othersArr = [...this.others];
+    let othersExpenses = othersArr.reduce((acc: number, item: IOther) => acc + Number(item.totalPrice), 0);
+
+    if (startDate && endDate && startDate > endDate) {
+      alert('StartDate > EndDate');
+      return;
+    } else if (!startDate && !endDate) {
       await this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
+    } else {
+      const filteredRefuelsArr = refuelsArr.filter(
+        (item: IRefuel) => +Date.parse(item.date) >= startDate! && +Date.parse(item.date) <= endDate!
+      );
+      refuelsExpenses = filteredRefuelsArr.reduce((acc: number, item: IRefuel) => acc + Number(item.totalPrice), 0);
+
+      const filteredServicesArr = servicesArr.filter(
+        (item: IService) => +Date.parse(item.date) >= startDate! && +Date.parse(item.date) <= endDate!
+      );
+      servicesExpenses = filteredServicesArr.reduce((acc: number, item: IService) => acc + Number(item.totalPrice), 0);
+
+      const filteredOthersArr = othersArr.filter(
+        (item: IOther) => +Date.parse(item.date) >= startDate! && +Date.parse(item.date) <= endDate!
+      );
+      othersExpenses = filteredOthersArr.reduce((acc: number, item: IOther) => acc + Number(item.totalPrice), 0);
+
+      this.updatePeriodMileage(filteredRefuelsArr, filteredServicesArr, filteredOthersArr);
+      await this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
+    }
+  }
+
+  updatePeriodMileage(refuels: IRefuel[], services: IService[], others: IOther[]) {
+    const periodMileageEl = document.querySelector('#chart__distance_period') as HTMLSpanElement;
+    if (periodMileageEl) {
+      const arrOfEvents = new Set(
+        [...refuels, ...services, ...others].map((item: IRefuel | IService | IOther) => +item.mileage)
+      );
+
+      const min = Math.min(...arrOfEvents);
+      const max = Math.max(...arrOfEvents);
+      const mileage = max - min;
+      periodMileageEl.textContent = String(mileage);
     }
   }
 
@@ -66,11 +107,11 @@ export class StatisticPage {
       <div class="item-content item-link flex justify-between p-4 border-b border-t border-slate">
         <div class="item-title item-info flex flex-col items-center text-lg">
           <div class="item-header">${eventLang().totalMileage}</div>
-          <span class="item-title"><span class="chart_distance">91 158</span>  км.</span>
+          <span class="item-title"><span class="chart_distance">${this.carData?.indicators.curMileage}</span> км.</span>
         </div>
         <div class="item-title item-info  flex flex-col items-center text-lg">
           <div class="item-header">${eventLang().perPeriodMileage}</div>
-          <span class="item-title"><span id="chart__distance_period">27 858</span> км.</span>
+          <span class="item-title"><span id="chart__distance_period"> -- | -- </span> км.</span>
         </div>
       </div>
       <div class="carousel relative">
@@ -86,7 +127,6 @@ export class StatisticPage {
 
   async createDoughnutChart(givenData: number[]) {
     if (this.chartId !== null) {
-      console.log('have');
       this.myChart?.destroy();
     }
 
@@ -98,9 +138,7 @@ export class StatisticPage {
         const {
           ctx,
           data,
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           chartArea: { top, bottom, left, right, width, height },
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           scales: { x, y },
         } = chart;
 
@@ -232,8 +270,9 @@ export class StatisticPage {
 
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
-      console.log(beforeInput.value, afterInput.value);
-      this.createDoughnutChart([3000, 5000, 1000]);
+      this.startPeriodDate = Date.parse(beforeInput.value);
+      this.endPeriodDate = Date.parse(afterInput.value);
+      this.fillDoughnutChart();
     });
   }
 }
