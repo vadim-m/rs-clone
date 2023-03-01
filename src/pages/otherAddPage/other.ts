@@ -86,7 +86,7 @@ export class Other {
         this.typeDOM.readOnly = true;
       }
 
-      if (this.pageCall === 'events' || this.pageCall === 'home') {
+      if (this.pageCall === 'events' || this.pageCall === '/') {
         const curEventArr = createArrEvents(this.eventPage);
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;

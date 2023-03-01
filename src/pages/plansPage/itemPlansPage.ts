@@ -4,13 +4,20 @@ import { getCurrentLanguage } from '../../utilits/getCurrentSettings';
 import { paramsButton, renderButton } from '../../components/button';
 import { getUnits } from '../../components/units';
 
-export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
-  return `
+export class PlansItem {
+  public element: string;
+
+  constructor(plansItem: IParamsOneReminder) {
+    this.element = this.createElement(plansItem);
+  }
+
+  private createElement(paramsRemindObj: IParamsOneReminder) {
+    return `
   <li id=${paramsRemindObj.id} class="plans__item plans__item_${
-    paramsRemindObj.id
-  } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md dark:bg-slate-300" data-default="${
-    paramsRemindObj.reminderDefault
-  }" data-typeService="${paramsRemindObj.textType}">
+      paramsRemindObj.id
+    } bg-myslate relative rounded-lg flex justify-between gap-x-2 items-center py-3 pl-4 pr-2 shadow-md dark:bg-slate-300" data-default="${
+      paramsRemindObj.reminderDefault
+    }" data-typeService="${paramsRemindObj.textType}">
   ${
     paramsRemindObj.reminderDefault === false
       ? `<p class="plans__bar absolute -top-2.5 right-0 bg-myblue label__after_plans text-white text-center text-xs px-2 py-1 mr-1 rounded-md">${
@@ -45,4 +52,5 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
       : `${renderButton(eventLang().add, 'reminder-add__btn', 'reminder-add__btn', paramsButton.blueXS)}`
   }
               `;
+  }
 }

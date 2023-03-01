@@ -129,11 +129,7 @@ export class Service {
       }
       if (this.pageCall === 'events' || this.pageCall === '/') {
         const curEventArr = createArrEvents(this.eventPage);
-        const curDetals = this.carData.event.service.filter((e) => e.id === this.curID)[0].detals;
-        console.log(this.carData.event.service.filter((e) => e.id === this.curID)[0]);
-        if (curDetals.length > 0) {
-          console.log(curDetals);
-        }
+
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
@@ -143,6 +139,25 @@ export class Service {
         this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
         this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
         this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
+
+        const curDetalsArr = this.carData.event.service.find((e) => e.id === this.curID) as IService;
+        console.log(curDetalsArr);
+        // if (curDetalsArr.length > 0) {
+        //   console.log(curDetalsArr);
+        //   this.createHTMLContainerDetalDOM();
+        //   for (let i = 0; i < curDetalsArr.length; i += 1) {
+        //     this.detalsListDOM.insertAdjacentHTML(
+        //       'beforeend',
+        //       this.createHTMLDetalsDOM(
+        //         curDetalsArr[i].detals.name,
+        //         curDetalsArr[i].detals.partNumber,
+        //         curDetalsArr[i].detals.manufacturer,
+        //         +curDetalsArr[i].detals.quantity,
+        //         +curDetalsArr[i].detals.price
+        //       )
+        //     );
+        //   }
+        // }
       }
     }
   }
@@ -218,12 +233,18 @@ export class Service {
   saveDetalsFromPopup() {
     this.pageBody.addEventListener('click', (event) => {
       if ((event.target as HTMLElement).matches('.confirm__btn--ok')) {
+        const detalName = (document.querySelector(`.popup__input_name`) as HTMLInputElement).value;
+        const detalPart = (document.querySelector(`.popup__input_part`) as HTMLInputElement).value;
+        const detalManuf = (document.querySelector(`.popup__input_manuf`) as HTMLInputElement).value;
         const quant = +(document.querySelector(`.popup__input_quant`) as HTMLInputElement).value;
         const price = +(document.querySelector(`.popup__input_price`) as HTMLInputElement).value;
         const popupDOM = document.querySelector('.popup__container') as HTMLElement;
         const allInputPopupArr = Array.from(popupDOM.querySelectorAll('input'));
         if (allInputPopupArr.some((e) => e.value !== '')) {
-          this.detalsListDOM.insertAdjacentHTML('beforeend', this.createHTMLDetalsDOM(quant, price));
+          this.detalsListDOM.insertAdjacentHTML(
+            'beforeend',
+            this.createHTMLDetalsDOM(detalName, detalPart, detalManuf, quant, price)
+          );
         }
       }
       this.recalcTotal();
@@ -301,21 +322,40 @@ export class Service {
         const eventid = form.dataset.mongoid;
 
         if (btn?.id === 'update--event-service__btn' && eventid) {
+          const detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
+          const detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
+          const detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
+          const detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
+          const detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
+          const detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
+
           const worksDetalsArr: IDetals[] = [];
           //! тут ошибки возникает
-          for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
+          for (let i = 0; i < detalsNameDOM.length; i += 1) {
             worksDetalsArr.push({
               detals: {
-                name: (this.detalsNameDOM[i] as HTMLInputElement).value,
-                partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
-                manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
-                price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
-                quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
-                amount: (this.detalsPriceTotalDOM[i] as HTMLInputElement).value,
+                name: (detalsNameDOM[i] as HTMLElement)?.textContent
+                  ? ((detalsNameDOM[i] as HTMLElement)?.textContent as string)
+                  : '',
+                partNumber: (detalsPartDOM[i] as HTMLElement)?.textContent
+                  ? ((detalsPartDOM[i] as HTMLElement)?.textContent as string)
+                  : '',
+                manufacturer: (detalsManufDOM[i] as HTMLElement)?.textContent
+                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+                  : '',
+                price: (detalsPriceDOM[i] as HTMLElement)?.textContent
+                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+                  : '',
+                quantity: (detalsQuantyDOM[i] as HTMLElement)?.textContent
+                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+                  : '',
+                amount: (detalsPriceTotalDOM[i] as HTMLElement)?.textContent
+                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+                  : '',
               },
             });
           }
-
+          console.log(worksDetalsArr);
           const service: IService = {
             date: this.dateDOM.value,
             mileage: this.mileageDOM.value,
@@ -348,6 +388,7 @@ export class Service {
           }, 1000);
         }
       }
+      e.preventDefault();
     });
   }
 
@@ -389,15 +430,11 @@ export class Service {
       </div>`;
   }
 
-  createHTMLDetalsDOM(quant: number, price: number) {
-    const popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
-    const popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
-    const popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
-
+  createHTMLDetalsDOM(detalName: string, detalPart: string, detalManuf: string, quant: number, price: number) {
     return `
       <li id="detals__item" class="detals__item active">
           <div class="detals__item_basic flex justify-between">
-            <span class="detals__item_name">${popupDetalName.value ? popupDetalName.value : ''}</span>
+            <span class="detals__item_name">${detalName ? detalName : ''}</span>
             <div>
               <span class="detals__item_price">${price ? (quant >= 1 ? quant : 1) * price : ''}</span>
               <span class="detals__item_price-units">${this.setting.currency}</span>
@@ -405,15 +442,13 @@ export class Service {
           </div>
           <div class="detals__item_sub flex justify-between border-b-2 border-slateBorders">
             <div>
-              <span class="detals__item_manuf text-xs">${popupDetalManuf.value ? popupDetalManuf.value : ' '}</span>
-              <span class="detals-part__input text-xs">${
-                popupDetalPart.value ? `[${popupDetalPart.value}]` : ' '
-              }</span>
+              <span class="detals__item_manuf text-xs">${detalManuf ? detalManuf : ''}</span>
+              <span class="detals-part__input text-xs">${detalPart ? `[${detalPart}]` : ''}</span>
             </div>
             <span class="detals-cost__full text-xs">${
               quant > 1
                 ? `[<span class="detals-cost__quant text-xs">${quant}</span> x <span class="detals-cost__price text-xs">${price}</span>${this.setting.currency}]`
-                : ' '
+                : ''
             }</span>
           </div>
       </li>`;
@@ -471,27 +506,39 @@ export class Service {
   // методы для БЭКА
   async updateBackEnd() {
     document.querySelector('.spinner')?.classList.remove('hidden');
-    this.detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
-    this.detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
-    this.detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
-    this.detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
-    this.detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
-    this.detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
+    const detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
+    const detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
+    const detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
+    const detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
+    const detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
+    const detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
 
     const worksDetalsArr: IDetals[] = [];
-    for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
+    for (let i = 0; i < detalsNameDOM.length; i += 1) {
       worksDetalsArr.push({
         detals: {
-          name: (this.detalsNameDOM[i] as HTMLInputElement).value,
-          partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
-          manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
-          price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
-          quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
-          amount: (this.detalsPriceTotalDOM[i] as HTMLInputElement).value,
+          name: (detalsNameDOM[i] as HTMLElement)?.textContent
+            ? ((detalsNameDOM[i] as HTMLElement)?.textContent as string)
+            : '',
+          partNumber: (detalsPartDOM[i] as HTMLElement)?.textContent
+            ? ((detalsPartDOM[i] as HTMLElement)?.textContent as string)
+            : '',
+          manufacturer: (detalsManufDOM[i] as HTMLElement)?.textContent
+            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+            : '',
+          price: (detalsPriceDOM[i] as HTMLElement)?.textContent
+            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+            : '',
+          quantity: (detalsQuantyDOM[i] as HTMLElement)?.textContent
+            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+            : '',
+          amount: (detalsPriceTotalDOM[i] as HTMLElement)?.textContent
+            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
+            : '',
         },
       });
     }
-
+    console.log(worksDetalsArr);
     const service: IService = {
       date: this.dateDOM.value,
       mileage: this.mileageDOM.value,

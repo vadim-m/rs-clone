@@ -1,4 +1,4 @@
-import { oneOfReminder } from './itemPlansPage';
+import { PlansItem } from './itemPlansPage';
 import { createArrPlans } from './arrayReminders';
 
 export class PlansList {
@@ -13,10 +13,9 @@ export class PlansList {
 
     fragment.innerHTML = `
     <ul class="plans__list grid gap-y-3 mb-4 dark:text-black">
-            
             ${createArrPlans(showPlans)
               .map((paramsRemindObj) => {
-                return oneOfReminder(paramsRemindObj);
+                return new PlansItem(paramsRemindObj).element;
               })
               .join('')}
     </ul>
