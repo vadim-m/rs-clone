@@ -35,7 +35,7 @@ export class Service {
   detalsPriceDOM!: NodeList;
   detalsQuantyDOM!: NodeList;
   detalsTitleDOM!: HTMLElement;
-  detalsBtnDOM!: HTMLElement;
+  detalsBtnDOM!: HTMLButtonElement;
   formDOM!: HTMLFormElement;
   totalPriceDetals!: HTMLInputElement;
   costWorksDOM!: HTMLInputElement;
@@ -98,7 +98,7 @@ export class Service {
     this.detalsTitleDOM = document.querySelector('.detals-add__title') as HTMLElement;
     this.detalsListDOM = document.querySelector('.detals__list') as HTMLElement;
     this.detalsBtnDOM = document.querySelector('.detals-add__btn') as HTMLButtonElement;
-
+    this.detalsBtnDOM.disabled = true;
     this.totalPriceService = document.querySelector('.service__input_total') as HTMLInputElement;
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
     this.totalPriceTitle = document.querySelector('.service__title_total') as HTMLElement;
