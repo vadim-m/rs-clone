@@ -11,8 +11,9 @@ import { createArrPlans } from '../plansPage/arrayReminders';
 import { showPlans } from '../reminderAddPage/paramsForLineEvent';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
-import { createOther } from '../../helpers/api';
+import { createOther, deleteOther, updateOther } from '../../helpers/api';
 import { addToBack } from '../../utilits/addToBack';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Other {
   eventPage = 'other';
@@ -98,15 +99,46 @@ export class Other {
   }
 
   createotherEvent() {
-    this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', async (e) => {
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
       } else {
+        document.querySelector('.spinner')?.classList.remove('hidden');
         e.preventDefault();
-        setTimeout(() => {
-          this.navigateTo('/');
-        }, 100);
+        const form = e.target as HTMLFormElement;
+        const btn = e.submitter;
+        const eventid = form.dataset.mongoid;
+
+        if (btn?.id === 'update--event-service__btn' && eventid) {
+          const other: IOther = {
+            date: this.dateDOM.value,
+            mileage: this.mileageDOM.value,
+            name: this.nameDOM.value,
+            totalPrice: this.totalPriceDOM.value,
+            place: this.placeDOM.value,
+            notes: this.notesDOM.value,
+            id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+              ? `${Date.now().toString()}_${
+                  createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+                }`
+              : Date.now().toString(),
+            typeEvent: this.eventPage,
+          };
+          await updateOther(other, eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+          await deleteOther(eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        }
       }
     });
   }
