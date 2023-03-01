@@ -10,6 +10,8 @@ import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { createRefuel } from '../../helpers/api';
 import { addToBack } from '../../utilits/addToBack';
+import { deleteRefuel, updateRefuel } from '../../helpers/api';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Refuel {
   eventPage = 'refuel';
@@ -123,15 +125,48 @@ export class Refuel {
   }
 
   createRefuelEvent() {
-    this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', async (e) => {
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
       } else {
+        document.querySelector('.spinner')?.classList.remove('hidden');
         e.preventDefault();
-        setTimeout(() => {
-          this.navigateTo('/');
-        }, 100);
+        const form = e.target as HTMLFormElement;
+        const btn = e.submitter;
+        const eventid = form.dataset.mongoid;
+
+        if (btn?.id === 'update--event-service__btn' && eventid) {
+          console.log('upd');
+
+          const refuel: IRefuel = {
+            date: this.dateDOM.value,
+            mileage: this.mileageDOM.value,
+            name: this.typeFuelDOM.value,
+            priceFuel: this.priceFuelDOM.value,
+            amountFuel: this.amountFuelDOM.value,
+            totalPrice: this.totalPriceDOM.value,
+            totalSpendFuel: culcSpendFuelTotal(this.carData),
+            isFull: this.tankFullDOM.checked,
+            place: this.placeDOM.value,
+            notes: this.notesDOM.value,
+            id: Date.now().toString(),
+            typeEvent: this.eventPage,
+          };
+          await updateRefuel(refuel, eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+          await deleteRefuel(eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        }
       }
     });
   }

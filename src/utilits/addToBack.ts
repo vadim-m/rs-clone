@@ -3,7 +3,6 @@ import { setCarDataFromDB } from '../helpers/localStorage';
 export async function addToBack(res: Response, navigateTo: (path: string) => void, buttonCall: HTMLButtonElement) {
   const status = res.status;
   const data = await res.json();
-  alert(data);
   console.log(data, status);
 
   if (status === 200 || status === 201) {
