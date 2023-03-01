@@ -17,8 +17,8 @@ export const pathURL = {
 export const defaultSettings: ISettingsMyCar = {
   fullName: 'Unknown User',
   hasCar: false,
-  language: 'RU',
-  currency: 'BYN',
+  language: 'Русский',
+  currency: '₽',
   darkTheme: false,
   predictMileage: true,
   rememberPriceFuel: true,
