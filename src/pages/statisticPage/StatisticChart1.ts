@@ -1,5 +1,4 @@
 import { eventLang } from '../../lang/addEventLang';
-//import { buttonLang } from '../../lang/buttonLang';
 
 export class StatisticChart1 {
   public element: string;

@@ -23,6 +23,8 @@ export class StatisticPage {
   refuels: IRefuel[] | [];
   services: IService[] | [];
   others: IOther[] | [];
+  myChart: Chart | null;
+  chartId: string | null;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -35,14 +37,15 @@ export class StatisticPage {
     this.createElement();
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.classList.remove('hidden__menu');
-    this.createDoughnutChart([3000, 5000, 1000]);
-    this.fillDoughnutChart();
     this.createBarChart();
     this.countForecast();
     this.submitPeriod();
+    this.myChart = null;
+    this.chartId = null;
+    this.fillDoughnutChart();
   }
 
-  fillDoughnutChart() {
+  async fillDoughnutChart() {
     if (!this.startPeriodDate && !this.endPeriodDate) {
       const refuelsFrr = [...this.refuels];
       const refuelsExpenses = refuelsFrr.reduce((acc: number, item: IRefuel) => acc + Number(item.totalPrice), 0);
@@ -51,8 +54,7 @@ export class StatisticPage {
       const othersFrr = [...this.others];
       const othersExpenses = othersFrr.reduce((acc: number, item: IOther) => acc + Number(item.totalPrice), 0);
 
-      console.log(refuelsExpenses, servicesExpenses, othersExpenses);
-      this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
+      await this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
     }
   }
 
@@ -73,8 +75,8 @@ export class StatisticPage {
       </div>
       <div class="carousel relative">
         <div class="carousel-inner relative w-full">
-           ${this.chart1}
-           ${this.chart2}
+          ${this.chart1}
+          ${this.chart2}
         </div>
     </div>
       
@@ -83,6 +85,11 @@ export class StatisticPage {
   }
 
   async createDoughnutChart(givenData: number[]) {
+    if (this.chartId !== null) {
+      console.log('have');
+      this.myChart?.destroy();
+    }
+
     const chart = document.getElementById('acquisitions') as ChartItem;
 
     const textCenter = {
@@ -114,7 +121,7 @@ export class StatisticPage {
       },
     };
 
-    const myChart = new Chart(chart, {
+    this.myChart = new Chart(chart, {
       type: 'doughnut',
 
       data: {
@@ -130,15 +137,17 @@ export class StatisticPage {
       plugins: [ChartDataLabels, textCenter],
     });
 
+    this.chartId = this.myChart.id;
+
     const stat1 = document.getElementById('stat1') as HTMLElement;
     const stat2 = document.getElementById('stat2') as HTMLElement;
     const stat3 = document.getElementById('stat3') as HTMLElement;
     const stat4 = document.getElementById('stat4') as HTMLElement;
     stat4.style.color = '#white';
-    stat1.innerText = String(myChart.data.datasets[0].data[0].toFixed(2));
-    stat2.innerText = String(myChart.data.datasets[0].data[1].toFixed(2));
-    stat3.innerText = String(myChart.data.datasets[0].data[2].toFixed(2));
-    stat4.innerText = String(myChart.data.datasets[0].data.reduce((a, b) => a + b).toFixed(2));
+    stat1.innerText = String(this.myChart?.data?.datasets[0]?.data[0]);
+    stat2.innerText = String(this.myChart?.data?.datasets[0]?.data[1]);
+    stat3.innerText = String(this.myChart?.data?.datasets[0]?.data[2]);
+    stat4.innerText = String(this.myChart?.data?.datasets[0]?.data?.reduce((a, b) => Number(a) + Number(b)));
   }
 
   async createBarChart() {
@@ -224,6 +233,7 @@ export class StatisticPage {
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
       console.log(beforeInput.value, afterInput.value);
+      this.createDoughnutChart([3000, 5000, 1000]);
     });
   }
 }

@@ -29,7 +29,7 @@ export class Info {
         <div class="info__header pt-3 pb-3 flex justify-between">
           <h1 class="info__title font-bold text-lg">${eventLang().myCar}</h1>
           <button class="info__btn" id="change-car">
-            <img src="${gear}" class="info__gear w-7 h-7 mr-4" alt="gear-icon">
+            <img src="${gear}" class="info__gear w-7 h-7" alt="gear-icon">
           </button>
         </div>
 
