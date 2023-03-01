@@ -77,7 +77,10 @@ export function culcCostOneKM(carData: ICarData): string {
   const spendMoneyTotal = allEvents.reduce((acc, e) => {
     return acc + +e.totalPrice;
   }, 0);
-  const costOneKM = (spendMoneyTotal / +calcMyMileageTotal(carData)).toFixed(2);
+  const costOneKM =
+    +calcMyMileageTotal(carData) > 0
+      ? (spendMoneyTotal / +calcMyMileageTotal(carData)).toFixed(2)
+      : (spendMoneyTotal / 1).toFixed(2);
   return costOneKM;
 }
 

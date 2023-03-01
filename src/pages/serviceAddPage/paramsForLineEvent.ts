@@ -34,7 +34,7 @@ const costWorks: IParamsLineOfEvent = {
   textTitle: eventLang().costWorks,
   icon: icon.cost,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
   units: `, ${setting.currency}`,
 };
@@ -44,7 +44,7 @@ const total: IParamsLineOfEvent = {
   textTitle: eventLang().amount,
   icon: icon.wallet,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
   units: `, ${setting.currency}`,
 };
@@ -54,7 +54,7 @@ const date: IParamsLineOfEvent = {
   textTitle: eventLang().date,
   icon: icon.date,
   typeInput: 'datetime-local',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
   value: getDateTime(),
 };
@@ -64,7 +64,7 @@ const mileage: IParamsLineOfEvent = {
   textTitle: eventLang().mileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   units: getUnits().distance,
 };

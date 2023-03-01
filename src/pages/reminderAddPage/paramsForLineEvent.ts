@@ -31,7 +31,7 @@ const previosDate: IParamsLineOfEvent = {
   textTitle: eventLang().previosDate,
   icon: icon.date,
   typeInput: 'date',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
 };
 const previosMileage: IParamsLineOfEvent = {
@@ -39,7 +39,7 @@ const previosMileage: IParamsLineOfEvent = {
   textTitle: eventLang().previosMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
   units: getUnits().distance,
 };
@@ -48,7 +48,7 @@ const onMileage: IParamsLineOfEvent = {
   textTitle: eventLang().onMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   min: carData.indicators.curMileage ? +carData.indicators.curMileage : +carData.info.mileage,
   required: true,
   units: getUnits().distance,
@@ -58,7 +58,7 @@ const afterMileage: IParamsLineOfEvent = {
   textTitle: eventLang().afterMileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
   units: getUnits().distance,
 };
@@ -68,7 +68,7 @@ const onDate: IParamsLineOfEvent = {
   textTitle: eventLang().onDate,
   icon: icon.date,
   typeInput: 'date',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   option: createHTMLSelectDate(),
 };
@@ -78,7 +78,7 @@ const repeat: IParamsLineOfEvent = {
   textTitle: eventLang().repeat,
   icon: icon.repeat,
   typeInput: 'checkbox',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
 };
 

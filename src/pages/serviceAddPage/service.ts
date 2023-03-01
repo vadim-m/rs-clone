@@ -56,6 +56,7 @@ export class Service {
   setting: ISettingsMyCar;
   addServiceBtn!: HTMLButtonElement;
   navigateTo: (path: string) => void;
+  detalsPriceTotalDOM!: NodeList;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -97,13 +98,6 @@ export class Service {
     this.detalsTitleDOM = document.querySelector('.detals-add__title') as HTMLElement;
     this.detalsListDOM = document.querySelector('.detals__list') as HTMLElement;
     this.detalsBtnDOM = document.querySelector('.detals-add__btn') as HTMLButtonElement;
-
-    this.detalsNameDOM = document.querySelectorAll('.detals-name__input') as NodeList;
-    this.detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
-    this.detalsManufDOM = document.querySelectorAll('.detals-manuf__input') as NodeList;
-    this.detalsPriceDOM = document.querySelectorAll('.detals-price__input') as NodeList;
-    this.detalsQuantyDOM = document.querySelectorAll('.detals-quant__input') as NodeList;
-    this.detalsAmountDOM = document.querySelectorAll('.detals-amount__input') as NodeList;
 
     this.totalPriceService = document.querySelector('.service__input_total') as HTMLInputElement;
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
@@ -396,8 +390,12 @@ export class Service {
       ${
         !this.editEvent
           ? renderButton(eventLang().addEvent, 'add--event-service__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-service__btn col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-service__btn col-span-1', paramsButton.blueL)}`
+          : `${renderButton(buttonLang().delete, 'add--event-service__btn col-span-2 sm:col-span-1', paramsButton.redL)}
+              ${renderButton(
+                buttonLang().save,
+                'add--event-service__btn col-span-2 sm:col-span-1',
+                paramsButton.blueL
+              )}`
       }
       </form>`;
   }
@@ -405,6 +403,12 @@ export class Service {
   // методы для БЭКА
   async updateBackEnd() {
     document.querySelector('.spinner')?.classList.remove('hidden');
+    this.detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
+    this.detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
+    this.detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
+    this.detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
+    this.detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
+    this.detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
 
     const worksDetalsArr: IDetals[] = [];
     for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
@@ -415,7 +419,7 @@ export class Service {
           manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
           price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
           quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
-          amount: (this.detalsAmountDOM[i] as HTMLInputElement).value,
+          amount: (this.detalsPriceTotalDOM[i] as HTMLInputElement).value,
         },
       });
     }
