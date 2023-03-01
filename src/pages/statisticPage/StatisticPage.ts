@@ -28,6 +28,8 @@ export class StatisticPage {
   others: IOther[] | [];
   myChart: Chart | null;
   chartId: string | null;
+  myChartRefuels: Chart | null;
+  chartRefuelId: string | null;
 
   constructor() {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -40,11 +42,12 @@ export class StatisticPage {
     this.createElement();
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.classList.remove('hidden__menu');
-    this.createBarChart();
     this.countForecast();
     this.submitPeriod();
     this.myChart = null;
     this.chartId = null;
+    this.myChartRefuels = null;
+    this.chartRefuelId = null;
     this.fillDoughnutChart();
   }
 
@@ -64,6 +67,7 @@ export class StatisticPage {
       return;
     } else if (!startDate && !endDate) {
       await this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
+      await this.createBarChart(refuelsArr);
     } else {
       const filteredRefuelsArr = refuelsArr.filter(
         (item: IRefuel) => +Date.parse(item.date) >= startDate! && +Date.parse(item.date) <= endDate!
@@ -82,47 +86,8 @@ export class StatisticPage {
 
       this.updatePeriodMileage(filteredRefuelsArr, filteredServicesArr, filteredOthersArr);
       await this.createDoughnutChart([refuelsExpenses, servicesExpenses, othersExpenses]);
+      await this.createBarChart(filteredRefuelsArr);
     }
-  }
-
-  updatePeriodMileage(refuels: IRefuel[], services: IService[], others: IOther[]) {
-    const periodMileageEl = document.querySelector('#chart__distance_period') as HTMLSpanElement;
-    if (periodMileageEl) {
-      const arrOfEvents = new Set(
-        [...refuels, ...services, ...others].map((item: IRefuel | IService | IOther) => +item.mileage)
-      );
-
-      const min = Math.min(...arrOfEvents);
-      const max = Math.max(...arrOfEvents);
-      const mileage = max - min;
-      periodMileageEl.textContent = String(mileage);
-    }
-  }
-
-  createElement() {
-    const fragment = document.createElement('section');
-    fragment.classList.add('statistic');
-    fragment.innerHTML = `
-      ${this.header}
-      <div class="item-content item-link flex justify-between p-4 border-b border-t border-slate">
-        <div class="item-title item-info flex flex-col items-center text-lg">
-          <div class="item-header">${eventLang().totalMileage}</div>
-          <span class="item-title"><span class="chart_distance">${this.carData?.indicators.curMileage}</span> км.</span>
-        </div>
-        <div class="item-title item-info  flex flex-col items-center text-lg">
-          <div class="item-header">${eventLang().perPeriodMileage}</div>
-          <span class="item-title"><span id="chart__distance_period"> -- | -- </span> км.</span>
-        </div>
-      </div>
-      <div class="carousel relative">
-        <div class="carousel-inner relative w-full">
-          ${this.chart1}
-          ${this.chart2}
-        </div>
-    </div>
-      
-    `;
-    this.parent.append(fragment);
   }
 
   async createDoughnutChart(givenData: number[]) {
@@ -188,40 +153,67 @@ export class StatisticPage {
     stat4.innerText = String(this.myChart?.data?.datasets[0]?.data?.reduce((a, b) => Number(a) + Number(b)));
   }
 
-  async createBarChart() {
+  async createBarChart(list: IRefuel[]) {
+    if (this.chartRefuelId !== null) {
+      this.myChartRefuels?.destroy();
+    }
+
+    type IData = {
+      day: string;
+      count: number;
+    };
+
+    const arr = list;
+    const data: IData[] = [];
+    arr.forEach((item) => {
+      data.push({ day: item.date.slice(0, 10), count: +item.amountFuel });
+    });
+
     const chart = document.getElementById('bar-chart') as ChartItem;
 
-    const data = [
-      { day: '01.02', count: 5.7 },
-      { day: '02.02', count: 0 },
-      { day: '03.02', count: 7.6 },
-      { day: '04.02', count: 15.6 },
-      { day: '05.02', count: 22 },
-      { day: '06.02', count: 5.8 },
-      { day: '07.02', count: 9.3 },
-      { day: '08.02', count: 0 },
-      { day: '09.02', count: 10.3 },
-      { day: '10.02', count: 8.9 },
-      { day: '11.02', count: 3.2 },
-      { day: '12.02', count: 2.8 },
-      { day: '13.02', count: 9.8 },
-      { day: '14.02', count: 0 },
-    ];
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const myChart = new Chart(chart, {
+    this.myChartRefuels = new Chart(chart, {
       type: 'bar',
       data: {
         labels: data.filter((row) => row.count !== 0).map((row) => row.day),
         datasets: [
           {
             label: '',
-            backgroundColor: 'rgba(255, 205, 86, 1)',
+            backgroundColor: 'rgb(129, 144, 178)',
             data: data.filter((row) => row.count !== 0).map((row) => row.count),
           },
         ],
       },
       plugins: [ChartDataLabels],
+    });
+
+    this.chartRefuelId = this.myChartRefuels.id;
+  }
+
+  updatePeriodMileage(refuels: IRefuel[], services: IService[], others: IOther[]) {
+    const periodMileageEl = document.querySelector('#chart__distance_period') as HTMLSpanElement;
+    if (periodMileageEl) {
+      const arrOfEvents = new Set(
+        [...refuels, ...services, ...others].map((item: IRefuel | IService | IOther) => +item.mileage)
+      );
+
+      const min = Math.min(...arrOfEvents);
+      const max = Math.max(...arrOfEvents);
+      const mileage = max - min;
+      periodMileageEl.textContent = String(mileage);
+    }
+  }
+
+  submitPeriod() {
+    const form = document.getElementById('calendar-form');
+    const beforeInput = document.getElementById('calendar-before') as HTMLInputElement;
+    const afterInput = document.getElementById('calendar-after') as HTMLInputElement;
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.startPeriodDate = Date.parse(beforeInput.value);
+      this.endPeriodDate = Date.parse(afterInput.value);
+      this.fillDoughnutChart();
     });
   }
 
@@ -263,16 +255,28 @@ export class StatisticPage {
     }
   }
 
-  submitPeriod() {
-    const form = document.getElementById('calendar-form');
-    const beforeInput = document.getElementById('calendar-before') as HTMLInputElement;
-    const afterInput = document.getElementById('calendar-after') as HTMLInputElement;
-
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.startPeriodDate = Date.parse(beforeInput.value);
-      this.endPeriodDate = Date.parse(afterInput.value);
-      this.fillDoughnutChart();
-    });
+  createElement() {
+    const fragment = document.createElement('section');
+    fragment.classList.add('statistic');
+    fragment.innerHTML = `
+      ${this.header}
+      <div class="item-content item-link flex justify-between p-4 border-b border-t border-slate">
+        <div class="item-title item-info flex flex-col items-center text-lg">
+          <div class="item-header">${eventLang().totalMileage}</div>
+          <span class="item-title"><span class="chart_distance">${this.carData?.indicators.curMileage}</span> км.</span>
+        </div>
+        <div class="item-title item-info  flex flex-col items-center text-lg">
+          <div class="item-header">${eventLang().perPeriodMileage}</div>
+          <span class="item-title"><span id="chart__distance_period"> -- | -- </span> км.</span>
+        </div>
+      </div>
+      <div class="carousel relative">
+        <div class="carousel-inner relative w-full">
+          ${this.chart1}
+          ${this.chart2}
+        </div>
+      </div>
+    `;
+    this.parent.append(fragment);
   }
 }

@@ -20,7 +20,7 @@ export class StatisticChart2 {
             <div class="mb-6 flex flex-col justify-center border-b pb-2 border-slate">
               <div class="mt-2 text-center">${eventLang().fuelСonsumption}</div>
               <div class="flex justify-center">
-                <canvas id="bar-chart" style="min-width: 250px; min-height: 250px"></canvas>
+                <canvas id="bar-chart" style="min-width: 250px; min-height: 250px max-width: 500px"></canvas>
               </div>
             </div>
 
@@ -77,7 +77,7 @@ export class StatisticChart2 {
           } (${settings?.currency})</label>
           <label for="carousel-3" class="next control-2 absolute hidden text-xl leading-tight text-center z-10 top-2 right-0 mr-12">${
             eventLang().consumption
-          }</label>      
+          } (${eventLang().l})</label>      
     `;
   }
 }

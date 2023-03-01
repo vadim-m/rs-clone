@@ -136,7 +136,7 @@ export function eventLang() {
       distance: 'Distance, km',
       fuelCost: 'Fuel cost',
       forecast: 'Fuel consumption forecast',
-      l: 'l',
+      l: 'l.',
       calculation: 'Calculation',
       calculator: 'Fuel Consumption Calculator',
       en: 'English',

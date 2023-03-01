@@ -60,7 +60,7 @@ export class StatisticChart1 {
     } (${settings?.currency})</label>
     <label for="carousel-2" class="next control-1 absolute cursor-pointer hidden text-xl text-myblue hover:text-white leading-tight text-center z-10 top-2 right-0 mr-12">${
       eventLang().consumption
-    }</label>
+    } (${eventLang().l})</label>
     `;
   }
 }
