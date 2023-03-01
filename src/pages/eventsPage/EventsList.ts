@@ -22,15 +22,3 @@ export class EventsList {
     `;
   }
 }
-
-// <div class="events__splitter">
-//       <div class=" bg-myslate border-b border-slateBorders shadow-md dark:bg-slate-700">
-//         <div class="events__title container mx-auto flex justify-between font-bold text-sm py-2">
-//           <div class="events__date">
-//           28 февраля 2023г.
-//           </div>
-//           <div class="events__price">
-//           5 200 ₽
-//         </div>
-//       </div>
-//      </div>

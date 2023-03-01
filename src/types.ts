@@ -68,6 +68,7 @@ interface IEvent {
 }
 
 interface IRefuel {
+  _id?: string;
   date: string;
   mileage: string;
   name: string;
@@ -83,6 +84,7 @@ interface IRefuel {
 }
 
 interface IService {
+  _id?: string;
   date: string;
   mileage: string;
   type: string;
@@ -108,6 +110,7 @@ interface IDetals {
 }
 
 interface IOther {
+  _id?: string;
   date: string;
   mileage: string;
   name: string;
@@ -119,6 +122,7 @@ interface IOther {
 }
 
 interface IReminders {
+  _id?: string;
   type: string;
   name: string;
   previosDate: string;

@@ -58,8 +58,18 @@ export class Popup {
                 <div id="popup__container" class="popup__container active relative top-20 mx-auto bg-white p-5 border border-myslate w-96 shadow-lg rounded-md transition-all">
                     ${this.content}
                     <div class="popup__content_confirm flex justify-around">
-                        ${renderButton(this.buttonLeftName, this.buttonLeftClassName, paramsButton.transpBlueS)}
-                        ${renderButton(this.buttonRightName, this.buttonRightClassName, paramsButton.blueS)}
+                        ${renderButton(
+                          this.buttonLeftName,
+                          this.buttonLeftID,
+                          this.buttonLeftClassName,
+                          paramsButton.transpBlueS
+                        )}
+                        ${renderButton(
+                          this.buttonRightName,
+                          this.buttonRightID,
+                          this.buttonRightClassName,
+                          paramsButton.blueS
+                        )}
                     </div>
                 </div>
                     </div>`;

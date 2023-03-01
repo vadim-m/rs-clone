@@ -10,6 +10,8 @@ import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { createRefuel } from '../../helpers/api';
 import { addToBack } from '../../utilits/addToBack';
+import { deleteRefuel, updateRefuel } from '../../helpers/api';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Refuel {
   eventPage = 'refuel';
@@ -42,10 +44,10 @@ export class Refuel {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.initDOM();
     this.changeTotalPriceDetals();
-    this.carData = JSON.parse(localStorage.getItem('car') as string);
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
@@ -123,19 +125,57 @@ export class Refuel {
   }
 
   createRefuelEvent() {
-    if (!this.editEvent) {
-      this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', async (e) => {
+      if (!this.editEvent) {
         e.preventDefault();
-
         this.updateBackEnd();
-      });
-    }
+      } else {
+        document.querySelector('.spinner')?.classList.remove('hidden');
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const btn = e.submitter;
+        const eventid = form.dataset.mongoid;
+
+        if (btn?.id === 'update--event-service__btn' && eventid) {
+          console.log('upd');
+
+          const refuel: IRefuel = {
+            date: this.dateDOM.value,
+            mileage: this.mileageDOM.value,
+            name: this.typeFuelDOM.value,
+            priceFuel: this.priceFuelDOM.value,
+            amountFuel: this.amountFuelDOM.value,
+            totalPrice: this.totalPriceDOM.value,
+            totalSpendFuel: culcSpendFuelTotal(this.carData),
+            isFull: this.tankFullDOM.checked,
+            place: this.placeDOM.value,
+            notes: this.notesDOM.value,
+            id: Date.now().toString(),
+            typeEvent: this.eventPage,
+          };
+          await updateRefuel(refuel, eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+          await deleteRefuel(eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        }
+      }
+    });
   }
 
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-          <form id="main-form-refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full">
+          <form id="main-form-refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full" 
+          data-mongoID="${this.curID ? this.carData?.event.refuel.find((e) => e.id === this.curID)?._id : ''}">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
@@ -143,9 +183,24 @@ export class Refuel {
             .join('')}
       ${
         !this.editEvent
-          ? renderButton(eventLang().addEvent, 'add--event-refuel__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-refuel__btn col-span-2 sm:col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-refuel__btn col-span-2 sm:col-span-1', paramsButton.blueL)}`
+          ? renderButton(
+              eventLang().addEvent,
+              'add--event-service__btn',
+              'add--event-service__btn col-span-2',
+              paramsButton.blueFull
+            )
+          : `${renderButton(
+              buttonLang().delete,
+              'del--event-service__btn',
+              'del--event-service__btn col-span-2 sm:col-span-1',
+              paramsButton.redL
+            )}
+              ${renderButton(
+                buttonLang().save,
+                'update--event-service__btn',
+                'update--event-service__btn col-span-2 sm:col-span-1',
+                paramsButton.blueL
+              )}`
       }
           </form>`;
   }

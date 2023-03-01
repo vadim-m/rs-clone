@@ -5,8 +5,8 @@ export function renderButtonWhite(name: string, className: string, id: string, w
 export function renderButtonBlue(name: string, className: string, id: string, width: string) {
   return `<button id="${id}" class="${className} text-sm bg-myblue w-${width} text-white px-3 py-2 rounded-md">${name}</button>`;
 }
-export function renderButton(name: string, className: string, params: string) {
-  return `<button class="${className} ${params}">${name}</button>`;
+export function renderButton(name: string, ID: string, className: string, params: string) {
+  return `<button id="${ID}" class="${className} ${params}">${name}</button>`;
 }
 
 export const paramsButton = {

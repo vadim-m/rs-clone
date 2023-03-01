@@ -8,13 +8,13 @@ export function mySetting(): ISettingsMyCar {
     : defaultSettings;
 }
 
-export function getSettingsFromLocal(): ISettingsMyCar | undefined {
+export function getSettingsFromLocal(): ISettingsMyCar {
   if (localStorage.getItem('settingsCar')) {
     return JSON.parse(localStorage.getItem('settingsCar') as string);
-  }
+  } else return defaultSettings;
 }
 export function getCurrentLanguage(): string {
-  return getSettingsFromLocal()?.language ? (getSettingsFromLocal() as ISettingsMyCar).language : 'Русский';
+  return getSettingsFromLocal().language ? (getSettingsFromLocal() as ISettingsMyCar).language : 'Русский';
 }
 
 export function getCurrentCurrency(): string {

@@ -179,7 +179,7 @@ const inshurance: IParamsOneReminder = {
   textType: eventLang().other,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
+  button: 'eventLang().add',
   id: 'inshurance',
 };
 
@@ -204,13 +204,6 @@ export const maintenanceArr = [
   tax,
   inshurance,
 ];
-
-// reduce((o: IParamsOneReminder[], i: IParamsOneReminder) => {
-//   if (!o.find((v: IParamsOneReminder) => v.id == i.id)) {
-//     o.push(i);
-//   }
-//   return o;
-// }, []);
 
 export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
   const myCarData: ICarData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;

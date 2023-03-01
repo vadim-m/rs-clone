@@ -11,8 +11,9 @@ import { createArrPlans } from '../plansPage/arrayReminders';
 import { showPlans } from '../reminderAddPage/paramsForLineEvent';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
-import { createOther } from '../../helpers/api';
+import { createOther, deleteOther, updateOther } from '../../helpers/api';
 import { addToBack } from '../../utilits/addToBack';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Other {
   eventPage = 'other';
@@ -44,9 +45,9 @@ export class Other {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.initDOM();
-    this.carData = JSON.parse(localStorage.getItem('car') as string);
     changeMileage(this.eventPage, this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
     this.createotherEvent();
@@ -85,7 +86,7 @@ export class Other {
         this.typeDOM.readOnly = true;
       }
 
-      if (this.pageCall === 'events' || this.pageCall === 'home') {
+      if (this.pageCall === 'events' || this.pageCall === '/') {
         const curEventArr = createArrEvents(this.eventPage);
         this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
         this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
@@ -96,19 +97,57 @@ export class Other {
       }
     }
   }
+
   createotherEvent() {
-    if (!this.editEvent) {
-      this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', async (e) => {
+      if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
-      });
-    }
+      } else {
+        document.querySelector('.spinner')?.classList.remove('hidden');
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const btn = e.submitter;
+        const eventid = form.dataset.mongoid;
+
+        if (btn?.id === 'update--event-service__btn' && eventid) {
+          const other: IOther = {
+            date: this.dateDOM.value,
+            mileage: this.mileageDOM.value,
+            name: this.nameDOM.value,
+            totalPrice: this.totalPriceDOM.value,
+            place: this.placeDOM.value,
+            notes: this.notesDOM.value,
+            id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+              ? `${Date.now().toString()}_${
+                  createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+                }`
+              : Date.now().toString(),
+            typeEvent: this.eventPage,
+          };
+          await updateOther(other, eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+          await deleteOther(eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        }
+      }
+    });
   }
 
   createHTMLOtherDOM() {
     return `
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
-    <form id="main-form__other" class="main-form__other grid grid-cols-2 gap-8 h-[35rem]">
+    <form id="main-form__other" class="main-form__other grid grid-cols-2 gap-8 h-[35rem]"
+    data-mongoID="${this.curID ? this.carData?.event.others.find((e) => e.id === this.curID)?._id : ''}">
     ${paramsCollectionOther
       .map((obj) => {
         return lineOfEvent(this.eventPage, obj);
@@ -116,9 +155,24 @@ export class Other {
       .join('')}
       ${
         !this.editEvent
-          ? renderButton(eventLang().addEvent, 'add--event-other__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-other__btn col-span-2 sm:col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-other__btn col-span-2 sm:col-span-1', paramsButton.blueL)}`
+          ? renderButton(
+              eventLang().addEvent,
+              'add--event-service__btn',
+              'add--event-service__btn col-span-2',
+              paramsButton.blueFull
+            )
+          : `${renderButton(
+              buttonLang().delete,
+              'del--event-service__btn',
+              'del--event-service__btn col-span-2 sm:col-span-1',
+              paramsButton.redL
+            )}
+              ${renderButton(
+                buttonLang().save,
+                'update--event-service__btn',
+                'update--event-service__btn col-span-2 sm:col-span-1',
+                paramsButton.blueL
+              )}`
       }
           </form>`;
   }
