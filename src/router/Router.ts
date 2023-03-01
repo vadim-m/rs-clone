@@ -111,7 +111,7 @@ export class Router {
     } else if (routes.Plans.match(path)) {
       this.plansPage = new PlansPage();
     } else if (routes.Statistic.match(path)) {
-      this.statisticPage = new StatisticPage();
+      this.statisticPage = new StatisticPage(this.goTo.bind(this));
     } else if (routes.Refuel.match(path)) {
       this.refuelPage = new Refuel(this.goTo.bind(this));
     } else if (routes.Service.match(path)) {

@@ -15,14 +15,17 @@ export class StatisticHeader {
     return `
     <div class="statistic__header flex flex-col justify-between py-3 relative">
       <span class="text-2xl font-bold mb-4">${eventLang().statistic}</span>
-      <form class="flex flex-col justify-end md:items-end md:flex-row" id="calendar-form">
+      <form class="flex flex-col justify-between md:items-end md:flex-row" id="calendar-form">
+      <button class="statistic__button button text-base bg-myblue text-white px-7 py-1 rounded-md h-8 w-64 hover:bg-blue-700 focus:bg-blue-700" type="button" id="calendar-reset">${
+        buttonLang().resetPeriod
+      }</button>
         <label class="w-52 mb-4 flex justify-between md:m-0">
           <span class="font-bold mr-2">С: </span><input class="border-b-2 border-slateBorders focus:border-myblue text-gray-600 placeholder-gray-400 outline-none h-6 pl-2 align-baseline mr-4 dark:rounded-md dark:bg-slate-400" id="calendar-before" type="date" value="" required="" min="" max="">
         </label>
         <label class="w-52 mb-4 flex justify-between md:m-0">
           <span class="font-bold mr-2">До: </span><input class="border-b-2 border-slateBorders focus:border-myblue text-gray-600 placeholder-gray-400 outline-none h-6 pl-2 align-baseline mr-4 dark:rounded-md dark:bg-slate-400" id="calendar-after" type="date" value="" required="" min="" max="">
         </label>
-        <button class="statistic__button button text-base bg-myblue text-white px-7 py-1 rounded-md h-8 w-64">${
+        <button class="statistic__button button text-base bg-myblue text-white px-7 py-1 rounded-md h-8 w-64 hover:bg-blue-700 focus:bg-blue-700">${
           buttonLang().choosePeriod
         }</button>
       </form> 

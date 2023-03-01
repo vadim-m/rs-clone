@@ -30,11 +30,13 @@ export class StatisticPage {
   chartId: string | null;
   myChartRefuels: Chart | null;
   chartRefuelId: string | null;
+  navigateTo: (path: string) => void;
 
-  constructor() {
+  constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
     this.startPeriodDate = null;
     this.endPeriodDate = null;
+    this.navigateTo = goTo;
     this.carData = getCarFromLS();
     this.refuels = this.carData?.event.refuel ?? [];
     this.services = this.carData?.event.service ?? [];
@@ -206,14 +208,22 @@ export class StatisticPage {
 
   submitPeriod() {
     const form = document.getElementById('calendar-form');
+    const formResetBtn = document.getElementById('calendar-reset');
     const beforeInput = document.getElementById('calendar-before') as HTMLInputElement;
     const afterInput = document.getElementById('calendar-after') as HTMLInputElement;
+
 
     form?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.startPeriodDate = Date.parse(beforeInput.value);
       this.endPeriodDate = Date.parse(afterInput.value);
       this.fillDoughnutChart();
+    });
+
+    formResetBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log(e.target);
+      this.navigateTo("/statistic");
     });
   }
 
