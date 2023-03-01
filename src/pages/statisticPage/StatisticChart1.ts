@@ -51,25 +51,7 @@ export class StatisticChart1 {
           <div class="item__after"><span class="item__sum" id="stat4"></span><span id="stat__value">  ₽</span></div>
         </div>
       </div>
-    </div>  
-
-      <div class="statistic__all">
-      <div class="statistic__all_title font-bold text-lg flex justify-center">${eventLang().costMaintenance}</div>
-      <div class="statistic__all_content grid grid-cols-2">
-        <div class="flex flex-col items-center">
-          <div>${eventLang().costPerDay}</div>
-          <div><span class="text-xl" id="wallet__day">18.45</span><span id="wallet__currency"> ${
-            eventLang().rubDay
-          }</span></div>
-        </div>
-        <div class="flex flex-col items-center">
-          <div>${eventLang().costPerKm}</div>
-          <div><span class="text-xl" id="distance__wallet">0.25</span><span class="distance__currency"> ${
-            eventLang().rubKm
-          }</span></div>
-        </div>
-      </div>
-    </div>    
+    </div>
   </div>
   
     <label for="carousel-3" class="prev control-1 absolute hidden text-xl leading-tight text-center z-10 top-2 left-0 ml-12">${
@@ -81,3 +63,21 @@ export class StatisticChart1 {
     `;
   }
 }
+
+// <div class="statistic__all">
+//       <div class="statistic__all_title font-bold text-lg flex justify-center">${eventLang().costMaintenance}</div>
+//       <div class="statistic__all_content grid grid-cols-2">
+//         <div class="flex flex-col items-center">
+//           <div>${eventLang().costPerDay}</div>
+//           <div><span class="text-xl" id="wallet__day">18.45</span><span id="wallet__currency"> ${
+//             eventLang().rubDay
+//           }</span></div>
+//         </div>
+//         <div class="flex flex-col items-center">
+//           <div>${eventLang().costPerKm}</div>
+//           <div><span class="text-xl" id="distance__wallet">0.25</span><span class="distance__currency"> ${
+//             eventLang().rubKm
+//           }</span></div>
+//         </div>
+//       </div>
+// </div>

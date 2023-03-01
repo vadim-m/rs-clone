@@ -62,7 +62,7 @@ export class TabsButton {
 
       for (let i = 0; i < itemsCount; i++) {
         menuItems[i].style.bottom = bottomStyle + '%';
-        menuItems[i].style.transitionDelay = `${transitiomDuration * (i+ 1)}s`;
+        menuItems[i].style.transitionDelay = `${transitiomDuration * (i + 1)}s`;
         bottomStyle = bottomStyle + 110;
       }
     } else {
