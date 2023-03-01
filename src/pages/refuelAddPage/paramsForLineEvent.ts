@@ -15,7 +15,7 @@ const name: IParamsLineOfEvent = {
   textTitle: eventLang().typeFuel,
   icon: icon.gasPump,
   typeInput: 'search',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   option: createHTMLDatalistForFuel(),
 };
@@ -25,7 +25,7 @@ const price: IParamsLineOfEvent = {
   textTitle: eventLang().price,
   icon: icon.coins,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   value: getCurrentPriceFuel(),
   units: `, ${setting.currency}/${getUnits().volume.slice(2)}`,
@@ -36,7 +36,7 @@ const amountFuel: IParamsLineOfEvent = {
   textTitle: eventLang().quant,
   icon: icon.quantFuel,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   units: getUnits().volume,
 };
@@ -45,7 +45,7 @@ const amountPrice: IParamsLineOfEvent = {
   textTitle: eventLang().amount,
   icon: icon.wallet,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   units: `, ${setting.currency}`,
 };
@@ -55,7 +55,7 @@ const mileage: IParamsLineOfEvent = {
   textTitle: eventLang().mileage,
   icon: icon.mileage,
   typeInput: 'number',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: true,
   units: getUnits().distance,
 };
@@ -64,7 +64,7 @@ const tankFull: IParamsLineOfEvent = {
   textTitle: eventLang().tankFull,
   icon: icon.gasPump,
   typeInput: 'checkbox',
-  size: '1',
+  size: '2 sm:col-span-1',
   required: false,
 };
 

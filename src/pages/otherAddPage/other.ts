@@ -117,8 +117,8 @@ export class Other {
       ${
         !this.editEvent
           ? renderButton(eventLang().addEvent, 'add--event-other__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-other__btn col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-other__btn col-span-1', paramsButton.blueL)}`
+          : `${renderButton(buttonLang().delete, 'add--event-other__btn col-span-2 sm:col-span-1', paramsButton.redL)}
+              ${renderButton(buttonLang().save, 'add--event-other__btn col-span-2 sm:col-span-1', paramsButton.blueL)}`
       }
           </form>`;
   }
