@@ -1,5 +1,4 @@
 import { ICarData, IParamsOneReminder, IReminders } from '../../types';
-import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
@@ -51,9 +50,9 @@ export class Reminder {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.initDOM();
-    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     this.fillInput();
     this.calcDiffMileage();
     this.createReminderEvent();
@@ -132,11 +131,14 @@ export class Reminder {
 
   createReminderEvent() {
     this.formDOM.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.updateBackEnd();
-      if (this.pageCall) {
+      if (!this.editEvent) {
         e.preventDefault();
-        window.location.href = `/${this.pageCall}`;
+        this.updateBackEnd();
+      } else {
+        e.preventDefault();
+        setTimeout(() => {
+          this.navigateTo('/');
+        }, 100);
       }
     });
     // здеь нужно строить логику на нажтие УДаЛИТЬ И ИЗМЕНИТЬ
@@ -145,8 +147,8 @@ export class Reminder {
   createHTMLreminderDOM() {
     return `
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
-    <form id="main-form__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80">
-
+    <form id="main-form__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80"
+    data-mongoID="${this.curID ? this.carData?.event.reminders.find((e) => e.id === this.curID)?._id : ''}">
                 ${paramsCollectionReminder
                   .map((obj) => {
                     return lineOfEvent(this.eventPage, obj);
@@ -154,15 +156,22 @@ export class Reminder {
                   .join('')}
       ${
         !this.editEvent
-          ? renderButton(eventLang().addEvent, 'add--event-reminder__btn col-span-2', paramsButton.blueFull)
+          ? renderButton(
+              eventLang().addEvent,
+              'add--event-service__btn',
+              'add--event-service__btn col-span-2',
+              paramsButton.blueFull
+            )
           : `${renderButton(
               buttonLang().delete,
-              'add--event-reminder__btn col-span-2 sm:col-span-1',
+              'del--event-service__btn',
+              'del--event-service__btn col-span-2 sm:col-span-1',
               paramsButton.redL
             )}
               ${renderButton(
                 buttonLang().save,
-                'add--event-reminder__btn col-span-2 sm:col-span-1',
+                'update--event-service__btn',
+                'update--event-service__btn col-span-2 sm:col-span-1',
                 paramsButton.blueL
               )}`
       }

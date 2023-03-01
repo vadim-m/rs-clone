@@ -42,10 +42,10 @@ export class Refuel {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.initDOM();
     this.changeTotalPriceDetals();
-    this.carData = JSON.parse(localStorage.getItem('car') as string);
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
@@ -123,19 +123,24 @@ export class Refuel {
   }
 
   createRefuelEvent() {
-    if (!this.editEvent) {
-      this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', (e) => {
+      if (!this.editEvent) {
         e.preventDefault();
-
         this.updateBackEnd();
-      });
-    }
+      } else {
+        e.preventDefault();
+        setTimeout(() => {
+          this.navigateTo('/');
+        }, 100);
+      }
+    });
   }
 
   createHTMLrefuelDOM() {
     return `
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
-          <form id="main-form-refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full">
+          <form id="main-form-refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full" 
+          data-mongoID="${this.curID ? this.carData?.event.refuel.find((e) => e.id === this.curID)?._id : ''}">
           ${paramsCollectionRefuel
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
@@ -143,9 +148,24 @@ export class Refuel {
             .join('')}
       ${
         !this.editEvent
-          ? renderButton(eventLang().addEvent, 'add--event-refuel__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-refuel__btn col-span-2 sm:col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-refuel__btn col-span-2 sm:col-span-1', paramsButton.blueL)}`
+          ? renderButton(
+              eventLang().addEvent,
+              'add--event-service__btn',
+              'add--event-service__btn col-span-2',
+              paramsButton.blueFull
+            )
+          : `${renderButton(
+              buttonLang().delete,
+              'del--event-service__btn',
+              'del--event-service__btn col-span-2 sm:col-span-1',
+              paramsButton.redL
+            )}
+              ${renderButton(
+                buttonLang().save,
+                'update--event-service__btn',
+                'update--event-service__btn col-span-2 sm:col-span-1',
+                paramsButton.blueL
+              )}`
       }
           </form>`;
   }

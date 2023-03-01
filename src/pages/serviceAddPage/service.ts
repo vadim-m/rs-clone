@@ -1,5 +1,4 @@
 import { IService, IDetals, ICarData, IParamsOneReminder, ISettingsMyCar, IParamsOneEvents } from '../../types';
-import { carData } from '../../car/car_data';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconFont';
 import { eventLang } from '../../lang/addEventLang';
@@ -65,11 +64,11 @@ export class Service {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.nameItem = document.querySelector('.service__item_name') as HTMLElement;
     this.renderDetalContainer();
     this.initDOM();
-    this.carData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
     this.setting = localStorage.getItem('settingsCar')
       ? JSON.parse(localStorage.getItem('settingsCar') as string)
       : defaultSettings;
@@ -290,8 +289,15 @@ export class Service {
 
   createServiceEvent() {
     this.formDOM.addEventListener('submit', (e) => {
-      e.preventDefault();
-      this.updateBackEnd();
+      if (!this.editEvent) {
+        e.preventDefault();
+        this.updateBackEnd();
+      } else {
+        e.preventDefault();
+        setTimeout(() => {
+          this.navigateTo('/');
+        }, 100);
+      }
     });
   }
 
@@ -372,7 +378,7 @@ export class Service {
               <span id="detals-add__title" class="detals-add__title mb-0">
                 Детали
               </span>
-              ${renderButton(eventLang().add, 'detals-add__btn', paramsButton.blueXS)}
+              ${renderButton(eventLang().add, 'detals-add__btn', 'detals-add__btn', paramsButton.blueXS)}
             </div>
             <ul id="detals__list" class="detals__list"></ul>
           </div>`;
@@ -381,7 +387,8 @@ export class Service {
   createHTMLServiceDOM() {
     return `
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
-    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]">
+    <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]"
+    data-mongoID="${this.curID ? this.carData?.event.service.find((e) => e.id === this.curID)?._id : ''}">
             ${paramsCollectionService
               .map((obj) => {
                 return lineOfEvent(this.eventPage, obj);
@@ -389,11 +396,22 @@ export class Service {
               .join('')}
       ${
         !this.editEvent
-          ? renderButton(eventLang().addEvent, 'add--event-service__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-service__btn col-span-2 sm:col-span-1', paramsButton.redL)}
+          ? renderButton(
+              eventLang().addEvent,
+              'add--event-service__btn',
+              'add--event-service__btn col-span-2',
+              paramsButton.blueFull
+            )
+          : `${renderButton(
+              buttonLang().delete,
+              'del--event-service__btn',
+              'del--event-service__btn col-span-2 sm:col-span-1',
+              paramsButton.redL
+            )}
               ${renderButton(
                 buttonLang().save,
-                'add--event-service__btn col-span-2 sm:col-span-1',
+                'update--event-service__btn',
+                'update--event-service__btn col-span-2 sm:col-span-1',
                 paramsButton.blueL
               )}`
       }

@@ -44,9 +44,9 @@ export class Other {
     this.curID = this.url.searchParams.get('id') as string;
     this.pageCall = this.url.searchParams.get('pageCall') as string;
     this.editEvent = this.url.searchParams.get('edit') as string;
+    this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.initDOM();
-    this.carData = JSON.parse(localStorage.getItem('car') as string);
     changeMileage(this.eventPage, this.carData);
     culcMaybeMileage(this.eventPage, this.carData);
     this.createotherEvent();
@@ -96,19 +96,26 @@ export class Other {
       }
     }
   }
+
   createotherEvent() {
-    if (!this.editEvent) {
-      this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', (e) => {
+      if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
-      });
-    }
+      } else {
+        e.preventDefault();
+        setTimeout(() => {
+          this.navigateTo('/');
+        }, 100);
+      }
+    });
   }
 
   createHTMLOtherDOM() {
     return `
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
-    <form id="main-form__other" class="main-form__other grid grid-cols-2 gap-8 h-[35rem]">
+    <form id="main-form__other" class="main-form__other grid grid-cols-2 gap-8 h-[35rem]"
+    data-mongoID="${this.curID ? this.carData?.event.others.find((e) => e.id === this.curID)?._id : ''}">
     ${paramsCollectionOther
       .map((obj) => {
         return lineOfEvent(this.eventPage, obj);
@@ -116,9 +123,24 @@ export class Other {
       .join('')}
       ${
         !this.editEvent
-          ? renderButton(eventLang().addEvent, 'add--event-other__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-other__btn col-span-2 sm:col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-other__btn col-span-2 sm:col-span-1', paramsButton.blueL)}`
+          ? renderButton(
+              eventLang().addEvent,
+              'add--event-service__btn',
+              'add--event-service__btn col-span-2',
+              paramsButton.blueFull
+            )
+          : `${renderButton(
+              buttonLang().delete,
+              'del--event-service__btn',
+              'del--event-service__btn col-span-2 sm:col-span-1',
+              paramsButton.redL
+            )}
+              ${renderButton(
+                buttonLang().save,
+                'update--event-service__btn',
+                'update--event-service__btn col-span-2 sm:col-span-1',
+                paramsButton.blueL
+              )}`
       }
           </form>`;
   }

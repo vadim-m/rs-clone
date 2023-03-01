@@ -13,7 +13,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
   }" data-typeService="${paramsRemindObj.textType}">
   ${
     paramsRemindObj.reminderDefault === false
-      ? `<p class="plans__bar absolute bottom-12 right-0 bg-myblue label__after_plans text-white text-center text-xs px-2 py-1 mr-1 rounded-md">${
+      ? `<p class="plans__bar absolute -top-2.5 right-0 bg-myblue label__after_plans text-white text-center text-xs px-2 py-1 mr-1 rounded-md">${
           eventLang().after
         } ${paramsRemindObj.label}</p>`
       : ''
@@ -42,7 +42,7 @@ export function oneOfReminder(paramsRemindObj: IParamsOneReminder) {
               )
             : `${paramsRemindObj.completeMileage as string} ${getUnits().distance.slice(1)}`
         }</div>`
-      : `${renderButton(eventLang().add, 'reminder-add__btn', paramsButton.blueXS)}`
+      : `${renderButton(eventLang().add, 'reminder-add__btn', 'reminder-add__btn', paramsButton.blueXS)}`
   }
               `;
 }
