@@ -19,7 +19,7 @@ export class PanelNav {
 
     element.innerHTML = `
       <nav class="nav relative shadow-top px-5 py-3 flex justify-center">
-        <ul class="nav__list flex flex-row justify-between text-xs container">
+        <ul class="footer__nav nav__list flex flex-row justify-between text-xs container">
           <li class="nav__item">
             <a href="/" class="nav__link flex flex-col items-center">
               <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@ export class PanelNav {
                 -6 144 21 50 2112 2143 2170 2172 51 25 98 25 149 0z"/>
                 </g>
               </svg>
-              <span class="nav__name">${eventLang().main}</span>
+              <span class="nav__name" id="footer-main">${eventLang().main}</span>
             </a>
           </li>
           <li class="nav__item">
@@ -91,7 +91,7 @@ export class PanelNav {
                 25 174 24 252 179 l65 131 64 -127 c41 -81 73 -134 90 -145z"/>
                 </g>
               </svg>
-              <span class="nav__name">${eventLang().events}</span>
+              <span class="nav__name" id="footer-events">${eventLang().events}</span>
             </a>
           </li>
           <li class="nav__item">
@@ -119,7 +119,7 @@ export class PanelNav {
                 765 0 1082 c0 1070 0 1083 20 1083 10 0 68 -7 128 -15z"/>
                 </g>
               </svg>
-              <span class="nav__name">${eventLang().plans}</span>
+              <span class="nav__name" id="footer-plans">${eventLang().plans}</span>
             </a>
           </li>
           <li class="nav__item">
@@ -201,7 +201,7 @@ export class PanelNav {
                 l-271 0 0 271 c0 303 -4 324 -65 353 -41 20 -52 20 -92 0z"/>
                 </g>
               </svg>
-              <span class="nav__name">${eventLang().statistic}</span>
+              <span class="nav__name" id="footer-stat">${eventLang().statistic}</span>
             </a>
           </li>
         </ul>
