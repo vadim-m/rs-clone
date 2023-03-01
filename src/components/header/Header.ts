@@ -1,19 +1,54 @@
 import { IInfo } from '../../types';
 import { getCarInfoFromLS } from '../../helpers/localStorage';
+import { SideMenu } from './SideMenu';
 import { eventLang } from '../../lang/addEventLang';
 import { buttonLang } from '../../lang/buttonLang';
+import { loguot } from '../../helpers/authentication';
 
 export class Header {
   private car: IInfo | null;
+  public sideMenu: DocumentFragment;
 
   constructor() {
     this.car = getCarInfoFromLS();
+    this.sideMenu = new SideMenu().element;
     this.render();
+    this.addEvents();
   }
 
   render() {
     const body = document.querySelector('body') as HTMLElement;
     body.prepend(this.createElement());
+  }
+
+  addEvents() {
+    const burger = document.querySelector('#nav-burger');
+    const navBar = document.querySelector('#nav-bar');
+    const closeButton = document.querySelector('.navbar__close');
+    const navBackdrop = document.querySelector('.navbar__backdrop') as HTMLDivElement;
+    const logoutBtn = document.querySelector('#header-exit');
+    const sideLogoutBtn = document.querySelector('#side-exit');
+
+    burger?.addEventListener('click', () => {
+      navBar?.classList.remove('hidden');
+      navBackdrop?.classList.remove('hidden');
+    });
+    closeButton?.addEventListener('click', () => {
+      navBar?.classList.add('hidden');
+      navBackdrop?.classList.add('hidden');
+    });
+    navBackdrop.addEventListener('click', () => {
+      navBar?.classList.add('hidden');
+      navBackdrop?.classList.add('hidden');
+    });
+    logoutBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      loguot();
+    });
+    sideLogoutBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      loguot();
+    });
   }
 
   createElement() {
@@ -82,29 +117,30 @@ export class Header {
 				</svg>
 			</button>
 		</div>
-		<ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-			<li><a class="text-sm text-myblue font-bold dark:text-white" href="#">${eventLang().aboutUs}</a></li>
+		<ul class="header__nav hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+			<li><a class="text-sm text-myblue font-bold dark:text-white" href="#" id="header-about">${eventLang().aboutUs}</a></li>
 			<li class="text-gray-300">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
 				</svg>
 			</li>
-			<li><a class="text-sm text-gray-400 hover:text-gray-500" href="/settings">${eventLang().settings}</a></li>
+			<li><a class="text-sm text-gray-400 hover:text-gray-500" href="/settings" id="header-settings">${
+        eventLang().settings
+      }</a></li>
 			<li class="text-gray-300">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
 				</svg>
 			</li>
-			<li><a class="text-sm text-gray-400 hover:text-gray-500" href="/todo">${eventLang().notes}</a></li>
+			<li><a class="text-sm text-gray-400 hover:text-gray-500" href="/todo" id="header-todo">${eventLang().notes}</a></li>
 
 		</ul>
-		<a class="hidden lg:inline-block py-2 px-6 bg-myblue hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="#">${
+		<a class="hidden lg:inline-block py-2 px-6 bg-myblue hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"  id="header-exit">${
       buttonLang().exit
     }</a>
-	</nav>
-  
-	
+	  </nav>
     `;
+    fragment.append(this.sideMenu);
     return fragment;
   }
 }

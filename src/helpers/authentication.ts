@@ -24,6 +24,10 @@ const deleteUserID = () => {
   localStorage.removeItem('userID');
 };
 
+const deleteCarfromLS = () => {
+  localStorage.removeItem('car');
+};
+
 export const setUserSettings = (settings: ISettingsMyCar) => {
   localStorage.setItem('settingsCar', JSON.stringify(settings));
 };
@@ -44,4 +48,7 @@ export const loguot = () => {
   deleteToken();
   deleteUserID();
   deleteUserSettings();
+  deleteCarfromLS();
+
+  location.href = '/';
 };

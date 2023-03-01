@@ -16,6 +16,7 @@ export function buttonLang() {
       exit: 'Exit',
       addNew: 'Add new',
       choosePeriod: 'Apply the period',
+      resetPeriod: 'Reset the period',
       deleteCar: 'Delete car',
       applyChanges: 'Apply changes',
     };
@@ -34,6 +35,7 @@ export function buttonLang() {
       exit: 'Выйти',
       addNew: 'Добавить новое',
       choosePeriod: 'Применить период',
+      resetPeriod: 'Сбросить период',
       deleteCar: 'Удалить машину',
       applyChanges: 'Применить изменения',
     };

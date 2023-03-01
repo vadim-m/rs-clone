@@ -131,24 +131,21 @@ export class Reminder {
   }
 
   createReminderEvent() {
-    if (this.addReminderBtn) {
-      this.formDOM.addEventListener('click', (e) => {
-        alert('q');
+    this.formDOM.addEventListener('submit', (e) => {
+      e.preventDefault();
+      this.updateBackEnd();
+      if (this.pageCall) {
         e.preventDefault();
-        this.updateBackEnd();
-        if (this.pageCall) {
-          e.preventDefault();
-          window.location.href = `/${this.pageCall}`;
-        }
-      });
-    }
+        window.location.href = `/${this.pageCall}`;
+      }
+    });
     // здеь нужно строить логику на нажтие УДаЛИТЬ И ИЗМЕНИТЬ
   }
 
   createHTMLreminderDOM() {
     return `
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
-    <form id="main-for__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80">
+    <form id="main-form__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80">
 
                 ${paramsCollectionReminder
                   .map((obj) => {
@@ -158,8 +155,16 @@ export class Reminder {
       ${
         !this.editEvent
           ? renderButton(eventLang().addEvent, 'add--event-reminder__btn col-span-2', paramsButton.blueFull)
-          : `${renderButton(buttonLang().delete, 'add--event-reminder__btn col-span-1', paramsButton.redL)}
-              ${renderButton(buttonLang().save, 'add--event-reminder__btn col-span-1', paramsButton.blueL)}`
+          : `${renderButton(
+              buttonLang().delete,
+              'add--event-reminder__btn col-span-2 sm:col-span-1',
+              paramsButton.redL
+            )}
+              ${renderButton(
+                buttonLang().save,
+                'add--event-reminder__btn col-span-2 sm:col-span-1',
+                paramsButton.blueL
+              )}`
       }
       </form>`;
   }
