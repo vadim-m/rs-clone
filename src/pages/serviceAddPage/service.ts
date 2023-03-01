@@ -16,7 +16,8 @@ import { showPlans } from '../reminderAddPage/paramsForLineEvent';
 import { defaultSettings } from '../../constants/constants';
 import { createArrEvents } from '../eventsPage/arrayEvents';
 import { addToBack } from '../../utilits/addToBack';
-import { createService } from '../../helpers/api';
+import { createService, deleteService, updateService } from '../../helpers/api';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Service {
   eventPage = 'service';
@@ -288,15 +289,64 @@ export class Service {
   }
 
   createServiceEvent() {
-    this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', async (e) => {
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
       } else {
+        document.querySelector('.spinner')?.classList.remove('hidden');
         e.preventDefault();
-        setTimeout(() => {
-          this.navigateTo('/');
-        }, 100);
+        const form = e.target as HTMLFormElement;
+        const btn = e.submitter;
+        const eventid = form.dataset.mongoid;
+
+        if (btn?.id === 'update--event-service__btn' && eventid) {
+          const worksDetalsArr: IDetals[] = [];
+          //! тут ошибки возникает
+          for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
+            worksDetalsArr.push({
+              detals: {
+                name: (this.detalsNameDOM[i] as HTMLInputElement).value,
+                partNumber: (this.detalsPartDOM[i] as HTMLInputElement).value,
+                manufacturer: (this.detalsManufDOM[i] as HTMLInputElement).value,
+                price: (this.detalsPriceDOM[i] as HTMLInputElement).value,
+                quantity: (this.detalsQuantyDOM[i] as HTMLInputElement).value,
+                amount: (this.detalsPriceTotalDOM[i] as HTMLInputElement).value,
+              },
+            });
+          }
+
+          const service: IService = {
+            date: this.dateDOM.value,
+            mileage: this.mileageDOM.value,
+            type: this.typeDOM.value,
+            name: this.nameDOM.value,
+            detals: worksDetalsArr,
+            costWorks: this.costWorksDOM.value,
+            totalPrice: this.totalPriceService.value,
+            place: this.placeDOM.value,
+            notes: this.notesDOM.value,
+            id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+              ? `${Date.now().toString()}_${
+                  createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+                }`
+              : Date.now().toString(),
+            typeEvent: this.eventPage,
+          };
+          await updateService(service, eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 1000);
+        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+          await deleteService(eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 1000);
+        }
       }
     });
   }
