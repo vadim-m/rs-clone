@@ -9,8 +9,9 @@ import { createArrPlans } from '../plansPage/arrayReminders';
 import { diffDates } from '../../utilits/mathSpend';
 import { getDateTime } from '../../utilits/dateTimeFunc';
 import { buttonLang } from '../../lang/buttonLang';
-import { createReminder } from '../../helpers/api';
+import { createReminder, deleteReminder, updateReminder } from '../../helpers/api';
 import { addToBack } from '../../utilits/addToBack';
+import { setCarDataFromDB } from '../../helpers/localStorage';
 
 export class Reminder {
   eventPage = 'reminder';
@@ -130,15 +131,47 @@ export class Reminder {
   }
 
   createReminderEvent() {
-    this.formDOM.addEventListener('submit', (e) => {
+    this.formDOM.addEventListener('submit', async (e) => {
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
       } else {
+        document.querySelector('.spinner')?.classList.remove('hidden');
         e.preventDefault();
-        setTimeout(() => {
-          this.navigateTo('/');
-        }, 100);
+        const form = e.target as HTMLFormElement;
+        const btn = e.submitter;
+        const eventid = form.dataset.mongoid;
+
+        if (btn?.id === 'update--event-service__btn' && eventid) {
+          const reminder: IReminders = {
+            type: this.typeDOM.value,
+            name: this.nameDOM.value,
+            previosDate: this.previosDateDOM.value,
+            previosMileage: this.previosMileageDOM.value,
+            rememberOnMilege: this.onMileageDOM.value,
+            rememberAfterMilege: this.afterMileageDOM.value,
+            rememberOnDate: this.onDateDOM.value,
+            rememberAfterDate: String(diffDates(this.onDateDOM.value, getDateTime().slice(0, -6))),
+            repeat: this.repeatDOM.checked,
+            notes: this.notesDOM.value,
+            id: createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+              ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+              : Date.now().toString(),
+          };
+          await updateReminder(reminder, eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+          await deleteReminder(eventid);
+          await setCarDataFromDB();
+          document.querySelector('.spinner')?.classList.add('hidden');
+          setTimeout(() => {
+            this.navigateTo('/');
+          }, 100);
+        }
       }
     });
     // здеь нужно строить логику на нажтие УДаЛИТЬ И ИЗМЕНИТЬ
