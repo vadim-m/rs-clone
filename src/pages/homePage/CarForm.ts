@@ -111,7 +111,7 @@ export class CarForm {
               <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
                 ${eventLang().volume}
               </label>
-              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 dark:text-myblue" type="number" name="sizeEngine" placeholder="1,4" 
+              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 dark:text-myblue" type="text" name="sizeEngine" placeholder="1,4" 
               value=${this.car?.engineDisplacement ?? ''}>
             </div>
 

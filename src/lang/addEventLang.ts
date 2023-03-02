@@ -153,7 +153,9 @@ export function eventLang() {
       team: 'Aliaksandr</br>Dzivin',
       team2: 'Varya</br>Gagagrina',
       member: 'Team member',
-      lead: 'Teamlead',
+      lead: 'Team member',
+      startDate: 'From',
+      endDate: 'To',
     };
   } else {
     return {
@@ -308,7 +310,9 @@ export function eventLang() {
       team: 'Александр</br>Дивин',
       team2: 'Варвара</br>Гагарина',
       member: 'Участник команды',
-      lead: 'Тимлид',
+      lead: 'Участник команды',
+      startDate: 'C',
+      endDate: 'До',
     };
   }
 }

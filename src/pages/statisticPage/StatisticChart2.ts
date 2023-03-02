@@ -27,7 +27,7 @@ export class StatisticChart2 {
             <div class="statistic__calc calc text-2xl text-slate-400 mt-6 mb-2 ml-1">${eventLang().calculator}</div>
               <ul class="calc__container">
                 <li class="calc__content mb-2">
-                    <div class="calc__title text-base">${eventLang().averageExpenses} ${eventLang().l100}</div>
+                    <div class="calc__title text-base">${eventLang().averageExpenses}, ${eventLang().l100}</div>
                     <div class="calc__wrap relative">
                       <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg text-gray-300 border-b w-full px-2 py-1 focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="${
                         eventLang().averageExpenses
@@ -48,12 +48,15 @@ export class StatisticChart2 {
                       </span> </div>
                 </li>
                 <li class="calc__content">
-                    <div class="calc__title text-base">${eventLang().price} ₽/л</div>
-                    <div class="calc__wrap relative">
-                      <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg px-2 py-1 text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="Цена" validate="" id="calc__input_fuel-price"> 
-                      <span class="calc__clear-button absolute right-1 top-2.5 cursor-pointer">
-                        <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
-                      </span> </div>
+                  <div class="calc__title text-base">${eventLang().price}, ${settings?.currency}/${eventLang().l}</div>
+                  <div class="calc__wrap relative">
+                    <input type="number" inputmode="decimal" step="0.01" class="calc__input text-lg px-2 py-1 text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="${
+                      eventLang().price
+                    }" validate="" id="calc__input_fuel-price"> 
+                    <span class="calc__clear-button absolute right-1 top-2.5 cursor-pointer">
+                      <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">
+                    </span> 
+                  </div>
                 </li>
               </ul>
 
@@ -67,7 +70,9 @@ export class StatisticChart2 {
             </li>
             <li class="border-b w-full">
               <div class="item-header  text-base">${eventLang().fuelCost}</div>
-              <span class="calc__result-sum text-lg text-slate-900 font-bold dark:text-white" id="result-sum">0.00</span><span> ₽</span> 
+              <span class="calc__result-sum text-lg text-slate-900 font-bold dark:text-white" id="result-sum">0.00</span><span> ${
+                settings?.currency
+              }</span> 
             </li>
           </ul>
 
