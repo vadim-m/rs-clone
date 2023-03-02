@@ -149,6 +149,11 @@ export function eventLang() {
       interfaceOn: 'Turn on left hand irientation',
       rememberPrice: 'Remember the fuel`s price',
       guessMileage: 'Predict mileage',
+      teamlead: 'Vadim</br>Monastyrskiy',
+      team: 'Aliaksandr</br>Dzivin',
+      team2: 'Varya</br>Gagagrina',
+      member: 'Team member',
+      lead: 'Teamlead',
     };
   } else {
     return {
@@ -299,6 +304,11 @@ export function eventLang() {
       interfaceOn: 'Включить режим для левшей',
       rememberPrice: 'Помнить цену топлива',
       guessMileage: 'Предугадывать пробег',
+      teamlead: 'Вадим</br>Монастырский',
+      team: 'Александр</br>Дивин',
+      team2: 'Варвара</br>Гагарина',
+      member: 'Участник команды',
+      lead: 'Тимлид',
     };
   }
 }

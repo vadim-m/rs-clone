@@ -13,6 +13,7 @@ import { SettingsPage } from '../pages/settingsPage/SettingsPage';
 import { TodoPage } from '../pages/toDoPage/todo';
 import { getAppSettingsFromLS } from '../helpers/localStorage';
 import { ErrorPage } from '../pages/ErrorPage/ErrorPage';
+import { AboutUsPage } from '../pages/aboutUs/aboutUs';
 
 export class Router {
   url: URL;
@@ -31,6 +32,7 @@ export class Router {
   isUserAuthenticated: boolean;
   settingsPage: SettingsPage | null;
   errorPage: ErrorPage | null;
+  aboutUsPage: AboutUsPage | null;
 
   constructor(isUserAuthenticated: boolean) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -49,6 +51,7 @@ export class Router {
     this.toDoPage = null;
     this.settingsPage = null;
     this.errorPage = null;
+    this.aboutUsPage = null;
     this.render(new URL(window.location.href).pathname);
     this.checkDarkMode();
     this.setOrientation();
@@ -128,6 +131,8 @@ export class Router {
       this.registrationPage = new RegistrationPage(this.goTo.bind(this));
     } else if (routes.Settings.match(path)) {
       this.settingsPage = new SettingsPage(this.goTo.bind(this));
+    } else if (routes.AboutUs.match(path)) {
+      this.settingsPage = new AboutUsPage(this.goTo.bind(this));
     } else {
       this.errorPage = new ErrorPage();
     }

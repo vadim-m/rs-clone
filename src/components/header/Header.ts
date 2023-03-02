@@ -118,7 +118,9 @@ export class Header {
 			</button>
 		</div>
 		<ul class="header__nav hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-			<li><a class="text-sm text-myblue font-bold dark:text-white" href="#" id="header-about">${eventLang().aboutUs}</a></li>
+			<li><a class="text-sm text-myblue font-bold dark:text-white" href="/aboutus" id="header-about">${
+        eventLang().aboutUs
+      }</a></li>
 			<li class="text-gray-300">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
