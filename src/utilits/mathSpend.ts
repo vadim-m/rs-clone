@@ -47,7 +47,7 @@ export function calcMyMileageTotal(carData: ICarData): string {
   if (lastEvent(carData) === undefined) return '0';
   const firstEvent = [...carData.event.refuel, ...carData.event.service, ...carData.event.others][0];
   const startMileage =
-    diffDates(carData.info.startDate, firstEvent.date) < 0 ? carData.info.mileage : firstEvent.mileage;
+    diffDates(carData.info.startDate, firstEvent.date) > 0 ? carData.info.mileage : firstEvent.mileage;
   const lasteEventMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
   const myMileageTotal = +lasteEventMileage - +startMileage;
   return String(myMileageTotal);
@@ -107,7 +107,7 @@ export function culcSpendFuelTotal(carData: ICarData): string {
   } else return '0';
 }
 // расчет расхода топлива
-export function culcConsumption(carData: ICarData) {
+export function culcConsumption(car: ICarData, carData: ICarData) {
   const allEventRefuel = carData.event.refuel;
   if (allEventRefuel.length > 1) {
     const curSpendFuel = carData.event.refuel[carData.event.refuel.length - 1].amountFuel;
@@ -118,34 +118,34 @@ export function culcConsumption(carData: ICarData) {
       (+culcSpendFuelTotal(carData) - +curSpendFuel) /
       ((+calcMyMileageTotal(carData) - +firstMileageOnFuel) / 100)
     ).toFixed(2);
-    carData.indicators.totalConsumptionFuel = consumptionWithoutData;
-    carData.indicators.curConsumptionFuel = consumptionWithoutData;
+    car.indicators.totalConsumptionFuel = consumptionWithoutData;
+    car.indicators.curConsumptionFuel = consumptionWithoutData;
     if (fullTankCheckArr.length > 1) {
       const lastFullTankEvent = fullTankCheckArr.slice(-2)[0];
       const currentFullTankEvent = fullTankCheckArr.slice(-2)[1];
       const lastLostFuel = +currentFullTankEvent.totalSpendFuel - +lastFullTankEvent.totalSpendFuel;
       const lastRoute = +currentFullTankEvent.mileage - +lastFullTankEvent.mileage;
-      carData.indicators.curConsumptionFuel = (lastLostFuel / (lastRoute / 100)).toFixed(2);
+      car.indicators.curConsumptionFuel = (lastLostFuel / (lastRoute / 100)).toFixed(2);
     }
     if (fullTankCheckArr.length === 1) {
       if (carData.info.sizeTank && carData.info.startFuel) {
         const allLostFuel = +culcSpendFuelTotal(carData) - (carData.info.sizeTank - carData.info.startFuel);
-        carData.indicators.curConsumptionFuel = (allLostFuel / (+calcMyMileageTotal(carData) / 100)).toFixed(2);
+        car.indicators.curConsumptionFuel = (allLostFuel / (+calcMyMileageTotal(carData) / 100)).toFixed(2);
       } else {
-        carData.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
+        car.indicators.curConsumptionFuel = carData.indicators.totalConsumptionFuel;
       }
     }
   }
 }
 // обновление всех показателей
-export function updateIndicatirs(curEvent: string, carData: ICarData) {
-  if (curEvent === 'refuel') {
-    carData.indicators.spendFuelTotal = culcSpendFuelTotal(carData);
-    culcConsumption(carData);
-  }
-  carData.indicators.curMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
-  carData.indicators.myMileageTotal = calcMyMileageTotal(carData);
-  carData.indicators.averageMileageDay = getAverageMileageDay(carData);
-  carData.indicators.spendMoneyTotal = culcSpendMoneyTotal(carData);
-  carData.indicators.costOneKM = culcCostOneKM(carData);
-}
+// export function updateIndicatirs(curEvent: string, carData: ICarData) {
+//   if (curEvent === 'refuel') {
+//     carData.indicators.spendFuelTotal = culcSpendFuelTotal(carData);
+//     culcConsumption(car, carData);
+//   }
+//   carData.indicators.curMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
+//   carData.indicators.myMileageTotal = calcMyMileageTotal(carData);
+//   carData.indicators.averageMileageDay = getAverageMileageDay(carData);
+//   carData.indicators.spendMoneyTotal = culcSpendMoneyTotal(carData);
+//   carData.indicators.costOneKM = culcCostOneKM(carData);
+// }

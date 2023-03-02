@@ -3,7 +3,7 @@ import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsButton, renderButton } from '../../components/button';
-import { paramsCollectionReminder, showPlans } from './paramsForLineEvent';
+import { collectionRemindersArr, showPlans } from './paramsForLineEvent';
 // import { updateCarData } from '../../utilits/updateCarData';
 import { createArrPlans } from '../plansPage/arrayReminders';
 import { diffDates } from '../../utilits/mathSpend';
@@ -182,7 +182,7 @@ export class Reminder {
             <h2 class="events__title font-bold text-xl mb-7">${eventLang().reminder}</h2> 
     <form id="main-form__reminder" class="main-form reminder grid grid-cols-2 gap-8 justify-between h-80"
     data-mongoID="${this.curID ? this.carData?.event.reminders.find((e) => e.id === this.curID)?._id : ''}">
-                ${paramsCollectionReminder
+                ${collectionRemindersArr()
                   .map((obj) => {
                     return lineOfEvent(this.eventPage, obj);
                   })

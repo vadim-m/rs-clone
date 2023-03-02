@@ -3,7 +3,7 @@ import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsButton, renderButton } from '../../components/button';
-import { paramsCollectionOther } from './paramsForLineEvent';
+import { collectionOtherArr } from './paramsForLineEvent';
 // import { updateCarData } from '../../utilits/updateCarData';
 import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
@@ -148,7 +148,7 @@ export class Other {
     <h2 class="events__title font-bold text-xl mb-7">${eventLang().other}</h2> 
     <form id="main-form__other" class="main-form__other grid grid-cols-2 gap-8 h-[35rem]"
     data-mongoID="${this.curID ? this.carData?.event.others.find((e) => e.id === this.curID)?._id : ''}">
-    ${paramsCollectionOther
+    ${collectionOtherArr()
       .map((obj) => {
         return lineOfEvent(this.eventPage, obj);
       })
