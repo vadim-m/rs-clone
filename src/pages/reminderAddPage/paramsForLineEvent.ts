@@ -104,13 +104,13 @@ function createHTMLSelectDate() {
   return `
     <option value="${getDatePlusMonths(1)}" label="${eventLang().after} ${eventLang().month}">
     <option value="${getDatePlusMonths(3)}" label="${eventLang().after} 3 ${eventLang().month}${
-    getCurrentLanguage() === 'RU' ? 'а' : ''
+    getCurrentLanguage() === 'Русский' ? 'а' : ''
   }">
     <option value="${getDatePlusMonths(6)}" label="${eventLang().after} 6 ${eventLang().month}${
-    getCurrentLanguage() === 'RU' ? 'ев' : ''
+    getCurrentLanguage() === 'Русский' ? 'ев' : ''
   }">
     <option value="${getDatePlusMonths(9)}" label="${eventLang().after} 9 ${eventLang().month}${
-    getCurrentLanguage() === 'RU' ? 'ев' : ''
+    getCurrentLanguage() === 'Русский' ? 'ев' : ''
   }">
     <option value="${getDatePlusYear(1)}" label="${eventLang().after} ${eventLang().year}">
 

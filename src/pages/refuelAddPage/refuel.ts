@@ -49,6 +49,7 @@ export class Refuel {
     this.initDOM();
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
+    this.changeTotalPrice();
     this.createRefuelEvent();
     this.fillInput();
     onFocus(this.eventPage);
@@ -89,7 +90,7 @@ export class Refuel {
     }
   }
 
-  changeTotalPriceDetals() {
+  changeTotalPrice() {
     this.priceFuelDOM = document.querySelector('#refuel__input_price') as HTMLInputElement;
     this.amountFuelDOM = document.querySelector('#refuel__input_amount-fuel') as HTMLInputElement;
     this.totalPriceDOM = document.querySelector('#refuel__input_total') as HTMLInputElement;
@@ -100,25 +101,25 @@ export class Refuel {
           this.amountFuelDOM.value = '';
         }
       }
-      this.totalPriceDOM.value = String(+this.priceFuelDOM.value * +this.amountFuelDOM.value);
+      this.totalPriceDOM.value = String((+this.priceFuelDOM.value * +this.amountFuelDOM.value).toFixed(2));
       onFocus(this.eventPage);
     });
     this.amountFuelDOM.addEventListener('input', () => {
       if (this.priceFuelDOM.value !== '') {
-        this.totalPriceDOM.value = String(+this.priceFuelDOM.value * +this.amountFuelDOM.value);
+        this.totalPriceDOM.value = String((+this.priceFuelDOM.value * +this.amountFuelDOM.value).toFixed(2));
       }
-      this.totalPriceDOM.value = String(+this.priceFuelDOM.value * +this.amountFuelDOM.value);
+      this.totalPriceDOM.value = String((+this.priceFuelDOM.value * +this.amountFuelDOM.value).toFixed(2));
       onFocus(this.eventPage);
     });
     this.amountFuelDOM.addEventListener('change', () => {
       if (this.amountFuelDOM.value !== '') {
-        this.priceFuelDOM.value = String(+this.totalPriceDOM.value / +this.amountFuelDOM.value);
+        this.priceFuelDOM.value = String((+this.totalPriceDOM.value / +this.amountFuelDOM.value).toFixed(2));
       }
       onFocus(this.eventPage);
     });
 
     this.totalPriceDOM.addEventListener('input', () => {
-      this.amountFuelDOM.value = String(+this.totalPriceDOM.value / +this.priceFuelDOM.value);
+      this.amountFuelDOM.value = String((+this.totalPriceDOM.value / +this.priceFuelDOM.value).toFixed(2));
       onFocus(this.eventPage);
     });
   }
