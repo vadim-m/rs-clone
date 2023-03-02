@@ -14,6 +14,7 @@ export const appConstants = {
     registration: '/signup',
     settings: '/settings',
     todo: '/todo',
+    aboutUs: '/aboutus',
   },
   search: {
     types: {
@@ -36,4 +37,5 @@ export const routes = {
   Registration: new Route(appConstants.routes.registration),
   Settings: new Route(appConstants.routes.settings),
   Todo: new Route(appConstants.routes.todo),
+  AboutUs: new Route(appConstants.routes.aboutUs),
 };
