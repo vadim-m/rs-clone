@@ -14,7 +14,6 @@ const changingOil: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'changingOil',
 };
 
@@ -24,7 +23,6 @@ const airFilter: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'airFilter',
 };
 
@@ -34,7 +32,6 @@ const fuelFilter: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'fuelFilter',
 };
 
@@ -44,7 +41,6 @@ const interiorFilter: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'interiorFilter',
 };
 const brakePadsFront: IParamsOneReminder = {
@@ -53,7 +49,6 @@ const brakePadsFront: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'brakePadsFront',
 };
 const brakePadsRear: IParamsOneReminder = {
@@ -62,7 +57,6 @@ const brakePadsRear: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'brakePadsRear',
 };
 const brakeFluid: IParamsOneReminder = {
@@ -71,7 +65,6 @@ const brakeFluid: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'brakeFluid',
 };
 const timingBelts: IParamsOneReminder = {
@@ -80,7 +73,6 @@ const timingBelts: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'timingBelts',
 };
 const sparkPlugs: IParamsOneReminder = {
@@ -89,7 +81,6 @@ const sparkPlugs: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'sparkPlugs',
 };
 const antifreeze: IParamsOneReminder = {
@@ -98,7 +89,6 @@ const antifreeze: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'antifreeze',
 };
 const transmissionOil: IParamsOneReminder = {
@@ -107,7 +97,6 @@ const transmissionOil: IParamsOneReminder = {
   textType: eventLang().maintenance,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'transmissionOil',
 };
 const diagnosticsSuspension: IParamsOneReminder = {
@@ -116,7 +105,6 @@ const diagnosticsSuspension: IParamsOneReminder = {
   textType: eventLang().diagnostics,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'diagnosticsSuspension',
 };
 const diagnosticsElectrical: IParamsOneReminder = {
@@ -125,7 +113,6 @@ const diagnosticsElectrical: IParamsOneReminder = {
   textType: eventLang().diagnostics,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'diagnosticsElectrical',
 };
 const winterTires: IParamsOneReminder = {
@@ -134,7 +121,6 @@ const winterTires: IParamsOneReminder = {
   textType: eventLang().replacement,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'winterTires',
 };
 const summerTires: IParamsOneReminder = {
@@ -143,7 +129,6 @@ const summerTires: IParamsOneReminder = {
   textType: eventLang().replacement,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'summerTires',
 };
 const carBattery: IParamsOneReminder = {
@@ -152,7 +137,6 @@ const carBattery: IParamsOneReminder = {
   textType: eventLang().replacement,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'carBattery',
 };
 const techInspect: IParamsOneReminder = {
@@ -161,7 +145,6 @@ const techInspect: IParamsOneReminder = {
   textType: eventLang().other,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'techInspect',
 };
 const tax: IParamsOneReminder = {
@@ -170,7 +153,6 @@ const tax: IParamsOneReminder = {
   textType: eventLang().other,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: eventLang().add,
   id: 'tax',
 };
 const inshurance: IParamsOneReminder = {
@@ -179,7 +161,6 @@ const inshurance: IParamsOneReminder = {
   textType: eventLang().other,
   icon: `<img src="${carRepair}" class="h-8 w-8" alt="car-repair icon">`,
   reminderDefault: true,
-  button: 'eventLang().add',
   id: 'inshurance',
 };
 
@@ -209,6 +190,49 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
   const myCarData: ICarData = localStorage.getItem('car') ? JSON.parse(localStorage.getItem('car') as string) : carData;
   const myReminderArr: IReminders[] = myCarData.event.reminders;
   const myRemindersPlans: IParamsOneReminder[] = [];
+  const myRemindersDefault: IParamsOneReminder[] = [];
+  const nameArr = [
+    eventLang().changingOil,
+    eventLang().airFilter,
+    eventLang().fuelFilter,
+    eventLang().interiorFilter,
+    eventLang().brakePadsFront,
+    eventLang().brakePadsRear,
+    eventLang().brakeFluid,
+    eventLang().timingBelts,
+    eventLang().sparkPlugs,
+    eventLang().antifreeze,
+    eventLang().transmissionOil,
+    eventLang().diagnosticsSuspension,
+    eventLang().diagnosticsElectrical,
+    eventLang().winterTires,
+    eventLang().summerTires,
+    eventLang().carBattery,
+    eventLang().techInspect,
+    eventLang().tax,
+    eventLang().inshurance,
+  ];
+  const typeArr = [
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().maintenance,
+    eventLang().diagnostics,
+    eventLang().diagnostics,
+    eventLang().replacement,
+    eventLang().replacement,
+    eventLang().replacement,
+    eventLang().other,
+    eventLang().other,
+    eventLang().other,
+  ];
 
   myReminderArr.forEach((e) => {
     return myRemindersPlans.push({
@@ -227,9 +251,19 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
       id: e.id,
     });
   });
+  maintenanceArr.forEach((e, i) => {
+    return myRemindersDefault.push({
+      class: e.class,
+      textName: nameArr[i],
+      textType: typeArr[i],
+      icon: e.icon,
+      reminderDefault: true,
+      id: e.id,
+    });
+  });
 
   if (showPlansValue === 'myMaintenance') {
-    return maintenanceArr.filter((e) =>
+    return myRemindersDefault.filter((e) =>
       myRemindersPlans.length > 0 ? !myRemindersPlans.some((x) => x.id === e.id) : true
     );
   }
@@ -242,7 +276,7 @@ export function createArrPlans(showPlansValue: string): IParamsOneReminder[] {
   } else {
     return [
       ...myRemindersPlans,
-      ...maintenanceArr.filter((e) =>
+      ...myRemindersDefault.filter((e) =>
         myRemindersPlans.length > 0 ? !myRemindersPlans.some((x) => x.id === e.id) : true
       ),
     ];
