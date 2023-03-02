@@ -4,7 +4,7 @@ import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
 import { paramsButton, renderButton } from '../../components/button';
-import { paramsCollectionRefuel } from './paramsForLineEvent';
+import { collectionRefuelsArr } from './paramsForLineEvent';
 import { changeMileage } from '../../utilits/validMileage';
 import { buttonLang } from '../../lang/buttonLang';
 import { createArrEvents } from '../eventsPage/arrayEvents';
@@ -47,7 +47,6 @@ export class Refuel {
     this.carData = JSON.parse(localStorage.getItem('car') as string);
     this.renderPage();
     this.initDOM();
-    this.changeTotalPriceDetals();
     culcMaybeMileage(this.eventPage, this.carData);
     changeMileage(this.eventPage, this.carData);
     this.createRefuelEvent();
@@ -176,7 +175,7 @@ export class Refuel {
         <h2 class="events__title font-bold text-xl mb-7">${eventLang().refuel}</h2> 
           <form id="main-form-refuel" class="main-form refuel grid grid-cols-2 gap-y-8 gap-x-14 justify-center h-[32rem] w-full" 
           data-mongoID="${this.curID ? this.carData?.event.refuel.find((e) => e.id === this.curID)?._id : ''}">
-          ${paramsCollectionRefuel
+          ${collectionRefuelsArr()
             .map((obj) => {
               return lineOfEvent(this.eventPage, obj);
             })

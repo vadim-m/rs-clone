@@ -8,7 +8,7 @@ import { searchLi } from '../../utilits/searchElement';
 import { currentLiArr } from '../../utilits/searchElement';
 import { paramsButton, renderButton } from '../../components/button';
 import { onFocus } from '../../utilits/onFocusFunc';
-import { paramsCollectionService } from './paramsForLineEvent';
+import { collectionServiceArr } from './paramsForLineEvent';
 import { changeMileage } from '../../utilits/validMileage';
 import { culcMaybeMileage } from '../../utilits/mathSpend';
 import { createArrPlans } from '../plansPage/arrayReminders';
@@ -474,7 +474,7 @@ export class Service {
                 <h2 class="events__title font-bold text-xl mb-7">${eventLang().service}</h2> 
     <form id="main-form service" class="main-form service grid grid-cols-2 gap-8 justify-between h-[34rem]"
     data-mongoID="${this.curID ? this.carData?.event.service.find((e) => e.id === this.curID)?._id : ''}">
-            ${paramsCollectionService
+            ${collectionServiceArr()
               .map((obj) => {
                 return lineOfEvent(this.eventPage, obj);
               })

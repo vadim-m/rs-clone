@@ -10,6 +10,7 @@ import {
   getAverageMileageDay,
   lastEvent,
 } from '../utilits/mathSpend';
+import { getDateTime } from '../utilits/dateTimeFunc';
 
 // заполняем LS данными из базы данных
 export async function setCarDataFromDB() {
@@ -20,18 +21,24 @@ export async function setCarDataFromDB() {
   car.event.others = await (await getOthers()).json();
   car.todos = await (await getTodos()).json();
 
-  car.indicators.spendFuelTotal = culcSpendFuelTotal(car);
-  culcConsumption(car);
-
-  car.indicators.curMileage = (lastEvent(car) as IRefuel | IService | IOther)?.mileage
-    ? (lastEvent(car) as IRefuel | IService | IOther).mileage
-    : String(car.info.mileage);
-  car.indicators.myMileageTotal = calcMyMileageTotal(car);
-  car.indicators.averageMileageDay = getAverageMileageDay(car);
-  car.indicators.spendMoneyTotal = culcSpendMoneyTotal(car);
-  car.indicators.costOneKM = culcCostOneKM(car);
-
   localStorage.setItem('car', JSON.stringify(car));
+
+  const freshCar = getCarFromLS() as ICarData;
+
+  if ([...freshCar.event.refuel, ...freshCar.event.service, ...freshCar.event.others].length > 0) {
+    car.indicators.spendFuelTotal = culcSpendFuelTotal(freshCar);
+    culcConsumption(car, freshCar);
+    car.indicators.myMileageTotal = calcMyMileageTotal(freshCar);
+    car.indicators.curMileage = (lastEvent(freshCar) as IRefuel | IService | IOther)?.mileage
+      ? (lastEvent(freshCar) as IRefuel | IService | IOther).mileage
+      : String(freshCar.info.mileage);
+
+    car.indicators.averageMileageDay = getAverageMileageDay(freshCar);
+    car.indicators.spendMoneyTotal = culcSpendMoneyTotal(freshCar);
+    car.indicators.costOneKM = culcCostOneKM(freshCar);
+
+    localStorage.setItem('car', JSON.stringify(car));
+  }
   //! вот тут переделать индикаторы updateIndicators(car)
 }
 
@@ -49,7 +56,7 @@ async function fillCarInfo() {
     engineDisplacement: data.engineDisplacement,
     enginePower: data.enginePower,
     startFuel: 20,
-    startDate: data.toString(),
+    startDate: getDateTime(),
     cost: 1000000,
   };
 

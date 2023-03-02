@@ -8,94 +8,97 @@ import { defaultSettings } from '../../constants/constants';
 const setting: ISettingsMyCar = localStorage.getItem('settingsCar')
   ? JSON.parse(localStorage.getItem('settingsCar') as string)
   : defaultSettings;
+export function collectionServiceArr(): IParamsLineOfEvent[] {
+  const type: IParamsLineOfEvent = {
+    idAndClass: 'type',
+    textTitle: eventLang().type,
+    icon: icon.gear,
+    typeInput: 'search',
+    size: '2',
+    required: true,
+    option: createHTMLDatalistForType(),
+  };
 
-const type: IParamsLineOfEvent = {
-  idAndClass: 'type',
-  textTitle: eventLang().type,
-  icon: icon.gear,
-  typeInput: 'search',
-  size: '2',
-  required: true,
-  option: createHTMLDatalistForType(),
-};
+  const name: IParamsLineOfEvent = {
+    idAndClass: 'name',
+    textTitle: eventLang().name,
+    icon: icon.pen,
+    typeInput: 'search',
+    size: '2',
+    required: false,
+    option: createHTMLDatalistForName(),
+  };
 
-const name: IParamsLineOfEvent = {
-  idAndClass: 'name',
-  textTitle: eventLang().name,
-  icon: icon.pen,
-  typeInput: 'search',
-  size: '2',
-  required: false,
-  option: createHTMLDatalistForName(),
-};
+  const costWorks: IParamsLineOfEvent = {
+    idAndClass: 'cost-works',
+    textTitle: eventLang().costWorks,
+    icon: icon.cost,
+    typeInput: 'number',
+    size: '2 sm:col-span-1',
+    required: false,
+    units: `, ${setting.currency}`,
+  };
 
-const costWorks: IParamsLineOfEvent = {
-  idAndClass: 'cost-works',
-  textTitle: eventLang().costWorks,
-  icon: icon.cost,
-  typeInput: 'number',
-  size: '2 sm:col-span-1',
-  required: false,
-  units: `, ${setting.currency}`,
-};
+  const total: IParamsLineOfEvent = {
+    idAndClass: 'total',
+    textTitle: eventLang().amount,
+    icon: icon.wallet,
+    typeInput: 'number',
+    size: '2 sm:col-span-1',
+    required: false,
+    units: `, ${setting.currency}`,
+  };
 
-const total: IParamsLineOfEvent = {
-  idAndClass: 'total',
-  textTitle: eventLang().amount,
-  icon: icon.wallet,
-  typeInput: 'number',
-  size: '2 sm:col-span-1',
-  required: false,
-  units: `, ${setting.currency}`,
-};
+  const date: IParamsLineOfEvent = {
+    idAndClass: 'date',
+    textTitle: eventLang().date,
+    icon: icon.date,
+    typeInput: 'datetime-local',
+    size: '2 sm:col-span-1',
+    required: false,
+    value: getDateTime(),
+  };
 
-const date: IParamsLineOfEvent = {
-  idAndClass: 'date',
-  textTitle: eventLang().date,
-  icon: icon.date,
-  typeInput: 'datetime-local',
-  size: '2 sm:col-span-1',
-  required: false,
-  value: getDateTime(),
-};
+  const mileage: IParamsLineOfEvent = {
+    idAndClass: 'mileage',
+    textTitle: eventLang().mileage,
+    icon: icon.mileage,
+    typeInput: 'number',
+    size: '2 sm:col-span-1',
+    required: true,
+    units: getUnits().distance,
+  };
 
-const mileage: IParamsLineOfEvent = {
-  idAndClass: 'mileage',
-  textTitle: eventLang().mileage,
-  icon: icon.mileage,
-  typeInput: 'number',
-  size: '2 sm:col-span-1',
-  required: true,
-  units: getUnits().distance,
-};
+  const place: IParamsLineOfEvent = {
+    idAndClass: 'place',
+    textTitle: eventLang().place,
+    icon: icon.place,
+    typeInput: 'text',
+    size: '2',
+    required: false,
+  };
+  const notes: IParamsLineOfEvent = {
+    idAndClass: 'notes',
+    textTitle: eventLang().comments,
+    icon: icon.comments,
+    typeInput: 'text',
+    size: '2',
+    required: false,
+  };
 
-const place: IParamsLineOfEvent = {
-  idAndClass: 'place',
-  textTitle: eventLang().place,
-  icon: icon.place,
-  typeInput: 'text',
-  size: '2',
-  required: false,
-};
-const notes: IParamsLineOfEvent = {
-  idAndClass: 'notes',
-  textTitle: eventLang().comments,
-  icon: icon.comments,
-  typeInput: 'text',
-  size: '2',
-  required: false,
-};
+  return [type, name, costWorks, total, date, mileage, place, notes];
+}
 
-export const paramsCollectionService: IParamsLineOfEvent[] = [
-  type,
-  name,
-  costWorks,
-  total,
-  date,
-  mileage,
-  place,
-  notes,
-];
+// export const paramsCollectionService: IParamsLineOfEvent[] = [
+//   type,
+//   name,
+//   costWorks,
+//   total,
+//   date,
+//   mileage,
+//   place,
+//   notes,
+// ];
 
 export function createHTMLDatalistForType() {
   return `
