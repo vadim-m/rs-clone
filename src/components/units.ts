@@ -14,16 +14,6 @@ const unitsEN = {
   volume: ', l',
 };
 
-// export function getMoney(country: string, litr?: string) {
-//   const money = new Map([
-//     ['RU', ', ₽'],
-//     ['BY', ', BYN'],
-//     ['EN', ', $'],
-//     ['EU', ', €'],
-//   ]);
-//   return litr ? `${money.get(country)}/${getCurrentLanguage() === 'EN' ? 'l' : 'л'}` : money.get(country);
-// }
-
 export function getPriceFuel(country: string) {
   let money = new Map([
     ['RU', ', ₽/л'],

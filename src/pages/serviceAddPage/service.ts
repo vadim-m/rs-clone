@@ -1,4 +1,4 @@
-import { IService, IDetals, ICarData, IParamsOneReminder, ISettingsMyCar, IParamsOneEvents } from '../../types';
+import { IService, IDetals, ICarData, ISettingsMyCar, IParamsOneEvents, IReminders } from '../../types';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconFont';
 import { eventLang } from '../../lang/addEventLang';
@@ -18,6 +18,8 @@ import { createArrEvents } from '../eventsPage/arrayEvents';
 import { addToBack } from '../../utilits/addToBack';
 import { createService, deleteService, updateService } from '../../helpers/api';
 import { setCarDataFromDB } from '../../helpers/localStorage';
+import { getDateTime } from '../../utilits/dateTimeFunc';
+import { updateReminderRepeat } from '../../utilits/repeatReminders';
 
 export class Service {
   eventPage = 'service';
@@ -98,7 +100,7 @@ export class Service {
     this.detalsTitleDOM = document.querySelector('.detals-add__title') as HTMLElement;
     this.detalsListDOM = document.querySelector('.detals__list') as HTMLElement;
     this.detalsBtnDOM = document.querySelector('.detals-add__btn') as HTMLButtonElement;
-    this.detalsBtnDOM.disabled = true;
+    // this.detalsBtnDOM.disabled = true;
     this.totalPriceService = document.querySelector('.service__input_total') as HTMLInputElement;
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
     this.totalPriceTitle = document.querySelector('.service__title_total') as HTMLElement;
@@ -117,49 +119,56 @@ export class Service {
   }
   fillInput() {
     if (this.curID) {
-      if (this.pageCall === 'plans') {
-        this.nameDOM.value = (
-          createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
-        ).textName;
-        this.nameDOM.readOnly = true;
-        this.typeDOM.value = (
-          createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
-        ).textType;
-        this.typeDOM.readOnly = true;
-      }
-      if (this.pageCall === 'events' || this.pageCall === '/') {
-        const curEventArr = createArrEvents(this.eventPage);
+      const curEventArr = createArrEvents(this.eventPage);
+      this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleName
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName
+        : (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).name
+        ? (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).name
+        : '';
+      this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleType
+        ? ((curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleType as string)
+        : (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).type
+        ? (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).type
+        : '';
+      this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.date
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date
+        : getDateTime();
+      this.costWorksDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.costWorks
+        ? ((curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).costWorks as string)
+        : '';
+      this.totalPriceService.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.totalPrice
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice
+        : '';
+      this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.mileage
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage
+        : '';
+      this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.notes
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes
+        : '';
+      this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.place
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place
+        : '';
 
-        this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
-        this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
-        this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
-        this.costWorksDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)
-          .costWorks as string;
-        this.totalPriceService.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
-        this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
-        this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
-        this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
-
-        const curDetalsArr = this.carData.event.service.find((e) => e.id === this.curID) as IService;
-        console.log(curDetalsArr);
-        // if (curDetalsArr.length > 0) {
-        //   console.log(curDetalsArr);
-        //   this.createHTMLContainerDetalDOM();
-        //   for (let i = 0; i < curDetalsArr.length; i += 1) {
-        //     this.detalsListDOM.insertAdjacentHTML(
-        //       'beforeend',
-        //       this.createHTMLDetalsDOM(
-        //         curDetalsArr[i].detals.name,
-        //         curDetalsArr[i].detals.partNumber,
-        //         curDetalsArr[i].detals.manufacturer,
-        //         +curDetalsArr[i].detals.quantity,
-        //         +curDetalsArr[i].detals.price
-        //       )
-        //     );
-        //   }
-        // }
-      }
+      // const curDetalsArr = this.carData.event.service.find((e) => e.id === this.curID) as IService;
+      // console.log(curDetalsArr);
+      // if (curDetalsArr.length > 0) {
+      //   console.log(curDetalsArr);
+      //   this.createHTMLContainerDetalDOM();
+      //   for (let i = 0; i < curDetalsArr.length; i += 1) {
+      //     this.detalsListDOM.insertAdjacentHTML(
+      //       'beforeend',
+      //       this.createHTMLDetalsDOM(
+      //         curDetalsArr[i].detals.name,
+      //         curDetalsArr[i].detals.partNumber,
+      //         curDetalsArr[i].detals.manufacturer,
+      //         +curDetalsArr[i].detals.quantity,
+      //         +curDetalsArr[i].detals.price
+      //       )
+      //     );
+      //   }
+      // }
     }
+    // }
   }
   changeTotalPriceDetals() {
     const popupDetalPrice = document.querySelector(`.popup__input_price`) as HTMLInputElement;
@@ -311,15 +320,17 @@ export class Service {
 
   createServiceEvent() {
     this.formDOM.addEventListener('submit', async (e) => {
+      updateReminderRepeat(this.carData, this.nameDOM, this.dateDOM, this.mileageDOM);
+
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
       } else {
-        document.querySelector('.spinner')?.classList.remove('hidden');
-        e.preventDefault();
         const form = e.target as HTMLFormElement;
         const btn = e.submitter;
         const eventid = form.dataset.mongoid;
+        document.querySelector('.spinner')?.classList.remove('hidden');
+        e.preventDefault();
 
         if (btn?.id === 'update--event-service__btn' && eventid) {
           const detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
@@ -330,7 +341,6 @@ export class Service {
           const detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
 
           const worksDetalsArr: IDetals[] = [];
-          //! тут ошибки возникает
           for (let i = 0; i < detalsNameDOM.length; i += 1) {
             worksDetalsArr.push({
               detals: {
@@ -355,6 +365,7 @@ export class Service {
               },
             });
           }
+          //! тут ошибки возникает
           console.log(worksDetalsArr);
           const service: IService = {
             date: this.dateDOM.value,
@@ -558,6 +569,7 @@ export class Service {
     };
 
     const response = await createService(service); // тут будет createRefuel и тд в зависимости от события
+    console.log(response);
     addToBack(response, this.navigateTo, this.addServiceBtn);
   }
 }

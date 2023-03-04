@@ -137,15 +137,3 @@ export function culcConsumption(car: ICarData, carData: ICarData) {
     }
   }
 }
-// обновление всех показателей
-// export function updateIndicatirs(curEvent: string, carData: ICarData) {
-//   if (curEvent === 'refuel') {
-//     carData.indicators.spendFuelTotal = culcSpendFuelTotal(carData);
-//     culcConsumption(car, carData);
-//   }
-//   carData.indicators.curMileage = (lastEvent(carData) as IRefuel | IService | IOther).mileage;
-//   carData.indicators.myMileageTotal = calcMyMileageTotal(carData);
-//   carData.indicators.averageMileageDay = getAverageMileageDay(carData);
-//   carData.indicators.spendMoneyTotal = culcSpendMoneyTotal(carData);
-//   carData.indicators.costOneKM = culcCostOneKM(carData);
-// }

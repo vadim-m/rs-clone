@@ -16,7 +16,6 @@ export async function addToBack(res: Response, navigateTo: (path: string) => voi
       navigateTo('/');
     }, 100);
   } else {
-    alert(3);
     // ЕСЛИ сервер ответил с ошибкой
     buttonCall.disabled = false;
     document.querySelector('.spinner')?.classList.add('hidden');

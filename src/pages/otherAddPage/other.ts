@@ -1,4 +1,4 @@
-import { ICarData, IOther, IParamsOneEvents, IParamsOneReminder } from '../../types';
+import { ICarData, IOther, IParamsOneEvents, IReminders } from '../../types';
 import { lineOfEvent } from '../../components/lineEvent';
 import { eventLang } from '../../lang/addEventLang';
 import { onFocus } from '../../utilits/onFocusFunc';
@@ -14,6 +14,8 @@ import { createArrEvents } from '../eventsPage/arrayEvents';
 import { createOther, deleteOther, updateOther } from '../../helpers/api';
 import { addToBack } from '../../utilits/addToBack';
 import { setCarDataFromDB } from '../../helpers/localStorage';
+import { updateReminderRepeat } from '../../utilits/repeatReminders';
+import { getDateTime } from '../../utilits/dateTimeFunc';
 
 export class Other {
   eventPage = 'other';
@@ -75,31 +77,54 @@ export class Other {
 
   fillInput() {
     if (this.curID) {
-      if (this.pageCall === 'plans') {
-        this.nameDOM.value = (
-          createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
-        ).textName;
-        this.nameDOM.readOnly = true;
-        this.typeDOM.value = (
-          createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
-        ).textType;
-        this.typeDOM.readOnly = true;
-      }
+      const curEventArr = createArrEvents(this.eventPage);
+      this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleName
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName
+        : (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).name
+        ? (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).name
+        : '';
+      this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.date
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date
+        : getDateTime();
+      this.totalPriceDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.totalPrice
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice
+        : '';
+      this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.mileage
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage
+        : '';
+      this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.notes
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes
+        : '';
+      this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.place
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place
+        : '';
 
-      if (this.pageCall === 'events' || this.pageCall === '/') {
-        const curEventArr = createArrEvents(this.eventPage);
-        this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
-        this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
-        this.totalPriceDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
-        this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
-        this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
-        this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
-      }
+      // if (this.pageCall === 'plans') {
+      //   this.nameDOM.value = (
+      //     createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+      //   ).textName;
+      //   this.nameDOM.readOnly = true;
+      //   this.typeDOM.value = (
+      //     createArrPlans(showPlans.myMaintenance).find((e) => e.id === this.curID) as IParamsOneReminder
+      //   ).textType;
+      //   this.typeDOM.readOnly = true;
+      // }
+
+      // if (this.pageCall === 'events' || this.pageCall === '/') {
+      //   const curEventArr = createArrEvents(this.eventPage);
+      //   this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
+      //   this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
+      //   this.totalPriceDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
+      //   this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
+      //   this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
+      //   this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
+      // }
     }
   }
 
   createotherEvent() {
     this.formDOM.addEventListener('submit', async (e) => {
+      updateReminderRepeat(this.carData, this.nameDOM, this.dateDOM, this.mileageDOM);
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
