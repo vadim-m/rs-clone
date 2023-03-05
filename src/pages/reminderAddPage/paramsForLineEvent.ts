@@ -24,7 +24,7 @@ export function collectionRemindersArr(): IParamsLineOfEvent[] {
     icon: icon.pen,
     typeInput: 'text',
     size: '2',
-    required: false,
+    required: true,
   };
 
   const previosDate: IParamsLineOfEvent = {

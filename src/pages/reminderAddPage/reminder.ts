@@ -41,8 +41,9 @@ export class Reminder {
   curID: string | undefined;
   editEvent: string | undefined;
   navigateTo: (path: string) => void;
-  addReminderBtn: HTMLButtonElement | undefined;
   formDOM!: HTMLFormElement;
+  btnSubmit!: HTMLButtonElement;
+  btnDel!: HTMLButtonElement;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -75,7 +76,10 @@ export class Reminder {
 
     this.allInput = document.querySelectorAll('.reminder__input') as NodeList;
 
-    this.addReminderBtn = document.querySelector('#add--event-reminder__btn') as HTMLButtonElement | undefined;
+    this.btnSubmit = (document.querySelector('#add--event-reminder__btn') as HTMLButtonElement)
+      ? (document.querySelector('#add--event-reminder__btn') as HTMLButtonElement)
+      : (document.querySelector('#update--event-reminder__btn') as HTMLButtonElement);
+    this.btnDel = document.querySelector('#del--event-reminder__btn') as HTMLButtonElement;
   }
 
   renderPage() {
@@ -130,8 +134,36 @@ export class Reminder {
     this.onDateDOM.value ? (this.onMileageDOM.required = false) : (this.onMileageDOM.required = true);
   }
 
+  extraValidForm(btn: HTMLButtonElement) {
+    const curID = createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0]
+      ? createArrPlans(showPlans.allPlans).filter((e) => e.textName === this.nameDOM.value)[0].id
+      : Date.now().toString();
+    if (this.carData.event.reminders.some((e) => e.id === curID) && btn !== this.btnDel) {
+      this.nameDOM.setCustomValidity(`${eventLang().validatorName}`);
+    }
+    if (this.onMileageDOM.value) {
+      this.onDateDOM.required = false;
+    }
+    if (this.onDateDOM.value) {
+      this.onMileageDOM.required = false;
+    }
+  }
+
   createReminderEvent() {
+    this.btnSubmit.addEventListener('click', () => {
+      this.extraValidForm(this.btnSubmit);
+    });
+    this.btnDel?.addEventListener('click', () => {
+      this.extraValidForm(this.btnDel);
+    });
+
     this.formDOM.addEventListener('submit', async (e) => {
+      if (this.onMileageDOM.value) {
+        this.onDateDOM.required = false;
+      }
+      if (this.onDateDOM.value) {
+        this.onMileageDOM.required = false;
+      }
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
@@ -141,8 +173,7 @@ export class Reminder {
         const form = e.target as HTMLFormElement;
         const btn = e.submitter;
         const eventid = form.dataset.mongoid;
-
-        if (btn?.id === 'update--event-service__btn' && eventid) {
+        if (btn?.id === 'update--event-reminder__btn' && eventid) {
           const reminder: IReminders = {
             type: this.typeDOM.value,
             name: this.nameDOM.value,
@@ -164,7 +195,7 @@ export class Reminder {
           setTimeout(() => {
             this.navigateTo('/');
           }, 100);
-        } else if (btn?.id === 'del--event-service__btn' && eventid) {
+        } else if (btn?.id === 'del--event-reminder__btn' && eventid) {
           await deleteReminder(eventid);
           await setCarDataFromDB();
           document.querySelector('.spinner')?.classList.add('hidden');
@@ -174,7 +205,6 @@ export class Reminder {
         }
       }
     });
-    // здеь нужно строить логику на нажтие УДаЛИТЬ И ИЗМЕНИТЬ
   }
 
   createHTMLreminderDOM() {
@@ -191,20 +221,20 @@ export class Reminder {
         !this.editEvent
           ? renderButton(
               eventLang().addEvent,
-              'add--event-service__btn',
-              'add--event-service__btn col-span-2',
+              'add--event-reminder__btn',
+              'add--event-reminder__btn col-span-2',
               paramsButton.blueFull
             )
           : `${renderButton(
               buttonLang().delete,
-              'del--event-service__btn',
-              'del--event-service__btn col-span-2 sm:col-span-1',
+              'del--event-reminder__btn',
+              'del--event-reminder__btn col-span-2 sm:col-span-1',
               paramsButton.redL
             )}
               ${renderButton(
                 buttonLang().save,
-                'update--event-service__btn',
-                'update--event-service__btn col-span-2 sm:col-span-1',
+                'update--event-reminder__btn',
+                'update--event-reminder__btn col-span-2 sm:col-span-1',
                 paramsButton.blueL
               )}`
       }
@@ -232,6 +262,6 @@ export class Reminder {
     };
 
     const response = await createReminder(reminder); // тут будет createRefuel и тд в зависимости от события
-    addToBack(response, this.navigateTo, this.addReminderBtn as HTMLButtonElement);
+    addToBack(response, this.navigateTo, this.btnSubmit as HTMLButtonElement);
   }
 }

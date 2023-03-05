@@ -89,7 +89,7 @@ interface IService {
   mileage: string;
   type: string;
   name: string;
-  detals: IDetals[];
+  detals?: IDetals[];
   totalPrice: string;
   costWorks?: string;
   place: string;
@@ -99,14 +99,12 @@ interface IService {
 }
 
 interface IDetals {
-  detals: {
-    name: string;
-    partNumber: string;
-    manufacturer: string;
-    price: string;
-    quantity: string;
-    amount: string;
-  };
+  name: string;
+  partNumber: string;
+  manufacturer: string;
+  price: string;
+  quantity: string;
+  amount: string;
 }
 
 interface IOther {

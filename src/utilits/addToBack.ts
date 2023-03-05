@@ -2,8 +2,6 @@ import { setCarDataFromDB } from '../helpers/localStorage';
 
 export async function addToBack(res: Response, navigateTo: (path: string) => void, buttonCall: HTMLButtonElement) {
   const status = res.status;
-  const data = await res.json();
-  console.log(data, status);
 
   if (status === 200 || status === 201) {
     // получаем и устанавливаем свежие данные в LS
@@ -16,7 +14,6 @@ export async function addToBack(res: Response, navigateTo: (path: string) => voi
       navigateTo('/');
     }, 100);
   } else {
-    alert(3);
     // ЕСЛИ сервер ответил с ошибкой
     buttonCall.disabled = false;
     document.querySelector('.spinner')?.classList.add('hidden');

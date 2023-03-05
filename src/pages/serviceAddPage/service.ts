@@ -1,4 +1,4 @@
-import { IService, IDetals, ICarData, IParamsOneReminder, ISettingsMyCar, IParamsOneEvents } from '../../types';
+import { IService, IDetals, ICarData, ISettingsMyCar, IParamsOneEvents, IReminders } from '../../types';
 import { lineOfEvent } from '../../components/lineEvent';
 import { icon } from '../../components/iconFont';
 import { eventLang } from '../../lang/addEventLang';
@@ -18,6 +18,8 @@ import { createArrEvents } from '../eventsPage/arrayEvents';
 import { addToBack } from '../../utilits/addToBack';
 import { createService, deleteService, updateService } from '../../helpers/api';
 import { setCarDataFromDB } from '../../helpers/localStorage';
+import { getDateTime } from '../../utilits/dateTimeFunc';
+import { updateReminderRepeat } from '../../utilits/repeatReminders';
 
 export class Service {
   eventPage = 'service';
@@ -26,14 +28,8 @@ export class Service {
   mileageDOM!: HTMLInputElement;
   typeDOM!: HTMLInputElement;
   nameDOM!: HTMLInputElement;
-  detalsNameDOM!: NodeList;
-  detalsPartDOM!: NodeList;
-  detalsManufDOM!: NodeList;
-  detalsAmountDOM!: NodeList;
   placeDOM!: HTMLInputElement;
   notesDOM!: HTMLInputElement;
-  detalsPriceDOM!: NodeList;
-  detalsQuantyDOM!: NodeList;
   detalsTitleDOM!: HTMLElement;
   detalsBtnDOM!: HTMLButtonElement;
   formDOM!: HTMLFormElement;
@@ -56,7 +52,18 @@ export class Service {
   setting: ISettingsMyCar;
   addServiceBtn!: HTMLButtonElement;
   navigateTo: (path: string) => void;
+  popupDetalName!: HTMLInputElement;
+  popupDetalPart!: HTMLInputElement;
+  popupDetalManuf!: HTMLInputElement;
+  popupDetalPrice!: HTMLInputElement;
+  popupDetalQuant!: HTMLInputElement;
+  popupDetalAmount!: HTMLInputElement;
+  detalsNameDOM!: NodeList;
+  detalsPartDOM!: NodeList;
+  detalsManufDOM!: NodeList;
   detalsPriceTotalDOM!: NodeList;
+  detalsPriceDOM!: NodeList;
+  detalsQuantyDOM!: NodeList;
 
   constructor(goTo: (path: string) => void) {
     this.parent = document.querySelector('.main') as HTMLElement;
@@ -79,7 +86,6 @@ export class Service {
     this.createServiceEvent();
     this.calcTotalPriceService();
     this.changeDetals();
-
     this.fillInput();
     onFocus(this.eventPage);
   }
@@ -98,7 +104,7 @@ export class Service {
     this.detalsTitleDOM = document.querySelector('.detals-add__title') as HTMLElement;
     this.detalsListDOM = document.querySelector('.detals__list') as HTMLElement;
     this.detalsBtnDOM = document.querySelector('.detals-add__btn') as HTMLButtonElement;
-    this.detalsBtnDOM.disabled = true;
+    // this.detalsBtnDOM.disabled = true;
     this.totalPriceService = document.querySelector('.service__input_total') as HTMLInputElement;
     this.costWorksDOM = document.querySelector('.service__input_cost-works') as HTMLInputElement;
     this.totalPriceTitle = document.querySelector('.service__title_total') as HTMLElement;
@@ -106,6 +112,22 @@ export class Service {
     this.addServiceBtn = document.querySelector('.add--event-service__btn') as HTMLButtonElement;
   }
 
+  initPopupInput() {
+    this.popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
+    this.popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
+    this.popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
+    this.popupDetalPrice = document.querySelector(`.popup__input_price`) as HTMLInputElement;
+    this.popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
+    this.popupDetalAmount = document.querySelector(`.popup__input_amount`) as HTMLInputElement;
+  }
+  initDetalsDOM() {
+    this.detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
+    this.detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
+    this.detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
+    this.detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
+    this.detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
+    this.detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
+  }
   renderPage() {
     this.addEventCircule = document.querySelector('.menu') as HTMLElement;
     this.addEventCircule.classList.add('hidden__menu');
@@ -117,71 +139,76 @@ export class Service {
   }
   fillInput() {
     if (this.curID) {
-      if (this.pageCall === 'plans') {
-        this.nameDOM.value = (
-          createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
-        ).textName;
-        this.nameDOM.readOnly = true;
-        this.typeDOM.value = (
-          createArrPlans(showPlans.allPlans).find((e) => e.id === this.curID) as IParamsOneReminder
-        ).textType;
-        this.typeDOM.readOnly = true;
-      }
-      if (this.pageCall === 'events' || this.pageCall === '/') {
-        const curEventArr = createArrEvents(this.eventPage);
+      const curEventArr = createArrEvents(this.eventPage);
+      this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleName
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName
+        : (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).name
+        ? (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).name
+        : '';
+      this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleType
+        ? ((curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.titleType as string)
+        : (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).type
+        ? (this.carData.event.reminders.find((e) => e.id === this.curID) as IReminders).type
+        : '';
+      this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.date
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date
+        : getDateTime();
+      this.costWorksDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.costWorks
+        ? ((curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).costWorks as string)
+        : '';
+      this.totalPriceService.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.totalPrice
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice
+        : '';
+      this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.mileage
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage
+        : '';
+      this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.notes
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes
+        : '';
+      this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)?.place
+        ? (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place
+        : '';
 
-        this.nameDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleName;
-        this.typeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).titleType as string;
-        this.dateDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).date;
-        this.costWorksDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents)
-          .costWorks as string;
-        this.totalPriceService.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).totalPrice;
-        this.mileageDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).mileage;
-        this.notesDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).notes;
-        this.placeDOM.value = (curEventArr.find((e) => e.id === this.curID) as IParamsOneEvents).place;
-
-        const curDetalsArr = this.carData.event.service.find((e) => e.id === this.curID) as IService;
-        console.log(curDetalsArr);
-        // if (curDetalsArr.length > 0) {
-        //   console.log(curDetalsArr);
-        //   this.createHTMLContainerDetalDOM();
-        //   for (let i = 0; i < curDetalsArr.length; i += 1) {
-        //     this.detalsListDOM.insertAdjacentHTML(
-        //       'beforeend',
-        //       this.createHTMLDetalsDOM(
-        //         curDetalsArr[i].detals.name,
-        //         curDetalsArr[i].detals.partNumber,
-        //         curDetalsArr[i].detals.manufacturer,
-        //         +curDetalsArr[i].detals.quantity,
-        //         +curDetalsArr[i].detals.price
-        //       )
-        //     );
-        //   }
-        // }
+      const curDetalsArr = (this.carData.event.service.find((e) => e.id === this.curID) as IService)
+        .detals as IDetals[];
+      if (curDetalsArr?.length > 0) {
+        this.createHTMLContainerDetalDOM();
+        for (let i = 0; i < curDetalsArr.length; i += 1) {
+          this.detalsListDOM.insertAdjacentHTML(
+            'beforeend',
+            this.createHTMLDetalsDOM(
+              curDetalsArr[i].name,
+              curDetalsArr[i].partNumber,
+              curDetalsArr[i].manufacturer,
+              curDetalsArr[i].quantity,
+              curDetalsArr[i].price,
+              curDetalsArr[i].amount
+            )
+          );
+        }
       }
     }
   }
+
   changeTotalPriceDetals() {
-    const popupDetalPrice = document.querySelector(`.popup__input_price`) as HTMLInputElement;
-    const popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
-    const popupDetalAmount = document.querySelector(`.popup__input_amount`) as HTMLInputElement;
-    popupDetalPrice.addEventListener('input', () => {
-      if (popupDetalAmount.value !== '') {
-        popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
-        if (popupDetalPrice.value === '') {
-          popupDetalQuant.value = '';
+    this.initPopupInput();
+    this.popupDetalPrice.addEventListener('input', () => {
+      if (this.popupDetalAmount.value !== '') {
+        this.popupDetalQuant.value = String(+this.popupDetalAmount.value / +this.popupDetalPrice.value);
+        if (this.popupDetalPrice.value === '') {
+          this.popupDetalQuant.value = '';
         }
       }
       onFocus(this.eventPage);
     });
-    popupDetalQuant.addEventListener('input', () => {
-      if (popupDetalPrice.value !== '') {
-        popupDetalAmount.value = String(+popupDetalPrice.value * +popupDetalQuant.value);
+    this.popupDetalQuant.addEventListener('input', () => {
+      if (this.popupDetalPrice.value !== '') {
+        this.popupDetalAmount.value = String(+this.popupDetalPrice.value * +this.popupDetalQuant.value);
       }
       onFocus(this.eventPage);
     });
-    popupDetalAmount.addEventListener('input', () => {
-      popupDetalQuant.value = String(+popupDetalAmount.value / +popupDetalPrice.value);
+    this.popupDetalAmount.addEventListener('input', () => {
+      this.popupDetalQuant.value = String(+this.popupDetalAmount.value / +this.popupDetalPrice.value);
       onFocus(this.eventPage);
     });
   }
@@ -233,17 +260,20 @@ export class Service {
   saveDetalsFromPopup() {
     this.pageBody.addEventListener('click', (event) => {
       if ((event.target as HTMLElement).matches('.confirm__btn--ok')) {
-        const detalName = (document.querySelector(`.popup__input_name`) as HTMLInputElement).value;
-        const detalPart = (document.querySelector(`.popup__input_part`) as HTMLInputElement).value;
-        const detalManuf = (document.querySelector(`.popup__input_manuf`) as HTMLInputElement).value;
-        const quant = +(document.querySelector(`.popup__input_quant`) as HTMLInputElement).value;
-        const price = +(document.querySelector(`.popup__input_price`) as HTMLInputElement).value;
         const popupDOM = document.querySelector('.popup__container') as HTMLElement;
         const allInputPopupArr = Array.from(popupDOM.querySelectorAll('input'));
         if (allInputPopupArr.some((e) => e.value !== '')) {
+          this.initPopupInput();
           this.detalsListDOM.insertAdjacentHTML(
             'beforeend',
-            this.createHTMLDetalsDOM(detalName, detalPart, detalManuf, quant, price)
+            this.createHTMLDetalsDOM(
+              this.popupDetalName.value,
+              this.popupDetalPart.value,
+              this.popupDetalManuf.value,
+              this.popupDetalQuant.value,
+              this.popupDetalPrice.value,
+              this.popupDetalAmount.value
+            )
           );
         }
       }
@@ -265,7 +295,7 @@ export class Service {
         'confirm__btn--edit'
       );
       const popup = document.querySelector('.popup__container');
-
+      this.initPopupInput();
       const currentDetalName = currentDetal.querySelector('.detals__item_name') as HTMLElement;
       const currentDetalPart = currentDetal.querySelector('.detals-part__input') as HTMLElement;
       const currentDetalManuf = currentDetal.querySelector('.detals__item_manuf') as HTMLElement;
@@ -273,30 +303,23 @@ export class Service {
       const currentDetalCostQuant = currentDetal.querySelector('.detals-cost__quant') as HTMLElement;
       const currentDetalCostPrice = currentDetal.querySelector('.detals-cost__price') as HTMLElement;
 
-      const popupDetalName = document.querySelector(`.popup__input_name`) as HTMLInputElement;
-      const popupDetalPart = document.querySelector(`.popup__input_part`) as HTMLInputElement;
-      const popupDetalManuf = document.querySelector(`.popup__input_manuf`) as HTMLInputElement;
-      const popupDetalPrice = document.querySelector(`.popup__input_price`) as HTMLInputElement;
-      const popupDetalQuant = document.querySelector(`.popup__input_quant`) as HTMLInputElement;
-      const popupDetalAmount = document.querySelector(`.popup__input_amount`) as HTMLInputElement;
-
-      popupDetalName.value = currentDetalName?.textContent as string;
-      popupDetalPart.value = currentDetalPart?.textContent?.slice(1, -1) as string;
-      popupDetalManuf.value = currentDetalManuf?.textContent as string;
-      popupDetalPrice.value = currentDetalCostPrice?.textContent as string;
-      popupDetalQuant.value = currentDetalCostQuant?.textContent as string;
-      popupDetalAmount.value = currentDetalPrice?.textContent as string;
+      this.popupDetalName.value = currentDetalName?.textContent as string;
+      this.popupDetalPart.value = currentDetalPart?.textContent?.slice(1, -1) as string;
+      this.popupDetalManuf.value = currentDetalManuf?.textContent as string;
+      this.popupDetalPrice.value = currentDetalCostPrice?.textContent as string;
+      this.popupDetalQuant.value = currentDetalCostQuant?.textContent as string;
+      this.popupDetalAmount.value = currentDetalPrice?.textContent as string;
 
       this.changeTotalPriceDetals();
 
       popup?.addEventListener('click', (event) => {
         if ((event.target as HTMLElement).matches('.confirm__btn--edit')) {
-          currentDetalName.textContent = popupDetalName.value;
-          currentDetalPart.textContent = `${popupDetalPart.value ? `[${popupDetalPart.value}]` : ''}`;
-          currentDetalManuf.textContent = popupDetalManuf.value;
-          currentDetalPrice.textContent = popupDetalAmount.value;
-          currentDetalCostQuant.textContent = popupDetalQuant.value;
-          currentDetalCostPrice.textContent = popupDetalPrice.value;
+          currentDetalName.textContent = this.popupDetalName.value;
+          currentDetalPart.textContent = `${this.popupDetalPart.value ? `[${this.popupDetalPart.value}]` : ''}`;
+          currentDetalManuf.textContent = this.popupDetalManuf.value;
+          currentDetalPrice.textContent = this.popupDetalAmount.value;
+          currentDetalCostQuant.textContent = this.popupDetalQuant.value;
+          currentDetalCostPrice.textContent = this.popupDetalPrice.value;
           this.recalcTotal();
         }
         if ((event.target as HTMLElement).matches('.confirm__btn--delete')) {
@@ -311,51 +334,43 @@ export class Service {
 
   createServiceEvent() {
     this.formDOM.addEventListener('submit', async (e) => {
+      updateReminderRepeat(this.carData, this.nameDOM, this.dateDOM, this.mileageDOM);
+
       if (!this.editEvent) {
         e.preventDefault();
         this.updateBackEnd();
       } else {
-        document.querySelector('.spinner')?.classList.remove('hidden');
-        e.preventDefault();
         const form = e.target as HTMLFormElement;
         const btn = e.submitter;
         const eventid = form.dataset.mongoid;
+        document.querySelector('.spinner')?.classList.remove('hidden');
+        e.preventDefault();
 
         if (btn?.id === 'update--event-service__btn' && eventid) {
-          const detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
-          const detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
-          const detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
-          const detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
-          const detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
-          const detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
-
           const worksDetalsArr: IDetals[] = [];
-          //! тут ошибки возникает
-          for (let i = 0; i < detalsNameDOM.length; i += 1) {
+          this.initDetalsDOM();
+          for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
             worksDetalsArr.push({
-              detals: {
-                name: (detalsNameDOM[i] as HTMLElement)?.textContent
-                  ? ((detalsNameDOM[i] as HTMLElement)?.textContent as string)
-                  : '',
-                partNumber: (detalsPartDOM[i] as HTMLElement)?.textContent
-                  ? ((detalsPartDOM[i] as HTMLElement)?.textContent as string)
-                  : '',
-                manufacturer: (detalsManufDOM[i] as HTMLElement)?.textContent
-                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-                  : '',
-                price: (detalsPriceDOM[i] as HTMLElement)?.textContent
-                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-                  : '',
-                quantity: (detalsQuantyDOM[i] as HTMLElement)?.textContent
-                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-                  : '',
-                amount: (detalsPriceTotalDOM[i] as HTMLElement)?.textContent
-                  ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-                  : '',
-              },
+              name: (this.detalsNameDOM[i] as HTMLElement)?.textContent
+                ? ((this.detalsNameDOM[i] as HTMLElement)?.textContent as string)
+                : '',
+              partNumber: (this.detalsPartDOM[i] as HTMLElement)?.textContent
+                ? ((this.detalsPartDOM[i] as HTMLElement)?.textContent?.slice(1, -1) as string)
+                : '',
+              manufacturer: (this.detalsManufDOM[i] as HTMLElement)?.textContent
+                ? ((this.detalsManufDOM[i] as HTMLElement)?.textContent as string)
+                : '',
+              price: (this.detalsPriceDOM[i] as HTMLElement)?.textContent
+                ? ((this.detalsPriceDOM[i] as HTMLElement)?.textContent as string)
+                : '',
+              quantity: (this.detalsQuantyDOM[i] as HTMLElement)?.textContent
+                ? ((this.detalsQuantyDOM[i] as HTMLElement)?.textContent as string)
+                : '',
+              amount: (this.detalsPriceTotalDOM[i] as HTMLElement)?.textContent
+                ? ((this.detalsPriceTotalDOM[i] as HTMLElement)?.textContent as string)
+                : '',
             });
           }
-          console.log(worksDetalsArr);
           const service: IService = {
             date: this.dateDOM.value,
             mileage: this.mileageDOM.value,
@@ -430,13 +445,20 @@ export class Service {
       </div>`;
   }
 
-  createHTMLDetalsDOM(detalName: string, detalPart: string, detalManuf: string, quant: number, price: number) {
+  createHTMLDetalsDOM(
+    detalName: string,
+    detalPart: string,
+    detalManuf: string,
+    quant: string,
+    price: string,
+    amount: string
+  ) {
     return `
       <li id="detals__item" class="detals__item active">
           <div class="detals__item_basic flex justify-between">
             <span class="detals__item_name">${detalName ? detalName : ''}</span>
             <div>
-              <span class="detals__item_price">${price ? (quant >= 1 ? quant : 1) * price : ''}</span>
+              <span class="detals__item_price">${amount ? amount : ''}</span>
               <span class="detals__item_price-units">${this.setting.currency}</span>
             </div>
           </div>
@@ -446,7 +468,7 @@ export class Service {
               <span class="detals-part__input text-xs">${detalPart ? `[${detalPart}]` : ''}</span>
             </div>
             <span class="detals-cost__full text-xs">${
-              quant > 1
+              +quant > 1
                 ? `[<span class="detals-cost__quant text-xs">${quant}</span> x <span class="detals-cost__price text-xs">${price}</span>${this.setting.currency}]`
                 : ''
             }</span>
@@ -458,7 +480,7 @@ export class Service {
           <div class="col-span-2">
             <div
               id="service__detals-add_container"
-              class="service__detals-add_container flex items-center justify-between">
+              class="service__detals-add_container flex items-center justify-between mb-2">
               ${icon.wrench}
               <span id="detals-add__title" class="detals-add__title mb-0">
                 Детали
@@ -506,39 +528,31 @@ export class Service {
   // методы для БЭКА
   async updateBackEnd() {
     document.querySelector('.spinner')?.classList.remove('hidden');
-    const detalsNameDOM = document.querySelectorAll('.detals__item_name') as NodeList;
-    const detalsPartDOM = document.querySelectorAll('.detals-part__input') as NodeList;
-    const detalsManufDOM = document.querySelectorAll('.detals__item_manuf') as NodeList;
-    const detalsPriceTotalDOM = document.querySelectorAll('.detals__item_price') as NodeList;
-    const detalsPriceDOM = document.querySelectorAll('.detals-cost__price') as NodeList;
-    const detalsQuantyDOM = document.querySelectorAll('.detals-cost__quant') as NodeList;
 
     const worksDetalsArr: IDetals[] = [];
-    for (let i = 0; i < detalsNameDOM.length; i += 1) {
+    this.initDetalsDOM();
+    for (let i = 0; i < this.detalsNameDOM.length; i += 1) {
       worksDetalsArr.push({
-        detals: {
-          name: (detalsNameDOM[i] as HTMLElement)?.textContent
-            ? ((detalsNameDOM[i] as HTMLElement)?.textContent as string)
-            : '',
-          partNumber: (detalsPartDOM[i] as HTMLElement)?.textContent
-            ? ((detalsPartDOM[i] as HTMLElement)?.textContent as string)
-            : '',
-          manufacturer: (detalsManufDOM[i] as HTMLElement)?.textContent
-            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-            : '',
-          price: (detalsPriceDOM[i] as HTMLElement)?.textContent
-            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-            : '',
-          quantity: (detalsQuantyDOM[i] as HTMLElement)?.textContent
-            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-            : '',
-          amount: (detalsPriceTotalDOM[i] as HTMLElement)?.textContent
-            ? ((detalsManufDOM[i] as HTMLElement)?.textContent as string)
-            : '',
-        },
+        name: (this.detalsNameDOM[i] as HTMLElement)?.textContent
+          ? ((this.detalsNameDOM[i] as HTMLElement)?.textContent as string)
+          : '',
+        partNumber: (this.detalsPartDOM[i] as HTMLElement)?.textContent
+          ? ((this.detalsPartDOM[i] as HTMLElement)?.textContent?.slice(1, -1) as string)
+          : '',
+        manufacturer: (this.detalsManufDOM[i] as HTMLElement)?.textContent
+          ? ((this.detalsManufDOM[i] as HTMLElement)?.textContent as string)
+          : '',
+        price: (this.detalsPriceDOM[i] as HTMLElement)?.textContent
+          ? ((this.detalsPriceDOM[i] as HTMLElement)?.textContent as string)
+          : '',
+        quantity: (this.detalsQuantyDOM[i] as HTMLElement)?.textContent
+          ? ((this.detalsQuantyDOM[i] as HTMLElement)?.textContent as string)
+          : '',
+        amount: (this.detalsPriceTotalDOM[i] as HTMLElement)?.textContent
+          ? ((this.detalsPriceTotalDOM[i] as HTMLElement)?.textContent as string)
+          : '',
       });
     }
-    console.log(worksDetalsArr);
     const service: IService = {
       date: this.dateDOM.value,
       mileage: this.mileageDOM.value,
