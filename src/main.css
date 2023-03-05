@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.carousel-open:checked + .carousel-item {
+  position: static;
+  opacity: 100;
+  display: block;
+}
+.carousel-item {
+  -webkit-transition: opacity 0.6s ease-out;
+  transition: opacity 0.6s ease-out;
+}
+#carousel-1:checked ~ .control-1,
+#carousel-2:checked ~ .control-2,
+#carousel-3:checked ~ .control-3 {
+  display: block;
+}
+.carousel-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 2%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 10;
+}
+#carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
+#carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
+#carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
+  color: #394f89; /*Set to match the Tailwind colour you want the active one to be */
+}
+
+/* CHECKBOX TOGGLE SWITCH */
+/* @apply rules for documentation, these do not work as inline style */
+.toggle__checkbox_night:checked {
+  right: 0;
+  border-color: #394f89;
+}
+.toggle__checkbox_night:checked + .toggle__label_night {
+  background-color: #394f89;
+}
+
+.toggle__checkbox_left:checked {
+  right: 0;
+  border-color: #394f89;
+}
+.toggle__checkbox_left:checked + .toggle__label_left {
+  background-color: #394f89;
+}
+
+.toggle__checkbox_price:checked {
+  right: 0;
+  border-color: #394f89;
+}
+.toggle__checkbox_price:checked + .toggle__label_price {
+  background-color: #394f89;
+}
+
+.toggle__checkbox_mileage:checked {
+  right: 0;
+  border-color: #394f89;
+}
+.toggle__checkbox_mileage:checked + .toggle__label_mileage {
+  background-color: #394f89;
+}
+
+.label__after_plans {
+  width: 8rem;
+}
+
+/* SPINNER */
+.spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: 0 15px;
+  background-color: rgba(255, 255, 255, 0.7);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner__svg {
+  fill: #394f89;
+}
+
+.hidden__menu {
+  visibility: hidden;
+}
+
+/*TabButton*/
+.menu_active .menu__line:before {
+  transform: rotate(45deg);
+}
+
+.menu_active .menu__line:after {
+  transform: rotate(-45deg);
+}
+
+.menu__line,
+.menu__line:before,
+.menu__line:after {
+  position: absolute;
+  width: 2rem;
+  height: 0.25rem;
+  background-color: #fff;
+  transition: 0.2s;
+}
+
+.menu__line {
+  top: 50%;
+  left: 23%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+}
+
+.menu__line:before {
+  content: '';
+}
+
+.menu__line:after {
+  content: '';
+  transform: rotate(90deg);
+}
+
+.menu__item {
+  transition: bottom 0.18s;
+  bottom: 0;
+}
