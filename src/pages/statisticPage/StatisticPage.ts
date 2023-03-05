@@ -221,7 +221,6 @@ export class StatisticPage {
 
     formResetBtn?.addEventListener('click', (e) => {
       e.preventDefault();
-      console.log(e.target);
       this.navigateTo('/statistic');
     });
   }

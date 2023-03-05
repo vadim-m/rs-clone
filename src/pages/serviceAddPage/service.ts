@@ -171,9 +171,7 @@ export class Service {
 
       const curDetalsArr = (this.carData.event.service.find((e) => e.id === this.curID) as IService)
         .detals as IDetals[];
-      console.log(curDetalsArr);
       if (curDetalsArr?.length > 0) {
-        console.log(curDetalsArr);
         this.createHTMLContainerDetalDOM();
         for (let i = 0; i < curDetalsArr.length; i += 1) {
           this.detalsListDOM.insertAdjacentHTML(
@@ -373,8 +371,6 @@ export class Service {
                 : '',
             });
           }
-          //! тут ошибки возникает
-          console.log(worksDetalsArr);
           const service: IService = {
             date: this.dateDOM.value,
             mileage: this.mileageDOM.value,
@@ -557,7 +553,6 @@ export class Service {
           : '',
       });
     }
-    console.log(worksDetalsArr);
     const service: IService = {
       date: this.dateDOM.value,
       mileage: this.mileageDOM.value,
@@ -577,7 +572,6 @@ export class Service {
     };
 
     const response = await createService(service); // тут будет createRefuel и тд в зависимости от события
-    console.log(service);
     addToBack(response, this.navigateTo, this.addServiceBtn);
   }
 }

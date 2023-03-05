@@ -137,8 +137,6 @@ export class Refuel {
         const eventid = form.dataset.mongoid;
 
         if (btn?.id === 'update--event-service__btn' && eventid) {
-          console.log('upd');
-
           const refuel: IRefuel = {
             date: this.dateDOM.value,
             mileage: this.mileageDOM.value,

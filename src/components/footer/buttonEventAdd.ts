@@ -13,7 +13,6 @@ export class TabsButton {
     this.element.addEventListener('click', (e) => {
       e.preventDefault;
       this.openTabs();
-      console.log(e.target);
     });
   }
 

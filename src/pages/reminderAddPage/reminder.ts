@@ -159,11 +159,9 @@ export class Reminder {
 
     this.formDOM.addEventListener('submit', async (e) => {
       if (this.onMileageDOM.value) {
-        console.log(this.onMileageDOM.value);
         this.onDateDOM.required = false;
       }
       if (this.onDateDOM.value) {
-        console.log(this.onDateDOM.value);
         this.onMileageDOM.required = false;
       }
       if (!this.editEvent) {
