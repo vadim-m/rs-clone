@@ -156,6 +156,7 @@ export function eventLang() {
       lead: 'Team member',
       startDate: 'From',
       endDate: 'To',
+      lastСonsumption: 'Last consumpion',
     };
   } else {
     return {
@@ -286,7 +287,7 @@ export function eventLang() {
       rubDay: 'руб/День',
       costPerKm: 'Стоимость за км.:',
       fuelСonsumption: 'Заправки за период',
-      averageExpenses: 'Средни  й расход',
+      averageExpenses: 'Средний расход',
       min: 'Мин:',
       max: 'Макс:',
       recentExpenses: 'Последний расход:',
@@ -313,6 +314,7 @@ export function eventLang() {
       lead: 'Участник команды',
       startDate: 'C',
       endDate: 'До',
+      lastСonsumption: 'Последний расход',
     };
   }
 }

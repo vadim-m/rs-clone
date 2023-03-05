@@ -1,3 +1,4 @@
+import { getCarFromLS } from '../../helpers/localStorage';
 import { eventLang } from '../../lang/addEventLang';
 import { getSettingsFromLocal } from '../../utilits/getCurrentSettings';
 
@@ -12,10 +13,11 @@ export class StatisticChart2 {
 
   private createElement(): string {
     const settings = getSettingsFromLocal();
+    const carData = getCarFromLS();
     return `
     <!--Slide 2-->
           <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
-          <div class="carousel-item absolute opacity-0 hidden pb-20">
+          <div class="carousel-item absolute opacity-0 hidden">
             <div class="block w-full bg-myslate h-10 shadow-md dark:bg-slate-400 dark:shadow-inner"></div>
             <div class="mb-6 flex flex-col justify-center border-b pb-2 border-slate">
               <div class="mt-2 text-center">${eventLang().fuelСonsumption}</div>
@@ -23,6 +25,26 @@ export class StatisticChart2 {
                 <canvas id="bar-chart" style="min-width: 250px; min-height: 250px max-width: 500px"></canvas>
               </div>
             </div>
+        
+            <div class=" calc text-2xl text-slate-400 mt-6 mb-2 ml-1">${eventLang().gasMileage}</div>
+              <ul class="calc__container">
+                <li class="calc__content mb-2 flex justify-between">
+                    <div class="calc__title text-base">${eventLang().averageExpenses}</div>
+                    <div>${
+                      carData?.indicators.totalConsumptionFuel
+                        ? `${carData.indicators.totalConsumptionFuel}, ${eventLang().l100}`
+                        : '--:--'
+                    }</div>
+                </li>
+                <li class="calc__content mb-2 flex justify-between">
+                    <div class="calc__title text-base">${eventLang().lastСonsumption}</div>
+                    <div>${
+                      carData?.indicators.curConsumptionFuel
+                        ? `${carData.indicators.curConsumptionFuel}, ${eventLang().l100}`
+                        : '--:--'
+                    }</div>
+                </li>
+        </ul>
 
             <div class="statistic__calc calc text-2xl text-slate-400 mt-6 mb-2 ml-1">${eventLang().calculator}</div>
               <ul class="calc__container">
@@ -41,7 +63,7 @@ export class StatisticChart2 {
                     <div class="calc__title text-base">${eventLang().distance}</div>
                     <div class="calc__wrap relative">
                       <input type="number" inputmode="decimal" step="0.001" class="calc__input text-lg px-2 py-1 text-gray-300 border-b w-full focus:outline-none focus:border-black focus:text-black rounded-md dark:bg-slate-400 dark:placeholder:text-slate-800" placeholder="${
-                        eventLang().averageExpenses
+                        eventLang().distance
                       }" validate="" id="calc__input_distance">
                       <span class="calc__clear-button absolute right-1 top-2.5 cursor-pointer">
                         <img class="calc__icon w-4 h-4" src="${close}" alt="close-icon">

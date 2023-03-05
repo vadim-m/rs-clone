@@ -99,14 +99,12 @@ interface IService {
 }
 
 interface IDetals {
-  detals: {
-    name: string;
-    partNumber?: string;
-    manufacturer?: string;
-    price?: string;
-    quantity?: string;
-    amount?: string;
-  };
+  name: string;
+  partNumber: string;
+  manufacturer: string;
+  price: string;
+  quantity: string;
+  amount: string;
 }
 
 interface IOther {
