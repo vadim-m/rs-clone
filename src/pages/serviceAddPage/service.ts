@@ -170,7 +170,7 @@ export class Service {
         : '';
 
       const curDetalsArr = (this.carData.event.service.find((e) => e.id === this.curID) as IService)
-        .detals as IDetals[];
+        ?.detals as IDetals[];
       if (curDetalsArr?.length > 0) {
         this.createHTMLContainerDetalDOM();
         for (let i = 0; i < curDetalsArr.length; i += 1) {
